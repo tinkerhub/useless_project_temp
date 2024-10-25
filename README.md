@@ -4,7 +4,7 @@
 
 
 ## Basic Details
-### Team Name: [Name]
+### Team Name: [Hack&Hang]
 
 
 ### Team Members
