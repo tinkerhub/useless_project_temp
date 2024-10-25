@@ -40,8 +40,8 @@ const justifications = {
   ],
   social:[
     "I can't go out tonight; my cat just discovered the concept of karaoke and insists I perform duets with her.",
-     "I have to cancel; my refrigerator is hosting a motivational speaking event for leftover food.",
-     "I can’t make it; my couch is convinced it’s auditioning for a role in a reality TV show about extreme laziness.",
+    "I have to cancel; my refrigerator is hosting a motivational speaking event for leftover food.",
+    "I can’t make it; my couch is convinced it’s auditioning for a role in a reality TV show about extreme laziness.",
     "I’m unable to join; my dog is trying to teach me the art of interpretive dance.",
     "I can't come to the party; my plants are having a deep discussion about the meaning of life, and I’ve been appointed as the mediator.",
     "I have to skip dinner; my blender has gone rogue and is trying to start a smoothie business.",
