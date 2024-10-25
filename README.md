@@ -4,19 +4,19 @@
 
 
 ## Basic Details
-### Team Name: [Name]
+### Team Name: [Habibi]
 
 
 ### Team Members
-- Team Lead: [Name] - [College]
-- Member 2: [Name] - [College]
+- Team Lead: [Habeeb] - [CEP]
+- Member 2: [Harikrishnan] - [CEP]
 - Member 3: [Name] - [College]
 
 ### Project Description
 [2-3 lines about what your project does]
 
 ### The Problem (that doesn't exist)
-[What ridiculous problem are you solving?]
+[]
 
 ### The Solution (that nobody asked for)
 [How are you solving it? Keep it fun!]
