@@ -8,7 +8,7 @@
 
 
 ### Team Members
-- Team Lead: [Name] - [College]
+- Team Lead: [Name] - [SCMS School of Engineering and Technology, Vidya Nagar]
 - Member 2: [Name] - [College]
 - Member 3: [Name] - [College]
 
