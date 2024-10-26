@@ -24,10 +24,9 @@
 ## Technical Details
 ### Technologies/Components Used
 For Software:
-- [Languages used]
-- [Frameworks used]
-- [Libraries used]
-- [Tools used]
+- [HTML, CSS, Javascript]
+- [React, Node]
+
 
 For Hardware:
 - [List main components]
