@@ -28,15 +28,10 @@ For Software:
 - [React, Node]
 
 
-For Hardware:
-- [List main components]
-- [List specifications]
-- [List tools required]
-
 ### Implementation
 For Software:
 # Installation
-[commands]
+[choco install ]
 
 # Run
 [commands]
@@ -79,7 +74,7 @@ For Hardware:
 
 ### Project Demo
 # Video
-[Add your demo video link here]
+[https://drive.google.com/file/d/1KpFNkem9S53YmqQuEXKOLMmFZQbm79T5/view?usp=sharing]
 *Explain what the video demonstrates*
 
 # Additional Demos
