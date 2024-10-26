@@ -1,6 +1,6 @@
 <img width="1280" alt="readme-banner" src="https://github.com/user-attachments/assets/35332e92-44cb-425b-9dff-27bcf1023c6c">
 
-### AURA CALCULATOR!🗿
+### 🎯AURA CALCULATOR!🗿
 
 
 ## Basic Details
@@ -35,54 +35,43 @@ For Software:
 ### Implementation
 For Software:
 # Installation
-[commands]
+To run this project, follow these steps:
 
+1. **Clone the Repository**:
+   ```bash
+   git clone https://github.com/yourusername/aura-calculator.git
+   cd aura-calculator
+2.install CTKinter
+ ```bash
+  pip install customtkinter
+```
 # Run
-[commands]
-
-### Project Documentation
-For Software:
+1.in terminal type
+```bash
+  python aura_calculator.py
+```
 
 # Screenshots (Add at least 3)
-![Screenshot1](Add screenshot 1 here with proper name)
-*Add caption explaining what this shows*
+![Screenshot1](https://github.com/user-attachments/assets/a41b03b0-9639-4e9c-bf53-dea72c9712a5)
+*home interfce*
 
-![Screenshot2](Add screenshot 2 here with proper name)
-*Add caption explaining what this shows*
+![Screenshot2](https://github.com/user-attachments/assets/dada1280-9e85-4f31-9e01-e12c98c72cfd)
+*User 1 with his/her aura balance*
 
-![Screenshot3](Add screenshot 3 here with proper name)
-*Add caption explaining what this shows*
 
-# Diagrams
-![Workflow](Add your workflow/architecture diagram here)
-*Add caption explaining your workflow*
+![Screenshot3](https://github.com/user-attachments/assets/da580313-271e-4c77-895f-81dd320198ff)
 
-For Hardware:
+*User 2 with his/her aura balance* 
 
-# Schematic & Circuit
-![Circuit](Add your circuit diagram here)
-*Add caption explaining connections*
 
-![Schematic](Add your schematic diagram here)
-*Add caption explaining the schematic*
+![Final Product](https://github.com/user-attachments/assets/ea185eae-79f0-41d5-b049-344446c0213d)
 
-# Build Photos
-![Components](Add photo of your components here)
-*List out all components shown*
-
-![Build](Add photos of build process here)
-*Explain the build steps*
-
-![Final](Add photo of final product here)
-*Explain the final build*
 
 ### Project Demo
 # Video
-[Add your demo video link here]
-*Explain what the video demonstrates*
+[demo video link](https://youtu.be/25jjvBbx4Mw)
+*The video demonstrate the user inputing ones actions and calculating his aura blance*
 
-# Additional Demos
-[Add any extra demo materials/links]
 
 ## Team Contributions
 - Richard Reji: Thinked in god level and found the bomblastic idea! [+10,000 aura]
