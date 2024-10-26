@@ -11,30 +11,16 @@ const justifications = {
     "I won't be in today; my coffee machine has gone on strike, and negotiations are ongoing.",
     "I have to decline the project because my GPS is convinced I live in Narnia."
   ],
-  home: [
-    "I can't help with dinner; my fridge is arguing with the microwave about who cooks better.",
-    "I'm unable to clean today; my vacuum cleaner insists it's on a break and has locked itself in the closet.",
-    "I can't do laundry; my washing machine is trying to negotiate a better spin cycle.",
-    "I have to stay home; my couch has declared today a national 'Do Nothing' day.",
-    "I can't babysit; my goldfish is holding a summit on aquatic diplomacy.",
-    "I need to take the day off to teach my toaster about proper browning techniques.",
-    "I'm stuck in a staring contest with my houseplants; it's very intense.",
-    "I can't vacuum; the dust bunnies are threatening to unionize.",
-    "I'm currently training my dog for the next Olympic Games in napping.",
-    "I have to organize my sock drawer; it's become a chaotic ecosystem."
+  personal: [
+    "I had a profound conversation with my reflection, leading to unexpected insights into my life choices.",
+    "I was conducting an important investigation into the mysteries of my sock drawer—it was a tangled affair.",
+    "I was perfecting my ability to procrastinate at an Olympic level, which required utmost dedication.",
   ],
-  college: [
-    "I can't attend class; my brain is in a heated debate with my textbook about the meaning of life.",
-    "I'm unable to submit my paper; my laptop has started a book club and is currently reading it.",
-    "I can't make it to the lab; I accidentally turned my roommate's project into a science fair presentation.",
-    "I'm stuck in a time loop; I keep replaying last week's lecture on repeat.",
-    "I have to skip class; my coffee just informed me it's going on strike for better beans.",
-    "I can't study; my notes have gone on a spontaneous vacation to the Bahamas.",
-    "I won't be attending; my procrastination coach has scheduled an emergency session.",
-    "I can't go to the exam; I'm currently training for a competitive napping event.",
-    "I'm in a heated argument with my calculator over the meaning of Pi.",
-    "I can't attend the group project; my pen has gone rogue and is exploring existentialism."
-  ],
+  health: [
+    "My meditation session turned into a deep existential crisis, requiring an extra hour for resolution.",
+    "I was busy experimenting with my kale smoothie recipe, which inexplicably transformed into a science project.",
+    "I encountered a rogue piece of chocolate that demanded my attention—self-care was non-negotiable.",
+  ] ,
   social: [
     "I can't go out tonight; my cat just discovered the concept of karaoke and insists I perform duets with her.",
     "I have to cancel; my refrigerator is hosting a motivational speaking event for leftover food.",
