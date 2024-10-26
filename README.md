@@ -1,43 +1,37 @@
 <img width="1280" alt="readme-banner" src="https://github.com/user-attachments/assets/35332e92-44cb-425b-9dff-27bcf1023c6c">
 
-# [Project Name] 🎯
+# [JustifyMe] 🎯
 
 
 ## Basic Details
-### Team Name: [Name]
+### Team Name: [Hack&Hang]
 
 
 ### Team Members
-- Team Lead: [Name] - [College]
-- Member 2: [Name] - [College]
-- Member 3: [Name] - [College]
+- Team Lead: [Nived ullas] - [SCMS School of Engineering and Technology]
+- Member 2: [Sandra Subramanian] - [SCMS School of Engineering and Technology]
+- Member 3: [Lakshmi S] - [ SCMS School of Engineering and Technology]
 
 ### Project Description
-[2-3 lines about what your project does]
+[ JustifyMe is your go-to buddy for whipping up hilarious excuses when you need a quick out! Whether you’re dodging a boring meeting or skipping a hangout, it’ll help you come up with witty, over-the-top reasons that’ll keep you off the hook and keep things light!]
 
 ### The Problem (that doesn't exist)
-[What ridiculous problem are you solving?]
+[We’re tackling the hassle of boring commitments and the pressure to always say “yes.” Whether it’s a dull class, a tedious meeting, or a long family gathering, sometimes you just need a clever excuse to escape. Our JustifyMe offers funny and outlandish reasons, making it easier to say “no” and enjoy some guilt-free downtime!]
 
 ### The Solution (that nobody asked for)
-[How are you solving it? Keep it fun!]
+[We’re tackling boredom with a splash of humor! Our JustifyMe provides clever and quirky excuses to help you skip those dull commitments. Whether you need to bail on a meeting or dodge a gathering, we’ve got the perfect line to help you take a break and enjoy some downtime!]
 
 ## Technical Details
 ### Technologies/Components Used
 For Software:
-- [Languages used]
-- [Frameworks used]
-- [Libraries used]
-- [Tools used]
+- [HTML, CSS, Javascript]
+- [React, Node]
 
-For Hardware:
-- [List main components]
-- [List specifications]
-- [List tools required]
 
 ### Implementation
 For Software:
 # Installation
-[commands]
+[choco install nodejs.install]
 
 # Run
 [commands]
@@ -80,16 +74,16 @@ For Hardware:
 
 ### Project Demo
 # Video
-[Add your demo video link here]
+[https://drive.google.com/file/d/1KpFNkem9S53YmqQuEXKOLMmFZQbm79T5/view?usp=sharing]
 *Explain what the video demonstrates*
 
 # Additional Demos
 [Add any extra demo materials/links]
 
 ## Team Contributions
-- [Name 1]: [Specific contributions]
-- [Name 2]: [Specific contributions]
-- [Name 3]: [Specific contributions]
+- [Nived ullas]: [Specific contributions]
+- [Sandra Subramanian]: [Specific contributions]
+- [Lakshmi S]: [Specific contributions]
 
 ---
 Made with ❤️ at TinkerHub Useless Projects 
