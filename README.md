@@ -8,24 +8,24 @@
 
 
 ### Team Members
-- Team Lead: [Name] - [College]
-- Member 2: [Name] - [College]
-- Member 3: [Name] - [College]
+- Team Lead: [Ajay Suseel] - [TKM COLLEGE OF ENGINEERING KOLLAM]
+- Member 2: [Kishan P K] - [TKM COLLEGE OF ENGINEERING KOLLAM]
+- Member 3: [Abhiram K Aravind] - [TKM COLLEGE OF ENGINEERING KOLLAM]
 
 ### Project Description
-[2-3 lines about what your project does]
+[A gamified TODO list that allows users to add tasks,monitor and complete them earn points and use those points to level up your pet pokemon]
 
 ### The Problem (that doesn't exist)
-[What ridiculous problem are you solving?]
+[People find it difficult to keep track of day to day tasks.]
 
 ### The Solution (that nobody asked for)
-[How are you solving it? Keep it fun!]
+[A gamified version of TODO list that allows users to not only add tasks but also complete it purely by marking it completed(no proof required)]
 
 ## Technical Details
 ### Technologies/Components Used
 For Software:
-- [Languages used]
-- [Frameworks used]
+- [Dart]
+- [Firebase]
 - [Libraries used]
 - [Tools used]
 
@@ -37,23 +37,31 @@ For Hardware:
 ### Implementation
 For Software:
 # Installation
-[commands]
+git clone repo_name
+cd GTODO
+flutter pub get
+npm install -g firebase-tools
+flutterfire configure
 
 # Run
-[commands]
+[flutter run]
 
 ### Project Documentation
 For Software:
 
 # Screenshots (Add at least 3)
-![Screenshot1](Add screenshot 1 here with proper name)
-*Add caption explaining what this shows*
+![Screenshot 2024-10-26 071856](https://github.com/user-attachments/assets/38e7910b-64c4-4c6b-ace5-0cdb86b11765)
 
-![Screenshot2](Add screenshot 2 here with proper name)
-*Add caption explaining what this shows*
+caption:login page
 
-![Screenshot3](Add screenshot 3 here with proper name)
-*Add caption explaining what this shows*
+![Screenshot 2024-10-26 071932](https://github.com/user-attachments/assets/8d52c3e7-34bb-413a-bb2a-c4b83342146d)
+
+caption : Home page
+
+
+![Screenshot 2024-10-26 072031](https://github.com/user-attachments/assets/e21be6a4-aa97-4243-9aa7-2f208774da76)
+
+caption: Task management
 
 # Diagrams
 ![Workflow](Add your workflow/architecture diagram here)
@@ -80,16 +88,17 @@ For Hardware:
 
 ### Project Demo
 # Video
-[Add your demo video link here]
-*Explain what the video demonstrates*
+(https://drive.google.com/file/d/1ehf5xPWyTl6X9_tp8UWmQnLCxGL4h89u/view?usp=drive_link)
+
+logging in ,viewing your avatar,leveling up with points and managing tasks
 
 # Additional Demos
 [Add any extra demo materials/links]
 
 ## Team Contributions
-- [Name 1]: [Specific contributions]
-- [Name 2]: [Specific contributions]
-- [Name 3]: [Specific contributions]
+- Ajay Suseel: Firebase
+- Kishan P K: flutter frontend
+- Abhiram K Aravind: flutter frontend
 
 ---
 Made with ❤️ at TinkerHub Useless Projects 
