@@ -24,22 +24,14 @@
 ## Technical Details
 ### Technologies/Components Used
 For Software:
-- [Languages used]
-- [Frameworks used]
-- [Libraries used]
-- [Tools used]
+- [java]
+- [jdk IDE]
+
 
 
 ### Implementation
-For Software:
-# Installation
-[commands]
+For Software: Eclipse IDE
 
-# Run
-[commands]
-
-### Project Documentation
-For Software:
 
 # Screenshot![Screenshot 2024-10-26 091235](https://github.com/user-attachments/assets/5ae08857-da29-424c-9929-31aa6373b8d8)
 s (Add at least 3)
