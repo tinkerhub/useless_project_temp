@@ -1,33 +1,36 @@
 <img width="1280" alt="readme-banner" src="https://github.com/user-attachments/assets/35332e92-44cb-425b-9dff-27bcf1023c6c">
 
-# [Project Name] 🎯
+#AURA CALCULATOR!🗿
 
 
 ## Basic Details
-### Team Name: [Name]
+### Team Name: FAULT
 
 
 ### Team Members
-- Team Lead: [Name] - [College]
-- Member 2: [Name] - [College]
-- Member 3: [Name] - [College]
+- Team Lead: Richard Reji - Government College of Engineering,Parassinikadavu
+- Member 2: Abhishek Sunil - Government College of Engineering,Parassinikadavu
+- Member 3: Gourav K - Government College of Engineering,Parassinikadavu
 
 ### Project Description
-[2-3 lines about what your project does]
+Aura Calculator is an interactive Python app that tracks a user's "aura" based on predefined actions that have positive or negative point values. Users can register, add actions from a list (like helping someone or making a mistake), and see how these actions affect their overall aura balance. Built using customtkinter, the app provides a clean, modern interface with responsive elements, making it easy to view action history and keep track of their aura score.
 
 ### The Problem (that doesn't exist)
-[What ridiculous problem are you solving?]
+Ever feel like your vibe could use a little more... vibe? Or maybe you're just curious if helping that old lady cross the street earns you more cosmic points than that time you totally nailed a backflip in front of your friends. In a world where good deeds and cringe moments fly by unnoticed, there's no fun way to keep track of how our actions add up. Sure, we all want to be good people (most of the time), but where’s the scoreboard? How do you know if spilling coffee on your shirt knocked down your cool factor or if saving your friend from a bad joke earned you bonus points?
+
+
+
 
 ### The Solution (that nobody asked for)
-[How are you solving it? Keep it fun!]
+Enter the Aura Calculator: the fun and quirky way to measure the ups and downs of your daily actions. It's like a karma meter, but with a twist—now you can see how your good deeds, awkward mishaps, and epic wins shape your aura score, all while having a good laugh along the way.
 
 ## Technical Details
 ### Technologies/Components Used
 For Software:
-- [Languages used]
-- [Frameworks used]
-- [Libraries used]
-- [Tools used]
+- Python
+- CustomTkinter
+- Tkinter
+- 
 
 For Hardware:
 - [List main components]
