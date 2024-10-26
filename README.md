@@ -1,6 +1,6 @@
 <img width="1280" alt="readme-banner" src="https://github.com/user-attachments/assets/35332e92-44cb-425b-9dff-27bcf1023c6c">
 
-###AURA CALCULATOR!🗿
+### AURA CALCULATOR!🗿
 
 
 ## Basic Details
@@ -13,7 +13,7 @@
 - Member 3: Gourav K - Government College of Engineering,Parassinikadavu
 
 ### Project Description
-Aura Calculator is an interactive Python app that tracks a user's "aura" based on predefined actions that have positive or negative point values. Users can register, add actions from a list (like helping someone or making a mistake), and see how these actions affect their overall aura balance. Built using customtkinter, the app provides a clean, modern interface with responsive elements, making it easy to view action history and keep track of their aura score.
+wanna find your "തേജസ്‌"!?,Here we introduce our AURA CALCULATOR to calculate your daily life Aura
 
 ### The Problem (that doesn't exist)
 Ever feel like your vibe could use a little more... vibe? Or maybe you're just curious if helping that old lady cross the street earns you more cosmic points than that time you totally nailed a backflip in front of your friends. In a world where good deeds and cringe moments fly by unnoticed, there's no fun way to keep track of how our actions add up. Sure, we all want to be good people (most of the time), but where’s the scoreboard? How do you know if spilling coffee on your shirt knocked down your cool factor or if saving your friend from a bad joke earned you bonus points?
@@ -30,12 +30,7 @@ For Software:
 - Python
 - CustomTkinter
 - Tkinter
-- 
 
-For Hardware:
-- [List main components]
-- [List specifications]
-- [List tools required]
 
 ### Implementation
 For Software:
@@ -90,9 +85,9 @@ For Hardware:
 [Add any extra demo materials/links]
 
 ## Team Contributions
-- [Name 1]: [Specific contributions]
-- [Name 2]: [Specific contributions]
-- [Name 3]: [Specific contributions]
+- Richard Reji: Thinked in god level and found the bomblastic idea! [+10,000 aura]
+- Abhishek Sunil: Used his gifted coding skills and found the algorthim.coded using tkinter[+16,269 aura]
+- Gourav K: Bro watched and chilled(ha ha jk!)....bro modified the code using Customtkinter and made the UI more modern[+6969 aura]
 
 ---
 Made with ❤️ at TinkerHub Useless Projects 
