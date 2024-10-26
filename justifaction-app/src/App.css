@@ -1,6 +1,7 @@
 .App {
   text-align: center;
   padding: 20px;
+  padding-top : 500px;
 }
 
 input, select {
