@@ -1,87 +1,48 @@
 <img width="1280" alt="readme-banner" src="https://github.com/user-attachments/assets/35332e92-44cb-425b-9dff-27bcf1023c6c">
 
-# [Project Name] 🎯
+# Random Food Generator 🎯
 
 
 ## Basic Details
-### Team Name: [Name]
+### Team Name: PIXEL RUSH
 
 
 ### Team Members
-- Team Lead: [Name] - [College]
-- Member 2: [Name] - [College]
-- Member 3: [Name] - [College]
+- Team Lead: Nandana Gopakumar Lekha Nair - SCMS School Of Engineering And Technology
+- Member 2: Faseela Rahmath  - SCMS School Of ENgineering And Technology
+- Member 3: Muhammed Azar NK - SCMS School Of ENgineering And Technology
 
 ### Project Description
-[2-3 lines about what your project does]
+Generates random food names to eat on random days
 
 ### The Problem (that doesn't exist)
-[What ridiculous problem are you solving?]
+When we crave for food we try to eat it when we get the chance like if I would like to eat something today either I will eat it by today or max. tomorrow or sometimes we may get confused when to eat.So our project gives you a random date to eat it.
 
 ### The Solution (that nobody asked for)
-[How are you solving it? Keep it fun!]
+Randomly picking dates to eat food.
 
 ## Technical Details
 ### Technologies/Components Used
 For Software:
-- [Languages used]
-- [Frameworks used]
-- [Libraries used]
-- [Tools used]
-
-For Hardware:
-- [List main components]
-- [List specifications]
-- [List tools required]
+- HTML
+- CSS
+- JAVASCRIPT
 
 ### Implementation
 For Software:
-# Installation
-[commands]
-
 # Run
-[commands]
+TERMINAL
 
 ### Project Documentation
 For Software:
 
 # Screenshots (Add at least 3)
-![Screenshot1](Add screenshot 1 here with proper name)
-*Add caption explaining what this shows*
-
-![Screenshot2](Add screenshot 2 here with proper name)
-*Add caption explaining what this shows*
-
-![Screenshot3](Add screenshot 3 here with proper name)
-*Add caption explaining what this shows*
-
-# Diagrams
-![Workflow](Add your workflow/architecture diagram here)
-*Add caption explaining your workflow*
-
-For Hardware:
-
-# Schematic & Circuit
-![Circuit](Add your circuit diagram here)
-*Add caption explaining connections*
-
-![Schematic](Add your schematic diagram here)
-*Add caption explaining the schematic*
-
-# Build Photos
-![Components](Add photo of your components here)
-*List out all components shown*
-
-![Build](Add photos of build process here)
-*Explain the build steps*
-
-![Final](Add photo of final product here)
-*Explain the final build*
+https://drive.google.com/drive/folders/1pkzF0Cq6CgTRJe2yNZxUZH8NDS7rOONw?usp=sharing
 
 ### Project Demo
 # Video
-[Add your demo video link here]
-*Explain what the video demonstrates*
+https://drive.google.com/file/d/1E7VPbrxbjOEuJfT_FuXru8k-z8C-6XLl/view?usp=sharing
+In this video, it shows our webpage where when the click the option 'Get Random Food Date' it gives us random food options to eat on random days
 
 # Additional Demos
 [Add any extra demo materials/links]
