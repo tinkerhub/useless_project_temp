@@ -31,7 +31,7 @@ For Software:
 ### Implementation
 For Software:
 # Installation
-[choco install ]
+[choco install nodejs.install]
 
 # Run
 [commands]
