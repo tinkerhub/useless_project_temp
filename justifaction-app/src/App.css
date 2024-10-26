@@ -1,7 +1,16 @@
 .App {
   text-align: center;
   padding: 20px;
-  padding-top : 500px;
+  padding-top : 250px;
+  background-image: url("smile.jpg");
+  backdrop-filter: blur(700px);
+  background-size: cover;       /* Makes the image cover the entire screen */
+  background-position: center;   /* Centers the image */
+  background-repeat: no-repeat;  /* Prevents the image from tiling */
+  height: 100vh;                 /* Sets the height to viewport height */
+  margin: 0;                     /* Removes default body margin */
+  overflow: hidden;
+  font-size: large;
 }
 
 input, select {
