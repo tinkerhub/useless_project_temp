@@ -16,15 +16,15 @@
 This is a Mood music player wherein it plays songs NOT based on your mood!
 
 ### The Problem (that doesn't exist)
-[What ridiculous problem are you solving?]
+It is very tiring to always have the songs we wanna listen to play for us.
 
 ### The Solution (that nobody asked for)
-[How are you solving it? Keep it fun!]
+We created a very efficient website where it plays the songs in contrast to your mood. We have apps and websites that play songs that we ask for, so inorder to make people happy we created one that doesn't :)
 
 ## Technical Details
 ### Technologies/Components Used
 For Software:
-- [Languages used]
+- HTML
 - [Frameworks used]
 - [Libraries used]
 - [Tools used]
