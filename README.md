@@ -1,19 +1,19 @@
 <img width="1280" alt="readme-banner" src="https://github.com/user-attachments/assets/35332e92-44cb-425b-9dff-27bcf1023c6c">
 
-# [Project Name] 🎯
+# MOOD DISRUPTING MUSIC PLAYER 🎯
 
 
 ## Basic Details
-### Team Name: [Name]
+### Team Name: Useless Bytes
 
 
 ### Team Members
-- Team Lead: [Name] - [College]
-- Member 2: [Name] - [College]
-- Member 3: [Name] - [College]
+- Team Lead: Aashika Kiran Nair - LBS Institute of Technology for Women 
+- Member 2: Anjana Satheesh - LBS Institute of Technology for Women 
+- Member 3: G Sreenandhini - LBS Institute of Technology for Women 
 
 ### Project Description
-[2-3 lines about what your project does]
+This is a Mood music player wherein it plays songs NOT based on your mood!
 
 ### The Problem (that doesn't exist)
 [What ridiculous problem are you solving?]
