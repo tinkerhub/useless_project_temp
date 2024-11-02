@@ -1,0 +1,55 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+body{
+  color: white;
+  background-color: black;
+  background-image: url('/bg.jpg'); 
+  background-size: cover; 
+  background-position: center; 
+  background-repeat: no-repeat; 
+  
+}
+
+::-webkit-scrollbar {
+  width: 8px; 
+}
+
+::-webkit-scrollbar-track {
+  background: #0f0000; 
+}
+
+::-webkit-scrollbar-thumb {
+  background: #400101; 
+  border-radius: 16px; 
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #be0202; 
+}
+
+.container {
+  position: relative;
+  width: 100%;
+  height: 100vh; 
+  overflow: hidden; 
+}
+
+.backgroundVideo {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover; /* Cover the entire area */
+  opacity: .1; /* Set opacity to 20% */
+  z-index: -1; /* Place behind other content */
+  mix-blend-mode: hard-light; 
+  transform:rotate(180deg);
+}
+
+.Loader {
+  position: relative; 
+  z-index: 1;
+}

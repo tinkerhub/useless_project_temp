@@ -1,0 +1,95 @@
+@import url('https://fonts.googleapis.com/css2?family=Rubik+Wet+Paint&display=swap');
+
+
+.rubik-wet-paint-regular {
+        font-family: "Rubik Wet Paint", system-ui;
+        font-weight: 400;
+        font-style: normal;
+      }
+
+    
+   
+
+.container {
+        display: flex;
+        flex-direction: column;
+        height: 100vh;
+        color: white; 
+      }
+      
+      .date-input {
+        margin: 15px;
+        padding: 15px;
+        font-size: 16px;
+        background-color: #333;
+        color: white;
+        border: 1px solid #666; 
+        border-radius: 30px;
+        transition: background-color 0.3s ease, box-shadow 0.3s ease; 
+        box-shadow: 0 0 10px rgb(255, 255, 255), 0 0 20px rgba(238, 238, 238, 0.549), 0 0 30px rgb(0, 0, 0);
+      }
+
+      .date-input:hover {
+        background-color: #510404; 
+        box-shadow: 0 0 10px red, 0 0 20px red, 0 0 30px red; 
+      }
+      
+      .check-button {
+        margin: 20px;
+        padding: 10px 20px;
+        font-size: 16px;
+        cursor: pointer;
+        background-color: #555; 
+        color: white; 
+        border: none;
+        border-radius: 5px; 
+        transition: background-color 0.3s ease, box-shadow 0.3s ease; 
+      }
+      
+      .check-button:hover {
+        background-color: #510404; 
+        box-shadow: 0 0 10px rgb(56, 0, 0), 0 0 20px red, 0 0 30px red; 
+      }
+      h1{
+        margin-top: 50px;
+        margin-bottom: 50px;
+      }
+      h3{
+        margin-top: 10px;
+        margin-bottom: 30px;
+      }
+
+      .fade-in {
+        animation: fadeIn 0.5s ease-in-out;
+      }
+      
+      .slide-up {
+        animation: slideUp 0.5s ease-in-out;
+      }
+      
+      @keyframes fadeIn {
+        from {
+          opacity: 0;
+        }
+        to {
+          opacity: 1;
+        }
+      }
+      
+      @keyframes slideUp {
+        from {
+          transform: translateY(20px);
+          opacity: 0;
+        }
+        to {
+          transform: translateY(0);
+          opacity: 1;
+        }
+      }
+      .input-fade-in {
+        animation: fadeIn 0.5s ease-in forwards;
+      }
+      
+      .button-fade-in {
+        animation: fadeIn 0.5s ease-in forwards;
+      }
