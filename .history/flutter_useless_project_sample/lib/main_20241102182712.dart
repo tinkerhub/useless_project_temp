@@ -1,7 +1,5 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
-
-import 'api.dart';
 
 void main() {
   runApp(const MyApp());
@@ -12,22 +10,14 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ChangeNotifierProvider(
-      create: (context) => ChatProvider(
-        ChatApiService(
-          baseUrl: 'YOUR_API_BASE_URL',
-          apiKey: 'YOUR_API_KEY',
-        ),
+    return MaterialApp(
+      title: 'Professional Chat UI',
+      debugShowCheckedModeBanner: false,
+      theme: ThemeData(
+        colorScheme: ColorScheme.fromSeed(seedColor: Colors.blueGrey),
+        useMaterial3: true,
       ),
-      child: MaterialApp(
-        title: 'Professional Chat UI',
-        debugShowCheckedModeBanner: false,
-        theme: ThemeData(
-          colorScheme: ColorScheme.fromSeed(seedColor: Colors.blueGrey),
-          useMaterial3: true,
-        ),
-        home: const ChatScreen(),
-      ),
+      home: const ChatScreen(),
     );
   }
 }
@@ -168,3 +158,4 @@ class Messages extends StatelessWidget {
     );
   }
 }
+
