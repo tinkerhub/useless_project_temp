@@ -1,7 +1,10 @@
-/*body, html {
+
+@import url('https://fonts.googleapis.com/css2?family=Chilanka&display=swap');
+body, html {
     margin: 0; 
     height: 100%; 
-}*/
+    padding: 0px;
+}
 
 /*#container {
     height: 100vh;
@@ -16,6 +19,7 @@
     display: flex; 
     justify-content: center; 
     align-items: center; 
+    padding: 0px;
 }
 
 .imag1 {
@@ -24,4 +28,40 @@
     padding: 12px; 
     max-width: 100%; 
     height: auto; 
+}
+body{
+    opacity:1;
+    transition: opacity 0.5s ease;
+}
+body.fade-out{
+    opacity:0;
+}
+
+.clickable{
+    cursor:pointer;
+    width:100vw;
+    height:100vh;
+}
+.searchbar{
+   text-align: center;
+    font-size: 30px;
+    width: 580px;
+    height: 50px;
+}
+.bt{
+    font-family: "chilanka";
+    height: 40px;
+    width: 130px;
+    font-size: 30px;
+    text-align: center;
+  
+    
+}
+.s2{
+    border-top-left-radius: 25px;
+    border-top-right-radius: 25px;
+    border-bottom-left-radius: 25px;
+    border-bottom-right-radius: 25px;
+    
+    
 }
