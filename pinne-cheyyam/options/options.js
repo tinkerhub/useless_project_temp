@@ -1,5 +1,3 @@
-// options.js
-
 // Helper function to update the display of the site lists
 function updateSiteList(type, listId) {
   chrome.storage.sync.get([type], (result) => {
@@ -8,13 +6,13 @@ function updateSiteList(type, listId) {
     listElement.innerHTML = '';
     list.forEach((site, index) => {
       const listItem = document.createElement('li');
-      listItem.className = 'flex justify-between items-center bg-white bg-opacity-30 p-2 rounded-md';
+      listItem.className = 'flex justify-between items-center bg-gray-50 p-2 rounded-md border border-gray-200';
       listItem.textContent = site;
 
       // Add remove button
       const removeButton = document.createElement('button');
       removeButton.textContent = 'Remove';
-      removeButton.className = 'bg-red-500 hover:bg-red-600 text-white px-2 py-1 rounded-md';
+      removeButton.className = 'bg-red-500 hover:bg-red-600 text-white px-2 py-1 rounded-md ml-4';
       removeButton.onclick = () => removeSite(type, index);
       listItem.appendChild(removeButton);
 

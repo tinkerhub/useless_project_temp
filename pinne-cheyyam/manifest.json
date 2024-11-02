@@ -1,16 +1,12 @@
 {
   "manifest_version": 2,
-  "name": "Useless Projects Extension",
+  "name": "Pinne-Cheyyam",
   "version": "1.0",
-  "description": "Annoy users with quizzes, puzzles, and mini-games when they are productive.",
+  "description": "Annoys users with quizzes, puzzles, and mini-games when they are productive.",
   "icons": {
     "48": "icons/icon.png"
   },
-  "permissions": [
-    "tabs",
-    "storage",
-    "activeTab"
-  ],
+  "permissions": ["tabs", "storage", "activeTab"],
   "background": {
     "scripts": ["background.js"],
     "persistent": false
