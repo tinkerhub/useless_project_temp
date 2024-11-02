@@ -11,7 +11,7 @@ def main():
     st.markdown(
         """
         <style>
-        .main { background-image: url('https://imgur.com/a/4sB6PMc');
+        .main { background-image: url('https://i.imgur.com/EaHsffn.jpeg');
                 background-size: cover; }
         </style>
         """, unsafe_allow_html=True
