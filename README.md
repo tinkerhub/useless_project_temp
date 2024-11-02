@@ -35,7 +35,9 @@ For Software:
 # Installation
 [commands]
 pip install fastapi uvicorn sqlalchemy
+
 pip install flake8 black
+
 pip install requests
 # Run
 [commands]
