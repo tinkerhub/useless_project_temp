@@ -8,7 +8,7 @@
 
 
 ### Team Members
-- Team Lead: Akshadha A - CUSAT
+- Akshadha A - CUSAT
 
 
 ### Project Description
@@ -33,14 +33,14 @@ For Software:
 ### Implementation
 For Software:
 # Installation
-[commands]
+
 pip install fastapi uvicorn sqlalchemy
 
 pip install flake8 black
 
 pip install requests
 # Run
-[commands]
+
 uvicorn main:app --reload                                     
 
 ### Project Documentation
@@ -60,7 +60,6 @@ For Software:
 ![Workflow](Add your workflow/architecture diagram here)
 *Add caption explaining your workflow*
 
-For Hardware:
 
 
 # Build Photos
