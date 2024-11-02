@@ -6,6 +6,8 @@
 
 A Chrome extension designed to help you procrastinate like a pro! Distract yourself from productive websites with random quizzes, puzzles, mini-games, and even the occasional noise to make sure you stay… unproductive.
 
+![icon](./pinne-cheyyam/icons/icon.png)
+
 ## Basic Details
 
 ### Team Name: Haskell
