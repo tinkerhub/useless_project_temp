@@ -105,8 +105,29 @@ function createOverlay(distractingSites) {
     "Life is what happens while you're busy making other plans for productivity.",
     "The early bird might get the worm, but the second mouse gets the cheese.",
     "If you think adventure is dangerous, try routine; it is lethal to productivity.",
-    "Sometimes I feel like I am diagonally parked in a parallel universe."
-  ];
+    "Sometimes I feel like I am diagonally parked in a parallel universe.",
+    "I told my computer I needed a break, and now it won't stop showing me coffee ads.",
+    "Why do software engineers never play hide and seek? Because good luck hiding from bugs.",
+    "I'm on a seafood diet. I see food and I eat it.",
+    "Time flies like an arrow; fruit flies like a banana.",
+    "To err is human; to blame it on technology is even more so.",
+    "Parallel lines have so much in common. It’s a shame they’ll never meet.",
+    "My email password has been hacked again. That’s the third time I’ve had to rename the cat.",
+    "I asked my computer for advice, but it just gave me a byte.",
+    "Why don't some couples go to the gym? Because some relationships don't work out!",
+    "I would tell you a UDP joke, but you might not get it.",
+    "Artificial intelligence is no match for natural stupidity.",
+    "If at first you don't succeed, redefine success.",
+    "Why do programmers prefer dark mode? Because light attracts bugs.",
+    "I'm reading a book on anti-gravity. It's impossible to put down!",
+    "It’s hard to explain puns to kleptomaniacs because they always take things literally.",
+    "Why don’t skeletons fight each other? They don’t have the guts.",
+    "I'm not lazy, I'm on energy-saving mode.",
+    "Why did the programmer quit his job? Because he didn't get arrays.",
+    "Talk is cheap? Have you ever talked to a lawyer?",
+    "I’m a big fan of whiteboards. They’re re-markable!"
+];
+
 
   // Choose a random sentence
   const randomSentence = sentences[Math.floor(Math.random() * sentences.length)];
