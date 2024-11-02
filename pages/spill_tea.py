@@ -19,5 +19,9 @@ def main():
         else:
             st.error("Please write a story before Teaifying!")
 
+    if st.button("Back to Home"):
+        st.session_state.page = "home"
+        st.rerun()
+
 if __name__ == "__main__":
     main()

@@ -50,6 +50,7 @@ def main():
 
     # If a category is selected, clear previous content and fetch stories
     if selected_category:
+        st.session_state.page = "get_tea"
         st.rerun()  # Refresh the app to show new content
 
     # Display the selected category stories
@@ -68,6 +69,10 @@ def main():
                 st.markdown("---")  # Separator between stories
         else:
             st.write("No stories found for the selected category.")
+
+    if st.button("Back to Home"):
+        st.session_state.page = "home"
+        st.rerun()
 
 if __name__ == "__main__":
     main()
