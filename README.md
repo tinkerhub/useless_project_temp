@@ -24,10 +24,10 @@ Our app deliberately mismatches users’ preferences, injecting a bit of randomn
 ## Technical Details
 ### Technologies/Components Used
 For Software:
-- [Languages used]
-- [Frameworks used]
-- [Libraries used]
-- [Tools used]
+- Languages used : JS, Python
+- Frameworks used : ReactJS [frontend], FastAPI [backend]
+- Libraries used : SQLAlchemy (for database ORM), SQLite (database)
+- Tools used : Uvicorn (for running FastAPI server), JSON or external APIs for random items
 
 For Hardware:
 - [List main components]
