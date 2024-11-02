@@ -1,27 +1,48 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
-  <title>Options - Useless Projects Extension</title>
-  <link rel="stylesheet" href="options.css">
+  <title>Options - Pinne-Cheyyam</title>
+  <!-- Link to your local Tailwind CSS file or use the CDN -->
+  <script src="../tailwind.js"></script>
 </head>
-<body>
-  <h1>Manage Sites</h1>
 
-  <div>
-    <h2>Productive Sites</h2>
-    <input type="text" id="productiveInput" placeholder="Add a productive site URL">
-    <button id="addProductive">Add</button>
-    <ul id="productiveList"></ul>
-  </div>
+<body
+  class="bg-gradient-to-br from-purple-700 to-blue-500 text-white min-h-screen flex items-center justify-center p-4">
+  <div class="w-full max-w-md bg-white bg-opacity-20 backdrop-blur-lg rounded-lg shadow-lg p-8">
+    <h1 class="text-3xl font-bold mb-6 text-center">Manage Sites</h1>
 
-  <div>
-    <h2>Distracting Sites</h2>
-    <input type="text" id="distractingInput" placeholder="Add a distracting site URL">
-    <button id="addDistracting">Add</button>
-    <ul id="distractingList"></ul>
+    <!-- Productive Sites Section -->
+    <div class="mb-8">
+      <h2 class="text-xl font-semibold mb-2">Productive Sites</h2>
+      <div class="flex mb-4">
+        <input type="text" id="productiveInput" placeholder="Add a productive site URL"
+          class="flex-grow p-2 rounded-l-md text-gray-800">
+        <button id="addProductive"
+          class="bg-yellow-500 hover:bg-yellow-600 text-white px-4 py-2 rounded-r-md">Add</button>
+      </div>
+      <ul id="productiveList" class="space-y-2">
+        <!-- Productive sites will be dynamically inserted here -->
+      </ul>
+    </div>
+
+    <!-- Distracting Sites Section -->
+    <div class="mb-8">
+      <h2 class="text-xl font-semibold mb-2">Distracting Sites</h2>
+      <div class="flex mb-4">
+        <input type="text" id="distractingInput" placeholder="Add a distracting site URL"
+          class="flex-grow p-2 rounded-l-md text-gray-800">
+        <button id="addDistracting"
+          class="bg-yellow-500 hover:bg-yellow-600 text-white px-4 py-2 rounded-r-md">Add</button>
+      </div>
+      <ul id="distractingList" class="space-y-2">
+        <!-- Distracting sites will be dynamically inserted here -->
+      </ul>
+    </div>
   </div>
 
   <script src="options.js"></script>
 </body>
+
 </html>
