@@ -1,95 +1,59 @@
 <img width="1280" alt="readme-banner" src="https://github.com/user-attachments/assets/35332e92-44cb-425b-9dff-27bcf1023c6c">
 
-# [Project Name] 🎯
+# [The Death Finder] 🎯
 
 
 ## Basic Details
-### Team Name: [Name]
+### Team Name: [callmesidhu]
 
 
 ### Team Members
-- Team Lead: [Name] - [College]
-- Member 2: [Name] - [College]
-- Member 3: [Name] - [College]
+- Team Lead: Sidharth S - College of Engineering Trivandrum
 
 ### Project Description
-[2-3 lines about what your project does]
+This app will helps you to find when will you die and how will you die.
 
 ### The Problem (that doesn't exist)
-[What ridiculous problem are you solving?]
+To find the user is dead or when will he die
 
 ### The Solution (that nobody asked for)
-[How are you solving it? Keep it fun!]
+How are you solving it? Keep it fun!
 
 ## Technical Details
 ### Technologies/Components Used
 For Software:
-- [Languages used]
-- [Frameworks used]
-- [Libraries used]
-- [Tools used]
+-  TypeScript,html,css 
+-  Next.js,tailwind.css
+-  next,clsx,react-router
+-  vercel,github,vscode,chatgpt api for response(not integrated)
 
-For Hardware:
-- [List main components]
-- [List specifications]
-- [List tools required]
 
 ### Implementation
 For Software:
 # Installation
-[commands]
+   npm install 
 
 # Run
-[commands]
+   npm run dev 
 
 ### Project Documentation
-For Software:
+For Software: https://github.com/callmesidhu/Nextjs-TinkerHub-Useless-project
 
-# Screenshots (Add at least 3)
-![Screenshot1](Add screenshot 1 here with proper name)
-*Add caption explaining what this shows*
-
-![Screenshot2](Add screenshot 2 here with proper name)
-*Add caption explaining what this shows*
-
-![Screenshot3](Add screenshot 3 here with proper name)
-*Add caption explaining what this shows*
 
 # Diagrams
-![Workflow](Add your workflow/architecture diagram here)
-*Add caption explaining your workflow*
+ ![Desktop - 1](https://github.com/user-attachments/assets/83ae7d2d-c11d-4a59-930c-b029b1608706)
 
-For Hardware:
-
-# Schematic & Circuit
-![Circuit](Add your circuit diagram here)
-*Add caption explaining connections*
-
-![Schematic](Add your schematic diagram here)
-*Add caption explaining the schematic*
-
-# Build Photos
-![Components](Add photo of your components here)
-*List out all components shown*
-
-![Build](Add photos of build process here)
-*Explain the build steps*
-
-![Final](Add photo of final product here)
-*Explain the final build*
 
 ### Project Demo
 # Video
-[Add your demo video link here]
-*Explain what the video demonstrates*
+  https://drive.google.com/file/d/1Ao50cQrl4AreS28SMOIxIAhJRD_1CGLt/view?usp=sharing
 
 # Additional Demos
-[Add any extra demo materials/links]
+  https://callmesidhu-useless-project.vercel.app
 
 ## Team Contributions
-- [Name 1]: [Specific contributions]
-- [Name 2]: [Specific contributions]
-- [Name 3]: [Specific contributions]
+- Sidharth: Full work
+
 
 ---
 Made with ❤️ at TinkerHub Useless Projects 
