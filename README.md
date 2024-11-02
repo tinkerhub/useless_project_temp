@@ -12,13 +12,14 @@
 
 
 ### Project Description
-[2-3 lines about what your project does]
+The project, The Anti-Algorithm, is a reverse recommendation system that takes users’ favorite books, movies, or songs and suggests completely unrelated items. Instead of matching their tastes, the system recommends random, obscure things they’d never think to explore.
 
 ### The Problem (that doesn't exist)
-[What ridiculous problem are you solving?]
+People are constantly trapped in their echo chambers, discovering content that aligns too closely with their tastes. How can someone truly expand their horizons if they’re only recommended things they actually like?
 
 ### The Solution (that nobody asked for)
-[How are you solving it? Keep it fun!]
+Our app deliberately mismatches users’ preferences, injecting a bit of randomness and surprise into their lives!
+[randomness at its finest]
 
 ## Technical Details
 ### Technologies/Components Used
