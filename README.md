@@ -29,18 +29,17 @@ For Software:
 - Libraries used : SQLAlchemy (for database ORM), SQLite (database)
 - Tools used : Uvicorn (for running FastAPI server), JSON or external APIs for random items
 
-For Hardware:
-- [List main components]
-- [List specifications]
-- [List tools required]
 
 ### Implementation
 For Software:
 # Installation
 [commands]
-
+pip install fastapi uvicorn sqlalchemy
+pip install flake8 black
+pip install requests
 # Run
 [commands]
+uvicorn main:app --reload                                     
 
 ### Project Documentation
 For Software:
@@ -61,12 +60,6 @@ For Software:
 
 For Hardware:
 
-# Schematic & Circuit
-![Circuit](Add your circuit diagram here)
-*Add caption explaining connections*
-
-![Schematic](Add your schematic diagram here)
-*Add caption explaining the schematic*
 
 # Build Photos
 ![Components](Add photo of your components here)
