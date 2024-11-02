@@ -41,7 +41,7 @@ class ChatApiService {
 
       if (response.statusCode == 200) {
         final Map<String, dynamic> responseData = jsonDecode(response.body);
-
+        
         if (responseData.containsKey('response')) {
           return responseData['response'] as String;
         } else {
@@ -84,7 +84,7 @@ class ChatProvider extends ChangeNotifier {
 
       // Get bot response
       final response = await _apiService.sendMessage(content);
-
+      
       // Add bot message
       _messages.add(Message(
         content: response.trim(),
@@ -106,5 +106,58 @@ class ChatProvider extends ChangeNotifier {
 
   String _formatTimestamp(DateTime timestamp) {
     return '${timestamp.hour.toString().padLeft(2, '0')}:${timestamp.minute.toString().padLeft(2, '0')}';
+  }
+}
+// chat_provider.dart
+
+class ChatProvider extends ChangeNotifier {
+  final ChatApiService _apiService;
+  List<Message> _messages = [];
+  bool _isLoading = false;
+
+  ChatProvider(this._apiService);
+
+  List<Message> get messages => _messages;
+  bool get isLoading => _isLoading;
+
+  Future<void> sendMessage(String content) async {
+    _isLoading = true;
+    notifyListeners();
+
+    try {
+      // Add user message immediately
+      final userMessage = Message(
+        content: content,
+        isUser: true,
+        timestamp: DateTime.now().toString(),
+      );
+      _messages.add(userMessage);
+      notifyListeners();
+
+      // Get bot response
+      final botResponse = await _apiService.sendMessage(content);
+      _messages.add(botResponse);
+    } catch (e) {
+      debugPrint('Error sending message: $e');
+      // Handle error (show snackbar, etc.)
+    } finally {
+      _isLoading = false;
+      notifyListeners();
+    }
+  }
+
+  Future<void> loadMessageHistory() async {
+    _isLoading = true;
+    notifyListeners();
+
+    try {
+      _messages = await _apiService.getMessageHistory();
+    } catch (e) {
+      debugPrint('Error loading message history: $e');
+      // Handle error
+    } finally {
+      _isLoading = false;
+      notifyListeners();
+    }
   }
 }

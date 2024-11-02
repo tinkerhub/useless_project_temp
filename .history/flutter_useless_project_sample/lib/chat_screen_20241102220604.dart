@@ -2,9 +2,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-import 'api.dart';
-import 'main.dart';
-
 class ChatScreen extends StatefulWidget {
   const ChatScreen({super.key});
 
@@ -47,8 +44,7 @@ class _ChatScreenState extends State<ChatScreen> {
                 builder: (context, chatProvider, child) {
                   return ListView.builder(
                     controller: _scrollController,
-                    padding: const EdgeInsets.symmetric(
-                        horizontal: 10, vertical: 20),
+                    padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 20),
                     itemCount: chatProvider.messages.length,
                     itemBuilder: (context, index) {
                       final message = chatProvider.messages[index];
@@ -65,8 +61,7 @@ class _ChatScreenState extends State<ChatScreen> {
             Consumer<ChatProvider>(
               builder: (context, chatProvider, child) {
                 return Padding(
-                  padding:
-                      const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                  padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
                   child: Row(
                     children: [
                       Expanded(
@@ -111,9 +106,7 @@ class _ChatScreenState extends State<ChatScreen> {
                                   ),
                                 )
                               : const Icon(Icons.send, color: Colors.white),
-                          onPressed: chatProvider.isLoading
-                              ? null
-                              : _handleSendMessage,
+                          onPressed: chatProvider.isLoading ? null : _handleSendMessage,
                         ),
                       ),
                     ],

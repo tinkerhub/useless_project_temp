@@ -41,7 +41,7 @@ class ChatApiService {
 
       if (response.statusCode == 200) {
         final Map<String, dynamic> responseData = jsonDecode(response.body);
-
+        
         if (responseData.containsKey('response')) {
           return responseData['response'] as String;
         } else {
@@ -84,7 +84,7 @@ class ChatProvider extends ChangeNotifier {
 
       // Get bot response
       final response = await _apiService.sendMessage(content);
-
+      
       // Add bot message
       _messages.add(Message(
         content: response.trim(),
@@ -106,5 +106,53 @@ class ChatProvider extends ChangeNotifier {
 
   String _formatTimestamp(DateTime timestamp) {
     return '${timestamp.hour.toString().padLeft(2, '0')}:${timestamp.minute.toString().padLeft(2, '0')}';
+  }
+}
+// chat_provider.dart
+
+class ChatProvider extends ChangeNotifier {
+  final ChatApiService _apiService;
+  final List<Message> _messages = [];
+  bool _isLoading = false;
+
+  ChatProvider(this._apiService);
+
+  List<Message> get messages => List.unmodifiable(_messages);
+  bool get isLoading => _isLoading;
+
+  Future<void> sendMessage(String content) async {
+    if (content.trim().isEmpty) return;
+
+    _isLoading = true;
+    notifyListeners();
+
+    try {
+      // Add user message
+      _messages.add(Message(
+        content: content,
+        isUser: true,
+        timestamp: DateTime.now().toString(),
+      ));
+      notifyListeners();
+
+      // Get bot response
+      final response = await _apiService.sendMessage(content);
+      
+      // Add bot message
+      _messages.add(Message(
+        content: response,
+        isUser: false,
+        timestamp: DateTime.now().toString(),
+      ));
+    } catch (e) {
+      _messages.add(Message(
+        content: "Sorry, I couldn't process your message. Please try again.",
+        isUser: false,
+        timestamp: DateTime.now().toString(),
+      ));
+    } finally {
+      _isLoading = false;
+      notifyListeners();
+    }
   }
 }

@@ -20,7 +20,7 @@ class MyApp extends StatelessWidget {
         ),
       ),
       child: MaterialApp(
-        title: '',
+        title: 'Professional Chat UI',
         debugShowCheckedModeBanner: false,
         theme: ThemeData(
           colorScheme: ColorScheme.fromSeed(seedColor: Colors.blueGrey),

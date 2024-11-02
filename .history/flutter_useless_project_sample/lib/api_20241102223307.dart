@@ -24,16 +24,13 @@ class ChatApiService {
     try {
       print('Sending message to: $baseUrl/get_response');
       print('Message content: $message');
-
       final response = await http.post(
         Uri.parse('$baseUrl/get_response'),
         headers: {
           'Content-Type': 'application/json',
           'Accept': 'application/json',
         },
-        body: jsonEncode({
-          'prompt': message,
-        }),
+        body: jsonEncode({'prompt': message}),
       );
 
       print('Response status code: ${response.statusCode}');

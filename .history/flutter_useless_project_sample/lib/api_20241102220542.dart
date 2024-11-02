@@ -41,7 +41,7 @@ class ChatApiService {
 
       if (response.statusCode == 200) {
         final Map<String, dynamic> responseData = jsonDecode(response.body);
-
+        
         if (responseData.containsKey('response')) {
           return responseData['response'] as String;
         } else {
@@ -84,7 +84,7 @@ class ChatProvider extends ChangeNotifier {
 
       // Get bot response
       final response = await _apiService.sendMessage(content);
-
+      
       // Add bot message
       _messages.add(Message(
         content: response.trim(),
@@ -108,3 +108,4 @@ class ChatProvider extends ChangeNotifier {
     return '${timestamp.hour.toString().padLeft(2, '0')}:${timestamp.minute.toString().padLeft(2, '0')}';
   }
 }
+// chat_provider.dart
