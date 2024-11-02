@@ -1,11 +1,14 @@
-// content.js
 
-function createOverlay(distractingSites) {
-  // Check if the overlay already exists
-  if (document.getElementById("productive-overlay")) return;
+// Declare randomSentence globally to maintain its value across overlay restorations
+let randomSentence = "";
 
-  // Rest of the CSS styles remain the same...
+// Function to inject CSS styles
+function injectStyles() {
+  // Avoid injecting styles multiple times
+  if (document.getElementById("pinnecheyyam-styles")) return;
+
   const style = document.createElement("style");
+  style.id = "pinnecheyyam-styles";
   style.innerHTML = `
     #productive-overlay {
       position: fixed;
@@ -33,6 +36,8 @@ function createOverlay(distractingSites) {
 
     #productive-overlay #close-overlay {
       position: absolute;
+      top: 10px;
+      right: 10px;
       padding: 10px 20px;
       font-size: 18px;
       background-color: #176B87;
@@ -64,6 +69,7 @@ function createOverlay(distractingSites) {
       border: 2px solid #176B87;
       border-radius: 5px;
       font-size: 16px;
+      resize: none;
     }
 
     #productive-overlay .error-text {
@@ -91,10 +97,58 @@ function createOverlay(distractingSites) {
     #check-button:hover {
       background-color: #218838;
     }
+
+    /* Styles for Rickroll overlay */
+    #rickroll-overlay-container {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: none; /* Outer container with white background */
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      z-index: 10001;
+    }
+
+    #rickroll-overlay-container h2 {
+      margin-bottom: 20px;
+      color: white;
+      font-size: 32px;
+      font-family: Arial, sans-serif;
+    }
+
+    #rickroll-overlay {
+      width: 80%;
+      height: 80%;
+      background-color: rgba(0, 0, 0, 0.9);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      border-radius: 8px;
+      overflow: hidden;
+    }
+
+    #rickroll-overlay iframe {
+      width: 100%;
+      height: 100%;
+      border: none;
+    }
   `;
   document.head.appendChild(style);
+}
 
-  // List of challenging sentences remains the same...
+// Function to create the main productive overlay
+function createOverlay(distractingSites) {
+  // Check if the overlay already exists
+  if (document.getElementById("productive-overlay")) return;
+
+  // Inject necessary CSS styles for the overlay
+  injectStyles();
+
+  // List of challenging sentences
   const sentences = [
     "The quick brown fox jumps over the lazy dog while contemplating quantum physics.",
     "In a parallel universe, purple elephants dance tango under moonlit skyscrapers.",
@@ -108,16 +162,16 @@ function createOverlay(distractingSites) {
     "Sometimes I feel like I am diagonally parked in a parallel universe."
   ];
 
-  // Choose a random sentence
-  const randomSentence = sentences[Math.floor(Math.random() * sentences.length)];
+  // Choose a random sentence and assign globally
+  randomSentence = sentences[Math.floor(Math.random() * sentences.length)];
 
-  // Create the overlay div with the same content...
+  // Create the overlay div with the content
   const overlay = document.createElement("div");
   overlay.id = "productive-overlay";
   overlay.innerHTML = `
     <div class="overlay-content">
-      <button id="close-overlay">Close</button>
-      <h2>ബാ പിന്നെ പഠിക്കാം</h2>
+      <button id="close-overlay" aria-label="Close Overlay">Close</button>
+      <h2>അതൊക്കെ പിന്നെ ചെയ്യാം</h2>
       <div class="game-container">
         <div class="target-text">${randomSentence}</div>
         <textarea class="input-area" placeholder="Type the sentence here..." rows="3"></textarea>
@@ -131,79 +185,149 @@ function createOverlay(distractingSites) {
   document.body.appendChild(overlay);
   document.body.style.overflow = 'hidden';
 
+  // Select elements
   const closeButton = document.getElementById("close-overlay");
-  const overlayDiv = document.getElementById("productive-overlay");
   const inputArea = overlay.querySelector('.input-area');
   const errorText = overlay.querySelector('.error-text');
   const successText = overlay.querySelector('.success-text');
   const checkButton = overlay.querySelector('#check-button');
 
-  // Fixed redirectToRandomSite function
-  function redirectToRandomSite() {
-    if (distractingSites && distractingSites.length > 0) {
-      const randomSite = distractingSites[Math.floor(Math.random() * distractingSites.length)];
-      // Ensure URL has proper protocol and format
-      const url = randomSite.startsWith('http') ? randomSite : `https://${randomSite}`;
-      window.location.href = url;
-    } else {
-      errorText.textContent = "No distracting sites configured. Configure some in extension settings!";
-    }
-  }
-
-  // Rest of the functions remain the same...
-  function checkSentence() {
-    const userInput = inputArea.value.trim();
-    if (userInput === randomSentence) {
-      successText.textContent = "Okay , എന്നാ പഠിച്ചോ ";
-      errorText.textContent = "";
-      setTimeout(() => {
-        overlay.remove();
-        document.body.style.overflow = '';
-      }, 2000);
-    } else {
-      errorText.textContent = "wrong മച്ചു";
-      successText.textContent = "";
-      const differences = [];
-      for (let i = 0; i < Math.max(userInput.length, randomSentence.length); i++) {
-        if (userInput[i] !== randomSentence[i]) {
-          differences.push(i);
-        }
-      }
-      if (differences.length > 0) {
-        errorText.textContent += ` Check character position ${differences[0] + 1}.`;
-      }
-    }
-  }
-
-  inputArea.addEventListener('paste', (e) => {
-    e.preventDefault();
-    errorText.textContent = "copy-paste ഒന്നും നടക്കൂലേ മോനെ";
-  });
-
+  // Attach event listeners
+  closeButton.addEventListener("click", handleTryingToClose);
   checkButton.addEventListener('click', checkSentence);
+  inputArea.addEventListener('paste', preventPaste);
+  inputArea.addEventListener('keypress', handleKeyPress);
 
-  inputArea.addEventListener('keypress', (e) => {
-    if (e.key === 'Enter' && !e.shiftKey) {
-      e.preventDefault();
-      checkSentence();
+  // Initialize button movement functionality
+  initializeMoveButton(closeButton);
+}
+
+// Function to handle closing the overlay
+function handleTryingToClose() {
+  // Replace the current overlay content with Rickroll embed
+  const overlay = document.getElementById("productive-overlay");
+  if (!overlay) return;
+
+  overlay.innerHTML = `
+    <div id="rickroll-overlay-container">
+      <h2>You have been RickRolled!</h2>
+      <div id="rickroll-overlay">
+        <iframe 
+          src="https://www.youtube.com/embed/dQw4w9WgXcQ?autoplay=1&controls=0&loop=1&playlist=dQw4w9WgXcQ" 
+          frameborder="0" 
+          allow="autoplay; encrypted-media" 
+          allowfullscreen
+        ></iframe>
+      </div>
+    </div>
+  `;
+
+  // After the video duration (e.g., 3 minutes 33 seconds), restore the original overlay
+  const videoDuration = 213000; // 213,000 milliseconds = 3 minutes 33 seconds
+  setTimeout(() => {
+    restoreOverlay();
+  }, videoDuration);
+}
+
+// Function to restore the original overlay content
+function restoreOverlay() {
+  const overlay = document.getElementById("productive-overlay");
+  if (!overlay) return;
+
+  // Recreate the overlay content with the same randomSentence
+  overlay.innerHTML = `
+    <div class="overlay-content">
+      <button id="close-overlay" aria-label="Close Overlay">Close</button>
+      <h2>അതൊക്കെ പിന്നെ ചെയ്യാം</h2>
+      <div class="game-container">
+        <div class="target-text">${randomSentence}</div>
+        <textarea class="input-area" placeholder="Type the sentence here..." rows="3"></textarea>
+        <button id="check-button">Check Sentence</button>
+        <div class="error-text"></div>
+        <div class="success-text"></div>
+      </div>
+    </div>
+  `;
+
+  // Re-select elements
+  const newCloseButton = document.getElementById("close-overlay");
+  const newInputArea = overlay.querySelector('.input-area');
+  const newErrorText = overlay.querySelector('.error-text');
+  const newSuccessText = overlay.querySelector('.success-text');
+  const newCheckButton = overlay.querySelector('#check-button');
+
+  // Reattach event listeners
+  newCloseButton.addEventListener("click", handleTryingToClose);
+  newCheckButton.addEventListener('click', checkSentence);
+  newInputArea.addEventListener('paste', preventPaste);
+  newInputArea.addEventListener('keypress', handleKeyPress);
+
+  // Reinitialize the moveButton functionality
+  initializeMoveButton(newCloseButton);
+}
+
+// Function to check the sentence input
+function checkSentence() {
+  const overlay = document.getElementById("productive-overlay");
+  if (!overlay) return;
+
+  const inputArea = overlay.querySelector('.input-area');
+  const errorText = overlay.querySelector('.error-text');
+  const successText = overlay.querySelector('.success-text');
+
+  const userInput = inputArea.value.trim();
+  if (userInput === randomSentence) {
+    successText.textContent = "Okay, എന്നാൽ ചെയ്തോളൂ";
+    errorText.textContent = "";
+    setTimeout(() => {
+      overlay.remove();
+      document.body.style.overflow = '';
+    }, 2000);
+  } else {
+    errorText.textContent = "wrong മച്ചു";
+    successText.textContent = "";
+    const differences = [];
+    for (let i = 0; i < Math.max(userInput.length, randomSentence.length); i++) {
+      if (userInput[i] !== randomSentence[i]) {
+        differences.push(i);
+      }
     }
-  });
-
-  function moveButton() {
-    const overlayContent = overlay.querySelector('.overlay-content');
-    const contentRect = overlayContent.getBoundingClientRect();
-    const buttonRect = closeButton.getBoundingClientRect();
-
-    const maxX = contentRect.width - buttonRect.width - 20;
-    const maxY = contentRect.height - buttonRect.height - 20;
-
-    const randomX = Math.max(0, Math.min(maxX, Math.floor(Math.random() * maxX)));
-    const randomY = Math.max(0, Math.min(maxY, Math.floor(Math.random() * maxY)));
-
-    closeButton.style.transform = `translate(${randomX}px, ${randomY}px)`;
+    if (differences.length > 0) {
+      errorText.textContent += ` Check character position ${differences[0] + 1}.`;
+    }
   }
+}
 
-  const overlayContent = overlay.querySelector('.overlay-content');
+// Function to prevent paste actions in the input area
+function preventPaste(e) {
+  e.preventDefault();
+  const overlay = document.getElementById("productive-overlay");
+  if (!overlay) return;
+  const errorText = overlay.querySelector('.error-text');
+  errorText.textContent = "copy-paste ഒന്നും നടക്കില്ല മോനെ";
+}
+
+// Function to handle Enter key press in the textarea
+function handleKeyPress(e) {
+  if (e.key === 'Enter' && !e.shiftKey) {
+    e.preventDefault();
+    checkSentence();
+  }
+}
+
+// Function to move the close button slightly
+function moveButton(closeButton) {
+  const maxOffset = 120; // Maximum pixels to move
+  const randomOffsetX = Math.floor(Math.random() * (maxOffset * 2 + 1)) - maxOffset; // -10 to +10
+  const randomOffsetY = Math.floor(Math.random() * (maxOffset * 2 + 1)) - maxOffset; // -10 to +10
+  closeButton.style.transform = `translate(${randomOffsetX}px, ${randomOffsetY}px)`;
+}
+
+// Initialize button movement functionality
+function initializeMoveButton(closeButton) {
+  const overlayContent = closeButton.parentElement;
+  if (!overlayContent) return;
+
   overlayContent.addEventListener("mousemove", (e) => {
     const buttonRect = closeButton.getBoundingClientRect();
     const distance = Math.hypot(
@@ -211,30 +335,36 @@ function createOverlay(distractingSites) {
       e.clientY - (buttonRect.top + buttonRect.height / 2)
     );
 
-    if (distance < 100) {
-      moveButton();
+    if (distance < 150) {
+      // 1/10 chance to not move
+      if (Math.random() >= 0.2) {
+        moveButton(closeButton);
+      }
     }
   });
 
-  moveButton();
-
-  closeButton.addEventListener("click", () => {
-    overlay.remove();
-    document.body.style.overflow = '';
-    redirectToRandomSite();
-  });
-
-  setInterval(moveButton, 2000);
+  // Move the button every 5 seconds with a 10% chance to not move
+  setInterval(() => {
+    if (Math.random() >= 0.2) {
+      moveButton(closeButton);
+    }
+  }, 2000);
 }
 
-// Updated checkSiteType function with proper error handling
+// Function to check if the current site is productive
 function checkSiteType() {
   const currentUrl = window.location.href;
 
   // First check if we have storage permission
-  chrome.storage.sync.get(['productiveSites', 'distractingSites'], (data) => {
+  chrome.storage.sync.get(['enabled', 'productiveSites', 'distractingSites'], (data) => {
     if (chrome.runtime.lastError) {
       console.error('Storage permission error:', chrome.runtime.lastError);
+      return;
+    }
+
+    // If not enabled, ensure any existing overlay is removed
+    if (!data.enabled) {
+      removeOverlay();
       return;
     }
 
@@ -242,27 +372,40 @@ function checkSiteType() {
     const distractingSites = data.distractingSites || [];
 
     // Normalize URLs for comparison
-    const normalizedCurrentUrl = new URL(currentUrl).hostname.replace('www.', '');
-    
-    const isProductiveSite = productiveSites.some(site => {
-      const normalizedSite = site.replace('www.', '').replace('http://', '').replace('https://', '');
-      return normalizedCurrentUrl.includes(normalizedSite);
-    });
+    const normalizedCurrentUrl = new URL(currentUrl).hostname.replace('www.', '').toLowerCase();
 
-    const isDistractingSite = distractingSites.some(site => {
-      const normalizedSite = site.replace('www.', '').replace('http://', '').replace('https://', '');
+    const isProductiveSite = productiveSites.some(site => {
+      const normalizedSite = site.replace('www.', '').replace('http://', '').replace('https://', '').toLowerCase();
       return normalizedCurrentUrl.includes(normalizedSite);
     });
 
     if (isProductiveSite) {
       createOverlay(distractingSites);
-    }
-
-    if (isDistractingSite) {
-      alert("You are on a distracting site!");
+    } else {
+      removeOverlay();
     }
   });
 }
 
-// Ensure storage permission is present in manifest.json
+// Function to remove the overlay
+function removeOverlay() {
+  const overlay = document.getElementById("productive-overlay");
+  if (overlay) {
+    overlay.remove();
+    document.body.style.overflow = '';
+  }
+}
+
+// Listen for changes in storage to dynamically enable/disable the overlay
+chrome.storage.onChanged.addListener((changes, area) => {
+  if (area === 'sync' && (changes.enabled || changes.productiveSites || changes.distractingSites)) {
+    checkSiteType();
+  }
+});
+
+// Initial check on page load
 window.addEventListener('load', checkSiteType);
+
+// Also check when the user navigates within the page (for single-page applications)
+window.addEventListener('hashchange', checkSiteType);
+window.addEventListener('popstate', checkSiteType);
