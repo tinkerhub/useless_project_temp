@@ -1,12 +1,31 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
+
 <head>
-  <title>Useless Projects Extension</title>
-  <link rel="stylesheet" href="popup.css">
+  <meta charset="UTF-8">
+  <title>Pinne-Cheyyam</title>
+  <!-- Link to your local Tailwind CSS file -->
+  <script src="../tailwind.js"></script>
 </head>
-<body>
-  <h1>Useless Projects</h1>
-  <button id="start">Start Annoying</button>
+
+<body class="bg-gradient-to-br from-purple-700 to-blue-500 text-white min-h-screen flex items-center justify-center">
+  <div class="w-80 bg-white bg-opacity-10 backdrop-filter backdrop-blur-lg rounded-lg shadow-lg p-6 flex flex-col items-center">
+    <header class="flex flex-col items-center mb-4">
+      <img src="../icons/icon.png" alt="Pinne-Cheyyam Logo" class="w-16 h-16 mb-2">
+      <h1 class="text-2xl font-bold text-yellow-400">Pinne-Cheyyam</h1>
+    </header>
+    <main class="text-center mb-4">
+      <p class="mb-4 text-lg">Stay productive or get distracted!</p>
+      <button id="toggle-extension" class="bg-yellow-400 hover:bg-yellow-500 text-purple-800 font-semibold py-2 px-4 rounded-full transition duration-300">
+        Toggle Distractions
+      </button>
+    </main>
+    <footer>
+      <a href="#" id="options-link" class="text-yellow-300 hover:text-yellow-200 text-sm">Settings</a>
+    </footer>
+  </div>
+
   <script src="popup.js"></script>
 </body>
+
 </html>
