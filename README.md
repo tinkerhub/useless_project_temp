@@ -13,7 +13,7 @@
 - Member 3: G Sreenandhini - LBS Institute of Technology for Women 
 
 ### Project Description
-This is a Mood music player wherein it plays songs NOT based on your mood!
+This is a Mood music player wherein it plays songs NOT based on your mood! It's a very mindful, very cutesy webesite developed for all you cutus out there<3
 
 ### The Problem (that doesn't exist)
 It is very tiring to always have the songs we wanna listen to play for us.
@@ -25,9 +25,14 @@ We created a very efficient website where it plays the songs in contrast to your
 ### Technologies/Components Used
 For Software:
 - HTML
-- [Frameworks used]
-- [Libraries used]
-- [Tools used]
+- CSS
+- JavaScript
+- Tools:
+  Notepad
+  VSC
+  Spotify
+  Google Fonts API
+
 
 For Hardware:
 - [List main components]
