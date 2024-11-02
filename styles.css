@@ -1,0 +1,27 @@
+/*body, html {
+    margin: 0; 
+    height: 100%; 
+}*/
+
+/*#container {
+    height: 100vh;
+    display: flex; 
+    justify-content: center; 
+    align-items: center; 
+}*/
+
+.background {
+    background-color: #ff863e; 
+    height: 100vh; 
+    display: flex; 
+    justify-content: center; 
+    align-items: center; 
+}
+
+.imag1 {
+    height: 40vh; 
+    width: 40vw; 
+    padding: 12px; 
+    max-width: 100%; 
+    height: auto; 
+}
