@@ -5,7 +5,7 @@ def main():
     st.markdown(
         """
         <style>
-        .main { background-image: url('https://images.pexels.com/photos/255379/pexels-photo-255379.jpeg?cs=srgb&dl=pexels-padrinan-255379.jpg&fm=jpg');
+        .main { background-image: url('https://imgur.com/a/4sB6PMc');
                 background-size: cover; }
         </style>
         """, unsafe_allow_html=True
@@ -14,11 +14,12 @@ def main():
     st.title("☕ Spill the Tea ☕")
     st.markdown("Choose an option below:")
     
+    # Use st.query_params() to set parameters
     if st.button("Spill the Tea"):
-        st.experimental_set_query_params(page="spill_tea")
+        st.query_params(page="spill_tea")
         
     if st.button("Get Some Tea"):
-        st.experimental_set_query_params(page="get_tea")
+        st.query_params(page="get_tea")
 
 if __name__ == "__main__":
     main()
