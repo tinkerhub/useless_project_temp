@@ -8,9 +8,8 @@
 
 
 ### Team Members
-- Team Lead: [Name] - [College]
-- Member 2: [Name] - [College]
-- Member 3: [Name] - [College]
+- Team Lead: Akshadha A - CUSAT
+
 
 ### Project Description
 [2-3 lines about what your project does]
@@ -86,10 +85,6 @@ For Hardware:
 # Additional Demos
 [Add any extra demo materials/links]
 
-## Team Contributions
-- [Name 1]: [Specific contributions]
-- [Name 2]: [Specific contributions]
-- [Name 3]: [Specific contributions]
 
 ---
 Made with ❤️ at TinkerHub Useless Projects 
