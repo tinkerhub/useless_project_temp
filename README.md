@@ -1,19 +1,20 @@
 <img width="1280" alt="readme-banner" src="https://github.com/user-attachments/assets/35332e92-44cb-425b-9dff-27bcf1023c6c">
 
-# [Project Name] 🎯
+# Malayali ആണോ? 🎯
 
 
-## Basic Details
-### Team Name: [Name]
+## This dialect website is a playful language tool designed to translate unique Malayalam dialects into widely understood Malayalam, celebrating linguistic diversity by making regional expressions accessible and fun for everyone.
+### Team Name: Group of 3
 
 
 ### Team Members
-- Team Lead: [Name] - [College]
-- Member 2: [Name] - [College]
-- Member 3: [Name] - [College]
+- Team Lead: Muhsina Beegum - Department of computer science
+- Member 2: Abhinandana T U - Department of computer science
+- Member 3: Majida Nasrin - Department of computer science
 
 ### Project Description
 [2-3 lines about what your project does]
+This website is a fun and interactive Malayalam dialect translator that bridges the language gaps across Kerala's districts. It "translates" quirky local expressions, generates memes for a laugh, and even lets users play games to guess dialects, fostering a light-hearted way to celebrate Kerala's linguistic diversity.
 
 ### The Problem (that doesn't exist)
 [What ridiculous problem are you solving?]
