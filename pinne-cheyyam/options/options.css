@@ -1,3 +1,80 @@
+/* General Reset */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+/* Options Page Container */
 body {
   font-family: Arial, sans-serif;
+  background-color: #f0f4f8;
+  color: #333;
+  padding: 20px;
+  max-width: 400px;
+  margin: auto;
+}
+
+h1, h2 {
+  color: #176B87;
+  font-weight: normal;
+  margin-bottom: 10px;
+}
+
+h2 {
+  font-size: 1.1rem;
+  margin-top: 20px;
+}
+
+/* Input and Button */
+input[type="text"] {
+  width: 80%;
+  padding: 8px;
+  margin-top: 5px;
+  margin-bottom: 10px;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+}
+
+button {
+  background-color: #176B87;
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  padding: 8px 15px;
+  font-size: 0.9rem;
+  cursor: pointer;
+  transition: background-color 0.3s;
+  margin-left: 5px;
+}
+
+button:hover {
+  background-color: #64CCC5;
+}
+
+button:active {
+  background-color: #04364A;
+}
+
+/* List of Sites */
+ul {
+  list-style: none;
+  padding: 0;
+}
+
+li {
+  background-color: #ffffff;
+  border: 1px solid #ddd;
+  padding: 8px;
+  margin-bottom: 5px;
+  border-radius: 5px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+li button {
+  padding: 5px 10px;
+  font-size: 0.8rem;
+  margin: 0;
 }
