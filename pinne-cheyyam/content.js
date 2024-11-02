@@ -1,11 +1,9 @@
-
 // Declare randomSentence globally to maintain its value across overlay restorations
 let randomSentence = "";
 
 // Function to inject CSS styles
 function injectStyles() {
-  // Avoid injecting styles multiple times
-  if (document.getElementById("pinnecheyyam-styles")) return;
+  if (document.getElementById("pinnecheyyam-styles")) return; // Avoid injecting styles multiple times
 
   const style = document.createElement("style");
   style.id = "pinnecheyyam-styles";
@@ -105,7 +103,7 @@ function injectStyles() {
       left: 0;
       width: 100%;
       height: 100%;
-      background-color: none; /* Outer container with white background */
+      background-color: none;
       display: flex;
       flex-direction: column;
       justify-content: center;
@@ -142,11 +140,9 @@ function injectStyles() {
 
 // Function to create the main productive overlay
 function createOverlay(distractingSites) {
-  // Check if the overlay already exists
-  if (document.getElementById("productive-overlay")) return;
+  if (document.getElementById("productive-overlay")) return; // Avoid duplicate overlay creation
 
-  // Inject necessary CSS styles for the overlay
-  injectStyles();
+  injectStyles(); // Inject necessary CSS styles for the overlay
 
   // List of challenging sentences
   const sentences = [
@@ -180,11 +176,9 @@ function createOverlay(distractingSites) {
     "Why did the programmer quit his job? Because he didn't get arrays.",
     "Talk is cheap? Have you ever talked to a lawyer?",
     "I’m a big fan of whiteboards. They’re re-markable!"
-];
+  ];
 
-
-  // Choose a random sentence and assign globally
-  randomSentence = sentences[Math.floor(Math.random() * sentences.length)];
+  randomSentence = sentences[Math.floor(Math.random() * sentences.length)]; // Choose a random sentence
 
   // Create the overlay div with the content
   const overlay = document.createElement("div");
@@ -206,26 +200,26 @@ function createOverlay(distractingSites) {
   document.body.appendChild(overlay);
   document.body.style.overflow = 'hidden';
 
-  // Select elements
+  // Attach event listeners for interactions
+  document.getElementById("close-overlay").addEventListener("click", handleTryingToClose);
+  document.getElementById("check-button").addEventListener('click', checkSentence);
+
   const closeButton = document.getElementById("close-overlay");
   const inputArea = overlay.querySelector('.input-area');
   const errorText = overlay.querySelector('.error-text');
   const successText = overlay.querySelector('.success-text');
   const checkButton = overlay.querySelector('#check-button');
 
-  // Attach event listeners
   closeButton.addEventListener("click", handleTryingToClose);
   checkButton.addEventListener('click', checkSentence);
   inputArea.addEventListener('paste', preventPaste);
   inputArea.addEventListener('keypress', handleKeyPress);
 
-  // Initialize button movement functionality
-  initializeMoveButton(closeButton);
+  initializeMoveButton(closeButton); // Initialize button movement functionality
 }
 
 // Function to handle closing the overlay
 function handleTryingToClose() {
-  // Replace the current overlay content with Rickroll embed
   const overlay = document.getElementById("productive-overlay");
   if (!overlay) return;
 
@@ -243,8 +237,7 @@ function handleTryingToClose() {
     </div>
   `;
 
-  // After the video duration (e.g., 3 minutes 33 seconds), restore the original overlay
-  const videoDuration = 213000; // 213,000 milliseconds = 3 minutes 33 seconds
+  const videoDuration = 213000; // Restore after 3 minutes and 33 seconds
   setTimeout(() => {
     restoreOverlay();
   }, videoDuration);
@@ -338,9 +331,9 @@ function handleKeyPress(e) {
 
 // Function to move the close button slightly
 function moveButton(closeButton) {
-  const maxOffset = 120; // Maximum pixels to move
-  const randomOffsetX = Math.floor(Math.random() * (maxOffset * 2 + 1)) - maxOffset; // -10 to +10
-  const randomOffsetY = Math.floor(Math.random() * (maxOffset * 2 + 1)) - maxOffset; // -10 to +10
+  const maxOffset = 120;
+  const randomOffsetX = Math.floor(Math.random() * (maxOffset * 2 + 1)) - maxOffset;
+  const randomOffsetY = Math.floor(Math.random() * (maxOffset * 2 + 1)) - maxOffset;
   closeButton.style.transform = `translate(${randomOffsetX}px, ${randomOffsetY}px)`;
 }
 
@@ -356,19 +349,13 @@ function initializeMoveButton(closeButton) {
       e.clientY - (buttonRect.top + buttonRect.height / 2)
     );
 
-    if (distance < 150) {
-      // 1/10 chance to not move
-      if (Math.random() >= 0.2) {
-        moveButton(closeButton);
-      }
+    if (distance < 150 && Math.random() >= 0.2) {
+      moveButton(closeButton);
     }
   });
 
-  // Move the button every 5 seconds with a 10% chance to not move
   setInterval(() => {
-    if (Math.random() >= 0.2) {
-      moveButton(closeButton);
-    }
+    if (Math.random() >= 0.2) moveButton(closeButton);
   }, 2000);
 }
 
@@ -376,14 +363,12 @@ function initializeMoveButton(closeButton) {
 function checkSiteType() {
   const currentUrl = window.location.href;
 
-  // First check if we have storage permission
   chrome.storage.sync.get(['enabled', 'productiveSites', 'distractingSites'], (data) => {
     if (chrome.runtime.lastError) {
       console.error('Storage permission error:', chrome.runtime.lastError);
       return;
     }
 
-    // If not enabled, ensure any existing overlay is removed
     if (!data.enabled) {
       removeOverlay();
       return;
@@ -391,8 +376,6 @@ function checkSiteType() {
 
     const productiveSites = data.productiveSites || [];
     const distractingSites = data.distractingSites || [];
-
-    // Normalize URLs for comparison
     const normalizedCurrentUrl = new URL(currentUrl).hostname.replace('www.', '').toLowerCase();
 
     const isProductiveSite = productiveSites.some(site => {
@@ -400,11 +383,8 @@ function checkSiteType() {
       return normalizedCurrentUrl.includes(normalizedSite);
     });
 
-    if (isProductiveSite) {
-      createOverlay(distractingSites);
-    } else {
-      removeOverlay();
-    }
+    if (isProductiveSite) createOverlay(distractingSites);
+    else removeOverlay();
   });
 }
 
@@ -417,16 +397,19 @@ function removeOverlay() {
   }
 }
 
-// Listen for changes in storage to dynamically enable/disable the overlay
+// Listener for storage changes
 chrome.storage.onChanged.addListener((changes, area) => {
   if (area === 'sync' && (changes.enabled || changes.productiveSites || changes.distractingSites)) {
     checkSiteType();
   }
 });
 
-// Initial check on page load
-window.addEventListener('load', checkSiteType);
+// Listen for messages from background.js
+chrome.runtime.onMessage.addListener((message) => {
+  if (message.type === 'TRIGGER_DISTRACTION') createOverlay();
+});
 
-// Also check when the user navigates within the page (for single-page applications)
+// Initial page load and navigation checks
+window.addEventListener('load', checkSiteType);
 window.addEventListener('hashchange', checkSiteType);
 window.addEventListener('popstate', checkSiteType);

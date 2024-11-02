@@ -2,50 +2,64 @@ chrome.runtime.onInstalled.addListener(() => {
   console.log('Pinne-Cheyyam Extension installed.');
 });
 
-// Listen for messages from popup.js
+// Listen for messages from popup.js to toggle the monitoring state
 chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
   if (message.type === 'TOGGLE_ENABLED') {
     const isEnabled = message.enabled;
     console.log(`Distractions enabled: ${isEnabled}`);
 
     if (isEnabled) {
-      // Start monitoring productive sites
-      startMonitoring();
+      startMonitoring(); // Start monitoring with random intervals
     } else {
-      // Stop monitoring productive sites
-      stopMonitoring();
+      stopMonitoring(); // Stop monitoring
     }
   }
 });
 
-// Variables to manage monitoring
+// Variable to manage the random delay interval
 let monitoringInterval = null;
+const MAX_DELAY_SECONDS = 30; // Set your max delay (x) in seconds here
 
-// Function to start monitoring productive sites
+// Function to generate a random interval in milliseconds
+function getRandomInterval() {
+  return Math.floor(Math.random() * MAX_DELAY_SECONDS * 1000);
+}
+
+// Function to start monitoring productive sites with a random delay
 function startMonitoring() {
   if (monitoringInterval) return; // Already monitoring
 
-  monitoringInterval = setInterval(() => {
-    monitorActiveTab();
-  }, 1000); // Check every second
+  scheduleNextDistraction(); // Start the first randomized interval
 }
 
-// Function to stop monitoring productive sites
+// Function to stop monitoring
 function stopMonitoring() {
   if (monitoringInterval) {
-    clearInterval(monitoringInterval);
+    clearTimeout(monitoringInterval);
     monitoringInterval = null;
   }
 }
 
-// Function to monitor the active tab
+// Function to schedule the next distraction after a random delay
+function scheduleNextDistraction() {
+  if (monitoringInterval) clearTimeout(monitoringInterval);
+
+  const delay = getRandomInterval();
+  console.log(`Next distraction in ${delay / 1000} seconds`);
+
+  monitoringInterval = setTimeout(() => {
+    monitorActiveTab(); // Trigger the distraction check
+    scheduleNextDistraction(); // Schedule the next one
+  }, delay);
+}
+
+// Function to monitor the active tab and check if it's a productive site
 function monitorActiveTab() {
   chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
     if (tabs.length === 0) return;
     const activeTab = tabs[0];
     const url = activeTab.url;
 
-    // Retrieve the site lists from storage
     chrome.storage.sync.get(['productiveSites', 'distractingSites'], (data) => {
       const productiveSites = data.productiveSites || [];
       const distractingSites = data.distractingSites || [];
