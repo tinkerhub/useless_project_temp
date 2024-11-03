@@ -15,9 +15,9 @@ function Main() {
       [name]: value,
     }));
   };
-
-  const getRecommendation = async () => {
-    const response = await fetch("http://127.0.0.1:8000/recommendation/", {
+const getRecommendation = async () => {
+  try {
+    const response = await fetch("https://your-backend.onrender.com/recommendation/", {  // replace with actual backend URL
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -34,7 +34,11 @@ function Main() {
     } else {
       console.error("Error fetching recommendations:", response.statusText);
     }
-  };
+  } catch (error) {
+    console.error("An error occurred:", error);
+  }
+};
+
 
   useEffect(() => {
     const timer = setTimeout(() => {
