@@ -10,7 +10,7 @@ const Results = () => {
     const fetchRecommendations = async () => {
       try {
         // Replace with your backend API URL
-        const response = await fetch('https://your-backend.onrender.com/api/recommendations');
+        const response = await fetch('https://antialgo-backend.onrender.com/');
         
         if (!response.ok) {
           throw new Error('Network response was not ok');
