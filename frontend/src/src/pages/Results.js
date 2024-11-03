@@ -1,84 +1,57 @@
-import React, { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
-import "./Main.css";
+import React from 'react';
+import { useLocation } from 'react-router-dom';
+import './Results.css';
 
-function Main() {
-  const navigate = useNavigate();
-  const [favorites, setFavorites] = useState({ movies: "", books: "" });
-  const [isVisible, setIsVisible] = useState(false);
+const Results = () => {
+  const location = useLocation();
+  
+  const { recommendations = { movies: [], books: [] } } = location.state || {};
+//   const { recommendations } = location.state || { recommendations: { movies: [], books: [] } };
 
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-    setFavorites((prevFavorites) => ({
-      ...prevFavorites,
-      [name]: value,
-    }));
-  };
-
-  const getRecommendation = async () => {
-    try {
-      const response = await fetch("https://antialgo-backend.onrender.com/api/recommendations", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          movie_genre: favorites.movies,
-          book_genre: favorites.books,
-        }),
-      });
-
-      if (response.ok) {
-        const data = await response.json();
-        navigate("/results", { state: { recommendations: data } });
-      } else {
-        console.error("Error fetching recommendations:", response.statusText);
-      }
-    } catch (error) {
-      console.error("An error occurred:", error);
-    }
-  };
-
-  useEffect(() => {
-    const timer = setTimeout(() => {
-      setIsVisible(true);
-    }, 500);
-
-    return () => clearTimeout(timer);
-  }, []);
 
   return (
-    <div className="main-page">
-      <header className="hero">
-        <div className={`slide-in ${isVisible ? "visible" : ""}`}>
-          <h1>Welcome to The Anti-Algorithm !!!</h1>
-          <p>Your reverse recommendation experience!</p>
+    <div className="results-page">
+      <h1 style={{ color: 'white' }}>And.....Here are the Results !</h1>
+      <div className='circular-container'>
+      <div className="recommendations">
+        
+        <h2 style={{ color: 'white' }}>Recommended Movies</h2>
+        <div className="recommended-items">
+          {recommendations.movies && recommendations.movies.length > 0 ? (
+            recommendations.movies.map((movie, index) => (
+              <div className="item" key={index}>
+                <img src={movie.movie_img || '../assets/default-movie.jpg'} alt={movie.movie_name} />
+                <p><strong>Title :</strong> {movie.movie_name}</p>
+                <p><strong>Director :</strong> {movie.movie_director}</p>
+                <p><strong>Cast :</strong> {movie.movie_cast}</p>
+                <p><strong>Year of Release :</strong> {movie.movie_yor}</p>
+              </div>
+            ))
+          ) : (
+            <p style={{ color: 'white' }}>No movie recommendations found.</p>
+          )}
         </div>
-      </header>
-      <div className="input-section">
-        <h2>Enter Your Favourite Genres</h2>
-        <input
-          type="text"
-          name="movies"
-          placeholder="Favourite Movie Genre"
-          value={favorites.movies}
-          onChange={handleChange}
-          className="input-field"
-        />
-        <input
-          type="text"
-          name="books"
-          placeholder="Favourite Book Genre"
-          value={favorites.books}
-          onChange={handleChange}
-          className="input-field"
-        />
-        <button onClick={getRecommendation} className="btn-surprise">
-          Surprise Me!
-        </button>
+
+        <h2 style={{ color: 'white' }}>Recommended Books</h2>
+        <div className="recommended-items">
+          {recommendations.books && recommendations.books.length > 0 ? (
+            recommendations.books.map((book, index) => (
+              <div className="item" key={index}>
+                <img src={book.book_img || '../assets/default-book.jpg'} alt={book.book_name} />
+                <p><strong>Title :</strong> {book.book_name}</p>
+                <p><strong>Author :</strong> {book.book_author}</p>
+                <p><strong>Publisher :</strong> {book.book_publisher}</p>
+                <p><strong>Year of Release :</strong> {book.book_yor}</p>
+              </div>
+            ))
+          ) : (
+            <p style={{ color: 'white' }}>No book recommendations found.</p>
+          )}
+          </div>
+        </div>
       </div>
     </div>
   );
-}
+};
 
-export default Main;
+export default Results;
