@@ -39,7 +39,6 @@ pycodestyle==2.12.1
 pycparser==2.22
 pycryptodome==3.20.0
 pyflakes==3.2.0
-pygame==2.1.2
 Pygments==2.18.0
 python-dateutil==2.9.0.post0
 pytz==2024.1
