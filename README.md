@@ -8,6 +8,8 @@
 
 ### Team Members
 
+- Akshadha A - CUSAT
+
 - Member: Akshadha A - CUSAT
 
 ### Project Description
@@ -34,23 +36,21 @@ For Software:
 - Libraries used : SQLAlchemy (for database ORM), SQLite (database)
 - Tools used : Uvicorn (for running FastAPI server), JSON or external APIs for random items
 
-For Hardware:
-
-- [List main components]
-- [List specifications]
-- [List tools required]
-
 ### Implementation
 
 For Software:
 
 # Installation
 
-[commands]
+pip install fastapi uvicorn sqlalchemy
+
+pip install flake8 black
+
+pip install requests
 
 # Run
 
-[commands]
+uvicorn main:app --reload
 
 ### Project Documentation
 
@@ -71,16 +71,6 @@ _Add caption explaining what this shows_
 
 ![Workflow](Add your workflow/architecture diagram here)
 _Add caption explaining your workflow_
-
-For Hardware:
-
-# Schematic & Circuit
-
-![Circuit](Add your circuit diagram here)
-_Add caption explaining connections_
-
-![Schematic](Add your schematic diagram here)
-_Add caption explaining the schematic_
 
 # Build Photos
 
