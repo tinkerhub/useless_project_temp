@@ -17,7 +17,7 @@ function Main() {
   };
 const getRecommendation = async () => {
   try {
-    const response = await fetch("https://your-backend.onrender.com/recommendation/", {  // replace with actual backend URL
+    const response = await fetch("https://antialgo-backend.onrender.com", {  
       method: "POST",
       headers: {
         "Content-Type": "application/json",
