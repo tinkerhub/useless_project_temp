@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from 'react';
-import axios from 'axios';
 import './Results.css';
 
 const Results = () => {
@@ -11,8 +10,14 @@ const Results = () => {
     const fetchRecommendations = async () => {
       try {
         // Replace with your backend API URL
-        const response = await axios.get('https://your-backend.onrender.com/api/recommendations');
-        setRecommendations(response.data);
+        const response = await fetch('https://your-backend.onrender.com/api/recommendations');
+        
+        if (!response.ok) {
+          throw new Error('Network response was not ok');
+        }
+
+        const data = await response.json();
+        setRecommendations(data);
       } catch (err) {
         setError('Failed to load recommendations');
       } finally {
@@ -46,28 +51,4 @@ const Results = () => {
             ) : (
               <p style={{ color: 'white' }}>No movie recommendations found.</p>
             )}
-          </div>
-
-          <h2 style={{ color: 'white' }}>Recommended Books</h2>
-          <div className="recommended-items">
-            {recommendations.books.length > 0 ? (
-              recommendations.books.map((book, index) => (
-                <div className="item" key={index}>
-                  <img src={book.book_img || '../assets/default-book.jpg'} alt={book.book_name} />
-                  <p><strong>Title :</strong> {book.book_name}</p>
-                  <p><strong>Author :</strong> {book.book_author}</p>
-                  <p><strong>Publisher :</strong> {book.book_publisher}</p>
-                  <p><strong>Year of Release :</strong> {book.book_yor}</p>
-                </div>
-              ))
-            ) : (
-              <p style={{ color: 'white' }}>No book recommendations found.</p>
-            )}
-          </div>
-        </div>
-      </div>
-    </div>
-  );
-};
-
-export default Results;
+   
