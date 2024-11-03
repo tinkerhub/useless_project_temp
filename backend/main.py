@@ -28,6 +28,9 @@ genre_opposites = {
     "Drama" : "Thriller"
     # Add more genres as needed
 }
+@app.get("/")
+def read_root():
+    return {"message": "API is live!"}
 
 # Dependency to get the database session
 def get_db():
