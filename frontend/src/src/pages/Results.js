@@ -1,40 +1,15 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
+import { useLocation } from 'react-router-dom';
 import './Results.css';
 
 const Results = () => {
-  const [recommendations, setRecommendations] = useState({ movies: [], books: [] });
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
-
-  useEffect(() => {
-    const fetchRecommendations = async () => {
-      try {
-        // Replace with your backend API URL
-        const response = await fetch('https://your-backend.onrender.com/api/recommendations');
-        
-        if (!response.ok) {
-          throw new Error('Network response was not ok');
-        }
-
-        const data = await response.json();
-        setRecommendations(data);
-      } catch (err) {
-        setError('Failed to load recommendations');
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchRecommendations();
-  }, []);
-
-  if (loading) return <p style={{ color: 'white' }}>Loading recommendations...</p>;
-  if (error) return <p style={{ color: 'white' }}>{error}</p>;
+  const location = useLocation();
+  const recommendations = location.state?.recommendations || { movies: [], books: [] };
 
   return (
     <div className="results-page">
       <h1 style={{ color: 'white' }}>And.....Here are the Results !</h1>
-      <div className='circular-container'>
+      <div className="circular-container">
         <div className="recommendations">
           <h2 style={{ color: 'white' }}>Recommended Movies</h2>
           <div className="recommended-items">
