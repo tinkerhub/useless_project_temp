@@ -74,7 +74,7 @@ To run this project, follow these steps:
 
 
 ## Team Contributions
-- Richard Reji: Thinked in god level and found the bomblastic idea! [+10,000 aura]
+- Richard Reji: Thought on god level and found the bomblastic idea! [+10,000 aura]
 - Abhishek Sunil: Used his gifted coding skills and found the algorthim.coded using tkinter[+16,269 aura]
 - Gourav K: Bro watched and chilled(ha ha jk!)....bro modified the code using Customtkinter and made the UI more modern[+6969 aura]
 
