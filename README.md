@@ -1,97 +1,56 @@
 <img width="1280" alt="readme-banner" src="https://github.com/user-attachments/assets/35332e92-44cb-425b-9dff-27bcf1023c6c">
 
-# [Project Name] 🎯
+# [Auto Charging System] 🎯
 
 
 ## Basic Details
-### Team Name: [Name]
+### Team Name: [Techiees]
 
 
 ### Team Members
-- Team Lead: [Name] - [College]
-- Member 2: [Name] - [College]
-- Member 3: [Name] - [College]
+- Team Lead: [Nihal M] - [College of Engineering Munnar]
+- Member 2: [Blesson Prince] - [College of Engineering Munnar]
+
 
 ### Project Description
-[2-3 lines about what your project does]
+Our project will help you to automatically turn on the switches whenever you plug in your charger. The main objective of our project is to ensure you never forget to turn on the switch when charging your phone.
 
 ### The Problem (that doesn't exist)
-[What ridiculous problem are you solving?]
+Always forgot to turn on switch while charging mobile phone.
 
 ### The Solution (that nobody asked for)
-[How are you solving it? Keep it fun!]
+We added a infrared sensor in the switch board which senses the objects infront of it , so that whenever we plug in our charger it will detect and turn on the switch.
 
 ## Technical Details
 ### Technologies/Components Used
-For Software:
-- [Languages used]
-- [Frameworks used]
-- [Libraries used]
-- [Tools used]
 
 For Hardware:
-- [List main components]
-- [List specifications]
-- [List tools required]
+List main components
 
-### Implementation
-For Software:
-# Installation
-[commands]
-
-# Run
-[commands]
+Infrared sensor,
+5V relay,
+bc547 Transistor,
+220 ohm Resistor,
+1N4007 Diode,
+Ac to Dc Convertor.
 
 ### Project Documentation
-For Software:
-
-# Screenshots (Add at least 3)
-![Screenshot1](Add screenshot 1 here with proper name)
-*Add caption explaining what this shows*
-
-![Screenshot2](Add screenshot 2 here with proper name)
-*Add caption explaining what this shows*
-
-![Screenshot3](Add screenshot 3 here with proper name)
-*Add caption explaining what this shows*
-
-# Diagrams
-![Workflow](Add your workflow/architecture diagram here)
-*Add caption explaining your workflow*
-
 For Hardware:
 
-# Schematic & Circuit
-![Circuit](Add your circuit diagram here)
-*Add caption explaining connections*
-
-![Schematic](Add your schematic diagram here)
-*Add caption explaining the schematic*
-
 # Build Photos
-![Components](Add photo of your components here)
-*List out all components shown*
+![feem_f0bc5a027ee96_IMG20241103104739](https://github.com/user-attachments/assets/50fd0192-54de-4fba-85ec-67d1f0ee888a)
 
-![Build](Add photos of build process here)
-*Explain the build steps*
-
-![Final](Add photo of final product here)
-*Explain the final build*
+![feem_f0bc5a027ee96_IMG20241103104747](https://github.com/user-attachments/assets/1d33b1fe-9268-4eed-8f9e-f295bbdb427c)
 
 ### Project Demo
 # Video
-[Add your demo video link here]
-*Explain what the video demonstrates*
+https://drive.google.com/file/d/1bIsUJJLIHY2uLyRAomXbm1wbS3l1Of65/view?usp=sharing
 
 # Additional Demos
-[Add any extra demo materials/links]
+![Screenshot 2024-11-03 080728](https://github.com/user-attachments/assets/20324def-103f-4f72-a681-228cc4ff6089)
+this is the 3d model for normal chargers for extending the length for getting the sensor work properly
 
-## Team Contributions
-- [Name 1]: [Specific contributions]
-- [Name 2]: [Specific contributions]
-- [Name 3]: [Specific contributions]
 
----
 Made with ❤️ at TinkerHub Useless Projects 
 
 ![Static Badge](https://img.shields.io/badge/TinkerHub-24?color=%23000000&link=https%3A%2F%2Fwww.tinkerhub.org%2F)
