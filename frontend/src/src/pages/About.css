@@ -1,0 +1,64 @@
+.back-arrow {
+    position: absolute;
+    top: 20px;
+    left: 20px;
+    text-decoration: none;
+    color: #034892;
+    font-size: 16px;
+    font-weight: 500;
+}
+
+.back-arrow:hover {
+    text-decoration: underline;
+}
+
+.about-container {
+    display: flex;
+    justify-content: space-between; /* Space between text and image */
+    align-items: center; /* Center align items vertically */
+    padding: 30px; /* Padding around the container */
+    position: relative;
+}
+.text-box {
+    background-color: #f4f4f8;
+    padding: 20px;
+    margin-top: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    max-width: 75%; /* Reduced width for better image visibility */
+    animation: slideUp 0.75s ease forwards;
+    cursor: pointer;
+    
+}
+/* .text-box:hover{
+    transform: scale(2, 0.5);
+    transform-origin: left;
+} */
+.text-box.scale-effect:hover {
+    transform: scale(1.1); /* Slight zoom-in on hover */
+}
+.about-text {
+    flex: 1; /* Allow text to take up available space */
+    margin-right: 20px; /* Space between text and image */
+}
+.content-wrapper {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    gap: 15px; /* Space between images */
+    flex: 1;
+    max-width: 40%;
+    width: 60%;
+}
+.about-image {
+    width: 80%;
+    border-radius: 15px;
+    transition: transform 0.3s ease;
+    animation: slideUp 0.75s ease forwards;
+    margin-bottom: 20px; /* Space below each image */
+}
+
+.about-image.scale-effect:hover {
+    transform: scale(1.1); /* Slight zoom-in on hover */
+}

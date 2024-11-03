@@ -1,0 +1,34 @@
+.hero-mid {
+    position: relative;
+    width: 100%; /* Make it responsive */
+    height: auto; /* Auto height based on the content */
+    overflow: hidden; /* Hide overflow if the image is too large */
+}
+
+.hero-mid img {
+    width: 100%; /* Make the image responsive */
+    height: auto; /* Maintain aspect ratio */
+}
+
+.hero-mid h1 {
+    font-size: 2.5em; /* Adjust as needed */
+    margin: 20px 0; /* Space around the title */
+}
+
+.hero-mid p {
+    font-size: 1.2em; /* Adjust as needed */
+    margin: 10px 0; /* Space around the paragraph */
+}
+
+.hero-mid button {
+    padding: 10px 20px; /* Size of the button */
+    font-size: 1em; /* Font size */
+    border: none; /* No border */
+    background-color: #007BFF; /* Button color */
+    color: white; /* Button text color */
+    cursor: pointer; /* Pointer on hover */
+}
+
+.hero-mid button:hover {
+    background-color: #0056b3; /* Darker shade on hover */
+}

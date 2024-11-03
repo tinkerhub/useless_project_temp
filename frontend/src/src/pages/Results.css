@@ -1,0 +1,51 @@
+
+.results-page {
+    background-color: black;
+    min-height: 100vh; /* Make the page take full height */
+    color: white;
+    padding: 20px;
+}
+
+.favorites {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 30px; /* Space between favorites and recommendations */
+}
+
+.favorites-content p {
+    margin: 0; /* Remove default margin */
+}
+
+.recommendations {
+    margin-top: 20px; /* Space above recommendations */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    animation: fadeIn 1s ease-in forwards;
+}
+
+.recommended-items {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px; /* Space between items */
+    justify-content: center; /* Centers items horizontally */
+    animation: fadeIn 1s ease-in forwards;
+}
+
+.item {
+    margin: 10px;
+    text-align: center;
+}
+
+.item img {
+    width: 200px; /* Adjust size as needed */
+    height: auto; /* Maintain aspect ratio */
+    border-radius: 10px; /* Optional: smoothen corners */
+    cursor: pointer; /* Show pointer on hover */
+    transition: transform 0.3s; /* Add scaling effect on hover */
+    animation: fadeIn 2s ease-in forwards;
+}
+
+.item img:hover {
+    transform: scale(1.1); /* Scale image on hover */
+}

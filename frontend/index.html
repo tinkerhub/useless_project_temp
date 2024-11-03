@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Anti-Algorithm</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <h1>Reverse Recommendation System</h1>
+    <form id="recommendation-form">
+        <label for="movies">Favorite Movies:</label>
+        <input type="text" id="movies" name="movies" required>
+        <br>
+        <label for="books">Favorite Books:</label>
+        <input type="text" id="books" name="books" required>
+        <br>
+        <button type="submit">Get Recommendations</button>
+    </form>
+
+    <div id="results"></div>
+
+    <script>
+        document.getElementById('recommendation-form').addEventListener('submit', async function (event) {
+            event.preventDefault();
+
+            const movies = document.getElementById('movies').value.split(',').map(m => m.trim());
+            const books = document.getElementById('books').value.split(',').map(b => b.trim());
+
+            const response = await fetch('http://127.0.0.1:8000/recommendation/', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    favorite_movies: movies,
+                    favorite_books: books
+                })
+            });
+
+            const data = await response.json();
+            document.getElementById('results').innerText = `Movies Recommendation: ${data.movies_recommendation}, Books Recommendation: ${data.books_recommendation}`;
+        });
+    </script>
+</body>
+</html>

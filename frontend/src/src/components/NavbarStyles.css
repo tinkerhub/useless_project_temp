@@ -1,0 +1,93 @@
+@import url('https://fonts.googleapis.com/css2?family=Nunito:wght@400;600&display=swap');
+.NavbarItems {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 65px;
+    box-shadow: 0 10px 10px 0 rgba(0, 0, 0, 0.25);
+    width: 90%;
+    height: 60px;
+    border-radius: 13px;
+  }
+  .navbar-logo {
+    display: flex;
+    align-items: center;
+    color: #222;
+    font-size: 2rem;
+    cursor: pointer;
+    padding: 0;
+  }
+  .navbar-logo-img{
+    background-image: url('../assets/antialgo.jpg');
+    background-size: contain; /* or cover, depending on your preference */
+    background-repeat: no-repeat; /* Prevents the image from repeating */
+    display: inline-block; /* Allows the background image to show */
+    width: 90px; /* Set a width based on your logo's dimensions */
+    height: 50px; 
+    margin-right: 0;
+
+  }
+  .nav-menu {
+    display: flex;
+    grid-template-columns: repeat(6, auto);
+    grid-gap: 65px;
+    justify-content: flex-end;
+    list-style: none;
+    align-items: center;
+    margin-left: auto;
+  }
+  .nav-links {
+    text-decoration: none;
+    
+    color: #222;
+    font-size: 1.1rem;
+    font-weight: 660;
+    font-family: 'Segoe UI', sans-serif;
+    padding: 0.7rem 3rem;
+    white-space: nowrap;
+    white-space: space;
+  }
+  .nav-links i {
+    justify-content: space-between;
+    padding-right: 30px;
+  }
+  .nav-links:hover {
+    background-color: #4e006f;
+    color: #fff;
+    border-radius: 4px;
+    transition: all 0.2s ease-in-out;
+  }
+  .nav-links-mobile {
+    display: none;
+  }
+  button1 {
+    padding: 0.2rem 0.8rem;
+    white-space: nowrap;
+    border-radius: 0.2rem;
+    font-size: 1.2rem;
+    font-weight: 800;
+    border: none;
+    cursor: pointer;
+    transition: 0.2s ease-in-out;
+    align-items: center;
+  }
+  button1:hover {
+    background-color: #151516;
+    color: #fff;
+  }
+  button2 {
+    padding: 0.2rem 0.8rem;
+    white-space: nowrap;
+    border-radius: 0.2rem;
+    font-size: 1.2rem;
+    font-weight: 800;
+    border: none;
+    cursor: pointer;
+    transition: 0.2s ease-in-out;
+    align-items: center;
+  }
+  button2:hover {
+    background-color: #151516;
+    color: #fff;
+  }
+  
