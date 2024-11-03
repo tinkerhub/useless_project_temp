@@ -58,14 +58,17 @@ For Software:
 
 # Screenshots (Add at least 3)
 
-![Screenshot1](Add screenshot 1 here with proper name)
-_Add caption explaining what this shows_
+![Screenshot1] MainPage : User inputs their favourite genres
+![image](https://github.com/user-attachments/assets/29c545ad-9da2-41e4-940e-8d4b994a59a8)
 
-![Screenshot2](Add screenshot 2 here with proper name)
-_Add caption explaining what this shows_
 
-![Screenshot3](Add screenshot 3 here with proper name)
-_Add caption explaining what this shows_
+![Screenshot2] ResultPage : Recommended movies
+![image](https://github.com/user-attachments/assets/f945b405-f287-497a-a6c9-9bd358ab814f)
+
+
+![Screenshot3] ResultPage : Recommended books
+![image](https://github.com/user-attachments/assets/e925f8df-f067-4c9a-bfbb-4d81ab83aee4)
+
 
 # Diagrams
 
