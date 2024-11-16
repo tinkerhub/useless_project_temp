@@ -58,40 +58,23 @@ For Software:
 
 # Screenshots (Add at least 3)
 
-![Screenshot1] MainPage : User inputs their favourite genres
+[Screenshot1] MainPage : User inputs their favourite genres
 ![image](https://github.com/user-attachments/assets/29c545ad-9da2-41e4-940e-8d4b994a59a8)
 
 
-![Screenshot2] ResultPage : Recommended movies
+[Screenshot2] ResultPage : Recommended movies
 ![image](https://github.com/user-attachments/assets/f945b405-f287-497a-a6c9-9bd358ab814f)
 
 
-![Screenshot3] ResultPage : Recommended books
+[Screenshot3] ResultPage : Recommended books
 ![image](https://github.com/user-attachments/assets/e925f8df-f067-4c9a-bfbb-4d81ab83aee4)
 
 
-# Diagrams
-
-![Workflow](Add your workflow/architecture diagram here)
-_Add caption explaining your workflow_
-
-# Build Photos
-
-![Components](Add photo of your components here)
-_List out all components shown_
-
-![Build](Add photos of build process here)
-_Explain the build steps_
-
-![Final](Add photo of final product here)
-_Explain the final build_
 
 ### Project Demo
 
 # Video
-
-[Add your demo video link here]
-_Explain what the video demonstrates_
+[https://drive.google.com/file/d/1rud9x6Ux8B3r4jPk66y1L0Wi2tkDmTC4/view?usp=drive_link](url)
 
 # Additional Demos
 
