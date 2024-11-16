@@ -9,8 +9,8 @@
 
 
 ### Team Members
-- Team Lead: Richard Reji - Government College of Engineering,Parassinikadavu
-- Member 2: Abhishek Sunil - Government College of Engineering,Parassinikadavu
+- Team Lead: Abhishek Sunil - Government College of Engineering,Parassinikadavu
+- Member 2: Richard Reji - Government College of Engineering,Parassinikadavu
 - Member 3: Gourav K - Government College of Engineering,Parassinikadavu
 
 ### Project Description
