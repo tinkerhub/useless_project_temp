@@ -12,6 +12,9 @@
 - Member 2: [Name] - [College]
 - Member 3: [Name] - [College]
 
+### Hosted Project Link
+[mention your project hosted project link here]
+
 ### Project Description
 [2-3 lines about what your project does]
 
