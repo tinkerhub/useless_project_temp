@@ -5,13 +5,12 @@
 
 
 ## Basic Details
-### Team Name: [Name]
+### Team Name: techNOLOGIC
 
 
 ### Team Members
-- Team Lead: [Name] - [College]
-- Member 2: [Name] - [College]
-- Member 3: [Name] - [College]
+- Team Lead: Sofiya B - College of Engineering, Attingal
+- Member 2: Niranjan S - College of Engineering, Attingal
 
 ### Project Description
 [2-3 lines about what your project does]
