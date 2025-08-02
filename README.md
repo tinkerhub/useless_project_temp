@@ -51,7 +51,7 @@ npm run dev
 ### Project Documentation
 For Software:
 
-# Screenshots (Add at least 3)
+# Screenshots 
 
 ![PHOTO-2025-08-02-06-27-30](https://github.com/user-attachments/assets/2cec76e3-05fe-4ba2-ad1e-2ccc1c1d01f3)
 
