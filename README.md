@@ -42,7 +42,9 @@ npm run dev
 
 ### Project Documentation
 For Software:
+
 https://github.com/devcodes28/interview-with-kuttan
+
 # Screenshots (Add at least 3)
 <img width="1920" height="1200" alt="image" src="https://github.com/user-attachments/assets/f3b54c81-8f50-4ca7-9a27-c8c36a29f600" /> - The glorious glassy chat UI where your confidence goes to die.
 
@@ -51,38 +53,16 @@ https://github.com/devcodes28/interview-with-kuttan
 <img width="1920" height="1200" alt="image" src="https://github.com/user-attachments/assets/f75b6a3b-c1c0-4faa-a468-4be2e2656bad" /> - Malayalam roast in Moderate swing – no mercy.
 
 # Diagrams
+<img width="1920" height="1080" alt="Interview with Kuttan" src="https://github.com/user-attachments/assets/fb709438-5f43-4bf5-9d1e-9fc31958495f" />
+
 You → Overconfident Answer → Gemini API → Savage Roast → You Cry
-
-
-# Schematic & Circuit
-![Circuit](Add your circuit diagram here)
-*Add caption explaining connections*
-
-![Schematic](Add your schematic diagram here)
-*Add caption explaining the schematic*
-
-# Build Photos
-![Components](Add photo of your components here)
-*List out all components shown*
-
-![Build](Add photos of build process here)
-*Explain the build steps*
-
-![Final](Add photo of final product here)
-*Explain the final build*
 
 ### Project Demo
 # Video
-[Add your demo video link here]
-*Explain what the video demonstrates*
-
-# Additional Demos
-[Add any extra demo materials/links]
+https://drive.google.com/file/d/1bXebblFTpPbdwyWvt3yDPTmSgf7nwaj8/view?usp=sharing
 
 ## Team Contributions
-- [Name 1]: [Specific contributions]
-- [Name 2]: [Specific contributions]
-- [Name 3]: [Specific contributions]
+Sreedev Suresh: Built the UI, integrated Firebase, Gemini API, wrote roast prompts, laughed while testing.
 
 ---
 Made with ❤️ at TinkerHub Useless Projects 
