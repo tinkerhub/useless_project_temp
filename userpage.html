@@ -75,6 +75,10 @@
             0% { transform: rotate(0deg); }
             100% { transform: rotate(360deg); }
         }
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
     </style>
 </head>
 <body>
@@ -134,23 +138,34 @@
         const name = document.getElementById("name").value;
         goToPage(3);
 
-        const loadingSteps = ["Loading...", "Analysing...", "Regressing...", "Regretting...", "Questioning life choices..."];
+        const loadingSteps = [
+            "Loading...",
+            "Analysing...",
+            "Regressing...",
+            "Regretting...",
+            "Questioning life choices..."
+        ];
         let index = 0;
         const loadingText = document.getElementById("loadingText");
-        const interval = setInterval(()=>{
+
+        function showNextStep(){
             loadingText.innerText = loadingSteps[index];
             index++;
-            if(index === loadingSteps.length) clearInterval(interval);
-        }, 1200);
-
-        setTimeout(()=>{
-            const estimatedProfit = Math.floor(Math.random()*100000 + 5000); // dummy amount
-            document.getElementById("resultMessage").innerHTML = 
-                `Hey <strong>${name}</strong>,<br><br>
-                 If your parents had planted a tree instead of you when you were born,<br>
-                 They would have an estimated amount of <strong>₹${estimatedProfit}</strong> 😅`;
-            goToPage(4);
-        }, 6000);
+            if(index < loadingSteps.length){
+                setTimeout(showNextStep, 1200);  // normal delay for each step
+            } else {
+                // Keep the last text visible for longer
+                setTimeout(()=>{
+                    const estimatedProfit = Math.floor(Math.random()*100000 + 5000); // dummy amount
+                    document.getElementById("resultMessage").innerHTML = 
+                        `Hey <strong>${name}</strong>,<br><br>
+                         If your parents had planted a tree instead of you when you were born,<br>
+                         They would have an estimated amount of <strong>₹${estimatedProfit}</strong> 😅`;
+                    goToPage(4);
+                }, 2500); // hold last message for 2.5 seconds
+            }
+        }
+        showNextStep();
     });
 
     function restart(){
