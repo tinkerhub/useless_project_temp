@@ -1,96 +1,71 @@
 <img width="3188" height="1202" alt="frame (3)" src="https://github.com/user-attachments/assets/517ad8e9-ad22-457d-9538-a9e62d137cd7" />
 
 
-# [Project Name] 🎯
+# Interview with Kuttan 🎯
 
 
 ## Basic Details
-### Team Name: [Name]
+### Team Name: Byte Battlers
 
 
 ### Team Members
-- Team Lead: [Name] - [College]
-- Member 2: [Name] - [College]
-- Member 3: [Name] - [College]
+- Team Lead: Sreedev Suresh - TKM College of Engineering Kollam
 
 ### Project Description
-[2-3 lines about what your project does]
+"Interview with Kuttan" is a sarcastic Malayalam interview bot that roasts you no matter what you say. You think you’re doing well? Anyways… you are not getting hired.
 
 ### The Problem (that doesn't exist)
-[What ridiculous problem are you solving?]
+People are too happy after job interviews. There is not enough savage feedback in Malayalam to keep their ego in check.
 
 ### The Solution (that nobody asked for)
-[How are you solving it? Keep it fun!]
+We built Kuttan, the AI interviewer who asks you standard HR questions, listens to your answers, and responds with customised Malayalam roasts — from Light Roast to Full Destruction.
 
 ## Technical Details
 ### Technologies/Components Used
 For Software:
-- [Languages used]
-- [Frameworks used]
-- [Libraries used]
-- [Tools used]
+- Languages used :  JavaScript (React + Vite), HTML, CSS
+- Frameworks used : React
+- Libraries used : Firebase SDK, Google Gemini API client
+- Tools used : VS Code, Git, GitHub, Firebase Console
 
 For Hardware:
-- [List main components]
-- [List specifications]
-- [List tools required]
-
+- None (Your ego is the only hardware affected 🫠)
+- 
 ### Implementation
 For Software:
 # Installation
-[commands]
-
+https://github.com/devcodes28/interview-with-kuttan
+cd interview-with-kuttan
+npm install
 # Run
-[commands]
+npm run dev
+
+### Versal Deployed Link :
+https://interview-with-kuttan.vercel.app/
 
 ### Project Documentation
 For Software:
 
+https://github.com/devcodes28/interview-with-kuttan
+
 # Screenshots (Add at least 3)
-![Screenshot1](Add screenshot 1 here with proper name)
-*Add caption explaining what this shows*
+<img width="1920" height="1200" alt="image" src="https://github.com/user-attachments/assets/f3b54c81-8f50-4ca7-9a27-c8c36a29f600" /> - The glorious glassy chat UI where your confidence goes to die.
 
-![Screenshot2](Add screenshot 2 here with proper name)
-*Add caption explaining what this shows*
+<img width="1920" height="1200" alt="image" src="https://github.com/user-attachments/assets/64001958-26b8-4006-bf2b-3976a62606e7" /> - Roast level selector – because pain should be customisable.
 
-![Screenshot3](Add screenshot 3 here with proper name)
-*Add caption explaining what this shows*
+<img width="1920" height="1200" alt="image" src="https://github.com/user-attachments/assets/f75b6a3b-c1c0-4faa-a468-4be2e2656bad" /> - Malayalam roast in Moderate swing – no mercy.
 
 # Diagrams
-![Workflow](Add your workflow/architecture diagram here)
-*Add caption explaining your workflow*
+<img width="1920" height="1080" alt="Interview with Kuttan" src="https://github.com/user-attachments/assets/fb709438-5f43-4bf5-9d1e-9fc31958495f" />
 
-For Hardware:
-
-# Schematic & Circuit
-![Circuit](Add your circuit diagram here)
-*Add caption explaining connections*
-
-![Schematic](Add your schematic diagram here)
-*Add caption explaining the schematic*
-
-# Build Photos
-![Components](Add photo of your components here)
-*List out all components shown*
-
-![Build](Add photos of build process here)
-*Explain the build steps*
-
-![Final](Add photo of final product here)
-*Explain the final build*
+You → Overconfident Answer → Gemini API → Savage Roast → You Cry
 
 ### Project Demo
 # Video
-[Add your demo video link here]
-*Explain what the video demonstrates*
-
-# Additional Demos
-[Add any extra demo materials/links]
+https://drive.google.com/file/d/1bXebblFTpPbdwyWvt3yDPTmSgf7nwaj8/view?usp=sharing
 
 ## Team Contributions
-- [Name 1]: [Specific contributions]
-- [Name 2]: [Specific contributions]
-- [Name 3]: [Specific contributions]
+Sreedev Suresh: Built the UI, integrated Firebase, Gemini API, wrote roast prompts, laughed while testing.
 
 ---
 Made with ❤️ at TinkerHub Useless Projects 
