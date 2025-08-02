@@ -43,14 +43,10 @@ VSCODE,  GITHUB, PYTHON
 For Software:
 
 # Screenshots (Add at least 3)
-![Screenshot1](Add screenshot 1 here with proper name)
-*Add caption explaining what this shows*
-
-![Screenshot2](Add screenshot 2 here with proper name)
-*Add caption explaining what this shows*
-
-![Screenshot3](Add screenshot 3 here with proper name)
-*Add caption explaining what this shows*
+SCreenshot 55 - Notifications popping up
+Screenshot 56 - Showing riddles
+Screenshot 2025-08-02 154205 - Copy.png - User interface  
+Screenshot 2025-08-02 154230.png - App seeking permission
 
 # Diagrams
 ![Workflow](Add your workflow/architecture diagram here)
@@ -77,8 +73,7 @@ For Hardware:
 
 ### Project Demo
 # Video
-[Add your demo video link here]
-*Explain what the video demonstrates*
+https://github.com/RISHANANDA/team_firefly/blob/main/NOTLOOP_INFINITE%20CRINGE.py.py%20-%20team_firefly%20-%20Visual%20Studio%20Code%202025-08-02%2016-23-45.mp4
 
 # Additional Demos
 [Add any extra demo materials/links]
