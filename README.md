@@ -3,6 +3,8 @@
 
 # Chittappan_advice 🎯
 
+website url hosted on vercel:
+https://chittappan-advice.vercel.app/
 
 ## Basic Details
 ### Team Name: Techies
