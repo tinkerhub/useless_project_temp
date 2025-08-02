@@ -1,0 +1,123 @@
+body {
+  font-family: Arial, sans-serif;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  margin: 0;
+  /* Background image for the whole page */
+  background-image: url('shikku.jpg');
+  background-size: cover;
+  background-position: center;
+  background-color: #333; /* Fallback color */
+}
+
+#chat-container {
+  width: 400px;
+  height: 600px;
+  border-radius: 10px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  /* Theme image for the chat window itself */
+  background-image: url('shikku1.webp');
+  background-size: cover;
+  background-position: center;
+}
+
+#chat-header {
+  background-color: rgba(74, 124, 89, 0.85); /* Slightly transparent */
+  backdrop-filter: blur(5px);
+  color: white;
+  padding: 15px;
+  display: flex;
+  align-items: center;
+  border-bottom: 1px solid rgba(221, 221, 221, 0.5);
+}
+
+#pfp {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  margin-right: 15px;
+  border: 2px solid #fff;
+}
+
+#header-title h2 {
+  margin: 0;
+  font-size: 1.2em;
+}
+
+#header-title span {
+  font-size: 0.8em;
+  opacity: 0.9;
+}
+
+#chat-box {
+  flex-grow: 1;
+  padding: 20px;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.chat-message {
+  padding: 10px 15px;
+  border-radius: 18px;
+  max-width: 80%;
+  line-height: 1.4;
+  box-shadow: 0 1px 2px rgba(0,0,0,0.1);
+}
+
+.user-message {
+  background-color: #0084ff;
+  color: white;
+  align-self: flex-end;
+  border-bottom-right-radius: 4px;
+}
+
+.ai-message {
+  background-color: rgba(240, 240, 240, 0.95);
+  color: #050505;
+  align-self: flex-start;
+  border-bottom-left-radius: 4px;
+}
+
+#input-area {
+  display: flex;
+  padding: 10px;
+  border-top: 1px solid rgba(221, 221, 221, 0.5);
+  background-color: rgba(255, 255, 255, 0.7);
+  backdrop-filter: blur(5px);
+}
+
+#user-input {
+  flex-grow: 1;
+  border: 1px solid #ccc;
+  border-radius: 20px;
+  padding: 10px 15px;
+  font-size: 1em;
+  outline: none;
+}
+
+#user-input:focus {
+  border-color: #0084ff;
+}
+
+#send-btn {
+  background-color: #0084ff;
+  color: white;
+  border: none;
+  padding: 0 15px;
+  margin-left: 10px;
+  border-radius: 20px;
+  cursor: pointer;
+  font-size: 1em;
+}
+
+#send-btn:hover {
+  background-color: #0073e6;
+}
