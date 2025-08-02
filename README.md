@@ -13,15 +13,26 @@
 - Member 2: Niranjan S - College of Engineering, Attingal
 
 ### Project Description
--"Born or Grown...what's more profitable?"
-Oru vazha is a fun web app that humorously estimates how much profit your parents could have earned if they had planted a plaintain tree on the day you born
+Our parents always say "Oru vaazha vechal mathi aayirunnu.." We usually laugh and ignore it..But what if it was another timeline? What if our parents planted a vaazha instead.? We took that question seriously and worked for the solution..
 
 
 ### The Problem (that doesn't exist)
--
+-Many of us often reflect on life choices and wonder, “What if things were different?”.
+In a lighthearted context, we questioned: What if parents invested in something simple and sustainable, like planting a plantain tree on the day their child was born?
+How much profit could that decision have generated today?
 
 ### The Solution (that nobody asked for)
-[How are you solving it? Keep it fun!]
+-"Born or Grown...what's more profitable?"
+Oru vazha is a fun web app that humorously estimates how much profit your parents could have earned if they had planted a plaintain tree on the day you born.Our "oru vazha calculation" is an interactive and humorous web application that:
+
+Collects user details (Name, Date of Birth, Place, and Tea/Coffee preference).
+
+Simulates analysis with witty loading messages (“Regressing… Regretting… Questioning life choices…”).
+
+Delivers a fun, nostalgic profit estimation of what a single plantain tree could have earned.
+
+
+This solution turns a simple “what if” scenario into an engaging experience that blends humor, user interaction, and awareness of long-term investments and sustainability.
 
 ## Technical Details
 ### Technologies/Components Used
@@ -48,11 +59,9 @@ For Software:
 # Screenshots (Add at least 3)
 <img src="Screenshot 2025-08-02 160801.png" />
 
-![Screenshot2](Add screenshot 2 here with proper name)
-*Add caption explaining what this shows*
+<img src="Screenshot 2025-08-02 163913.png">
 
-![Screenshot3](Add screenshot 3 here with proper name)
-*Add caption explaining what this shows*
+<img src="Screenshot 2025-08-02 164959.png">
 
 # Diagrams
 ![Workflow](Add your workflow/architecture diagram here)
@@ -79,16 +88,18 @@ For Hardware:
 
 ### Project Demo
 # Video
-[Add your demo video link here]
-*Explain what the video demonstrates*
+<video controls>
+  <source src="Recording 2025-08-02 163504.mp4" type="video/mp4">
+</video>
+
+
 
 # Additional Demos
 [Add any extra demo materials/links]
 
 ## Team Contributions
-- [Name 1]: [Specific contributions]
-- [Name 2]: [Specific contributions]
-- [Name 3]: [Specific contributions]
+- [Sofiya B]: [Frontend,Documentation,Motivation]
+- [Niranjan S]: [backend,Project Idea,data collection]
 
 ---
 Made with ❤️ at TinkerHub Useless Projects 
