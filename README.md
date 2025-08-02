@@ -38,8 +38,8 @@ For Hardware:
 ### Implementation
 For Software:
 # Installation
-git clone https://github.com/diyana-sadath/cloud-critters-saga.git
-npm install
+- git clone https://github.com/diyana-sadath/cloud-critters-saga.git
+- npm install
 
 # Run
 npm run dev
