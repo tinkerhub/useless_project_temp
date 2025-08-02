@@ -20,6 +20,11 @@ Our parents always say "Oru vaazha vechal mathi aayirunnu.." We usually laugh an
 -Many of us often reflect on life choices and wonder, “What if things were different?”.
 In a lighthearted context, we questioned: What if parents invested in something simple and sustainable, like planting a plantain tree on the day their child was born?
 How much profit could that decision have generated today?
+=======
+[2-3 lines about what your project does]
+
+### The Problem (that doesn't exist)
+[What ridiculous problem are you solving?]
 
 ### The Solution (that nobody asked for)
 -"Born or Grown...what's more profitable?"

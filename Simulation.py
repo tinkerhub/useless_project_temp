@@ -53,4 +53,8 @@ def simulate_growth(start_date_str):
         current_trees = new_trees
         date += timedelta(days=30 * CYCLE_MONTHS)
 
-    return history
+    return {
+    "profit": round(total_profit),
+    "history": history
+    }
+

@@ -1,15 +1,3 @@
-import random
-import pandas as pd
-from datetime import datetime, timedelta
-
-SAPLING_COST = 50
-FERTILIZER_COST_PER_KG = 0.5
-CYCLE_MONTHS = 12
-#heyhey
-# Load data once
-BANANA_DATA = pd.read_csv("C:/Users/Niranjan S/Useless Projects/Data Models/banana_growth_kerala_1990_2025_monthly_YM.csv")
-CHILD_COST_DATA = pd.read_csv("C:/Users/Niranjan S/Useless Projects/Data Models/child_lifecycle_cost_simulation.csv")
-
 def simulate_growth(start_date_str):
     planting_date = datetime.strptime(start_date_str, "%Y-%m-%d")
     current_date = datetime.today()
@@ -33,14 +21,16 @@ def simulate_growth(start_date_str):
         price = row["Market_Price_per_kg"]
         fertilizer_kg = row["Fertilizer_Used_kg"]
         suckers = row["Suckers_per_Tree"]
+
         income = current_trees * yield_kg * price
         fertilizer_cost = current_trees * fertilizer_kg * FERTILIZER_COST_PER_KG
         child_cost = CHILD_COST_DATA.loc[CHILD_COST_DATA["Age"] == age, "Yearly_Expenditure_INR"].values[0]
         profit = income - fertilizer_cost - child_cost
+
         suckers_generated = int(current_trees * suckers)
-        total_profit = random.randint(10000000, 99999999)
         saplings_from_profit = int(profit // SAPLING_COST)
         new_trees = suckers_generated + saplings_from_profit
+        total_profit += profit
 
         history.append({
             "Cycle": date.strftime("%Y-%m"),
@@ -59,6 +49,6 @@ def simulate_growth(start_date_str):
         date += timedelta(days=30 * CYCLE_MONTHS)
 
     return {
-        "total_profit": total_profit,
+        "total_profit": round(total_profit),
         "history": history
     }
