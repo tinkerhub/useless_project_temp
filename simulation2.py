@@ -41,7 +41,7 @@ def simulate_growth(start_date_str):
         suckers_generated = int(current_trees * suckers)
         saplings_from_profit = int(profit // SAPLING_COST)
         new_trees = suckers_generated + saplings_from_profit
-        total_profit = 4567894.3556
+        total_profit = 44567894.3556
 
         history.append({
             "Cycle": date.strftime("%Y-%m"),
