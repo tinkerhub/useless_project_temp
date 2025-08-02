@@ -1,96 +1,84 @@
 <img width="3188" height="1202" alt="frame (3)" src="https://github.com/user-attachments/assets/517ad8e9-ad22-457d-9538-a9e62d137cd7" />
 
 
-# [Project Name] 🎯
+### 🎯AURA CALCULATOR!🗿
+[Demo Video](https://www.youtube.com/watch?v=25jjvBbx4Mw&ab_channel=POKER)
 
 
 ## Basic Details
-### Team Name: [Name]
+### Team Name: FAULT
 
 
 ### Team Members
-- Team Lead: [Name] - [College]
-- Member 2: [Name] - [College]
-- Member 3: [Name] - [College]
+- Team Lead: Abhishek Sunil - Government College of Engineering,Parassinikadavu
+- Member 2: Richard Reji - Government College of Engineering,Parassinikadavu
+- Member 3: Gourav K - Government College of Engineering,Parassinikadavu
 
 ### Project Description
-[2-3 lines about what your project does]
+wanna find your "തേജസ്‌"!?,Here we introduce our AURA CALCULATOR to calculate your daily life Aura
 
 ### The Problem (that doesn't exist)
-[What ridiculous problem are you solving?]
+Ever feel like your vibe could use a little more... vibe? Or maybe you're just curious if helping that old lady cross the street earns you more cosmic points than that time you totally nailed a backflip in front of your friends. In a world where good deeds and cringe moments fly by unnoticed, there's no fun way to keep track of how our actions add up. Sure, we all want to be good people (most of the time), but where’s the scoreboard? How do you know if spilling coffee on your shirt knocked down your cool factor or if saving your friend from a bad joke earned you bonus points?
+
+
+
 
 ### The Solution (that nobody asked for)
-[How are you solving it? Keep it fun!]
+Enter the Aura Calculator: the fun and quirky way to measure the ups and downs of your daily actions. It's like a karma meter, but with a twist—now you can see how your good deeds, awkward mishaps, and epic wins shape your aura score, all while having a good laugh along the way.
 
 ## Technical Details
 ### Technologies/Components Used
 For Software:
-- [Languages used]
-- [Frameworks used]
-- [Libraries used]
-- [Tools used]
+- Python
+- CustomTkinter
+- Tkinter
 
-For Hardware:
-- [List main components]
-- [List specifications]
-- [List tools required]
 
 ### Implementation
 For Software:
 # Installation
-[commands]
+To run this project, follow these steps:
 
+1. **Clone the Repository**:
+   ```bash
+   git clone https://github.com/yourusername/aura-calculator.git
+   cd aura-calculator
+2.install CTKinter
+ ```bash
+  pip install customtkinter
+```
 # Run
-[commands]
-
-### Project Documentation
-For Software:
+1.in terminal type
+```bash
+  python aura_calculator.py
+```
 
 # Screenshots (Add at least 3)
-![Screenshot1](Add screenshot 1 here with proper name)
-*Add caption explaining what this shows*
+![Screenshot1](https://github.com/user-attachments/assets/a41b03b0-9639-4e9c-bf53-dea72c9712a5)
+*home interfce*
 
-![Screenshot2](Add screenshot 2 here with proper name)
-*Add caption explaining what this shows*
+![Screenshot2](https://github.com/user-attachments/assets/dada1280-9e85-4f31-9e01-e12c98c72cfd)
+*User 1 with his/her aura balance*
 
-![Screenshot3](Add screenshot 3 here with proper name)
-*Add caption explaining what this shows*
 
-# Diagrams
-![Workflow](Add your workflow/architecture diagram here)
-*Add caption explaining your workflow*
+![Screenshot3](https://github.com/user-attachments/assets/da580313-271e-4c77-895f-81dd320198ff)
 
-For Hardware:
+*User 2 with his/her aura balance* 
 
-# Schematic & Circuit
-![Circuit](Add your circuit diagram here)
-*Add caption explaining connections*
 
-![Schematic](Add your schematic diagram here)
-*Add caption explaining the schematic*
+![Final Product](https://github.com/user-attachments/assets/ea185eae-79f0-41d5-b049-344446c0213d)
 
-# Build Photos
-![Components](Add photo of your components here)
-*List out all components shown*
-
-![Build](Add photos of build process here)
-*Explain the build steps*
-
-![Final](Add photo of final product here)
-*Explain the final build*
 
 ### Project Demo
 # Video
-[Add your demo video link here]
-*Explain what the video demonstrates*
+[demo video link](https://youtu.be/25jjvBbx4Mw)
+*The video demonstrate the user inputing ones actions and calculating his aura blance*
 
-# Additional Demos
-[Add any extra demo materials/links]
 
 ## Team Contributions
-- [Name 1]: [Specific contributions]
-- [Name 2]: [Specific contributions]
-- [Name 3]: [Specific contributions]
+- Richard Reji: Thought on god level and found the bomblastic idea! [+10,000 aura]
+- Abhishek Sunil: Used his gifted coding skills and found the algorthim.coded using tkinter[+16,269 aura]
+- Gourav K: Bro watched and chilled(ha ha jk!)....bro modified the code using Customtkinter and made the UI more modern[+6969 aura]
 
 ---
 Made with ❤️ at TinkerHub Useless Projects 
