@@ -13,10 +13,10 @@
 - Member 2: Niranjan S - College of Engineering, Attingal
 
 ### Project Description
-[2-3 lines about what your project does]
+Our parents always say "Oru vaazha vechal mathi aayirunnu.." We usually laugh and ignore it..But what if it was another timeline? What if our parents planted a vaazha instead.? We took that question seriously and worked for the solution..
 
 ### The Problem (that doesn't exist)
-[What ridiculous problem are you solving?]
+
 
 ### The Solution (that nobody asked for)
 [How are you solving it? Keep it fun!]
