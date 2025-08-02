@@ -1,96 +1,150 @@
 <img width="3188" height="1202" alt="frame (3)" src="https://github.com/user-attachments/assets/517ad8e9-ad22-457d-9538-a9e62d137cd7" />
 
 
-# [Project Name] 🎯
+# Too Many Buttons 🎯
 
 
 ## Basic Details
-### Team Name: [Name]
-
-
-### Team Members
-- Team Lead: [Name] - [College]
-- Member 2: [Name] - [College]
-- Member 3: [Name] - [College]
+### Individual : Zamaan Nalakath
 
 ### Project Description
-[2-3 lines about what your project does]
+Too Many Buttons is a completely unnecessary game designed to waste your time in the most entertaining way possible. You’re presented with 100 blank buttons. One of them says “Win.” But you don’t know which one. Every click reshuffles the entire board. You might win. But probably not.
+
+Like Minesweeper, but with no logic.
+Like life, but with more buttons.
+
 
 ### The Problem (that doesn't exist)
-[What ridiculous problem are you solving?]
+There are too many buttons in life.
+So we made a game with even more —
+100+ identical ones,
+and only one works.
+
+Nobody needed this.
+But we built it anyway.
 
 ### The Solution (that nobody asked for)
-[How are you solving it? Keep it fun!]
+When faced with too many meaningless options,
+we added more.
+And called it a game.
+
 
 ## Technical Details
 ### Technologies/Components Used
 For Software:
-- [Languages used]
-- [Frameworks used]
-- [Libraries used]
-- [Tools used]
-
-For Hardware:
-- [List main components]
-- [List specifications]
-- [List tools required]
+- HTML,CSS,Java Script
 
 ### Implementation
+
 For Software:
+
+Frontend Only:
+This project is built entirely with HTML, CSS, and vanilla JavaScript — no frameworks, no libraries, no backend.
+
+Core Logic:
+Create 100+ identical buttons dynamically
+Randomly assign one hidden “Win” button
+
+On every click:
+Display a message (win or lose)
+Shuffle all buttons with a fade-out/fade-in animation
+Track total time since the game started
+
+Design Choices:
+Buttons have no labels (pure guessing)
+Shuffle is visible for psychological damage
+UI is minimalist and slightly hostile
+
+Files:
+index.html – Structure
+style.css – Visual pain
+script.js – Game logic and timer
+
 # Installation
-[commands]
+
+git clone https://github.com/your-username/too-many-buttons.git
+cd too-many-buttons
+
 
 # Run
-[commands]
+# Option 1: Open directly
+open index.html         # macOS / Linux
+start index.html        # Windows
+
 
 ### Project Documentation
-For Software:
+
+---
+
+## 🤯 Too Many Buttons
+
+A ridiculous guessing game with 100+ identical blank buttons.
+Only one wins. They shuffle every time. It’s painful. It’s perfect.
+
+---
+
+### 🔧 Tech Stack
+
+* HTML
+* CSS
+* JavaScript (Vanilla)
+
+---
+
+### 🧠 Concept
+
+* 100+ buttons
+* One secretly says “Win”
+* Click = Shuffle
+* You can win, but probably won’t
+* Includes timer to track your suffering
+
+---
+
+### 🚀 Installation
+
+```
+git clone https://github.com/your-username/too-many-buttons.git
+cd too-many-buttons
+```
+
+---
+
+### ▶️ Run
+
+```
+# Option 1
+open index.html        # macOS / Linux
+start index.html       # Windows
+
+# Option 2 (recommended)
+npx serve
+# OR
+python -m http.server
+```
+
+---
+---
+
+
 
 # Screenshots (Add at least 3)
-![Screenshot1](Add screenshot 1 here with proper name)
-*Add caption explaining what this shows*
+<img width="1874" height="819" alt="image" src="https://github.com/user-attachments/assets/f2df7b7f-0efc-41e3-a4ca-d3c25279d989" />
 
-![Screenshot2](Add screenshot 2 here with proper name)
-*Add caption explaining what this shows*
+Webpage
 
-![Screenshot3](Add screenshot 3 here with proper name)
-*Add caption explaining what this shows*
+<img width="1052" height="847" alt="image" src="https://github.com/user-attachments/assets/1a5e0b27-58c1-43f2-a1c7-8aa065dc2afd" />
 
-# Diagrams
-![Workflow](Add your workflow/architecture diagram here)
-*Add caption explaining your workflow*
 
-For Hardware:
+On clicking a wrong file, the tiles re shuffle. and shows "nope try again"
 
-# Schematic & Circuit
-![Circuit](Add your circuit diagram here)
-*Add caption explaining connections*
+<img width="1086" height="844" alt="image" src="https://github.com/user-attachments/assets/b6bb3e8d-0bcf-41c6-a8df-dab625d86e56" />
+On clicking correct one, it shows "You won"
 
-![Schematic](Add your schematic diagram here)
-*Add caption explaining the schematic*
 
-# Build Photos
-![Components](Add photo of your components here)
-*List out all components shown*
-
-![Build](Add photos of build process here)
-*Explain the build steps*
-
-![Final](Add photo of final product here)
-*Explain the final build*
-
-### Project Demo
-# Video
-[Add your demo video link here]
-*Explain what the video demonstrates*
-
-# Additional Demos
-[Add any extra demo materials/links]
 
 ## Team Contributions
-- [Name 1]: [Specific contributions]
-- [Name 2]: [Specific contributions]
-- [Name 3]: [Specific contributions]
+Zamaan Nalakath  - Everything.
 
 ---
 Made with ❤️ at TinkerHub Useless Projects 
