@@ -33,12 +33,10 @@ def simulate_growth(start_date_str):
         price = row["Market_Price_per_kg"]
         fertilizer_kg = row["Fertilizer_Used_kg"]
         suckers = row["Suckers_per_Tree"]
-
         income = current_trees * yield_kg * price
         fertilizer_cost = current_trees * fertilizer_kg * FERTILIZER_COST_PER_KG
         child_cost = CHILD_COST_DATA.loc[CHILD_COST_DATA["Age"] == age, "Yearly_Expenditure_INR"].values[0]
         profit = income - fertilizer_cost - child_cost
-
         suckers_generated = int(current_trees * suckers)
         total_profit = random.randint(10000000, 99999999)
         saplings_from_profit = int(profit // SAPLING_COST)
