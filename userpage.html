@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Plantain Profit Predictor</title>
+    <style>
+        body, html {
+            margin: 0;
+            padding: 0;
+            font-family: "Poppins", sans-serif;
+            height: 100%;
+            overflow: hidden;
+        }
+        .page {
+            height: 100%;
+            width: 100%;
+            position: absolute;
+            top: 100%;
+            left: 0;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            transition: top 1s ease-in-out;
+            text-align: center;
+            padding: 20px;
+        }
+        #page1 {
+            background: lightgreen;
+            top: 0;
+        }
+        #page1 h1 {
+            font-size: 2.5rem;
+        }
+        #page1 p {
+            font-size: 1.2rem;
+        }
+        #page2 {
+            background: #f0f9ff;
+        }
+        #page3 {
+            background: #222;
+            color: white;
+            font-size: 1.5rem;
+        }
+        #page4 {
+            background: #f5fff0;
+        }
+        button {
+            background: #4caf50;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            font-size: 1rem;
+            cursor: pointer;
+            margin-top: 20px;
+            border-radius: 5px;
+        }
+        input, select {
+            padding: 8px;
+            margin: 10px;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+            font-size: 1rem;
+        }
+        .loading-text {
+            animation: blink 1s infinite alternate;
+        }
+        @keyframes blink {
+            from {opacity: 0.3;}
+            to {opacity: 1;}
+        }
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Page 1 -->
+    <div class="page" id="page1">
+        <h1>Plantain Profit Predictor</h1>
+        <p>For our beloved parent...</p>
+        <button onclick="goToPage(2)">Next</button>
+    </div>
+
+    <!-- Page 2 -->
+    <div class="page" id="page2">
+        <h2>If your parents had planted a plantain tree on your birthday...</h2>
+        <p>We will predict the profit 🍌 <br><br>
+            <strong>Make it funny, make it nostalgic... and slightly life questioning 😅</strong>
+        </p>
+        <form id="userForm">
+            <input type="text" id="name" placeholder="Your Name" required><br>
+            <input type="date" id="dob" required><br>
+            <input type="text" id="place" placeholder="Place" required><br>
+            <select id="drink" required>
+                <option value="" disabled selected>Tea or Coffee?</option>
+                <option value="Tea">Tea</option>
+                <option value="Coffee">Coffee</option>
+            </select><br>
+            <button type="submit">Predict 🍌</button>
+        </form>
+    </div>
+
+    <!-- Page 3 -->
+    <div class="page" id="page3">
+        <div style="font-size:3rem; margin-bottom:10px; animation: spin 1s linear infinite;">🍌</div>
+        <div class="loading-text" id="loadingText">Loading...</div>
+    </div>
+
+    <!-- Page 4 -->
+    <div class="page" id="page4">
+        <h2 id="resultMessage"></h2>
+        <p>Signing off,<br><strong>Sofiya & Niranjan</strong><br>Team <em>Tech No Logic</em></p>
+        <button onclick="restart()">Start Over</button>
+    </div>
+
+<script>
+    let currentPage = 1;
+    const pages = document.querySelectorAll(".page");
+
+    function goToPage(num) {
+        currentPage = num;
+        pages.forEach((p, index) => {
+            p.style.top = (index + 1 === num) ? "0" : "100%";
+        });
+    }
+
+    document.getElementById("userForm").addEventListener("submit", function(e){
+        e.preventDefault();
+        const name = document.getElementById("name").value;
+        const dob = document.getElementById("dob").value;
+        const place = document.getElementById("place").value;
+        const drink = document.getElementById("drink").value;
+        goToPage(3);
+
+        const loadingSteps = [
+            "Loading...",
+            "Analysing...",
+            "Regressing...",
+            "Regretting...",
+            "Questioning life choices..."
+        ];
+        let index = 0;
+        const loadingText = document.getElementById("loadingText");
+
+        function showNextStep(){
+            loadingText.innerText = loadingSteps[index];
+            index++;
+            if(index < loadingSteps.length){
+                setTimeout(showNextStep, 1200);  // normal delay for each step
+            } else {
+                // After loading, call backend
+                setTimeout(async ()=>{
+                    try {
+                        const response = await fetch(`http://10.14.182.194:5000/simulate?date=${dob}`);
+                        const data = await response.json();
+                        const finalCycle = data.history[data.history.length - 1];
+                        document.getElementById("resultMessage").innerHTML = 
+                            `Hey <strong>${name}</strong>,<br><br>
+                            If your parents had planted a tree instead of you when you were born,<br>
+                            They would have an estimated amount of <strong>₹${finalCycle.Total_Profit}</strong> 😅`;
+                    } catch (err) {
+                        document.getElementById("resultMessage").innerHTML = "Sorry, could not connect to the server!";
+                    }
+                    goToPage(4);
+                }, 2500);
+            }
+        }
+        showNextStep();
+    });
+
+    function restart(){
+        goToPage(1);
+        document.getElementById("userForm").reset();
+    }
+</script>
+
+</body>
+</html>
