@@ -1,34 +1,33 @@
 <img width="3188" height="1202" alt="frame (3)" src="https://github.com/user-attachments/assets/517ad8e9-ad22-457d-9538-a9e62d137cd7" />
 
 
-# [Project Name] 🎯
+# [Snack_Spy] 🎯
 
 
 ## Basic Details
-### Team Name: [Name]
+### Team Name: [The Sleuths]
 
 
 ### Team Members
-- Team Lead: [Name] - [College]
-- Member 2: [Name] - [College]
-- Member 3: [Name] - [College]
+- Team Lead: [Sreya Maxwel] - [TKM College of Engineering]
+- Member 2: [Shivani S] - [TKM College of Engineering]
 
 ### Project Description
-[2-3 lines about what your project does]
+[This fun computer vision project detects whether food has been fairly split between two people using image analysis. By comparing portion sizes, it helps resolve sibling conflicts over unequal food sharing with a “fairness verdict".]
 
 ### The Problem (that doesn't exist)
-[What ridiculous problem are you solving?]
+[Siblings everywhere suffer from the age old injustice of one person getting the bigger slice of pizza or cake. These daily food disputes threaten peace at the dinner table. Our project aims to finally bring justice one plate at a time.]
 
 ### The Solution (that nobody asked for)
-[How are you solving it? Keep it fun!]
+[We use computer vision to analyze photos of shared food and calculate how fairly it’s been divided. Whether it’s pizza, cake, or fries , our model snitches on the sibling who took the bigger share and assigns a “Fairness Score.” Because who needs therapy when you have algorithms?]
 
 ## Technical Details
 ### Technologies/Components Used
 For Software:
-- [Languages used]
-- [Frameworks used]
-- [Libraries used]
-- [Tools used]
+- [Python, HTML, JavaScript, CSS]
+- [Flask]
+- [rembg,OpenCV,Pillow (PIL),]
+- [flask_cors]
 
 For Hardware:
 - [List main components]
@@ -38,13 +37,19 @@ For Hardware:
 ### Implementation
 For Software:
 # Installation
-[commands]
+[pip install flask rembg opencv-python numpy pillow flask-cors]
 
 # Run
-[commands]
+[!python app.py]
 
 ### Project Documentation
-For Software:
+For Software:This is a fun AI project that detects if food is fairly divided between two people, using image analysis.
+Because life isn’t fair… but snacks should be! Built to inject humor and tech into everyday conflicts, Snack Spy turns a common family drama into a gamified AI experience.
+How it works:
+1.Users upload two food plate images.
+2.The backend uses AI (via rembg) to remove image backgrounds.
+3.It calculates food area from the foreground in each image using OpenCV.
+4.Then it compares the two and returns a similarity score and a cheeky verdict!
 
 # Screenshots (Add at least 3)
 ![Screenshot1](Add screenshot 1 here with proper name)
@@ -88,9 +93,8 @@ For Hardware:
 [Add any extra demo materials/links]
 
 ## Team Contributions
-- [Name 1]: [Specific contributions]
-- [Name 2]: [Specific contributions]
-- [Name 3]: [Specific contributions]
+- [Shivani S]: [Front End Design and Development ,Final degugging]
+- [Sreya Maxwel]: [Backend Development,Complete Integration]
 
 ---
 Made with ❤️ at TinkerHub Useless Projects 
