@@ -1,64 +1,63 @@
 <img width="3188" height="1202" alt="frame (3)" src="https://github.com/user-attachments/assets/517ad8e9-ad22-457d-9538-a9e62d137cd7" />
 
 
-# [Project Name] 🎯
+TEAM ROBO🎯
 
 
 ## Basic Details
-### Team Name: [Name]
+### Team Name: TEAM ROBO
 
 
 ### Team Members
-- Team Lead: [Name] - [College]
-- Member 2: [Name] - [College]
-- Member 3: [Name] - [College]
+- Team Lead: Abinu Alfred - RIT Kottayam
+- Member 2: Devang Shaji - RIT Kottayam
 
 ### Project Description
-[2-3 lines about what your project does]
+A useless login system where you must grimace at your webcam if you enter the wrong password. If you succeed, The Rock approves. If not, you get trolled. It’s a completely over-engineered prank login.
 
 ### The Problem (that doesn't exist)
-[What ridiculous problem are you solving?]
+People who forget passwords are not judged harshly enough by their devices. There is no personal shame, no webcam judgment, no mockery.
 
 ### The Solution (that nobody asked for)
-[How are you solving it? Keep it fun!]
+Introducing the Grimace-Based Login System™. Enter wrong credentials, and your webcam will demand a ridiculous face. If not funny enough? Prepare to be clowned. If correct? The Rock raises an eyebrow and asks: "Are you sure?"
 
 ## Technical Details
 ### Technologies/Components Used
 For Software:
-- [Languages used]
-- [Frameworks used]
-- [Libraries used]
-- [Tools used]
-
+- Languages: HTML, CSS, JavaScript
+- Frameworks: None – raw and wild
+- Libraries:
+  o	face-api.js (for face & expression detection)
+- Tools:
+  o	VS Code
+  o	Webcam
+  o	Chrome DevTools
+  o	Spotify (for vibe checks)
 For Hardware:
-- [List main components]
-- [List specifications]
-- [List tools required]
+  •	Webcam (any potato cam will do)
+  •	A human face
+  •	Optional: AirPods to vibe to Rickroll privately
+
 
 ### Implementation
 For Software:
 # Installation
-[commands]
-
+bash
+CopyEdit
+git clone https: https://github.com/Abinuoo/scratch-and-calculate.git
+cd eyebrow-protocol
 # Run
-[commands]
-
+Just open  https://lovable.dev/projects/43d97129-4bb1-4abb-9300-bbe552a9a90f in your browser.
 ### Project Documentation
 For Software:
 
 # Screenshots (Add at least 3)
-![Screenshot1](Add screenshot 1 here with proper name)
-*Add caption explaining what this shows*
 
-![Screenshot2](Add screenshot 2 here with proper name)
-*Add caption explaining what this shows*
 
-![Screenshot3](Add screenshot 3 here with proper name)
-*Add caption explaining what this shows*
 
 # Diagrams
 ![Workflow](Add your workflow/architecture diagram here)
-*Add caption explaining your workflow*
+A beautiful flowchart showing how poor choices lead to camera activation.
 
 For Hardware:
 
@@ -67,7 +66,8 @@ For Hardware:
 *Add caption explaining connections*
 
 ![Schematic](Add your schematic diagram here)
-*Add caption explaining the schematic*
+(Not applicable. But here's an emoji circuit instead:)
+😐 + 😠 + 🎥 + 🧠 = 😂
 
 # Build Photos
 ![Components](Add photo of your components here)
@@ -88,15 +88,13 @@ For Hardware:
 [Add any extra demo materials/links]
 
 ## Team Contributions
-- [Name 1]: [Specific contributions]
-- [Name 2]: [Specific contributions]
-- [Name 3]: [Specific contributions]
+•	Abinu Alfred: Facial recognition logic, camera access, final UI polish
+•	Devang Shaji: Wrote all the wrong passwords to test edge cases
 
 ---
 Made with ❤️ at TinkerHub Useless Projects 
 
-![Static Badge](https://img.shields.io/badge/TinkerHub-24?color=%23000000&link=https%3A%2F%2Fwww.tinkerhub.org%2F)
-![Static Badge](https://img.shields.io/badge/UselessProjects--25-25?link=https%3A%2F%2Fwww.tinkerhub.org%2Fevents%2FQ2Q1TQKX6Q%2FUseless%2520Projects)
+
 
 
 
