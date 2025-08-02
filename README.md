@@ -1,60 +1,51 @@
 <img width="3188" height="1202" alt="frame (3)" src="https://github.com/user-attachments/assets/517ad8e9-ad22-457d-9538-a9e62d137cd7" />
 
 
-# [Project Name] 🎯
+#  Banana Ripeness Forecast 🎯
 
 
 ## Basic Details
-### Team Name: [Name]
-
+### Team Name: Entertaintment
 
 ### Team Members
-- Team Lead: [Name] - [College]
-- Member 2: [Name] - [College]
-- Member 3: [Name] - [College]
+- Team Lead: Arsha Das - College of Engineering,Karunagappally
+- Member 2:Mahitha D   -College of Engineering,Karunagappally
 
 ### Project Description
-[2-3 lines about what your project does]
+It's an AI-powered web app that acts as a "weather forecast" for your bananas. You upload a photo of a banana, and the application uses computer vision to identify its ripeness (green, yellow, or spotted). It then generates a fun, detailed report predicting when it will be perfect to eat and when it will be ideal for banana bread, complete with interactive visuals.
 
 ### The Problem (that doesn't exist)
-[What ridiculous problem are you solving?]
-
+Find forecast of Banana's ripeness
 ### The Solution (that nobody asked for)
-[How are you solving it? Keep it fun!]
+By mentioning the colour we can predict it's rippening time.
 
 ## Technical Details
 ### Technologies/Components Used
 For Software:
-- [Languages used]
-- [Frameworks used]
-- [Libraries used]
-- [Tools used]
+-HTML,CSS,JavaScript
 
 For Hardware:
-- [List main components]
-- [List specifications]
-- [List tools required]
+-No hardware used
 
 ### Implementation
-For Software:
+For Software:VSCode
 # Installation
-[commands]
-
+No installations used
 # Run
-[commands]
+No commands used
 
 ### Project Documentation
 For Software:
 
 # Screenshots (Add at least 3)
-![Screenshot1](Add screenshot 1 here with proper name)
-*Add caption explaining what this shows*
+https://drive.google.com/file/d/1UPbo7vd_JWyTJv5QE8yBJAxylQKY9VRE/view?usp=drive_link
+Forecast of green colour bananas
 
-![Screenshot2](Add screenshot 2 here with proper name)
-*Add caption explaining what this shows*
+https://drive.google.com/file/d/1BkapWLSdjaZsROjX3JRN-x0mG3nsBGl7/view?usp=drive_link
+Forecast of yellow colour bananas
 
-![Screenshot3](Add screenshot 3 here with proper name)
-*Add caption explaining what this shows*
+https://drive.google.com/file/d/1_70Pu3cHzMee5SshAdN0RyjrvP7irH8F/view?usp=drive_link
+Forecast of spotted bananas
 
 # Diagrams
 ![Workflow](Add your workflow/architecture diagram here)
@@ -88,11 +79,10 @@ For Hardware:
 [Add any extra demo materials/links]
 
 ## Team Contributions
-- [Name 1]: [Specific contributions]
-- [Name 2]: [Specific contributions]
-- [Name 3]: [Specific contributions]
+- Arsha:Frontend,Backend
+- Mahitha :UI Design
 
----
+
 Made with ❤️ at TinkerHub Useless Projects 
 
 ![Static Badge](https://img.shields.io/badge/TinkerHub-24?color=%23000000&link=https%3A%2F%2Fwww.tinkerhub.org%2F)
