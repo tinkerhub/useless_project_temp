@@ -1,47 +1,43 @@
 <img width="3188" height="1202" alt="frame (3)" src="https://github.com/user-attachments/assets/517ad8e9-ad22-457d-9538-a9e62d137cd7" />
 
 
-# [Project Name] 🎯
+# NOTILOOP: INFINITE CRINGE 🎯
 
 
 ## Basic Details
-### Team Name: [Name]
+### Team Name: FIREFLY
 
 
 ### Team Members
-- Team Lead: [Name] - [College]
-- Member 2: [Name] - [College]
-- Member 3: [Name] - [College]
+
+- Member 1: RISHANANDA V R  -  College of Engineering Attingal
+- Member 2: ANIKA KARUVAN KAVIL -  College of Engineering Attingal
 
 ### Project Description
-[2-3 lines about what your project does]
+This prototype of an app is a chaotic devil thats triggers a loop of notifications for a certain time period whenever the user recieves a random message/notification. The notification pops up with random pointless facts, cringe dialogues.
+This app further adds to the mess by sending roasts that melts your brain whenever user hit backspace.
+It adds more to the chaos by pushing the user to solve riddles to close this loop.
 
 ### The Problem (that doesn't exist)
-[What ridiculous problem are you solving?]
+You are at peace.
 
 ### The Solution (that nobody asked for)
-[How are you solving it? Keep it fun!]
+Sends you messages that roasts you
 
 ## Technical Details
 ### Technologies/Components Used
 For Software:
-- [Languages used]
-- [Frameworks used]
-- [Libraries used]
-- [Tools used]
+- Languages used - Python
+- Frameworks used - playwright
+- Libraries used - time, threading, tkinter, plyer, pynput, random
+- Tools used - VsCode, pythonv3.13, windows
 
-For Hardware:
-- [List main components]
-- [List specifications]
-- [List tools required]
 
 ### Implementation
-For Software:
+For Software: with the help of chatpgt and mentors
 # Installation
-[commands]
+VSCODE,  GITHUB, PYTHON
 
-# Run
-[commands]
 
 ### Project Documentation
 For Software:
