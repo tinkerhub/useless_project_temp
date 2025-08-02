@@ -4,7 +4,7 @@ from datetime import datetime, timedelta
 SAPLING_COST = 50
 FERTILIZER_COST_PER_KG = 0.5
 CYCLE_MONTHS = 12
-
+#heyhey
 # Load data once
 BANANA_DATA = pd.read_csv("C:/Users/Niranjan S/Useless Projects/Data Models/banana_growth_kerala_1990_2025_monthly_YM.csv")
 CHILD_COST_DATA = pd.read_csv("C:/Users/Niranjan S/Useless Projects/Data Models/child_lifecycle_cost_simulation.csv")
