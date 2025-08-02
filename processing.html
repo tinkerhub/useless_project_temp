@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Analyzing...</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body class="processing-page">
+  <div class="processing-container">
+    <svg class="progress-circle" viewBox="0 0 100 100">
+      <circle class="bg" cx="50" cy="50" r="45"/>
+      <circle class="progress" cx="50" cy="50" r="45"/>
+    </svg>
+    <p class="processing-text">Analyzing your disappointing pixels...</p>
+  </div>
+
+  <!-- Hidden image element -->
+  <img id="uploadedImage" style="display: none;" />
+
+  <!-- Scripts -->
+  <script defer src="face-api.min.js"></script>
+  <script defer src="main.js"></script>
+</body>
+</html>
