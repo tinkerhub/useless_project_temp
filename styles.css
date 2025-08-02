@@ -1,0 +1,61 @@
+
+* {
+  cursor: url("assets/Havis-praney.png") 20 8, auto;
+
+}
+
+body {
+  font-family: Arial, sans-serif;
+  background: #fafafa;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
+
+.container {
+  text-align: center;
+  background: white;
+  padding: 40px;
+  box-shadow: 0 0 10px #ccc;
+  border-radius: 10px;
+  width: 80%;
+  max-width: 400px;
+}
+
+input {
+  display: block;
+  width: 80%;
+  margin: 10px auto;
+  padding: 10px;
+  font-size: 16px;
+}
+
+button {
+  padding: 10px 20px;
+  font-size: 16px;
+  position: relative;
+}
+
+.msg {
+  font-size: 14px;
+  color: red;
+  margin-bottom: 5px;
+}
+#timer {
+  font-size: 48px;
+  margin: 20px 0;
+  font-weight: bold;
+}
+
+#status {
+  font-size: 18px;
+  margin-top: 10px;
+  color: #444;
+}
+
+#message {
+  font-size: 18px;
+  margin-top: 20px;
+  color: #888;
+}

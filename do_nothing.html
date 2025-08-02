@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>AFK Timer | UselessHub</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div class="container">
+    <h1>AFK Timer</h1>
+    <p id="timer">00:00</p>
+    <p id="status">Status: <span style="color:green;">Idle</span></p>
+    <p id="message"></p>
+    <canvas id="confetti-canvas"></canvas>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+  <script>
+    let timerDisplay = document.getElementById("timer");
+    let statusDisplay = document.getElementById("status");
+    let messageDisplay = document.getElementById("message");
+
+    let minutes = 0, seconds = 0;
+    let isIdle = true;
+    let afkTime = 0;
+
+    const praiseMessages = [
+      "You're a still-life painting.",
+      "Motionless excellence!",
+      "Truly doing nothing… spectacularly.",
+      "Zero input. Infinite peace.",
+      "Still. Silent. Supreme."
+    ];
+
+    function updateTimer() {
+      if (isIdle) {
+        seconds++;
+        afkTime++;
+
+        if (seconds === 60) {
+          seconds = 0;
+          minutes++;
+          confetti(); // burst every minute
+        }
+
+        timerDisplay.textContent = `${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
+
+        if (afkTime % 30 === 0) {
+          let msg = praiseMessages[Math.floor(Math.random() * praiseMessages.length)];
+          messageDisplay.textContent = msg;
+        }
+      }
+    }
+
+    setInterval(updateTimer, 1000);
+
+    let timeout;
+
+    function resetIdleTimer() {
+      isIdle = false;
+      statusDisplay.innerHTML = 'Status: <span style="color:red;">You moved</span>';
+      messageDisplay.textContent = "🤨 Hey... you moved.";
+      afkTime = 0;
+
+      clearTimeout(timeout);
+      timeout = setTimeout(() => {
+        isIdle = true;
+        statusDisplay.innerHTML = 'Status: <span style="color:green;">Idle</span>';
+        messageDisplay.textContent = "";
+      }, 3000);
+    }
+
+    ['mousemove', 'keydown', 'scroll', 'touchstart'].forEach(event =>
+      document.addEventListener(event, resetIdleTimer)
+    );
+  </script>
+</body>
+</html>

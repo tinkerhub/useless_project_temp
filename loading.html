@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Signing You Up...</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <div class="container">
+    <h2>Signing you up...</h2>
+    <img src="assets/spinner.gif" alt="Loading..." style="width: 100px;" />
+    <p id="statusMsg">Please wait...</p>
+  </div>
+
+  <script>
+    const messages = [
+      "Hashing your password into oblivion...",
+      "Consulting with the pigeons...",
+      "Baking cookies for authentication...",
+      "Calculating uselessness coefficient...",
+      "Generating quantum entropy...",
+      "Transferring data to a floppy disk...",
+      "Sending verification to space..."
+    ];
+
+    setInterval(() => {
+      const msg = messages[Math.floor(Math.random() * messages.length)];
+      document.getElementById("statusMsg").textContent = msg;
+    }, 3000);
+  </script>
+</body>
+</html>
