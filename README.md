@@ -1,60 +1,52 @@
 <img width="3188" height="1202" alt="frame (3)" src="https://github.com/user-attachments/assets/517ad8e9-ad22-457d-9538-a9e62d137cd7" />
 
 
-# [Project Name] 🎯
 
+# NOTILOOP: INFINITE CRINGE 🎯
 
 ## Basic Details
-### Team Name: [Name]
+### Team Name: FIREFLY
 
 
 ### Team Members
-- Team Lead: [Name] - [College]
-- Member 2: [Name] - [College]
-- Member 3: [Name] - [College]
+
+- Member 1: RISHANANDA V R  -  College of Engineering Attingal
+- Member 2: ANIKA KARUVAN KAVIL -  College of Engineering Attingal
 
 ### Project Description
-[2-3 lines about what your project does]
+This prototype of an app is a chaotic devil thats triggers a loop of notifications for a certain time period whenever the user recieves a random message/notification. The notification pops up with random pointless facts, cringe dialogues.
+This app further adds to the mess by sending roasts that melts your brain whenever user hit backspace.
+It adds more to the chaos by pushing the user to solve riddles to close this loop.
 
 ### The Problem (that doesn't exist)
-[What ridiculous problem are you solving?]
+You are at peace.
 
 ### The Solution (that nobody asked for)
-[How are you solving it? Keep it fun!]
+Sends you messages that roasts you
 
 ## Technical Details
 ### Technologies/Components Used
 For Software:
-- [Languages used]
-- [Frameworks used]
-- [Libraries used]
-- [Tools used]
+- Languages used - Python
+- Frameworks used - playwright
+- Libraries used - time, threading, tkinter, plyer, pynput, random
+- Tools used - VsCode, pythonv3.13, windows
 
-For Hardware:
-- [List main components]
-- [List specifications]
-- [List tools required]
 
 ### Implementation
-For Software:
+For Software: with the help of chatpgt and mentors
 # Installation
-[commands]
+VSCODE,  GITHUB, PYTHON
 
-# Run
-[commands]
 
 ### Project Documentation
 For Software:
 
 # Screenshots (Add at least 3)
-![Screenshot1](Add screenshot 1 here with proper name)
-*Add caption explaining what this shows*
-
-![Screenshot2](Add screenshot 2 here with proper name)
-*Add caption explaining what this shows*
-
-![Screenshot3](Add screenshot 3 here with proper name)
-*Add caption explaining what this shows*
+SCreenshot 55 - Notifications popping up
+Screenshot 56 - Showing riddles
+Screenshot 2025-08-02 154205 - Copy.png - User interface  
+Screenshot 2025-08-02 154230.png - App seeking permission
 
 # Diagrams
 ![Workflow](Add your workflow/architecture diagram here)
@@ -81,17 +73,14 @@ For Hardware:
 
 ### Project Demo
 # Video
-[Add your demo video link here]
-*Explain what the video demonstrates*
+https://github.com/RISHANANDA/team_firefly/blob/main/NOTLOOP_INFINITE%20CRINGE.py.py%20-%20team_firefly%20-%20Visual%20Studio%20Code%202025-08-02%2016-23-45.mp4
 
 # Additional Demos
 [Add any extra demo materials/links]
 
 ## Team Contributions
-- [Name 1]: [Specific contributions]
-- [Name 2]: [Specific contributions]
-- [Name 3]: [Specific contributions]
-
+- RISHANANDA VR - TEAMWORK
+- ANIKA KARUVAN KAVIL - TEAMWORK
 ---
 Made with ❤️ at TinkerHub Useless Projects 
 

@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Notiapp</title>
+    <link rel= "stylesheet" href="style.css">
+</head>
+
+
+<body>
+
+  <button onclick="startLoop()">Start NotiLoop</button>
+  <button onclick="stopLoop()">Stop</button>
+
+  <div class="status" id="status">Not running</div>
+
+  <script>
+    let intervalId = null;
+    let count = 0;
+
+    function showNotification() {
+      count++;
+      const options = {
+        body: `Notification #${count}\nYou’ve been notified again.`,
+        icon: 'https://cdn-icons-png.flaticon.com/512/1827/1827392.png',
+      };
+      new Notification("🔁 NotiLoop", options);
+    }
+
+    function startLoop() {
+      if (!("Notification" in window)) {
+        alert("This browser does not support desktop notification");
+        return;
+      }
+
+      if (Notification.permission === "granted") {
+        runLoop();
+      } else if (Notification.permission !== "denied") {
+        Notification.requestPermission().then(permission => {
+          if (permission === "granted") {
+            runLoop();
+          } else {
+            alert("Notification permission denied!");
+          }
+        });
+      }
+    }
+
+    function runLoop() {
+      document.getElementById("status").textContent = "Running...";
+      count = 0;
+      showNotification();
+      intervalId = setInterval(showNotification, 3000); // every 3 seconds
+    }
+
+    function stopLoop() {
+      clearInterval(intervalId);
+      document.getElementById("status").textContent = "Stopped";
+    }
+
+    const stopBtn = document.getElementById("stopBtn");
+
+  stopBtn.addEventListener("mouseenter", () => {
+  const maxX = window.innerWidth - stopBtn.offsetWidth;
+  const maxY = window.innerHeight - stopBtn.offsetHeight;
+
+  const newX = Math.random() * maxX;
+  const newY = Math.random() * maxY;
+
+  stopBtn.style.left = `${newX}px`;
+  stopBtn.style.top = `${newY}px`;
+});
+
+  </script>
+
+</body>
+</html>
