@@ -1,102 +1,86 @@
-<img width="3188" height="1202" alt="frame (3)" src="https://github.com/user-attachments/assets/517ad8e9-ad22-457d-9538-a9e62d137cd7" />
+CATMOSPHERE 🎯
+Basic Details
+Team Name:
+bitbybit
 
+Team Members
+Member 1: Irene Treessa Raj – TKM College of Engineering
 
-# [Project Name] 🎯
+Member 2: Anju V B – TKM College of Engineering
 
+Project Description
+CATMOSPHERE is an interactive, pixel-art-inspired cat-themed website that lets users input "Meow" variations to generate a mood, watch a tiny animated cat roam through trees and clouds, and get redirected to a custom mood display page — all for absolutely no productive reason.
 
-## Basic Details
-### Team Name: [Name]
+The Problem (that doesn't exist)
+Too many people are using AI and web technologies for serious purposes like health, education, and finance. But what about the deep emotional need to communicate with cats using “Meow”?
 
+The Solution (that nobody asked for)
+CATMOSPHERE solves this imaginary crisis by creating a cat-themed world where moods are detected based on how you meow. With pixel clouds, trees, and animations, it’s the purr-fect mix of nonsense and cuteness.
 
-### Team Members
-- Team Lead: [Name] - [College]
-- Member 2: [Name] - [College]
-- Member 3: [Name] - [College]
-
-### Project Description
-[2-3 lines about what your project does]
-
-### The Problem (that doesn't exist)
-[What ridiculous problem are you solving?]
-
-### The Solution (that nobody asked for)
-[How are you solving it? Keep it fun!]
-
-## Technical Details
-### Technologies/Components Used
+Technical Details
+Technologies/Components Used
 For Software:
-- [Languages used]
-- [Frameworks used]
-- [Libraries used]
-- [Tools used]
+Languages used: HTML, CSS, JavaScript
+
+Frameworks used: None
+
+Libraries used: None
+
+Tools used: VS Code, GitHub, Imagination
 
 For Hardware:
-- [List main components]
-- [List specifications]
-- [List tools required]
+None. It only runs on good vibes and Meows.
+(But a cat nearby might enhance the experience.)
 
-### Implementation
+Implementation
 For Software:
-# Installation
-[commands]
+📦 Installation
+bash
+Copy
+Edit
+git clone https://github.com/yourusername/catmosphere.git  
+cd catmosphere  
+🚀 Run
+Just open index.html in your browser.
+Make sure mood.html is in the same directory. Type Meow. Feel seen.
 
-# Run
-[commands]
+Project Documentation
+deploy link:https://catmosphere.vercel.app/index.html
+github: https://github.com/anjuvb/catmosphere
 
-### Project Documentation
+
+
 For Software:
+📸 Screenshots (Add at least 3)
+![Screenshot1](Add screenshot here)
+https://drive.google.com/file/d/1UKns2dMJ-ATHWb8rojdwVxcssmWpRXnN/view?usp=drive_link
 
-# Screenshots (Add at least 3)
-![Screenshot1](Add screenshot 1 here with proper name)
-*Add caption explaining what this shows*
+![Screenshot2](Add screenshot here)
 
-![Screenshot2](Add screenshot 2 here with proper name)
-*Add caption explaining what this shows*
+https://drive.google.com/file/d/1WPORjP-exlq354RHtCtD1Ez2ZkUKcMUr/view?usp=drive_link
 
-![Screenshot3](Add screenshot 3 here with proper name)
-*Add caption explaining what this shows*
 
-# Diagrams
-![Workflow](Add your workflow/architecture diagram here)
-*Add caption explaining your workflow*
+🧠 Diagrams
+![Workflow](Add workflow diagram)
+User inputs → JS filters the “Meow” → Matches with mood → Displays on mood page
 
-For Hardware:
 
-# Schematic & Circuit
-![Circuit](Add your circuit diagram here)
-*Add caption explaining connections*
+Project Demo
+🎥 Video
+https://drive.google.com/file/d/1kU3cU0ULBpSkMmglSRh_iyfxK1RkXn3j/view?usp=drive_link
 
-![Schematic](Add your schematic diagram here)
-*Add caption explaining the schematic*
+🎁 Additional Demos
+https://github.com/anjuvb/catmosphere
 
-# Build Photos
-![Components](Add photo of your components here)
-*List out all components shown*
+Team Contributions
+Irene Treessa Raj:
 
-![Build](Add photos of build process here)
-*Explain the build steps*
+UI/UX Design, JavaScript logic for meow mood parsing, cat animations
 
-![Final](Add photo of final product here)
-*Explain the final build*
+Anju V B:
 
-### Project Demo
-# Video
-[Add your demo video link here]
-*Explain what the video demonstrates*
+CSS styling, pixel art elements, mood message generator, debugging weird cat behavior
 
-# Additional Demos
-[Add any extra demo materials/links]
-
-## Team Contributions
-- [Name 1]: [Specific contributions]
-- [Name 2]: [Specific contributions]
-- [Name 3]: [Specific contributions]
-
----
-Made with ❤️ at TinkerHub Useless Projects 
-
-![Static Badge](https://img.shields.io/badge/TinkerHub-24?color=%23000000&link=https%3A%2F%2Fwww.tinkerhub.org%2F)
-![Static Badge](https://img.shields.io/badge/UselessProjects--25-25?link=https%3A%2F%2Fwww.tinkerhub.org%2Fevents%2FQ2Q1TQKX6Q%2FUseless%2520Projects)
-
+Made with ❤️ at TinkerHub Useless Projects
 
 
