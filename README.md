@@ -38,7 +38,8 @@ For Hardware:
 For Software:
 # Installation
 [pip install flask rembg opencv-python numpy pillow flask-cors]
-
+# Clone the repository
+[git clone https://github.com/SreyaMaxwel/Snack_Spy]
 # Run
 [!python app.py]
 
