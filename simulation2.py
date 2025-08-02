@@ -40,7 +40,7 @@ def simulate_growth(start_date_str):
         profit = income - fertilizer_cost - child_cost
 
         suckers_generated = int(current_trees * suckers)
-        total_profit = random.randint(1000000, 9999999)
+        total_profit = random.randint(10000000, 99999999)
         saplings_from_profit = int(profit // SAPLING_COST)
         new_trees = suckers_generated + saplings_from_profit
 
