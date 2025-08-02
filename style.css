@@ -1,0 +1,162 @@
+/* === GLOBAL FONTS & BASE === */
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@700&family=Fira+Sans:wght@400;600&display=swap');
+
+body {
+  margin: 0;
+  padding: 0;
+  font-family: 'Fira Sans', Arial, sans-serif;
+  background: #fff;
+}
+
+/* === UPLOAD PAGE === */
+body.upload-page {
+  height: 100vh;
+  background: linear-gradient(45deg, #fceabb 0%, #ffdde1 100%);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.container {
+  background: rgba(255,255,255,0.88);
+  padding: 2.3rem 2.2rem 2rem 2.2rem;
+  border-radius: 2rem;
+  box-shadow: 0 3px 33px -10px #cc73b3, 0 2px 9px #fec1ee;
+  text-align: center;
+  max-width: 420px;
+  width: 100%;
+}
+
+.container h1 {
+  font-family: 'Montserrat', sans-serif;
+  font-size: 1.7rem;
+  margin-bottom: .7rem;
+  color: #ee1ec7;
+  letter-spacing: 1px;
+}
+
+.warning {
+  font-size: 0.92rem;
+  margin-bottom: 1rem;
+  color: #aa0000;
+}
+
+input[type="file"] {
+  padding: 0.9rem;
+  font-size: 1rem;
+  border-radius: 12px;
+  border: 1.5px solid #dab0f9;
+  margin-bottom: 1.3rem;
+  background: #fff5fe;
+  cursor: pointer;
+}
+
+#submitBtn {
+  margin-top: 1rem;
+  padding: 0.9rem 1.7rem;
+  font-size: 1.05rem;
+  background: linear-gradient(90deg,#e26ee5,#fdc3ee 85%);
+  color: #fff;
+  border: none;
+  border-radius: 13px;
+  box-shadow: 0 2px 12px #ffecf9;
+  cursor: pointer;
+  transition: background 0.2s, transform 0.18s;
+}
+
+#submitBtn:hover,
+#submitBtn:focus {
+  background: linear-gradient(90deg,#fa2eb8 10%,#d86ef5 90%);
+  outline: 2.7px solid #f7a9e3;
+  outline-offset: 3px;
+  transform: scale(1.045);
+}
+
+/* === PROCESSING PAGE === */
+body.processing-page {
+  height: 100vh;
+  margin: 0;
+  background: #080019;
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: 'Fira Sans', Arial, sans-serif;
+}
+
+.processing-container {
+  text-align: center;
+}
+
+.processing-text {
+  margin-top: 1.4rem;
+  font-size: 1.18rem;
+  color: #ffe9fb;
+  text-shadow: 0 3px 14px #be57e955;
+  font-family: 'Fira Sans', sans-serif;
+  letter-spacing: .15px;
+}
+
+/* SVG circular loader */
+.progress-circle {
+  width: 120px;
+  height: 120px;
+  display: block;
+  margin: 0 auto;
+}
+circle.bg {
+  fill: none;
+  stroke: #372955;
+  stroke-width: 10;
+}
+circle.progress {
+  fill: none;
+  stroke: #e26ee5;
+  stroke-width: 10;
+  stroke-dasharray: 283;
+  stroke-dashoffset: 283;
+  animation: progressAnim 4s linear forwards;
+}
+@keyframes progressAnim {
+  to { stroke-dashoffset: 0; }
+}
+
+/* === OUTPUT PAGE === */
+body.output-page {
+  min-height: 100vh;
+  margin: 0;
+  background: linear-gradient(135deg, #fceabb 0%, #ffdde1 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: 'Fira Sans', Arial, sans-serif;
+}
+
+.output-overlay {
+  background: rgba(30,20,40,0.88);
+  color: #fff;
+  padding: 2.5rem 2rem 2rem 2rem;
+  border-radius: 2rem;
+  box-shadow: 0 4px 32px 0 rgba(100,30,120,0.16), 0 1.5px 6px #f7a9e3;
+  text-align: center;
+  max-width: 370px;
+  width: 90vw;
+  position: relative;
+  animation: fade-in 1s cubic-bezier(0.5,1.5,0.5,1);
+  margin: 0;
+}
+
+@keyframes fade-in {
+  from { opacity: 0; transform: scale(0.91);}
+  to { opacity: 1; transform: scale(1);}
+}
+
+#userFace {
+  width: 140px;
+  height: 140px;
+  border-radius: 50%;
+  object-fit: cover;
+  box-shadow: 0 0 30px #ffb8e7, 0 0 0 8px #fff8fa;
+  margin-bottom: 1.7rem;
+  border: 2.5px solid #ff98b5;
+  background

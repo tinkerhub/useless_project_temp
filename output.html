@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Face-to-Fruit Results</title>
+  <!-- Fun & modern fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@700&family=Fira+Sans:wght@400;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css" />
+  <style>
+    body.output-page {
+      min-height: 100vh;
+      margin: 0;
+      background: linear-gradient(135deg, #fceabb 0%, #ffdde1 100%);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: 'Fira Sans', Arial, sans-serif;
+    }
+    .output-overlay {
+      background: rgba(30,20,40,0.88);
+      color: #fff;
+      padding: 2.5rem 1.6rem 2rem 1.6rem;
+      border-radius: 2rem;
+      box-shadow: 0 4px 32px 0 rgba(100,30,120,0.13), 0 2px 8px #f7a9e3c6;
+      text-align: center;
+      max-width: 420px;
+      width: 95vw;
+      animation: fadein 0.85s cubic-bezier(0.5,1.5,0.5,1);
+    }
+    @keyframes fadein {
+      from { opacity: 0; transform: scale(0.92);}
+      to { opacity: 1; transform: scale(1);}
+    }
+    .output-images {
+      display: flex;
+      justify-content: center;
+      align-items: flex-end;
+      gap: 28px;
+      margin-bottom: 1.2rem;
+      flex-wrap: wrap;
+    }
+    #userFace, #veggiePic {
+      background: #fff;
+      box-shadow: 0 0 18px #fed7fa4a;
+      transition: box-shadow 0.23s, border 0.23s;
+    }
+    #userFace {
+      width: 110px;
+      height: 110px;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 3px solid #ff98b5;
+      margin-bottom: .6rem;
+    }
+    #veggiePic {
+      width: 90px;
+      height: 90px;
+      border-radius: 19px;
+      border: 2px solid #b7f2a7;
+      margin-bottom: .6rem;
+      object-fit: cover;
+      background: #fafdfa;
+    }
+    .fruit-name {
+      font-family: 'Montserrat', sans-serif;
+      font-size: 1.6rem;
+      letter-spacing: .6px;
+      font-weight: 700;
+      margin-bottom: .6rem;
+      margin-top: 0.1rem;
+      background: linear-gradient(90deg,#ffb365 30%,#e26ee5 100%);
+      background-clip: text;
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+    .roast-text {
+      font-size: 1.14rem;
+      color: #ffe9fb;
+      font-family: 'Fira Sans', sans-serif;
+      line-height: 1.48;
+      margin-bottom: 0rem;
+      background: rgba(90,20,120,0.14);
+      border-radius: 10px;
+      padding: 0.7rem 1rem;
+      display: inline-block;
+      box-shadow: 0 0 9px #ea97e3c5;
+      border: 1.5px solid #ffb3ef38;
+    }
+    @media (max-width: 600px) {
+      .output-overlay { padding: 1.2rem 0.3rem; border-radius: 1.1rem; }
+      #userFace { width: 71px; height: 71px; }
+      #veggiePic { width: 60px; height: 60px; }
+      .fruit-name { font-size: 1.09rem; }
+      .roast-text { font-size: .91rem; }
+      .output-images { gap: 12px; }
+    }
+  </style>
+</head>
+<body class="output-page" background="E:\Useless\images\bg.jpg">
+  <div class="output-overlay">
+    <div class="output-images">
+      <img id="userFace" alt="Your uploaded photo"/>
+      <img id="veggiePic" alt="Matched fruit or veggie"/>
+    </div>
+    <h1 class="fruit-name"></h1>
+    <p class="roast-text"></p>
+    <button id="downloadCertBtn" style="margin-top:1.6rem; font-size:1.11rem; padding:0.75em 1.5em; border-radius:1em; background:var(--fruit-accent,#fa6b24); color:#fff; border:none; font-family:Montserrat,sans-serif; font-weight:700; box-shadow:0 3px 18px #fee3;">Download Your Certificate</button>
+
+  </div>
+  <!-- Face API library (use local copy or CDN as appropriate) -->
+  <script src="face-api.min.js"></script>
+  <script src="main.js"></script>
+</body>
+</html>
