@@ -1,47 +1,51 @@
 <img width="3188" height="1202" alt="frame (3)" src="https://github.com/user-attachments/assets/517ad8e9-ad22-457d-9538-a9e62d137cd7" />
 
 
-# [Project Name] 🎯
+# Baadal ☁︎ 🎯
 
 
 ## Basic Details
-### Team Name: [Name]
+### Team Name: Powerpuff Girls
 
 
 ### Team Members
-- Team Lead: [Name] - [College]
-- Member 2: [Name] - [College]
-- Member 3: [Name] - [College]
+-Team Lead: Diyana Sadath – TKMCE
+-Member 2: Asiya Muhammed – TKMCE
 
 ### Project Description
-[2-3 lines about what your project does]
+Have you ever looked up at a cloudy sky and told your friend "that cloud looks like a cat!", only for your friend to say that you need to get your eyes checked...
+Well, we're here with Baadal to not only validate your imagination, but also give it some character ✨
 
 ### The Problem (that doesn't exist)
-[What ridiculous problem are you solving?]
+People can see animals in the clouds... but no one has ever documented these cloud creatures. Where’s the record? The lore? The leaderboard?
 
 ### The Solution (that nobody asked for)
-[How are you solving it? Keep it fun!]
+We made Baadal, an app that takes your cloud photos, lets an AI hallucinate the animal it sees, gives it a ridiculous backstory, and adds it to the Cloud Lore Wiki.
+You can even upvote the weirdest ones and climb the Absurdity Leaderboard.
 
 ## Technical Details
 ### Technologies/Components Used
 For Software:
-- [Languages used]
-- [Frameworks used]
-- [Libraries used]
-- [Tools used]
+- Languages: TypeScript, JavaScript
+- Frameworks: React, Node.js
+- Libraries: TailwindCSS, Lucide, Sonner, Google Generative AI SDK
+- Tools: Vite, Supabase, json-server, dotenv
 
 For Hardware:
-- [List main components]
-- [List specifications]
-- [List tools required]
+- Nothing. Except maybe a head in the clouds.
 
 ### Implementation
 For Software:
 # Installation
-[commands]
+git clone https://github.com/diyana-sadath/cloud-critters-saga.git
+npm install
 
 # Run
-[commands]
+npm run dev
+
+### Make sure to:
+- Add your API keys for Gemini / Supabase in a .env.local file
+- Set up your Supabase schema or db.json if using json-server
 
 ### Project Documentation
 For Software:
@@ -57,41 +61,18 @@ For Software:
 *Add caption explaining what this shows*
 
 # Diagrams
-![Workflow](Add your workflow/architecture diagram here)
-*Add caption explaining your workflow*
-
-For Hardware:
-
-# Schematic & Circuit
-![Circuit](Add your circuit diagram here)
-*Add caption explaining connections*
-
-![Schematic](Add your schematic diagram here)
-*Add caption explaining the schematic*
-
-# Build Photos
-![Components](Add photo of your components here)
-*List out all components shown*
-
-![Build](Add photos of build process here)
-*Explain the build steps*
-
-![Final](Add photo of final product here)
-*Explain the final build*
+<img width="436" height="847" alt="image" src="https://github.com/user-attachments/assets/5b03a8b3-a741-4315-b13e-02bfbfaf9329" />
+A flow from cloud photo ➡️ AI hallucination ➡️ internet fame.
 
 ### Project Demo
 # Video
 [Add your demo video link here]
 *Explain what the video demonstrates*
 
-# Additional Demos
-[Add any extra demo materials/links]
-
 ## Team Contributions
-- [Name 1]: [Specific contributions]
-- [Name 2]: [Specific contributions]
-- [Name 3]: [Specific contributions]
-
+- Diyana Sadath: Frontend development, AI integration, UI/UX design
+- Asiya Muhammed: Leaderboard backend, storytelling logic, wiki saving logic
+  
 ---
 Made with ❤️ at TinkerHub Useless Projects 
 
