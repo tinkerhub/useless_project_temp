@@ -9,57 +9,47 @@ CYCLE_MONTHS = 12
 BANANA_DATA = pd.read_csv("C:/Users/Niranjan S/Useless Projects/Data Models/banana_growth_kerala_1990_2025_monthly_YM.csv")
 CHILD_COST_DATA = pd.read_csv("C:/Users/Niranjan S/Useless Projects/Data Models/child_lifecycle_cost_simulation.csv")
 
-def simulate_growth(start_date_str):
-    planting_date = datetime.strptime(start_date_str, "%Y-%m-%d")
-    current_date = datetime.today()
-    
-    date = planting_date
-    current_trees = 1
-    total_profit = 0
-    age = 0
-    history = []
+def simulate_growth(dob_str):
+    from datetime import datetime
+    import pandas as pd
 
-    while date <= current_date:
-        year = date.year
-        month = date.month
+    # Parse date
+    dob = datetime.strptime(dob_str, "%Y-%m-%d")
+    current_date = datetime.now()
+    age_years = current_date.year - dob.year - ((current_date.month, current_date.day) < (dob.month, dob.day))
 
-        row = BANANA_DATA[(BANANA_DATA["Year"] == year) & (BANANA_DATA["Month"] == month)]
-        if row.empty or age >= len(CHILD_COST_DATA):
-            break
+    # Load data
+    try:
+        COST_DATA = pd.read_csv("C:/Users/Niranjan S/Useless Projects/Data Models/child_lifecycle_cost_simulation.csv")
+        if "Annual_Cost" not in COST_DATA.columns:
+            raise ValueError("Annual_Cost column missing")
+    except Exception as e:
+        raise Exception(f"CSV load error: {str(e)}")
 
-        row = row.iloc[0]
-        yield_kg = row["Yield_per_Tree_kg"]
-        price = row["Market_Price_per_kg"]
-        fertilizer_kg = row["Fertilizer_Used_kg"]
-        suckers = row["Suckers_per_Tree"]
+    # Sanitize cost
+    annual_cost = COST_DATA["Yearly_Expenditure_INR"].fillna(0).mean()  # Use average as a fallback
 
-        income = current_trees * yield_kg * price
-        fertilizer_cost = current_trees * fertilizer_kg * FERTILIZER_COST_PER_KG
-        child_cost = CHILD_COST_DATA.loc[CHILD_COST_DATA["Age"] == age, "Yearly_Expenditure_INR"].values[0]
-        profit = income - fertilizer_cost - child_cost
+    # Tree income simulation
+    income_per_tree_per_year = 1200  # example value
+    number_of_trees = 1  # Or increase for compounding trees
+    total_income = 0
 
-        suckers_generated = int(current_trees * suckers)
-        saplings_from_profit = int(profit // SAPLING_COST)
-        new_trees = suckers_generated + saplings_from_profit
-        total_profit += profit
+    for year in range(age_years):
+        yearly_income = income_per_tree_per_year * number_of_trees
+        total_income += yearly_income
+        # optionally simulate sucker multiplication
+        number_of_trees *= 1.5  # compounding, adjust if needed
 
-        history.append({
-            "Cycle": date.strftime("%Y-%m"),
-            "Age": age,
-            "Trees": current_trees,
-            "Income": round(income),
-            "Fert_Cost": round(fertilizer_cost),
-            "Child_Cost": round(child_cost),
-            "Profit": round(profit),
-            "Total_Profit": round(total_profit),
-            "New_Trees": new_trees
-        })
+    # Adjust if cost included
+    estimated_cost = annual_cost * age_years
+    net_gain = total_income - estimated_cost
 
-        current_trees = new_trees
-        age += 1
-        date += timedelta(days=30 * CYCLE_MONTHS)
+    # Fix negative or huge values
+    if net_gain < 0:
+        net_gain = 0
 
     return {
-        "total_profit": round(total_profit),
-        "history": history
+        "name": "anand m s",
+        "amount": f"₹{round(net_gain, 2):,}"
     }
+
