@@ -1,96 +1,91 @@
 <img width="3188" height="1202" alt="frame (3)" src="https://github.com/user-attachments/assets/517ad8e9-ad22-457d-9538-a9e62d137cd7" />
 
 
-# [Project Name] 🎯
+# Vazhi-illae-Kuzhi 🎯
 
 
 ## Basic Details
-### Team Name: [Name]
+### Team Name: 2 Muskeeters
 
 
 ### Team Members
-- Team Lead: [Name] - [College]
-- Member 2: [Name] - [College]
-- Member 3: [Name] - [College]
+- Team Lead: [Anamika MJ] - [Model Engineering College]
+- Member 2: [Anamika MJ] - [Model Engineering College]
+- Member 3: [Riya Rebecca Renjit] - [Model Engineering College]
 
 ### Project Description
-[2-3 lines about what your project does]
+Vazhi Illae Kuzhi is a fun and smart pothole detection app built with OpenCV and Streamlit. Just upload a photo of a road, and it’ll scan the image, find the potholes (based on shape and size), and throw some hilarious roast messages at them. And for a little extra drama, it even creates a personalized “Pothole Certificate” that you can download or share.
 
 ### The Problem (that doesn't exist)
-[What ridiculous problem are you solving?]
+India (and many other countries) face a serious road safety issue due to unidentified or poorly maintained potholes.
 
 ### The Solution (that nobody asked for)
-[How are you solving it? Keep it fun!]
+Vazhi Illae Kuzhi uses computer vision to detect potholes in road images automatically. It highlights them visually, roasts them humorously based on size, and creates a fun “Pothole Certificate” that users can download or share — making road issues easier to spot and harder to ignore.
+
 
 ## Technical Details
 ### Technologies/Components Used
 For Software:
-- [Languages used]
-- [Frameworks used]
-- [Libraries used]
-- [Tools used]
+- Python
+- Streamlit (for web UI)
+- OpenCV (for image processing and contour detection)
+  NumPy (for numerical operations)
+  Pillow / PIL (for image handling and certificate generation)
+  random, datetime (Python standard libraries for roast/certificate logic)
+- Git & GitHub (for version control and collaboration)
 
-For Hardware:
-- [List main components]
-- [List specifications]
-- [List tools required]
+VS Code (for development)
+
+ChatGPT (for code assistance, brainstorming, and optimization)
+
 
 ### Implementation
 For Software:
 # Installation
-[commands]
+
+git clone https://github.com/your-username/vazhi-illae-kuzhi.git
+cd vazhi-illae-kuzhi
+
+
+python -m venv venv
+source venv/bin/activate        # On Windows: venv\Scripts\activate
+
+
+pip install -r requirements.txt
+
 
 # Run
-[commands]
+
+streamlit run app/streamlit_app.py
+
 
 ### Project Documentation
 For Software:
 
 # Screenshots (Add at least 3)
-![Screenshot1](Add screenshot 1 here with proper name)
+![Screenshot1](8bb8055f-8d2a-41f6-88da-dbd3112fa2da.jpg)
 *Add caption explaining what this shows*
 
-![Screenshot2](Add screenshot 2 here with proper name)
+![Screenshot2](24563cfe-af87-45a6-941b-6c4ce3011272.jpg)
 *Add caption explaining what this shows*
 
-![Screenshot3](Add screenshot 3 here with proper name)
+![Screenshot3](6fde09e8-2c83-4f38-8fe4-0a3e566386d6.jpge)
 *Add caption explaining what this shows*
 
-# Diagrams
-![Workflow](Add your workflow/architecture diagram here)
-*Add caption explaining your workflow*
 
-For Hardware:
 
-# Schematic & Circuit
-![Circuit](Add your circuit diagram here)
-*Add caption explaining connections*
 
-![Schematic](Add your schematic diagram here)
-*Add caption explaining the schematic*
-
-# Build Photos
-![Components](Add photo of your components here)
-*List out all components shown*
-
-![Build](Add photos of build process here)
-*Explain the build steps*
-
-![Final](Add photo of final product here)
-*Explain the final build*
 
 ### Project Demo
 # Video
-[Add your demo video link here]
+[Video.zip]
 *Explain what the video demonstrates*
 
-# Additional Demos
-[Add any extra demo materials/links]
 
 ## Team Contributions
-- [Name 1]: [Specific contributions]
-- [Name 2]: [Specific contributions]
-- [Name 3]: [Specific contributions]
+- Riya Rebecca Renjit: Frontend
+- Anamika MJ: Open cv
+
 
 ---
 Made with ❤️ at TinkerHub Useless Projects 
