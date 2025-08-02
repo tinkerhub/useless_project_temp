@@ -53,14 +53,13 @@ How it works:
 4.Then it compares the two and returns a similarity score and a cheeky verdict!
 
 # Screenshots (Add at least 3)
-![Screenshot1](Add screenshot 1 here with proper name)
-*Add caption explaining what this shows*
+![Screenshot1](<img width="1915" height="873" alt="image" src="https://github.com/user-attachments/assets/e51936b9-5923-411b-973f-703a40191758" />
+)Raw Field
 
-![Screenshot2](Add screenshot 2 here with proper name)
-*Add caption explaining what this shows*
+![Screenshot2](<img width="1916" height="810" alt="image" src="https://github.com/user-attachments/assets/53c0f0f6-63d5-4d9a-a883-db8c5e95de98" />)Sample Output
 
-![Screenshot3](Add screenshot 3 here with proper name)
-*Add caption explaining what this shows*
+![Screenshot3](<img width="1901" height="872" alt="image" src="https://github.com/user-attachments/assets/2b08a3f4-f530-4803-9161-0896b59f80b6" />
+)Sample UI
 
 # Diagrams
 ![Workflow](Add your workflow/architecture diagram here)
@@ -87,8 +86,7 @@ For Hardware:
 
 ### Project Demo
 # Video
-[Add your demo video link here]
-*Explain what the video demonstrates*
+[[Add your demo video link here](https://drive.google.com/file/d/1YCf2REIiPtGIjV3dnv20B3zQWKeTTyQg/view?usp=drive_link)]
 
 # Additional Demos
 [Add any extra demo materials/links]
