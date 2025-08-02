@@ -58,9 +58,7 @@ For Software:
 
 ### Project Demo
 # Video
-<video controls>
-  <source src="https://drive.google.com/file/d/1niV2rg52ViF26yvu7xMeJjOjpxqLjQqk/view?usp=sharing" type="video/mp4">
-</video>
+[Here](https://drive.google.com/file/d/1niV2rg52ViF26yvu7xMeJjOjpxqLjQqk/view?usp=sharing)
 The video shows how shikkari answers to our questions.
 
 
