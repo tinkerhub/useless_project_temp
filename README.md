@@ -1,7 +1,7 @@
 <img width="3188" height="1202" alt="frame (3)" src="https://github.com/user-attachments/assets/517ad8e9-ad22-457d-9538-a9e62d137cd7" />
 
 
-# [Project Name] 🎯
+# [Oru Vazha Calculation!] 🎯
 
 
 ## Basic Details
@@ -13,10 +13,12 @@
 - Member 2: Niranjan S - College of Engineering, Attingal
 
 ### Project Description
-[2-3 lines about what your project does]
+-"Born or Grown...what's more profitable?"
+Oru vazha is a fun web app that humorously estimates how much profit your parents could have earned if they had planted a plaintain tree on the day you born
+
 
 ### The Problem (that doesn't exist)
-[What ridiculous problem are you solving?]
+-
 
 ### The Solution (that nobody asked for)
 [How are you solving it? Keep it fun!]
@@ -24,30 +26,27 @@
 ## Technical Details
 ### Technologies/Components Used
 For Software:
-- [Languages used]
-- [Frameworks used]
-- [Libraries used]
-- [Tools used]
+- Python,HTML
+- Flask,CORS
+- pandas
 
 For Hardware:
-- [List main components]
-- [List specifications]
-- [List tools required]
+NIL
 
 ### Implementation
-For Software:
+For Software:VS code,GitHub
 # Installation
-[commands]
+-CORS
+-pip
 
 # Run
-[commands]
+-website hosting
 
 ### Project Documentation
 For Software:
 
 # Screenshots (Add at least 3)
-![Screenshot1](Add screenshot 1 here with proper name)
-*Add caption explaining what this shows*
+<img src="Screenshot 2025-08-02 160801.png" />
 
 ![Screenshot2](Add screenshot 2 here with proper name)
 *Add caption explaining what this shows*
