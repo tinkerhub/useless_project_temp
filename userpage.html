@@ -136,6 +136,9 @@
     document.getElementById("userForm").addEventListener("submit", function(e){
         e.preventDefault();
         const name = document.getElementById("name").value;
+        const dob = document.getElementById("dob").value;
+        const place = document.getElementById("place").value;
+        const drink = document.getElementById("drink").value;
         goToPage(3);
 
         const loadingSteps = [
@@ -154,15 +157,21 @@
             if(index < loadingSteps.length){
                 setTimeout(showNextStep, 1200);  // normal delay for each step
             } else {
-                // Keep the last text visible for longer
-                setTimeout(()=>{
-                    const estimatedProfit = Math.floor(Math.random()*100000 + 5000); // dummy amount
-                    document.getElementById("resultMessage").innerHTML = 
-                        `Hey <strong>${name}</strong>,<br><br>
-                         If your parents had planted a tree instead of you when you were born,<br>
-                         They would have an estimated amount of <strong>₹${estimatedProfit}</strong> 😅`;
+                // After loading, call backend
+                setTimeout(async ()=>{
+                    try {
+                        const response = await fetch(`http://10.14.182.194:5000/simulate?date=${dob}`);
+                        const data = await response.json();
+                        const finalCycle = data.history[data.history.length - 1];
+                        document.getElementById("resultMessage").innerHTML = 
+                            `Hey <strong>${name}</strong>,<br><br>
+                            If your parents had planted a tree instead of you when you were born,<br>
+                            They would have an estimated amount of <strong>₹${finalCycle.Total_Profit}</strong> 😅`;
+                    } catch (err) {
+                        document.getElementById("resultMessage").innerHTML = "Sorry, could not connect to the server!";
+                    }
                     goToPage(4);
-                }, 2500); // hold last message for 2.5 seconds
+                }, 2500);
             }
         }
         showNextStep();
