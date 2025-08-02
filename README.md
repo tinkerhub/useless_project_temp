@@ -1,34 +1,39 @@
 <img width="3188" height="1202" alt="frame (3)" src="https://github.com/user-attachments/assets/517ad8e9-ad22-457d-9538-a9e62d137cd7" />
 
 
-# [Project Name] 🎯
+# MOOD DISRUPTING MUSIC PLAYER 🎯
 
 
 ## Basic Details
-### Team Name: [Name]
+### Team Name: Useless Bytes
 
 
 ### Team Members
-- Team Lead: [Name] - [College]
-- Member 2: [Name] - [College]
-- Member 3: [Name] - [College]
+- Team Lead: Aashika Kiran Nair - LBS Institute of Technology for Women 
+- Member 2: Anjana Satheesh - LBS Institute of Technology for Women 
+- Member 3: G Sreenandhini - LBS Institute of Technology for Women 
 
 ### Project Description
-[2-3 lines about what your project does]
+This is a Mood music player wherein it plays songs NOT based on your mood! It's a very mindful, very cutesy webesite developed for all you cutus out there<3
 
 ### The Problem (that doesn't exist)
-[What ridiculous problem are you solving?]
+It is very tiring to always have the songs we wanna listen to play for us.
 
 ### The Solution (that nobody asked for)
-[How are you solving it? Keep it fun!]
+We created a very efficient website where it plays the songs in contrast to your mood. We have apps and websites that play songs that we ask for, so inorder to make people happy we created one that doesn't :)
 
 ## Technical Details
 ### Technologies/Components Used
 For Software:
-- [Languages used]
-- [Frameworks used]
-- [Libraries used]
-- [Tools used]
+- HTML
+- CSS
+- JavaScript
+- Tools:
+  Notepad
+  VSC
+  Spotify
+  Google Fonts API
+
 
 For Hardware:
 - [List main components]
@@ -81,7 +86,7 @@ For Hardware:
 
 ### Project Demo
 # Video
-[Add your demo video link here]
+[]
 *Explain what the video demonstrates*
 
 # Additional Demos
