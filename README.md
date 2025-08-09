@@ -1,96 +1,86 @@
 <img width="3188" height="1202" alt="frame (3)" src="https://github.com/user-attachments/assets/517ad8e9-ad22-457d-9538-a9e62d137cd7" />
 
 
-# [Project Name] 🎯
+# Snap Shield 🎯
 
 
 ## Basic Details
-### Team Name: [Name]
+### Team Name: Pixel pada
 
 
 ### Team Members
-- Team Lead: [Name] - [College]
-- Member 2: [Name] - [College]
-- Member 3: [Name] - [College]
+- Team Lead: Alphin - MACE
+- Member 2: Anuranj -MACE
 
 ### Project Description
-[2-3 lines about what your project does]
+Snap shield is a comedic yet functional eye-closure detection system that uses AI to watch your eyelids. If you blink too often or keep your eyes shut for too long, it blasts a song and turns off an LED through an ESP32 — perfect for turning naps into dramatic events.
 
 ### The Problem (that doesn't exist)
-[What ridiculous problem are you solving?]
+Sometimes, when you accidentally fall asleep, nothing fun happens. You just… sleep. That’s boring.
 
 ### The Solution (that nobody asked for)
-[How are you solving it? Keep it fun!]
+We use AI-powered eyelid tracking to detect suspicious sleep attempts and instantly launch a wake-up concert, complete with LED theatrics. Your naps will never be peaceful again.
 
 ## Technical Details
 ### Technologies/Components Used
 For Software:
-- [Languages used]
-- [Frameworks used]
-- [Libraries used]
-- [Tools used]
+Languages: Python, Arduino C++
+Frameworks: MediaPipe, OpenCV
+Libraries: mediapipe, opencv-python, pygame, pyserial, scipy
+Tools: Arduino IDE, Python 3.x
 
 For Hardware:
-- [List main components]
-- [List specifications]
-- [List tools required]
+Controller: ESP32 WROOM Board
+Output Device: LED (with resistor)
+Power Supply: USB (5V)
+Other Tools: Breadboard, jumper wires
 
 ### Implementation
 For Software:
 # Installation
-[commands]
+pip install opencv-python mediapipe pygame pyserial scipy
 
 # Run
-[commands]
+python blink_beats.py
+
 
 ### Project Documentation
 For Software:
 
 # Screenshots (Add at least 3)
-![Screenshot1](Add screenshot 1 here with proper name)
-*Add caption explaining what this shows*
+[Real-time eyelid tracking using MediaPipe.](https://github.com/a-nuranj/anuranj/blob/main/Sleepy%20Detector%2009-08-2025%2005_02_31.png)
 
-![Screenshot2](Add screenshot 2 here with proper name)
-*Add caption explaining what this shows*
+[Detection triggered after 3 rapid closures.](https://github.com/a-nuranj/anuranj/blob/main/Screenshot%202025-08-09%20050531.png)
 
-![Screenshot3](Add screenshot 3 here with proper name)
-*Add caption explaining what this shows*
+[Song plays and LED turns off when sleep detected.](https://github.com/a-nuranj/anuranj/blob/main/Screenshot%202025-08-09%20050611.png)
 
 # Diagrams
-![Workflow](Add your workflow/architecture diagram here)
-*Add caption explaining your workflow*
+Snap shield workflow: Eye detection → Blink count logic → Song trigger → ESP32 LED control.
 
 For Hardware:
 
 # Schematic & Circuit
-![Circuit](Add your circuit diagram here)
-*Add caption explaining connections*
-
-![Schematic](Add your schematic diagram here)
-*Add caption explaining the schematic*
+https://github.com/a-nuranj/anuranj/blob/main/WhatsApp%20Image%202025-08-09%20at%2005.10.22_b8beafa9.jpg
+Connections between ESP32, LED, resistor, and GND.
 
 # Build Photos
-![Components](Add photo of your components here)
-*List out all components shown*
+[LED](https://github.com/a-nuranj/anuranj/blob/main/WhatsApp%20Image%202025-08-09%20at%2005.19.09_6af1bd64.jpg)
+[Resistor](https://github.com/a-nuranj/anuranj/blob/main/WhatsApp%20Image%202025-08-09%20at%2005.19.10_dc262e0a.jpg)
+[esp32 WROOM](http://github.com/a-nuranj/anuranj/blob/main/WhatsApp%20Image%202025-08-09%20at%2005.19.10_af895e05.jpg)
 
-![Build](Add photos of build process here)
-*Explain the build steps*
-
-![Final](Add photo of final product here)
-*Explain the final build*
+!Final](https://github.com/a-nuranj/anuranj/blob/main/WhatsApp%20Image%202025-08-09%20at%2005.10.22_b8beafa9.jpg)
 
 ### Project Demo
 # Video
-[Add your demo video link here]
-*Explain what the video demonstrates*
-
+(https://www.youtube.com/watch?v=FN2iBmGGBCI)
+when eye blink for 3 times music starts to play and led turns off . If eye opens led turns ON and music stops playing.
 # Additional Demos
-[Add any extra demo materials/links]
+[https://www.youtube.com/watch?v=g2KgJIACXjU]
+when eye closed for more than 10sec , music starts to play and led gets turned off 
 
 ## Team Contributions
-- [Name 1]: [Specific contributions]
-- [Name 2]: [Specific contributions]
-- [Name 3]: [Specific contributions]
+Anuranj-hardware,documentation
+Alphin-coding,documentation
 
 ---
 Made with ❤️ at TinkerHub Useless Projects 
