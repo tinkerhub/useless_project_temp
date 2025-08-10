@@ -5,7 +5,7 @@
 
 
 ## Basic Details
-### Team Name: [Name]
+### Team Name: SEMICOLON SURVIVORS
 
 
 ### Team Members
