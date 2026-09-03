@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>Crush Radar 💘📡 Live Map</title>
+  
+  <!-- Google Fonts: Fredoka & Quicksand & Space Mono -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;600;700&family=Quicksand:wght@500;600;700&family=Space+Mono:wght@700&display=swap" rel="stylesheet">
+  
+  <!-- Leaflet Map CSS -->
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="" />
+
+  <!-- App Stylesheet -->
+  <link rel="stylesheet" href="./style.css">
+</head>
+<body>
+
+  <!-- ================= NOTIFICATION TOAST ================= -->
+  <div id="toast" class="toast hidden">
+    <div class="toast-content" id="toastMessage"></div>
+    <button class="toast-close" onclick="dismissToast()">✕</button>
+  </div>
+
+  <!-- ================= AUTH & CONSENT SCREEN ================= -->
+  <section id="authScreen" class="screen active">
+    <div class="auth-card">
+      <div class="radar-tag">💘 LIVE RADAR MAP SYSTEM</div>
+      <h1>CRUSH <span>RADAR</span></h1>
+      <p class="tagline">Because normal social interaction was way too hard.</p>
+      
+      <div class="pulse-beacon">
+        <span class="beacon-ring ring1"></span>
+        <span class="beacon-ring ring2"></span>
+        <span class="beacon-emoji" id="previewEmoji">🕵️</span>
+      </div>
+
+      <form id="signupForm" onsubmit="handleSignup(event)">
+        
+        <div class="form-group">
+          <label>YOUR NAME</label>
+          <input type="text" id="nameInput" placeholder="e.g. Robin Scherbatsky" required maxlength="30" />
+        </div>
+
+        <div class="form-group">
+          <label>USERNAME</label>
+          <input type="text" id="usernameInput" placeholder="e.g. robin_s" required maxlength="20" />
+        </div>
+
+        <div class="form-group">
+          <label>CHOOSE YOUR RADAR AVATAR</label>
+          <div class="emoji-picker" id="emojiPicker">
+            <button type="button" class="emoji-btn selected" onclick="selectEmoji('🕵️')">🕵️</button>
+            <button type="button" class="emoji-btn" onclick="selectEmoji('💖')">💖</button>
+            <button type="button" class="emoji-btn" onclick="selectEmoji('🦊')">🦊</button>
+            <button type="button" class="emoji-btn" onclick="selectEmoji('🐱')">🐱</button>
+            <button type="button" class="emoji-btn" onclick="selectEmoji('🐸')">🐸</button>
+            <button type="button" class="emoji-btn" onclick="selectEmoji('🧋')">🧋</button>
+            <button type="button" class="emoji-btn" onclick="selectEmoji('👾')">👾</button>
+            <button type="button" class="emoji-btn" onclick="selectEmoji('☕')">☕</button>
+          </div>
+        </div>
+
+        <!-- EXPLICIT CONSENT BOX -->
+        <div class="consent-box">
+          <label class="consent-label">
+            <input type="checkbox" id="consentCheckbox" required />
+            <span class="checkbox-custom"></span>
+            <span class="consent-text">
+              <strong>I agree to broadcast my live location on the radar map.</strong>
+              <small>Everyone who signs up is a visible blip. Everyone sees everyone equally. That's the whole app! 💅</small>
+            </span>
+          </label>
+        </div>
+
+        <div id="authError" class="auth-error hidden"></div>
+
+        <button type="submit" class="cta-btn pulse-glow" id="submitBtn">
+          ALLOW LOCATION & ENTER MAP →
+        </button>
+
+        <div class="switch-mode">
+          Already signed up? <a href="#" onclick="toggleAuthMode(event)" id="authModeToggle">Log in here</a>
+        </div>
+      </form>
+    </div>
+  </section>
+
+  <!-- ================= MAIN RADAR & TRACKING SCREEN ================= -->
+  <section id="mapScreen" class="screen">
+    
+    <!-- Top Floating Header -->
+    <header class="radar-header">
+      <div class="header-left">
+        <div class="radar-logo">💘 CRUSH<span>RADAR</span></div>
+        <div class="live-pill">
+          <span class="green-dot"></span> LIVE
+        </div>
+      </div>
+
+      <div class="header-right">
+        <!-- Anonymous Admirer Counter Badge -->
+        <button class="badge-btn" id="admirerBadge" onclick="showAdmirerModal()" title="View anonymous admirer count">
+          👀 <span id="admirerCount">0</span> admirers
+        </button>
+
+        <!-- Ghost Mode Stealth Toggle -->
+        <button class="ghost-btn" id="ghostBtn" onclick="toggleGhostMode()" title="Toggle stealth ghost mode">
+          👻 <span id="ghostLabel">Ghost Mode</span>
+        </button>
+
+        <!-- User profile pill -->
+        <div class="user-pill" id="userPill">
+          <span id="userAvatar">🕵️</span>
+          <span id="userDisplayName">User</span>
+        </div>
+
+        <button class="logout-btn" onclick="handleLogout()" title="Logout">✕</button>
+      </div>
+    </header>
+
+    <!-- Search Bar Floating Overlay -->
+    <div class="search-container">
+      <div class="search-input-wrapper">
+        <span class="search-icon">🔍</span>
+        <input 
+          type="text" 
+          id="userSearchInput" 
+          placeholder="Search for someone to lock as your crush..." 
+          oninput="handleSearchInput(event)"
+          autocomplete="off"
+        />
+        <button class="clear-search hidden" id="clearSearchBtn" onclick="clearSearch()">✕</button>
+      </div>
+      <div class="search-results-dropdown hidden" id="searchResultsDropdown"></div>
+    </div>
+
+    <!-- The Real Interactive Leaflet Map -->
+    <div id="radarMap"></div>
+
+    <!-- Center Crosshair Target Overlay -->
+    <div class="crosshair-indicator"></div>
+
+    <!-- Floating Tracking HUD at Bottom -->
+    <div class="tracking-hud" id="trackingHud">
+      <!-- State A: No Crush Locked -->
+      <div class="hud-idle" id="hudIdle">
+        <div class="radar-scanner-icon">📡</div>
+        <div class="hud-idle-text">
+          <strong>RADAR SCANNING ACTIVE</strong>
+          <span>Click any blip on the map or search above to <strong>LOCK A CRUSH</strong>.</span>
+        </div>
+      </div>
+
+      <!-- State B: Crush Locked & Tracking Active! -->
+      <div class="hud-tracking hidden" id="hudTracking">
+        <div class="crush-profile">
+          <div class="crush-avatar-circle" id="trackCrushAvatar">💖</div>
+          <div class="crush-info">
+            <div class="crush-title-row">
+              <h3 id="trackCrushName">Target Name</h3>
+              <span class="locked-tag" id="trackCrushStatus">🔒 CRUSH LOCKED</span>
+            </div>
+            <p class="crush-sub" id="trackCrushUsername">@username</p>
+          </div>
+        </div>
+
+        <div class="proximity-dashboard">
+          <div class="distance-number-box">
+            <span class="distance-value" id="trackDistanceVal">--</span>
+            <span class="distance-unit">METERS AWAY</span>
+          </div>
+          <div class="distance-humor" id="trackHumorLine">Calculating proximity...</div>
+        </div>
+
+        <div class="hud-actions">
+          <button class="btn-locate" onclick="focusOnCrush()">
+            🎯 RE-CENTER ON THEM
+          </button>
+          <button class="btn-unlock" onclick="unlockActiveCrush()">
+            ✕ UNLOCK CRUSH
+          </button>
+        </div>
+      </div>
+    </div>
+
+  </section>
+
+  <!-- ================= MUTUAL MATCH CELEBRATION MODAL ================= -->
+  <div id="mutualModal" class="modal-overlay hidden">
+    <div class="modal-card mutual-card">
+      <div class="mutual-banner">🚨 EMERGENCY ROMANCE PROTOCOL 🚨</div>
+      <h2>IT'S MUTUAL!</h2>
+      <p class="mutual-sub">They locked eyes and set a crush on you too. This is not a drill!</p>
+
+      <div class="match-collision">
+        <div class="avatar-balloon left" id="matchMyAvatar">🕵️</div>
+        <div class="heart-blast">💖</div>
+        <div class="avatar-balloon right" id="matchTargetAvatar">💖</div>
+      </div>
+
+      <div class="match-names">
+        <span id="matchMyName">You</span> &amp; <span id="matchTargetName">Crush</span>
+      </div>
+
+      <div class="match-distance-box">
+        <div class="label">CURRENT PROXIMITY</div>
+        <div class="distance-big" id="matchDistance">-- METERS</div>
+        <p id="matchCommentary">Put your phone in your pocket and walk over right now!</p>
+      </div>
+
+      <button class="cta-btn match-cta" onclick="dismissMutualModal()">
+        LET'S GO! 🎉
+      </button>
+    </div>
+  </div>
+
+  <!-- ================= ADMIRER MODAL ================= -->
+  <div id="admirerModal" class="modal-overlay hidden">
+    <div class="modal-card admirer-card">
+      <div class="modal-header-tag">SECRET RADAR SENSORS</div>
+      <h2>ADMIRED IN SECRET</h2>
+      <div class="admirer-big-count" id="admirerModalCount">0</div>
+      <p class="admirer-quote" id="admirerModalQuote">
+        No one has locked you yet. Giving 'main character origin story' energy.
+      </p>
+      <p class="admirer-footer-note">
+        🔒 Identities are top secret. We will never tell you who. We're not that kind of app.
+      </p>
+      <button class="cta-btn secondary-btn" onclick="closeAdmirerModal()">
+        COOL, KEEP WATCHING 👀
+      </button>
+    </div>
+  </div>
+
+  <!-- Leaflet Map JS -->
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+  <!-- Canvas Confetti for the Mutual Match Explosion -->
+  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.3/dist/confetti.browser.min.js"></script>
+  <!-- Main Client Script -->
+  <script src="./script.js"></script>
+</body>
+</html>

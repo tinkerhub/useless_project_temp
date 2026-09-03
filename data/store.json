@@ -1,0 +1,197 @@
+{
+  "users": {
+    "user_1788466664045_j8j9o": {
+      "id": "user_1788466664045_j8j9o",
+      "username": "dijith",
+      "name": "dijith",
+      "department": "General",
+      "year": "1",
+      "avatar_emoji": "💖",
+      "ghost_mode": true,
+      "consent_given": true,
+      "created_at": "2026-09-03T20:17:44.060Z"
+    },
+    "user_1788466768020_wpsgn": {
+      "id": "user_1788466768020_wpsgn",
+      "username": "aaaa",
+      "name": "aaaa",
+      "department": "General",
+      "year": "1",
+      "avatar_emoji": "🕵️",
+      "ghost_mode": false,
+      "consent_given": true,
+      "created_at": "2026-09-03T20:19:28.020Z"
+    }
+  },
+  "locations": {
+    "user_1788466664045_j8j9o": {
+      "lat": 10.0289741,
+      "lng": 76.328817,
+      "updated_at": 1788467213729
+    },
+    "user_1788466768020_wpsgn": {
+      "lat": 10.0289741,
+      "lng": 76.328817,
+      "updated_at": 1788467384415
+    }
+  },
+  "trails": {
+    "user_1788466664045_j8j9o": [
+      {
+        "lat": 10.029228,
+        "lng": 76.32879650000001,
+        "time": 1788466665342
+      },
+      {
+        "lat": 10.029228,
+        "lng": 76.32879650000001,
+        "time": 1788466715409
+      },
+      {
+        "lat": 10.029228,
+        "lng": 76.32879650000001,
+        "time": 1788466759459
+      },
+      {
+        "lat": 10.0289741,
+        "lng": 76.328817,
+        "time": 1788466789371
+      },
+      {
+        "lat": 10.029228,
+        "lng": 76.32879650000001,
+        "time": 1788467014318
+      },
+      {
+        "lat": 9.9993,
+        "lng": 76.2884,
+        "time": 1788467047763
+      },
+      {
+        "lat": 10.029228,
+        "lng": 76.32879650000001,
+        "time": 1788467059152
+      },
+      {
+        "lat": 10.0289741,
+        "lng": 76.328817,
+        "time": 1788467213729
+      }
+    ],
+    "user_1788466768020_wpsgn": [
+      {
+        "lat": 10.029228,
+        "lng": 76.32879650000001,
+        "time": 1788466768162
+      },
+      {
+        "lat": 10.0289741,
+        "lng": 76.328817,
+        "time": 1788466784238
+      },
+      {
+        "lat": 10.0289741,
+        "lng": 76.328817,
+        "time": 1788466897046
+      },
+      {
+        "lat": 10.029228,
+        "lng": 76.32879650000001,
+        "time": 1788466903720
+      },
+      {
+        "lat": 10.029228,
+        "lng": 76.32879650000001,
+        "time": 1788466919194
+      },
+      {
+        "lat": 10.029228,
+        "lng": 76.32879650000001,
+        "time": 1788466977787
+      },
+      {
+        "lat": 10.029228,
+        "lng": 76.32879650000001,
+        "time": 1788467002436
+      },
+      {
+        "lat": 10.0289741,
+        "lng": 76.328817,
+        "time": 1788467362987
+      },
+      {
+        "lat": 10.0289741,
+        "lng": 76.328817,
+        "time": 1788467384415
+      }
+    ]
+  },
+  "crushes": [
+    {
+      "id": "crush_1788466774877",
+      "crusher_id": "user_1788466768020_wpsgn",
+      "target_id": "user_1788466664045_j8j9o",
+      "created_at": "2026-09-03T20:19:34.877Z"
+    },
+    {
+      "id": "crush_1788467020503",
+      "crusher_id": "user_1788466664045_j8j9o",
+      "target_id": "user_1788466768020_wpsgn",
+      "created_at": "2026-09-03T20:23:40.503Z"
+    }
+  ],
+  "matches": [
+    {
+      "id": "match_1788467020503",
+      "user_a": "user_1788466664045_j8j9o",
+      "user_b": "user_1788466768020_wpsgn",
+      "matched_at": "2026-09-03T20:23:40.503Z"
+    }
+  ],
+  "notifications": [
+    {
+      "id": "notif_1788466774877_h2p",
+      "user_id": "user_1788466664045_j8j9o",
+      "type": "crush_received",
+      "message": "👀 Someone in the room just locked eyes on you and set a secret crush! We will never say who. 🤫",
+      "seen": true,
+      "created_at": "2026-09-03T20:19:34.877Z"
+    },
+    {
+      "id": "notif_1788467020503_ej8",
+      "user_id": "user_1788466768020_wpsgn",
+      "type": "crush_received",
+      "message": "👀 Someone in the room just locked eyes on you and set a secret crush! We will never say who. 🤫",
+      "seen": true,
+      "created_at": "2026-09-03T20:23:40.503Z"
+    },
+    {
+      "id": "notif_m1_1788467020503",
+      "user_id": "user_1788466664045_j8j9o",
+      "type": "mutual_match",
+      "message": "🚨 IT'S MUTUAL! aaaa (@aaaa) has a crush on you too! DEPLOY THE CONFETTI! 🚨",
+      "payload": {
+        "partnerId": "user_1788466768020_wpsgn",
+        "username": "aaaa",
+        "name": "aaaa",
+        "avatar_emoji": "🕵️"
+      },
+      "seen": true,
+      "created_at": "2026-09-03T20:23:40.503Z"
+    },
+    {
+      "id": "notif_m2_1788467020503",
+      "user_id": "user_1788466768020_wpsgn",
+      "type": "mutual_match",
+      "message": "🚨 IT'S MUTUAL! dijith (@dijith) has a crush on you too! DEPLOY THE CONFETTI! 🚨",
+      "payload": {
+        "partnerId": "user_1788466664045_j8j9o",
+        "username": "dijith",
+        "name": "dijith",
+        "avatar_emoji": "💖"
+      },
+      "seen": true,
+      "created_at": "2026-09-03T20:23:40.503Z"
+    }
+  ]
+}

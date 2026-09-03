@@ -1,0 +1,13 @@
+{
+  "name": "crush-radar",
+  "version": "1.0.0",
+  "description": "💘📡 CRUSH RADAR - A playful live map where everyone is a blip, crushing is secret, and mutual matches deploy the confetti.",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "dependencies": {},
+  "engines": {
+    "node": ">=18.0.0"
+  }
+}
