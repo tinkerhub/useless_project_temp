@@ -1,6 +1,26 @@
 {
+  "name": "emotional-damage-ide",
+  "displayName": "Emotional Damage IDE",
+  "description": "The most discouraging VS Code extension ever.",
+  "version": "0.0.1",
+  "publisher": "carenaji2007",
+  "engines": {
+    "vscode": "^1.80.0"
+  },
+  "main": "src/extension.js",
+  "activationEvents": [
+    "onCommand:generateEmotionalDamage"
+  ],
+  "contributes": {
+    "commands": [
+      {
+        "command": "generateEmotionalDamage",
+        "title": "Emotional Damage IDE: Roast"
+      }
+    ]
+  },
   "dependencies": {
-    "@google/genai": "^2.21.0",
+    "@google/genai": "^1.0.0",
     "dotenv": "^17.4.2",
     "sound-play": "^1.1.0"
   }
