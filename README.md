@@ -2,47 +2,78 @@
 
 
 
-# [Project Name] 🎯
+# ഒന്നാണോ? 🎯
 
 
 ## Basic Details
-### Team Name: [Name]
+### Team Name: Team MJ
 
 
 ### Team Members
-- Team Lead: [Name] - [College]
-- Member 2: [Name] - [College]
-- Member 3: [Name] - [College]
+- Team Lead: Manya K S - Muthoot Institute of Technology and Science 
+- Member 2: Jiya Joe Palathinkal - Muthoot Institute of Technology and Science
 
 ### Project Description
-[2-3 lines about what your project does]
+ഒന്നാണോ? — “Same aano? AI parayatte.” is an AI-powered computer vision project that analyzes and compares everyday objects.
+
+The project aims to identify objects from images, understand their visual properties, and determine how similar or different they are.
 
 ### The Problem (that doesn't exist)
-[What ridiculous problem are you solving?]
+Sometimes we look at two objects and wonder:
+
+“Are these actually the same?”
+
+We decided to build an AI system to answer this extremely unnecessary question.
 
 ### The Solution (that nobody asked for)
-[How are you solving it? Keep it fun!]
+An AI system that looks at objects and decides whether they are:
+
+👯 Twin-like
+🤝 Related
+👀 Distantly Related
+💀 Strangers
+
+Because apparently, objects need relationship status too.
 
 ## Technical Details
+
 ### Technologies/Components Used
+
 For Software:
-- [Languages used]
-- [Frameworks used]
-- [Libraries used]
-- [Tools used]
+
+* Languages used:** Python, JavaScript
+* Frameworks used:** React, FastAPI
+* Libraries used:** OpenCV
+* Tools used:** VS Code, Git, GitHub
 
 For Hardware:
-- [List main components]
-- [List specifications]
-- [List tools required]
+
+* Laptop/Desktop
+* Built-in or external webcam
 
 ### Implementation
+
 For Software:
+
 # Installation
-[commands]
+
+### Frontend
+cd frontend
+npm install
+
+
+### Backend
+cd backend
+pip install -r requirements.txt
 
 # Run
-[commands]
+
+### Frontend
+npm run dev
+
+### Backend
+uvicorn app:app --reload
+
 
 ### Project Documentation
 For Software:
