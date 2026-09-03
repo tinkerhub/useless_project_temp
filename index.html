@@ -1,1 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Emotional Damage IDE</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      text-align: center;
+      background-color: #222;
+      color: #fff;
+      margin-top: 50px;
+    }
+    h1 {
+      color: #ff3366;
+    }
+    textarea {
+      width: 80%;
+      height: 150px;
+      margin-top: 20px;
+      font-family: monospace;
+      font-size: 14px;
+    }
+    button {
+      padding: 10px 20px;
+      font-size: 16px;
+      margin-top: 20px;
+      cursor: pointer;
+    }
+    #output {
+      margin-top: 20px;
+      font-size: 18px;
+      color: #ffcc00;
+    }
+  </style>
+</head>
+<body>
+  <h1>🤯 Emotional Damage IDE</h1>
+  <p>Type your code below and brace yourself...</p>
+  
+  <textarea id="editor" placeholder="Write some code here..."></textarea><br>
+  <button onclick="judgeCode()">Run Code</button>
+  
+  <p id="output"></p>
+
+  <script>
+    function judgeCode() {
+      const messages = [
+        "Syntax Error: Emotional Damage!",
+        "Disappointed sigh... 😔",
+        "Comic Sans activated!",
+        "Your self-esteem just dropped by 10 points.",
+        "Keyboard clack intensifies..."
+      ];
+      const random = messages[Math.floor(Math.random() * messages.length)];
+      document.getElementById("output").innerText = random;
+    }
+  </script>
+</body>
+</html>
 
