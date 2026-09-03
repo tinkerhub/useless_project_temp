@@ -9,15 +9,23 @@
   },
   "main": "src/extension.js",
   "activationEvents": [
-    "onCommand:generateEmotionalDamage"
+    "onCommand:emotionalDamageIDE.roast"
   ],
   "contributes": {
     "commands": [
       {
-        "command": "generateEmotionalDamage",
+        "command": "emotionalDamageIDE.roast",
         "title": "Emotional Damage IDE: Roast"
       }
-    ]
+    ],
+    "menus": {
+      "editor/title": [
+        {
+          "command": "emotionalDamageIDE.roast",
+          "group": "navigation"
+        }
+      ]
+    }
   },
   "dependencies": {
     "@google/genai": "^1.0.0",

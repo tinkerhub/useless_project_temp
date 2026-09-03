@@ -8,7 +8,7 @@ function activate(context) {
     console.log('Emotional Damage IDE activated!');
 
     let disposable = vscode.commands.registerCommand(
-        'generateEmotionalDamage',
+        'emotionalDamageIDE.roast',
         async () => {
 
             const editor = vscode.window.activeTextEditor;
