@@ -59,7 +59,7 @@ For Software:
 For Software:
 # Installation
 # Clone the repository
-git clone https://github.com/your-username/syntax-sighs.git
+git clone https://github.com/carenaji2007-stack/useless_project_temp.git
 
 # Navigate into the project folder
 cd syntax-sighs
