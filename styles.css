@@ -1,0 +1,219 @@
+@import "tailwindcss" source(none);
+@source "../src";
+@import "tw-animate-css";
+
+@custom-variant dark (&:is(.dark *));
+
+/*
+ * THE HUMAN ERROR SIMULATOR — dystopian corporate terminal design system.
+ * All colors are oklch semantic tokens. Never hardcode colors in components.
+ */
+
+@theme inline {
+  --radius-sm: calc(var(--radius) - 2px);
+  --radius-md: var(--radius);
+  --radius-lg: calc(var(--radius) + 2px);
+  --radius-xl: calc(var(--radius) + 4px);
+
+  --font-mono: "Share Tech Mono", "IBM Plex Mono", ui-monospace, monospace;
+  --font-sans: "Share Tech Mono", ui-monospace, monospace;
+
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-destructive-foreground: var(--destructive-foreground);
+  --color-warning: var(--warning);
+  --color-warning-foreground: var(--warning-foreground);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+  --color-chart-1: var(--chart-1);
+  --color-chart-2: var(--chart-2);
+  --color-chart-3: var(--chart-3);
+  --color-chart-4: var(--chart-4);
+  --color-chart-5: var(--chart-5);
+
+  --shadow-glow: 0 0 12px var(--glow-primary), 0 0 40px var(--glow-primary-soft);
+  --shadow-glow-red: 0 0 12px var(--glow-danger), 0 0 40px var(--glow-danger);
+  --shadow-panel: 0 0 0 1px var(--border), 0 18px 50px oklch(0 0 0 / 0.75);
+}
+
+:root {
+  --radius: 0.125rem;
+  --background: oklch(0.15 0.015 165);
+  --foreground: oklch(0.9 0.19 138);
+  --card: oklch(0.19 0.02 165);
+  --card-foreground: oklch(0.9 0.19 138);
+  --popover: oklch(0.21 0.022 165);
+  --popover-foreground: oklch(0.92 0.16 138);
+  --primary: oklch(0.89 0.27 137);
+  --primary-foreground: oklch(0.15 0.03 160);
+  --secondary: oklch(0.26 0.03 165);
+  --secondary-foreground: oklch(0.9 0.19 138);
+  --muted: oklch(0.24 0.02 165);
+  --muted-foreground: oklch(0.66 0.09 145);
+  --accent: oklch(0.82 0.17 82);
+  --accent-foreground: oklch(0.16 0.03 160);
+  --destructive: oklch(0.63 0.25 27);
+  --destructive-foreground: oklch(0.97 0.02 27);
+  --warning: oklch(0.82 0.17 82);
+  --warning-foreground: oklch(0.16 0.03 160);
+  --border: oklch(0.45 0.12 142 / 0.45);
+  --input: oklch(0.3 0.04 165);
+  --ring: oklch(0.89 0.27 137);
+  --chart-1: oklch(0.89 0.27 137);
+  --chart-2: oklch(0.82 0.17 82);
+  --chart-3: oklch(0.63 0.25 27);
+  --chart-4: oklch(0.72 0.14 190);
+  --chart-5: oklch(0.75 0.16 320);
+  --glow-primary: oklch(0.89 0.27 137 / 0.55);
+  --glow-primary-soft: oklch(0.89 0.27 137 / 0.18);
+  --glow-danger: oklch(0.63 0.25 27 / 0.55);
+}
+
+.dark {
+  color-scheme: dark;
+}
+
+@layer base {
+  * {
+    border-color: var(--color-border);
+  }
+
+  html,
+  body {
+    cursor: none;
+  }
+
+  body {
+    background-color: var(--color-background);
+    color: var(--color-foreground);
+    font-family: var(--font-mono);
+    letter-spacing: 0.02em;
+    overflow-x: hidden;
+  }
+
+  button,
+  input,
+  a,
+  label {
+    cursor: none;
+  }
+}
+
+@utility scanlines {
+  position: relative;
+}
+
+@utility crt-overlay {
+  background-image: repeating-linear-gradient(
+      to bottom,
+      oklch(0 0 0 / 0.42) 0px,
+      oklch(0 0 0 / 0.42) 1px,
+      transparent 1px,
+      transparent 3px
+    ),
+    radial-gradient(circle at 50% 40%, oklch(0.89 0.27 137 / 0.06), transparent 70%);
+}
+
+@utility glow-text {
+  text-shadow:
+    0 0 4px var(--glow-primary),
+    0 0 18px var(--glow-primary-soft);
+}
+
+@utility glow-text-danger {
+  text-shadow:
+    0 0 5px var(--glow-danger),
+    0 0 20px var(--glow-danger);
+}
+
+@utility panel {
+  background-color: var(--color-card);
+  border: 1px solid var(--color-border);
+  box-shadow: var(--shadow-panel);
+}
+
+@keyframes hes-flicker {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  92% {
+    opacity: 1;
+  }
+  94% {
+    opacity: 0.72;
+  }
+  96% {
+    opacity: 1;
+  }
+  97% {
+    opacity: 0.85;
+  }
+}
+
+@keyframes hes-glitch {
+  0% {
+    transform: translate(0, 0);
+  }
+  25% {
+    transform: translate(-2px, 1px);
+  }
+  50% {
+    transform: translate(2px, -1px);
+  }
+  75% {
+    transform: translate(-1px, -1px);
+  }
+  100% {
+    transform: translate(0, 0);
+  }
+}
+
+@keyframes hes-bob {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-6px);
+  }
+}
+
+@keyframes hes-scan-sweep {
+  0% {
+    transform: translateY(-100%);
+  }
+  100% {
+    transform: translateY(100%);
+  }
+}
+
+@utility animate-flicker {
+  animation: hes-flicker 6s infinite steps(1);
+}
+
+@utility animate-glitch {
+  animation: hes-glitch 0.18s infinite linear;
+}
+
+@utility animate-bob {
+  animation: hes-bob 2.6s ease-in-out infinite;
+}
+
+@utility animate-scan-sweep {
+  animation: hes-scan-sweep 6s linear infinite;
+}
