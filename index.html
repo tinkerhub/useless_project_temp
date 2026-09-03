@@ -1,1 +1,54 @@
+  ```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
 
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>RagebaitOS</title>
+</head>
+
+<body>
+
+    <!-- Main operating system -->
+    <div id="os">
+
+        <!-- Desktop -->
+        <main id="desktop">
+          <input type="text" placeholder="Type here">
+          <button data-rage-target="runaway">
+              CLICK ME
+          </button>
+
+            <!-- Desktop will eventually contain applications -->
+            
+        </main>
+
+
+        <!-- Taskbar -->
+        <footer id="taskbar">
+
+            <!-- Start Button -->
+            <button id="start-button">
+                <span class="start-icon">◉</span>
+            </button>
+
+
+            <!-- Taskbar application area -->
+            <div id="taskbar-apps"></div>
+
+        </footer>
+
+    </div>
+
+
+    <!-- JavaScript -->
+    <script type="module" src="/src/main.js"></script>
+
+</body>
+</html>
+```

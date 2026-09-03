@@ -1,0 +1,482 @@
+
+:root {
+    --rage-cursor-offset-x: 0px;
+    --rage-cursor-offset-y: 0px;
+
+    --rage-cursor-distortion-x: 0px;
+    --rage-cursor-distortion-y: 0px;
+}
+/* ========================================
+   RAGEBAITOS - GLOBAL RESET
+   ======================================== */
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+
+/* ========================================
+   HTML + BODY
+   ======================================== */
+
+html,
+body {
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+}
+
+
+/* ========================================
+   BODY
+   ======================================== */
+
+body {
+    font-family: Arial, Helvetica, sans-serif;
+
+    /* Prevent the browser's normal cursor */
+    cursor: none;
+
+    background: #111;
+}
+
+
+/* ========================================
+   MAIN OS CONTAINER
+   ======================================== */
+
+#os {
+    position: fixed;
+
+    top: 0;
+    left: 0;
+
+    width: 100vw;
+    height: 100vh;
+
+    overflow: hidden;
+}
+
+
+/* ========================================
+   DESKTOP
+   ======================================== */
+
+#desktop {
+    position: absolute;
+
+    top: 0;
+    left: 0;
+
+    width: 100%;
+    height: 100%;
+
+    /*
+        Temporary wallpaper.
+
+        We will replace this with our
+        actual RagebaitOS wallpaper later.
+    */
+
+    background:
+        linear-gradient(
+            135deg,
+            #101827 0%,
+            #172b4d 50%,
+            #080d17 100%
+        );
+
+    /*
+        Leave space for the taskbar.
+    */
+
+    padding-bottom: 70px;
+}
+
+
+/* ========================================
+   TASKBAR
+   ======================================== */
+
+#taskbar {
+    position: absolute;
+
+    left: 0;
+    bottom: 0;
+
+    width: 100%;
+    height: 70px;
+
+    display: flex;
+    align-items: center;
+
+    padding: 0 14px;
+
+    /*
+        Slightly transparent taskbar.
+    */
+
+    background: rgba(12, 16, 24, 0.94);
+
+    border-top: 1px solid rgba(255, 255, 255, 0.12);
+
+    /*
+        Keep taskbar above desktop.
+    */
+
+    z-index: 1000;
+}
+
+
+/* ========================================
+   START BUTTON
+   ======================================== */
+
+#start-button {
+    width: 48px;
+    height: 48px;
+
+    border: none;
+    border-radius: 10px;
+
+    background: transparent;
+
+    color: white;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    cursor: none;
+
+    transition:
+        background 0.15s ease,
+        transform 0.15s ease;
+}
+
+
+/*
+    Start button hover effect.
+*/
+
+#start-button:hover {
+    background: rgba(255, 255, 255, 0.1);
+
+    transform: scale(1.05);
+}
+
+
+/* ========================================
+   START ICON
+   ======================================== */
+
+.start-icon {
+    font-size: 25px;
+
+    color: white;
+
+    user-select: none;
+}
+
+
+/* ========================================
+   TASKBAR APP AREA
+   ======================================== */
+
+#taskbar-apps {
+    height: 100%;
+
+    display: flex;
+    align-items: center;
+
+    gap: 6px;
+
+    margin-left: 10px;
+}
+
+
+/* ========================================
+   TASKBAR APPLICATION BUTTON
+   ======================================== */
+
+.taskbar-app {
+    width: 48px;
+    height: 48px;
+
+    border: none;
+    border-radius: 9px;
+
+    background: transparent;
+
+    color: white;
+
+    font-size: 22px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    cursor: none;
+
+    transition:
+        background 0.15s ease,
+        transform 0.15s ease;
+}
+
+
+/*
+    Hover effect.
+*/
+
+.taskbar-app:hover {
+    background: rgba(255, 255, 255, 0.1);
+
+    transform: scale(1.05);
+}
+
+
+
+/* ========================================
+   OS WINDOWS
+   ======================================== */
+
+.os-window {
+    position: absolute;
+
+    width: 600px;
+    height: 400px;
+
+    min-width: 300px;
+    min-height: 200px;
+
+    background: rgba(25, 30, 40, 0.96);
+
+    border: 1px solid rgba(255, 255, 255, 0.15);
+
+    border-radius: 10px;
+
+    overflow: hidden;
+
+    box-shadow:
+        0 20px 50px rgba(0, 0, 0, 0.45);
+
+    color: white;
+}
+
+
+/* ========================================
+   WINDOW HEADER
+   ======================================== */
+
+.window-header {
+    height: 42px;
+
+    display: flex;
+    align-items: center;
+
+    justify-content: space-between;
+
+    padding-left: 14px;
+
+    background: rgba(255, 255, 255, 0.06);
+
+    user-select: none;
+}
+
+
+/* ========================================
+   WINDOW TITLE
+   ======================================== */
+
+.window-title {
+    font-size: 14px;
+}
+
+
+/* ========================================
+   WINDOW CONTROLS
+   ======================================== */
+
+.window-controls {
+    display: flex;
+
+    height: 100%;
+}
+
+
+.window-controls button {
+    width: 42px;
+    height: 100%;
+
+    border: none;
+
+    background: transparent;
+
+    color: white;
+
+    font-size: 16px;
+
+    cursor: none;
+}
+
+
+.window-controls button:hover {
+    background: rgba(255, 255, 255, 0.12);
+}
+
+
+/* Close button */
+
+.window-close:hover {
+    background: #e81123 !important;
+}
+
+
+/* ========================================
+   WINDOW CONTENT
+   ======================================== */
+
+.window-content {
+    width: 100%;
+    height: calc(100% - 42px);
+
+    padding: 20px;
+
+    overflow: auto;
+}
+
+
+/* ========================================
+   MINIMIZED WINDOW
+   ======================================== */
+
+.window-minimized {
+    display: none;
+}
+
+
+/* ========================================
+   MAXIMIZED WINDOW
+   ======================================== */
+
+.window-maximized {
+
+    left: 0 !important;
+    top: 0 !important;
+
+    width: 100% !important;
+    height: calc(100% - 70px) !important;
+
+    border-radius: 0;
+}
+/* ========================================
+   TASKBAR APP STATES
+   ======================================== */
+
+.taskbar-app {
+    position: relative;
+}
+
+
+.taskbar-app.app-running::after {
+
+    content: "";
+
+    position: absolute;
+
+    bottom: 4px;
+    left: 50%;
+
+    transform: translateX(-50%);
+
+    width: 5px;
+    height: 5px;
+
+    border-radius: 50%;
+
+    background: white;
+}
+
+/* ========================================
+   TASKBAR APP BUTTONS
+   ======================================== */
+
+.taskbar-app {
+
+    position: relative;
+
+}
+
+
+/* Running application indicator */
+
+.taskbar-app.app-running::after {
+
+    content: "";
+
+    position: absolute;
+
+    bottom: 4px;
+
+    left: 50%;
+
+    transform:
+        translateX(-50%);
+
+    width: 5px;
+
+    height: 5px;
+
+    border-radius: 50%;
+
+    background: white;
+}
+
+
+/* Minimized application */
+
+.taskbar-app.app-minimized {
+
+    opacity: 0.6;
+}
+/* ========================================
+   RAGE CURSOR
+   ======================================== */
+
+body {
+
+    cursor: none;
+}
+
+
+#rage-cursor {
+    position: fixed;
+
+    width: 24px;
+    height: 24px;
+
+    pointer-events: none;
+
+    z-index: 999999;
+
+    font-size: 24px;
+
+    line-height: 24px;
+
+    transform:
+        translate(
+            var(--rage-cursor-offset-x, 0px),
+            var(--rage-cursor-offset-y, 0px)
+        )
+        translate(
+            var(--rage-cursor-distortion-x, 0px),
+            var(--rage-cursor-distortion-y, 0px)
+        );
+
+    transition:
+        transform 0.08s ease-out;
+
+    user-select: none;
+}

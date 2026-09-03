@@ -1,0 +1,292 @@
+/* ============================================================
+   RAGEBAITOS CALCULATOR
+   ============================================================ */
+
+.rage-calculator {
+    width: 320px;
+    min-height: 470px;
+
+    padding: 18px;
+
+    box-sizing: border-box;
+
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+
+    background: linear-gradient(
+        145deg,
+        #20232a,
+        #111318
+    );
+
+    border-radius: 16px;
+
+    color: white;
+
+    font-family:
+        Arial,
+        Helvetica,
+        sans-serif;
+
+    user-select: none;
+}
+
+
+/* ============================================================
+   DISPLAY
+   ============================================================ */
+
+.rage-calculator-display-container {
+    width: 100%;
+    min-height: 105px;
+
+    padding: 15px;
+
+    box-sizing: border-box;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    align-items: flex-end;
+
+    background: #08090c;
+
+    border-radius: 12px;
+
+    border: 1px solid rgba(255, 255, 255, 0.08);
+
+    overflow: hidden;
+}
+
+
+.rage-calculator-expression {
+    width: 100%;
+
+    min-height: 20px;
+
+    text-align: right;
+
+    color: #858a96;
+
+    font-size: 14px;
+
+    overflow: hidden;
+
+    white-space: nowrap;
+}
+
+
+.rage-calculator-display {
+    width: 100%;
+
+    margin-top: 5px;
+
+    text-align: right;
+
+    color: white;
+
+    font-size: 36px;
+
+    font-weight: 500;
+
+    overflow: hidden;
+
+    white-space: nowrap;
+
+    text-overflow: ellipsis;
+}
+
+
+/* ============================================================
+   BUTTON GRID
+   ============================================================ */
+
+.rage-calculator-grid {
+    display: grid;
+
+    grid-template-columns:
+        repeat(4, 1fr);
+
+    grid-auto-rows: 58px;
+
+    gap: 9px;
+}
+
+
+/* ============================================================
+   BUTTONS
+   ============================================================ */
+
+.rage-calculator-button {
+    position: relative;
+
+    border: none;
+
+    border-radius: 12px;
+
+    background: #292d36;
+
+    color: white;
+
+    font-size: 19px;
+
+    font-weight: 500;
+
+    cursor: pointer;
+
+    transition:
+        transform 0.12s ease,
+        background 0.12s ease,
+        box-shadow 0.12s ease;
+}
+
+
+.rage-calculator-button:hover {
+    background: #363b47;
+
+    transform: translateY(-1px);
+}
+
+
+.rage-calculator-button:active {
+    transform: scale(0.94);
+}
+
+
+/* ============================================================
+   OPERATORS
+   ============================================================ */
+
+.rage-calculator-operator {
+    background: #343944;
+
+    font-size: 22px;
+}
+
+
+.rage-calculator-operator:hover {
+    background: #444957;
+}
+
+
+/* ============================================================
+   CLEAR
+   ============================================================ */
+
+.rage-calculator-clear {
+    color: #ff7777;
+
+    background: #33272a;
+}
+
+
+.rage-calculator-clear:hover {
+    background: #493337;
+}
+
+
+/* ============================================================
+   EQUALS
+   ============================================================ */
+
+.rage-calculator-equals {
+    background: #5965d8;
+
+    font-size: 24px;
+
+    grid-row: span 2;
+}
+
+
+.rage-calculator-equals:hover {
+    background: #6874e8;
+}
+
+
+/* ============================================================
+   ZERO
+   ============================================================ */
+
+.rage-calculator-zero {
+    grid-column: span 2;
+}
+
+
+/* ============================================================
+   😈 RUNAWAY EQUALS
+   ============================================================ */
+
+.rage-calculator-equals-runaway {
+    z-index: 50;
+
+    transform:
+        translate(
+            var(--rage-equals-x),
+            var(--rage-equals-y)
+        )
+        rotate(8deg);
+
+    transition:
+        transform 0.25s
+        cubic-bezier(
+            0.68,
+            -0.55,
+            0.27,
+            1.55
+        );
+
+    box-shadow:
+        0 0 18px rgba(
+            255,
+            80,
+            80,
+            0.65
+        );
+}
+
+
+.rage-calculator-equals-runaway:hover {
+    transform:
+        translate(
+            var(--rage-equals-x),
+            var(--rage-equals-y)
+        )
+        rotate(-8deg)
+        scale(1.08);
+}
+
+
+/* ============================================================
+   RAGE STATUS
+   ============================================================ */
+
+.rage-calculator-status {
+    min-height: 22px;
+
+    text-align: center;
+
+    color: #ff7272;
+
+    font-size: 13px;
+
+    font-weight: 600;
+
+    opacity: 0.9;
+
+    transition:
+        opacity 0.2s ease;
+}
+
+
+/* ============================================================
+   SMALL SCREEN SAFETY
+   ============================================================ */
+
+@media (max-width: 420px) {
+
+    .rage-calculator {
+        width: 100%;
+    }
+
+}

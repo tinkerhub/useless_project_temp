@@ -2,20 +2,18 @@
 
 
 
-# [Project Name] 🎯
+# RagebaitOS 🎯
 
 
 ## Basic Details
-### Team Name: [Name]
+### Team Name: Nova Supreme
 
 
 ### Team Members
-- Team Lead: [Name] - [College]
-- Member 2: [Name] - [College]
-- Member 3: [Name] - [College]
+- Team Lead: Achind Babu - MEC
+- Member 2: Anvay Patrick Savio Dsouza - MEC
 
 ### Project Description
-[2-3 lines about what your project does]
 
 ### The Problem (that doesn't exist)
 [What ridiculous problem are you solving?]

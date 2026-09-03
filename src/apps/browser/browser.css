@@ -1,0 +1,617 @@
+.rage-browser {
+    width: 100%;
+    height: 100%;
+    min-height: 500px;
+
+    display: flex;
+    flex-direction: column;
+
+    background: #ffffff;
+    color: #202124;
+
+    font-family:
+        Arial,
+        Helvetica,
+        sans-serif;
+
+    overflow: hidden;
+}
+
+/* =========================
+   TABS
+   ========================= */
+
+.browser-tabs {
+    height: 42px;
+
+    display: flex;
+    align-items: flex-end;
+
+    background: #202124;
+
+    padding: 0 8px;
+
+    gap: 5px;
+}
+
+.browser-tab {
+    height: 36px;
+
+    min-width: 150px;
+    max-width: 220px;
+
+    display: flex;
+    align-items: center;
+
+    gap: 8px;
+
+    padding: 0 10px;
+
+    background: #303134;
+
+    border-radius:
+        8px 8px 0 0;
+
+    color: #c5c5c5;
+
+    cursor: pointer;
+
+    user-select: none;
+}
+
+.browser-tab-active {
+    background: #ffffff;
+    color: #202124;
+}
+
+.browser-tab-icon {
+    font-size: 14px;
+}
+
+.browser-tab-title {
+    flex: 1;
+
+    overflow: hidden;
+
+    white-space: nowrap;
+
+    text-overflow: ellipsis;
+
+    font-size: 13px;
+}
+
+.browser-tab-close {
+    border: none;
+
+    background: transparent;
+
+    color: inherit;
+
+    cursor: pointer;
+
+    font-size: 18px;
+
+    width: 24px;
+    height: 24px;
+
+    border-radius: 50%;
+}
+
+.browser-tab-close:hover {
+    background: rgba(128, 128, 128, 0.25);
+}
+
+.browser-new-tab {
+    width: 32px;
+    height: 32px;
+
+    border: none;
+
+    background: transparent;
+
+    color: white;
+
+    font-size: 24px;
+
+    cursor: pointer;
+
+    margin-bottom: 3px;
+}
+
+.browser-new-tab:hover {
+    background: rgba(255, 255, 255, 0.1);
+
+    border-radius: 50%;
+}
+
+/* =========================
+   TOOLBAR
+   ========================= */
+
+.browser-toolbar {
+    height: 56px;
+
+    display: flex;
+    align-items: center;
+
+    gap: 8px;
+
+    padding: 8px 12px;
+
+    background: #ffffff;
+
+    border-bottom:
+        1px solid #dadce0;
+}
+
+.browser-toolbar-button {
+    width: 38px;
+    height: 38px;
+
+    border: none;
+
+    background: transparent;
+
+    border-radius: 50%;
+
+    font-size: 20px;
+
+    cursor: pointer;
+
+    color: #5f6368;
+}
+
+.browser-toolbar-button:hover {
+    background: #f1f3f4;
+}
+
+.browser-address-container {
+    flex: 1;
+
+    height: 40px;
+
+    display: flex;
+    align-items: center;
+
+    padding: 0 14px;
+
+    background: #f1f3f4;
+
+    border-radius: 20px;
+
+    gap: 8px;
+}
+
+.browser-lock {
+    font-size: 14px;
+}
+
+.browser-address {
+    flex: 1;
+
+    border: none;
+
+    outline: none;
+
+    background: transparent;
+
+    font-size: 14px;
+
+    color: #202124;
+}
+
+.browser-go {
+    height: 38px;
+
+    padding: 0 18px;
+
+    border: none;
+
+    border-radius: 18px;
+
+    background: #1a73e8;
+
+    color: white;
+
+    font-weight: bold;
+
+    cursor: pointer;
+}
+
+.browser-go:hover {
+    background: #1557b0;
+}
+
+/* =========================
+   LOADING
+   ========================= */
+
+.browser-loading {
+    height: 3px;
+
+    width: 100%;
+
+    overflow: hidden;
+
+    opacity: 0;
+}
+
+.browser-loading-active {
+    opacity: 1;
+}
+
+.browser-loading-bar {
+    height: 100%;
+
+    width: 0%;
+
+    background: #1a73e8;
+
+    transition:
+        width 0.3s ease;
+}
+
+/* =========================
+   CONTENT
+   ========================= */
+
+.browser-content {
+    flex: 1;
+
+    overflow: auto;
+
+    background: #ffffff;
+}
+
+/* =========================
+   HOME
+   ========================= */
+
+.browser-home {
+    min-height: 100%;
+
+    display: flex;
+
+    flex-direction: column;
+
+    align-items: center;
+
+    justify-content: center;
+
+    padding: 40px;
+}
+
+.browser-logo {
+    font-size: 70px;
+
+    font-weight: bold;
+
+    letter-spacing: -5px;
+
+    margin-bottom: 8px;
+}
+
+.browser-logo span {
+    font-weight: 900;
+}
+
+.browser-subtitle {
+    color: #70757a;
+
+    margin-bottom: 30px;
+}
+
+.browser-search-container {
+    width: min(600px, 90%);
+
+    height: 50px;
+
+    display: flex;
+
+    align-items: center;
+
+    background: white;
+
+    border:
+        1px solid #dfe1e5;
+
+    border-radius: 25px;
+
+    box-shadow:
+        0 1px 6px rgba(32, 33, 36, 0.15);
+
+    overflow: hidden;
+}
+
+.browser-home-search {
+    flex: 1;
+
+    height: 100%;
+
+    border: none;
+
+    outline: none;
+
+    padding: 0 20px;
+
+    font-size: 16px;
+}
+
+.browser-home-search-button {
+    width: 55px;
+
+    height: 100%;
+
+    border: none;
+
+    background: transparent;
+
+    cursor: pointer;
+
+    font-size: 20px;
+}
+
+.browser-home-search-button:hover {
+    background: #f5f5f5;
+}
+
+.browser-shortcuts {
+    display: flex;
+
+    gap: 15px;
+
+    margin-top: 35px;
+}
+
+.browser-shortcut {
+    width: 100px;
+    height: 90px;
+
+    border: none;
+
+    background: #f8f9fa;
+
+    border-radius: 12px;
+
+    cursor: pointer;
+
+    display: flex;
+
+    flex-direction: column;
+
+    align-items: center;
+
+    justify-content: center;
+
+    gap: 8px;
+
+    font-size: 25px;
+}
+
+.browser-shortcut span {
+    font-size: 12px;
+
+    color: #5f6368;
+}
+
+.browser-shortcut:hover {
+    background: #f1f3f4;
+
+    transform: translateY(-2px);
+}
+
+/* =========================
+   SEARCH RESULTS
+   ========================= */
+
+.browser-search-page {
+    max-width: 800px;
+
+    margin: 0 auto;
+
+    padding: 40px;
+}
+
+.browser-search-page h1 {
+    font-size: 28px;
+
+    margin-bottom: 8px;
+}
+
+.browser-search-query {
+    color: #5f6368;
+
+    margin-bottom: 30px;
+}
+
+.browser-result {
+    padding: 18px 0;
+
+    border-bottom:
+        1px solid #eeeeee;
+
+    cursor: pointer;
+}
+
+.browser-result:hover {
+    background: #fafafa;
+
+    padding-left: 10px;
+}
+
+.browser-result-title {
+    color: #1a0dab;
+
+    font-size: 20px;
+
+    text-decoration: none;
+}
+
+.browser-result-url {
+    color: #188038;
+
+    font-size: 13px;
+
+    margin-top: 5px;
+}
+
+.browser-result p {
+    color: #4d5156;
+
+    margin-top: 8px;
+}
+
+/* =========================
+   BASIC PAGES
+   ========================= */
+
+.browser-basic-page {
+    max-width: 800px;
+
+    margin: 0 auto;
+
+    padding: 50px;
+
+    line-height: 1.6;
+}
+
+.browser-basic-page h1 {
+    font-size: 34px;
+
+    margin-bottom: 20px;
+}
+
+.browser-warning {
+    margin-top: 30px;
+
+    padding: 20px;
+
+    background: #fff3cd;
+
+    border:
+        1px solid #ffeeba;
+
+    border-radius: 10px;
+}
+
+/* =========================
+   NEWS
+   ========================= */
+
+.browser-news-card {
+    padding: 20px;
+
+    margin-bottom: 20px;
+
+    background: #f8f9fa;
+
+    border-radius: 12px;
+
+    border:
+        1px solid #e5e5e5;
+}
+
+/* =========================
+   ERROR
+   ========================= */
+
+.browser-error-page {
+    height: 100%;
+
+    display: flex;
+
+    flex-direction: column;
+
+    align-items: center;
+
+    justify-content: center;
+
+    text-align: center;
+
+    padding: 30px;
+}
+
+.browser-error-icon {
+    font-size: 70px;
+
+    margin-bottom: 20px;
+}
+
+.browser-error-page h1 {
+    font-size: 28px;
+}
+
+.browser-error-page p {
+    color: #5f6368;
+
+    max-width: 500px;
+
+    margin: 15px 0 25px;
+}
+
+.browser-error-button {
+    border: none;
+
+    padding: 10px 20px;
+
+    border-radius: 6px;
+
+    background: #1a73e8;
+
+    color: white;
+
+    cursor: pointer;
+}
+
+/* =========================
+   CALCULATOR REDIRECT
+   ========================= */
+
+.browser-calculator-redirect {
+    font-size: 70px;
+
+    margin-bottom: 20px;
+}
+
+/* =========================
+   RAGE MESSAGE
+   ========================= */
+
+.browser-rage-message {
+    position: fixed;
+
+    left: 50%;
+
+    bottom: 35px;
+
+    transform:
+        translate(-50%, 20px);
+
+    padding: 13px 22px;
+
+    border-radius: 10px;
+
+    background: #202124;
+
+    color: white;
+
+    font-size: 14px;
+
+    box-shadow:
+        0 8px 30px rgba(0, 0, 0, 0.3);
+
+    opacity: 0;
+
+    transition:
+        opacity 0.3s ease,
+        transform 0.3s ease;
+
+    z-index: 999999;
+}
+
+.browser-rage-message-visible {
+    opacity: 1;
+
+    transform:
+        translate(-50%, 0);
+}
