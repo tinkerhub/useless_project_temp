@@ -1,1 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
 
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Zoo Talks 🐾</title>
+
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+    <div class="container">
+
+        <h1>🐾 Zoo Talks</h1>
+
+        <p class="subtitle">
+            Turn human words into funny animal language! 😄
+        </p>
+
+
+        <!-- Animal Selection -->
+        <div class="animal-section">
+
+            <label for="animalSelect">
+                Choose an animal:
+            </label>
+
+            <select id="animalSelect">
+
+                <option value="chicken">
+                    🐔 Chicken
+                </option>
+
+                <option value="dog">
+                    🐶 Dog
+                </option>
+
+                <option value="cat">
+                    🐱 Cat
+                </option>
+
+                <option value="cow">
+                    🐮 Cow
+                </option>
+
+                <option value="frog">
+                    🐸 Frog
+                </option>
+
+                <option value="bird">
+                    🐦 Bird
+                </option>
+
+                <option value="lion">
+                    🦁 Lion
+                </option>
+
+            </select>
+
+        </div>
+
+
+        <!-- Text Input -->
+        <div class="input-section">
+
+            <label for="textInput">
+                Enter your sentence:
+            </label>
+
+            <textarea
+                id="textInput"
+                placeholder="Example: Good morning..."
+                rows="5"></textarea>
+
+        </div>
+
+
+        <!-- Buttons -->
+        <div class="buttons">
+
+            <button id="translateButton">
+                🐾 Translate
+            </button>
+
+            <button id="clearButton">
+                🗑️ Clear
+            </button>
+
+        </div>
+
+
+        <!-- Result -->
+        <div class="result-section">
+
+            <h2>Animal Says:</h2>
+
+            <div id="output">
+                Your zoo sound will appear here...
+            </div>
+
+            <button id="speakButton">
+                🔊 Listen
+            </button>
+
+        </div>
+
+
+        <!-- Footer -->
+        <footer>
+            Made with ❤️ for animal lovers
+        </footer>
+
+    </div>
+
+
+    <script src="script.js"></script>
+
+</body>
+
+</html>
