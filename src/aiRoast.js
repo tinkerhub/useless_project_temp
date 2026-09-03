@@ -1,6 +1,6 @@
 require('dotenv').config();
 
-const { GoogleGenAI } = require('@google/genai');
+const { GoogleGenAI } = require('@google/generative-ai');
 
 // Check API key before creating the AI client
 const apiKey = process.env.GEMINI_API_KEY;

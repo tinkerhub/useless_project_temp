@@ -6,7 +6,7 @@ const aiRoast = require('./aiRoast');
 function activate(context) {
 
     console.log('Emotional Damage IDE activated!');
-
+̥
     let disposable = vscode.commands.registerCommand(
         'emotionalDamageIDE.roast',
         async () => {

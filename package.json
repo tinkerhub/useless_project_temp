@@ -24,11 +24,24 @@
           "command": "emotionalDamageIDE.roast",
           "group": "navigation"
         }
+      ],
+      "editor/context": [
+        {
+          "command": "emotionalDamageIDE.roast",
+          "group": "navigation"
+        }
       ]
-    }
+    },
+    "keybindings": [
+      {
+        "command": "emotionalDamageIDE.roast",
+        "key": "ctrl+alt+r",
+        "when": "editorTextFocus"
+      }
+    ]
   },
   "dependencies": {
-    "@google/genai": "^1.0.0",
+    "@google/generative-ai": "^0.1.0",
     "dotenv": "^17.4.2",
     "sound-play": "^1.1.0"
   }
