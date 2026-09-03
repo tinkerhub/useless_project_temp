@@ -2,54 +2,64 @@
 
 
 
-# [Project Name] 🎯
+# Existence? 🎯
 
 
 ## Basic Details
-### Team Name: [Name]
+### Team Name: 404 Brain Not Found
 
 
 ### Team Members
-- Team Lead: [Name] - [College]
-- Member 2: [Name] - [College]
-- Member 3: [Name] - [College]
+- Member 1: Aswini Jayakumar - Muthoot Institute of Technology and Science Kochi
+- Member 2: Dhanyasree S - Muthoot Institute of Technology and Science Kochi
 
 ### Project Description
-[2-3 lines about what your project does]
+**The Human Error Simulator** is a dystopian corporate terminal web application that tests your humanity through hostile anti-UX modules. Every interaction is designed to frustrate, confuse, and ultimately classify you as either a "defective carbon-based unit" or "suspiciously competent." Navigate through 4 modules with camera-based penalties, a Gaslighting AI assistant, and a final profile that judges your existence.
 
 ### The Problem (that doesn't exist)
-[What ridiculous problem are you solving?]
+Humans are becoming too confident in their digital interactions. They navigate interfaces with reckless precision, never making mistakes, and have completely forgotten the joy of being yelled at by a judgmental corporate terminal for being biologically inferior. This lack of emotional damage is a crisis that needed immediate attention.
 
 ### The Solution (that nobody asked for)
-[How are you solving it? Keep it fun!]
+We built a terminal that punishes you for existing. Every keystroke, every mouse movement, every moment of hesitation is logged, judged, and penalized. You'll be forced to complete camera-based challenges like posing cutely (Ruby Chan style) or doing a hand dance when you make mistakes. The system gaslights you, mocks you, and finally classifies you as either "SUSPICIOUSLY COMPETENT" or "RECOMMENDED FOR IMMEDIATE AUTOMATION." Because nothing says "useless" like a website that exists solely to hurt your feelings.
 
 ## Technical Details
 ### Technologies/Components Used
 For Software:
-- [Languages used]
-- [Frameworks used]
-- [Libraries used]
-- [Tools used]
+- **Languages**: TypeScript, CSS
+- **Framework**: TanStack Start (React 19)
+- **Styling**: Tailwind CSS 4, tw-animate-css
+- **UI Components**: shadcn/ui (Radix UI primitives)
+- **Build Tool**: Vite 8
+- **Audio**: Web Audio API (OscillatorNode)
+- **Icons**: Lucide React
+- **Confetti**: canvas-confetti
+
 
 For Hardware:
-- [List main components]
-- [List specifications]
-- [List tools required]
+- Webcam (for pose detection penalties)
+- Speakers/Headphones (for audio feedback)
+- Standard input devices (mouse, keyboard)
 
 ### Implementation
 For Software:
 # Installation
-[commands]
+git clone https://github.com/Aswinij28/useless_project_temp.git
+cd useless_project_temp
 
 # Run
-[commands]
+# Start development server
+npm run dev
+# OR
+bun run dev
+
+# Open http://localhost:5173 in your browser
 
 ### Project Documentation
 For Software:
 
 # Screenshots (Add at least 3)
-![Screenshot1](Add screenshot 1 here with proper name)
-*Add caption explaining what this shows*
+<img width="995" height="630" alt="Directories" src="https://github.com/user-attachments/assets/082bdc2c-2ce9-4b43-93d5-35dcb70ceeb3" />
+Main Directories of this project
 
 ![Screenshot2](Add screenshot 2 here with proper name)
 *Add caption explaining what this shows*
