@@ -67,19 +67,6 @@ Main Directories of this project
 ![Screenshot3](Add screenshot 3 here with proper name)
 *Add caption explaining what this shows*
 
-# Diagrams
-![Workflow](Add your workflow/architecture diagram here)
-*Add caption explaining your workflow*
-
-For Hardware:
-
-# Schematic & Circuit
-![Circuit](Add your circuit diagram here)
-*Add caption explaining connections*
-
-![Schematic](Add your schematic diagram here)
-*Add caption explaining the schematic*
-
 # Build Photos
 ![Components](Add photo of your components here)
 *List out all components shown*
@@ -95,13 +82,10 @@ For Hardware:
 [Add your demo video link here]
 *Explain what the video demonstrates*
 
-# Additional Demos
-[Add any extra demo materials/links]
-
 ## Team Contributions
-- [Name 1]: [Specific contributions]
-- [Name 2]: [Specific contributions]
-- [Name 3]: [Specific contributions]
+Dhanyasree S: Full-stack development, React components, TanStack integration, UI/UX design, CSS styling, penalty system implementation
+
+Aswini Jayakumar: State management, module logic, audio integration, camera API integration, testing, documentation
 
 ---
 Made with ❤️ at TinkerHub Useless Projects 
