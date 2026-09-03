@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <link rel="icon" href="assets/chapati.png" />
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      name="description"
+      content="Upload a deformed chapati and discover which country it most closely resembles."
+    />
+    <title>Chapati Countries</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <div class="page-shell">
+      <header class="topbar">
+        <div class="brand" aria-label="Chapati World">
+          <span class="brand-mark">
+            <img src="assets/chapati.png" alt="Chapati Countries logo" />
+          </span>
+          <div>
+            <strong>ROTI WORLD</strong>
+            <small>Subtly ridiculous geographies</small>
+          </div>
+        </div>
+      </header>
+
+      <main>
+        <section class="hero panel" aria-label="Chapati analysis form">
+          <div class="hero-copy">
+            <p class="eyebrow">A completely unnecessary culinary atlas</p>
+            <h1>Which country is your chapati?</h1>
+            <p class="subtitle">
+              Upload a deformed or deeply suspicious flatbread and we’ll compare its outline to a nation-state.
+              Very little science. Immense confidence.
+            </p>
+
+            <div id="dropzone" class="upload-zone" tabindex="0" role="button" aria-label="Upload a chapati image">
+              <input id="fileInput" type="file" accept="image/*" hidden />
+              <div class="upload-inner">
+                <div class="upload-icon">
+                    <img src="assets/chapati.png" alt ="chapati icon" />
+                </div>
+                <h2>Drop your chapati here</h2>
+                <p>JPG, PNG, or a quick snap from your camera</p>
+                <div class="upload-actions">
+                  <button class="secondary-button" id="browseBtn" type="button">Choose image</button>
+                  <button class="ghost-button" id="cameraBtn" type="button">Use camera</button>
+                </div>
+              </div>
+            </div>
+
+            <div id="previewPanel" class="preview-panel hidden" aria-live="polite">
+              <div class="preview-frame">
+                <img id="previewImg" src="" alt="Chapati image preview" />
+              </div>
+              <button class="text-button" id="clearBtn" type="button">Remove image</button>
+            </div>
+
+            <div class="cta-row">
+              <button id="analyzeBtn" class="primary-button" type="button" disabled>Analyze My Chapati</button>
+            </div>
+            <p class="disclaimer">Absolutely no practical value. Probably.</p>
+          </div>
+
+          <div class="hero-art" aria-hidden="true">
+            <div class="world-card">
+              <div class="planet-badge">🌍</div>
+              <div class="country-swirls"></div>
+              <div class="mini-chapati">
+                <div class="chapati-bite"></div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section class="info-section" aria-labelledby="how-it-works-title">
+          <div class="section-heading">
+            <h2 id="how-it-works-title">How it works</h2>
+            <p>It’s not science. It’s theatre.</p>
+          </div>
+
+          <div class="steps-grid">
+            <article class="step-card">
+              <span class="step-number">01</span>
+              <h3>Upload chapati</h3>
+              <p>Take a quick snap or drag in a photo of your slightly shameful bread creation.</p>
+            </article>
+            <article class="step-card">
+              <span class="step-number">02</span>
+              <h3>Extract outline</h3>
+              <p>We isolate the doughy silhouette and look for those suspicious little corner bulges.</p>
+            </article>
+            <article class="step-card">
+              <span class="step-number">03</span>
+              <h3>Compare countries</h3>
+              <p>Then we match the shape against a few very serious, very fictional geographic patterns.</p>
+            </article>
+            <article class="step-card">
+              <span class="step-number">04</span>
+              <h3>Discover your country</h3>
+              <p>Finally, learn whether your chapati is legally eligible to become a map of Italy.</p>
+            </article>
+          </div>
+        </section>
+
+        <section id="resultSection" class="results panel hidden" aria-live="polite">
+          <div class="result-header">
+            <div>
+              <p class="eyebrow">Analysis complete</p>
+              <h2>Country match</h2>
+            </div>
+            <button id="tryAnotherBtn" class="secondary-button" type="button">Try Another Chapati</button>
+          </div>
+
+          <div class="result-grid">
+            <div class="result-visual">
+              <div class="outline-shell">
+                <div class="outline-label">Detected chapati outline</div>
+                <div class="outline-image">
+                  <img id="resultPreview" src="" alt="Detected chapati outline" />
+                  <svg class="outline-svg" viewBox="0 0 300 220" aria-hidden="true">
+                    <path
+                      d="M40 120 C 60 55, 125 28, 165 28 C 210 30, 250 60, 270 120 C 258 172, 205 198, 150 200 C 95 198, 44 176, 40 120 Z"
+                      fill="none"
+                      stroke="rgba(255,255,255,0.95)"
+                      stroke-width="4"
+                      stroke-linecap="round"
+                    />
+                  </svg>
+                </div>
+              </div>
+            </div>
+
+            <div class="result-summary">
+              <div class="flag-row">
+                <span id="resultFlag" class="flag">🇮🇹</span>
+                <span id="resultCountry" class="country-name">Italy</span>
+              </div>
+
+              <div id="resultScore" class="score-badge">92%</div>
+              <p id="resultMessage" class="message">Your chapati is giving Italy.</p>
+
+              <div class="runnerups">
+                <h3>Other suspicious nations</h3>
+                <ul id="runnerUpList"></ul>
+              </div>
+            </div>
+          </div>
+        </section>
+      </main>
+    </div>
+
+    <script src="script.js"></script>
+  </body>
+</html>
+

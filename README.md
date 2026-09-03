@@ -2,26 +2,25 @@
 
 
 
-# [Project Name] 🎯
+# CHAPATI WORLD 🎯
 
 
 ## Basic Details
-### Team Name: [Name]
+### Team Name: TrustMeBro
 
 
 ### Team Members
-- Team Lead: [Name] - [College]
-- Member 2: [Name] - [College]
-- Member 3: [Name] - [College]
+- Member 1: Evan Paul Gibi - Govt Model Engineering College
+- Member 2: Aaron S Christo - Govt Model Engineering College
 
 ### Project Description
-[2-3 lines about what your project does]
+A fun, deliberately useless computer-vision project that scans a deformed chapati and matches its outline to the country it most closely resembles using OpenCV.
 
 ### The Problem (that doesn't exist)
-[What ridiculous problem are you solving?]
+While making chapati, we may accidently make a deformed chapati. The deformed chapati comes with a grave difficulty - What country does it look like?
 
 ### The Solution (that nobody asked for)
-[How are you solving it? Keep it fun!]
+Trust Me Bro, we gotchu, open our website, scan your chapati and we will tell you the country that best matches your chapati's shape
 
 ## Technical Details
 ### Technologies/Components Used
