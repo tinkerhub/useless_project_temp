@@ -1,153 +1,151 @@
 require('dotenv').config();
 
-const { GoogleGenAI } = require('@google/generative-ai');
+const {
+    GoogleGenerativeAI
+} = require('@google/generative-ai');
 
-// Check API key before creating the AI client
-const apiKey = process.env.GEMINI_API_KEY;
+const apiKey =
+    process.env.GEMINI_API_KEY;
 
 let ai = null;
 
 if (apiKey) {
-    ai = new GoogleGenAI({
-        apiKey: apiKey
-    });
+    ai = new GoogleGenerativeAI(apiKey);
 }
 
-const fallbackMessages = [
-    "The compiler is disappointed in you.",
-    "That error was personal.",
-    "Your code needs emotional support.",
-    "Even the semicolon gave up.",
-    "💀 EMOTIONAL DAMAGE!",
-    "I've seen better code written by a calculator.",
-    "Your debugger just submitted its resignation.",
-    "This code has more problems than a group project.",
-    "The compiler read your code and chose violence.",
-    "Somewhere, a programmer just felt a disturbance in the Force.",
-    "Your code isn't broken. It was never emotionally stable.",
-    "Congratulations! You discovered a bug nobody asked for.",
-    "Even Stack Overflow doesn't know what you're doing.",
-    "Your indentation has entered witness protection.",
-    "This code needs a therapist, not a debugger.",
-    "The syntax is fighting for its life.",
-    "Your keyboard deserves compensation for this.",
-    "The code works perfectly... in an alternate universe.",
-    "ERROR 404: Programming ability not found.",
-    "The compiler would like to speak to your manager."
-];
 
-function randomFallback() {
-    return fallbackMessages[
-        Math.floor(Math.random() * fallbackMessages.length)
+/* ================================================
+   FALLBACK ROASTS
+================================================ */
+
+const roasts = {
+
+    syntax: [
+        '💀 Your syntax has officially betrayed you.',
+        '😮‍💨 The compiler sighed before reporting this.',
+        '🚨 Syntax crime detected. Confidence deleted.',
+        'Your brackets are having an identity crisis.',
+        'Even the semicolon is disappointed.',
+        'The code works beautifully... if you ignore the error.'
+    ],
+
+    deletion: [
+        '🎻 You deleted the code. The code is mourning.',
+        'That was not refactoring. That was a massacre.',
+        'You did not edit the code. You erased its future.',
+        'Somewhere, a variable is crying.',
+        'The codebase has entered its grieving period.'
+    ],
+
+    inactivity: [
+        '🥱 You stopped coding. Even your IDE fell asleep.',
+        '30 seconds of silence. Are you debugging or contemplating life?',
+        'Your keyboard has not moved. Neither has your productivity.',
+        'The code is waiting. Patiently.',
+        'Programmer status: emotionally AFK.'
+    ]
+};
+
+
+function fallback(type) {
+
+    const list =
+        roasts[type] ||
+        roasts.syntax;
+
+    return list[
+        Math.floor(
+            Math.random() * list.length
+        )
     ];
 }
 
-async function generateEmotionalDamage(errorInfo = {}) {
 
-    // 1. Check if API key exists
-    if (!apiKey) {
-        console.error("Gemini API error: GEMINI_API_KEY is missing.");
-        return "🔑 EMOTIONAL DAMAGE: API key missing. Even Gemini gave up on you.";
+/* ================================================
+   AI ROAST
+================================================ */
+
+async function generateEmotionalDamage(
+    type,
+    details
+) {
+
+    details = details || {};
+
+    if (!ai) {
+        return fallback(type);
     }
 
-    // 2. Validate input
-    if (!errorInfo || typeof errorInfo !== "object") {
-        console.error("Invalid error information received.");
-        return randomFallback();
+    let prompt = '';
+
+    if (type === 'syntax') {
+
+        prompt =
+            'You are the AI inside a funny VS Code extension called Emotional Damage IDE. ' +
+            'A programmer has made a syntax error. ' +
+            'Language: ' +
+            (details.language || 'Unknown') +
+            '. Error: ' +
+            (details.error || 'Unknown') +
+            '. Give a funny college-hackathon-friendly roast. ' +
+            'Include an emotional damage percentage, a sarcastic roast, and a verdict. ' +
+            'Do not give the solution. Keep it under 70 words.';
     }
 
-    const language = errorInfo.language || "Unknown";
-    const error = errorInfo.error || "Unknown error";
-    const errorCount = errorInfo.errorCount || 1;
+    else if (type === 'deletion') {
+
+        prompt =
+            'You are the AI inside Emotional Damage IDE. ' +
+            'The programmer deleted ' +
+            (details.lines || 3) +
+            ' lines of code. ' +
+            'Give a dramatic funny roast. ' +
+            'Include an emotional damage percentage and verdict. ' +
+            'Do not give coding advice. Keep it under 70 words.';
+    }
+
+    else {
+
+        prompt =
+            'You are the AI inside Emotional Damage IDE. ' +
+            'The programmer stopped typing for 30 seconds. ' +
+            'Give a funny sarcastic roast. ' +
+            'Include an emotional damage percentage and verdict. ' +
+            'Keep it under 70 words.';
+    }
 
     try {
 
-        const prompt = `You are the AI inside a ridiculous coding IDE called "Emotional Damage IDE".
+        const model =
+            ai.getGenerativeModel({
+                model: 'gemini-1.5-flash'
+            });
 
-Your job is to emotionally roast a programmer when their code has an error.
+        const result =
+            await model.generateContent(
+                prompt
+            );
 
-Coding information:
-Language: ${language}
-Error: ${error}
-Number of errors: ${errorCount}
+        const text =
+            result.response.text();
 
-Generate:
-1. EMOTIONAL DAMAGE percentage
-2. A funny reaction to the error
-3. A short sarcastic message
-4. A verdict
-
-Keep it short, funny and suitable for a college hackathon demo.
-Do NOT give a solution to the coding error.
-Do NOT be offensive or hateful.`;
-
-        const response = await ai.models.generateContent({
-            model: 'gemini-3.6-flash',
-            contents: prompt
-        });
-
-        // 3. Check whether Gemini actually returned text
-        if (!response) {
-            console.error("Gemini returned an empty response.");
-            return randomFallback();
+        if (!text || !text.trim()) {
+            return fallback(type);
         }
 
-        const roast = response.text;
-
-        if (!roast || typeof roast !== "string" || roast.trim() === "") {
-            console.error("Gemini response contained no usable text.");
-            return randomFallback();
-        }
-
-        return roast.trim();
+        return text.trim();
 
     } catch (error) {
 
-        // 4. Handle different types of API errors
-        console.error("Gemini error:", error);
+        console.error(
+            'Gemini error:',
+            error.message
+        );
 
-        if (error.message) {
-            console.error("Gemini error message:", error.message);
-        }
-
-        // Authentication/API key problem
-        if (
-            error.message?.includes("API key") ||
-            error.message?.includes("401") ||
-            error.message?.includes("403")
-        ) {
-            return "🔑 GEMINI REJECTED YOU. Check your API key.";
-        }
-
-        // Rate limit
-        if (
-            error.message?.includes("429") ||
-            error.message?.toLowerCase().includes("quota")
-        ) {
-            return "⏳ TOO MANY ROASTS. Even Gemini needs a break.";
-        }
-
-        // Model problem
-        if (
-            error.message?.includes("model") ||
-            error.message?.includes("404")
-        ) {
-            return "🤖 GEMINI GOT CONFUSED. The selected AI model is unavailable.";
-        }
-
-        // Network problem
-        if (
-            error.message?.toLowerCase().includes("network") ||
-            error.message?.toLowerCase().includes("fetch") ||
-            error.message?.toLowerCase().includes("timeout")
-        ) {
-            return "📡 NO INTERNET. Your code couldn't even reach the roast server.";
-        }
-
-        // General fallback
-        return randomFallback();
+        return fallback(type);
     }
 }
+
 
 module.exports = {
     generateEmotionalDamage

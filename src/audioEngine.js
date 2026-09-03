@@ -1,11 +1,45 @@
 const path = require('path');
-const sound = require('sound-play');
+const player = require('play-sound')();
 
-function playRandomSound() {
-  const sounds = ['sigh.mp3', 'laugh.mp3', 'fail.mp3'];
-  const choice = sounds[Math.floor(Math.random() * sounds.length)];
-  const filePath = path.join(__dirname, '../assets', choice);
-  sound.play(filePath);
+const sounds = {
+    syntax: 'sigh.mp3',
+    deletion: 'violin.mp3',
+    inactivity: 'yawn.mp3'
+};
+
+function playSound(type) {
+    const file = sounds[type];
+
+    if (!file) {
+        return;
+    }
+
+    const filePath = path.join(
+        __dirname,
+        '..',
+        'assets',
+        file
+    );
+
+    console.log('🔊 Playing:', file);
+
+    try {
+        player.play(filePath, function (error) {
+            if (error) {
+                console.error(
+                    'Audio error:',
+                    error.message
+                );
+            }
+        });
+    } catch (error) {
+        console.error(
+            'Audio error:',
+            error.message
+        );
+    }
 }
 
-module.exports = { playRandomSound };
+module.exports = {
+    playSound
+};
