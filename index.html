@@ -1,1 +1,1221 @@
+<!DOCTYPE html>
+<html lang="en">
 
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>BrokeGPT - Financial Reality Check</title>
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+    <link
+        href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&display=swap"
+        rel="stylesheet">
+
+
+    <style>
+
+        /* =========================================
+           RESET
+        ========================================= */
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+
+        /* =========================================
+           BODY
+        ========================================= */
+
+        body {
+            background: #fff4c7;
+            color: #29214f;
+            font-family: "Space Grotesk", sans-serif;
+            overflow-x: hidden;
+        }
+
+
+        /* =========================================
+           CONTAINER
+        ========================================= */
+
+        .container {
+            width: 90%;
+            max-width: 1200px;
+            margin: auto;
+        }
+
+
+        /* =========================================
+           HEADER
+        ========================================= */
+
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 25px 0;
+        }
+
+        .logo {
+            font-family: "Fredoka", sans-serif;
+            font-size: 32px;
+            font-weight: 700;
+            letter-spacing: -1px;
+        }
+
+        .logo span {
+            color: #ff5c35;
+        }
+
+        .tagline {
+            font-size: 14px;
+            font-weight: 600;
+        }
+
+
+        /* =========================================
+           HERO
+        ========================================= */
+
+        .hero {
+            min-height: 520px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 50px;
+            position: relative;
+        }
+
+        .hero-text {
+            width: 55%;
+            position: relative;
+            z-index: 2;
+        }
+
+        .small-heading {
+            display: inline-block;
+            background: #b8f35a;
+            border: 3px solid #29214f;
+            padding: 8px 15px;
+            border-radius: 30px;
+            font-size: 14px;
+            font-weight: 700;
+            margin-bottom: 20px;
+            box-shadow: 4px 4px 0 #29214f;
+        }
+
+        h1 {
+            font-family: "Fredoka", sans-serif;
+            font-size: clamp(55px, 8vw, 100px);
+            line-height: 0.9;
+            letter-spacing: -4px;
+            margin-bottom: 25px;
+        }
+
+        h1 span {
+            color: #ff5c35;
+        }
+
+        .hero-description {
+            max-width: 550px;
+            font-size: 18px;
+            line-height: 1.6;
+            margin-bottom: 25px;
+        }
+
+        .warning {
+            font-size: 13px;
+            font-weight: 600;
+            opacity: 0.7;
+        }
+
+
+        /* =========================================
+           BALANCE CARD
+        ========================================= */
+
+        .hero-card {
+            width: 350px;
+            background: #ffcf33;
+            border: 4px solid #29214f;
+            border-radius: 30px;
+            padding: 30px;
+            transform: rotate(3deg);
+            box-shadow: 10px 10px 0 #29214f;
+            position: relative;
+            z-index: 2;
+        }
+
+        .card-label {
+            font-size: 13px;
+            font-weight: 700;
+            margin-bottom: 10px;
+        }
+
+        .balance {
+            font-family: "Fredoka", sans-serif;
+            font-size: 48px;
+            font-weight: 700;
+            margin-bottom: 15px;
+        }
+
+        .card-status {
+            display: inline-block;
+            background: #fff4c7;
+            border: 2px solid #29214f;
+            border-radius: 20px;
+            padding: 7px 12px;
+            font-size: 13px;
+            font-weight: 700;
+        }
+
+
+        /* =========================================
+           FLOATING EMOJIS
+        ========================================= */
+
+        .emoji {
+            position: absolute;
+            font-size: 45px;
+            z-index: 1;
+        }
+
+        .emoji-one {
+            top: 50px;
+            right: 40%;
+            transform: rotate(-15deg);
+        }
+
+        .emoji-two {
+            bottom: 30px;
+            right: 10%;
+            transform: rotate(15deg);
+        }
+
+        .emoji-three {
+            top: 100px;
+            left: -30px;
+            transform: rotate(10deg);
+        }
+
+
+        /* =========================================
+           OPTIONS
+        ========================================= */
+
+        .options-section {
+            padding: 50px 0 70px;
+            text-align: center;
+        }
+
+        .options-title {
+            font-family: "Fredoka", sans-serif;
+            font-size: 35px;
+            margin-bottom: 35px;
+        }
+
+        .options {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            flex-wrap: wrap;
+        }
+
+        .option-card {
+            width: 330px;
+            padding: 30px;
+            border: 4px solid #29214f;
+            border-radius: 25px;
+            background: white;
+            box-shadow: 8px 8px 0 #29214f;
+            transition: 0.2s;
+        }
+
+        .option-card:hover {
+            transform: translateY(-6px);
+        }
+
+        .option-icon {
+            font-size: 50px;
+            margin-bottom: 15px;
+        }
+
+        .option-card h3 {
+            font-family: "Fredoka", sans-serif;
+            font-size: 25px;
+            margin-bottom: 10px;
+        }
+
+        .option-card p {
+            font-size: 14px;
+            line-height: 1.5;
+            margin-bottom: 20px;
+        }
+
+
+        /* =========================================
+           OPTION BUTTON
+        ========================================= */
+
+        .option-button {
+            display: inline-block;
+            text-decoration: none;
+            padding: 14px 24px;
+            border-radius: 15px;
+            border: 3px solid #29214f;
+            background: #b8f35a;
+            color: #29214f;
+            font-family: "Fredoka", sans-serif;
+            font-size: 17px;
+            font-weight: 700;
+            cursor: pointer;
+            box-shadow: 5px 5px 0 #29214f;
+            transition: 0.2s;
+        }
+
+        .option-button:hover {
+            transform: translate(3px, 3px);
+            box-shadow: 2px 2px 0 #29214f;
+        }
+
+        .scan-option {
+            background: #ffcf33;
+        }
+
+
+        /* =========================================
+           HIDDEN FILE INPUT
+        ========================================= */
+
+        #imageUpload {
+            display: none;
+        }
+
+
+        /* =========================================
+           UPLOADED IMAGE SECTION
+        ========================================= */
+
+        .uploaded-section {
+            display: none;
+            width: 90%;
+            max-width: 750px;
+            margin: 0 auto 80px;
+            padding: 35px;
+            background: #b8f35a;
+            border: 4px solid #29214f;
+            border-radius: 30px;
+            box-shadow: 10px 10px 0 #29214f;
+            text-align: center;
+        }
+
+        .uploaded-title {
+            font-family: "Fredoka", sans-serif;
+            font-size: 30px;
+            margin-bottom: 25px;
+        }
+
+        #uploadedImage {
+            display: block;
+            width: 100%;
+            max-height: 550px;
+            object-fit: contain;
+            border: 4px solid #29214f;
+            border-radius: 20px;
+            background: white;
+            margin-bottom: 25px;
+        }
+
+
+        /* =========================================
+           ROAST BUTTON
+        ========================================= */
+
+        .roast-btn {
+            display: none;
+            padding: 16px 30px;
+            background: #ff5c35;
+            color: #29214f;
+            border: 3px solid #29214f;
+            border-radius: 15px;
+            font-family: "Fredoka", sans-serif;
+            font-size: 18px;
+            font-weight: 700;
+            cursor: pointer;
+            box-shadow: 5px 5px 0 #29214f;
+            transition: 0.2s;
+        }
+
+        .roast-btn:hover {
+            transform: translate(3px, 3px);
+            box-shadow: 2px 2px 0 #29214f;
+        }
+
+        .roast-btn:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+        }
+
+
+        /* =========================================
+           RESULT SECTION
+        ========================================= */
+
+        .result-section {
+            width: 90%;
+            max-width: 750px;
+            margin: 0 auto 80px;
+            text-align: center;
+        }
+
+        .result-card {
+            background: #ffcf33;
+            border: 4px solid #29214f;
+            border-radius: 30px;
+            padding: 40px;
+            box-shadow: 10px 10px 0 #29214f;
+        }
+
+        .result-card h2 {
+            font-family: "Fredoka", sans-serif;
+            font-size: 32px;
+            margin-bottom: 20px;
+        }
+
+        #balanceText {
+            font-size: 24px;
+            margin-bottom: 20px;
+        }
+
+        #categoryText {
+            font-family: "Fredoka", sans-serif;
+            font-size: 45px;
+            margin-bottom: 20px;
+        }
+
+        #roastMessage {
+            font-size: 18px;
+            line-height: 1.6;
+            font-weight: 600;
+        }
+
+
+        /* =========================================
+           ROAST METER (needle gauge)
+        ========================================= */
+
+        .roast-meter-wrap {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 10px;
+        }
+
+        .roast-meter {
+            position: relative;
+            width: 280px;
+            max-width: 100%;
+        }
+
+        .roast-meter svg {
+            display: block;
+            width: 100%;
+            height: auto;
+            overflow: visible;
+        }
+
+        /* Pivot point for the needle. transform-origin is set to the
+           dial's center (150,150 in the 300x170 viewBox) so rotating
+           this group swings the needle like a real gauge. */
+        #meterNeedleGroup {
+            transform-origin: 150px 150px;
+            transform: rotate(-85deg);
+            /* transition duration/easing is overridden inline by JS
+               per animation phase (quick suspense swings vs the
+               final elastic settle) */
+            transition: transform 0.25s ease-in-out;
+        }
+
+        .meter-label {
+            font-family: "Fredoka", sans-serif;
+            font-size: 12px;
+            font-weight: 700;
+        }
+
+        .meter-caption {
+            margin-top: 4px;
+            font-size: 12px;
+            font-weight: 700;
+            letter-spacing: 0.5px;
+            opacity: 0.75;
+            min-height: 16px;
+        }
+
+
+        /* =========================================
+           RESULT TEXT REVEAL
+        ========================================= */
+
+        .reveal-text {
+            opacity: 0;
+            transform: translateY(8px);
+            transition: opacity 0.5s ease, transform 0.5s ease;
+        }
+
+        .reveal-text.show {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+
+        /* =========================================
+           GLITCH / SHAKE (POOR reveal)
+        ========================================= */
+
+        @keyframes brokeGlitchShake {
+            0%   { transform: translate(0, 0); }
+            10%  { transform: translate(-6px, 3px); }
+            20%  { transform: translate(6px, -3px); }
+            30%  { transform: translate(-5px, 4px); }
+            40%  { transform: translate(5px, -4px); }
+            50%  { transform: translate(-3px, 3px); }
+            60%  { transform: translate(3px, -3px); }
+            70%  { transform: translate(-2px, 2px); }
+            80%  { transform: translate(2px, -2px); }
+            100% { transform: translate(0, 0); }
+        }
+
+        .result-card.glitch-active {
+            animation: brokeGlitchShake 0.5s ease-in-out;
+        }
+
+        @keyframes brokeGlitchText {
+            0%   { text-shadow: 3px 0 #ff3b3b, -3px 0 #4ade80; }
+            50%  { text-shadow: -3px 0 #ff3b3b, 3px 0 #4ade80; }
+            100% { text-shadow: none; }
+        }
+
+        #categoryText.glitch-text {
+            animation: brokeGlitchText 0.4s steps(2, end) 2;
+        }
+
+
+        /* =========================================
+           SHARE BUTTON
+        ========================================= */
+
+        .share-btn {
+            margin-top: 25px;
+            padding: 14px 26px;
+            background: #b8f35a;
+            color: #29214f;
+            border: 3px solid #29214f;
+            border-radius: 15px;
+            font-family: "Fredoka", sans-serif;
+            font-size: 16px;
+            font-weight: 700;
+            cursor: pointer;
+            box-shadow: 5px 5px 0 #29214f;
+            transition: 0.2s;
+        }
+
+        .share-btn:hover {
+            transform: translate(3px, 3px);
+            box-shadow: 2px 2px 0 #29214f;
+        }
+
+        .share-btn:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+        }
+
+
+        /* =========================================
+           SHARE CARD TEMPLATE (offscreen)
+        ========================================= */
+        /* Rendered at a fixed size and captured by
+           html2canvas — kept off the visible page
+           via a negative left offset rather than
+           display:none (html2canvas can't capture
+           display:none elements). */
+
+        .share-card-offscreen {
+            position: fixed;
+            top: 0;
+            left: -9999px;
+            z-index: -1;
+        }
+
+        .share-card {
+            width: 640px;
+            padding: 60px 50px;
+            background: linear-gradient(160deg, #fff4c7 0%, #ffcf33 100%);
+            border: 8px solid #29214f;
+            border-radius: 45px;
+            font-family: "Space Grotesk", sans-serif;
+            color: #29214f;
+            text-align: center;
+        }
+
+        .share-card-logo {
+            font-family: "Fredoka", sans-serif;
+            font-size: 38px;
+            font-weight: 700;
+            letter-spacing: -1px;
+            margin-bottom: 6px;
+        }
+
+        .share-card-logo span {
+            color: #ff5c35;
+        }
+
+        .share-card-tag {
+            font-size: 14px;
+            font-weight: 700;
+            letter-spacing: 0.5px;
+            opacity: 0.75;
+            margin-bottom: 35px;
+        }
+
+        .share-card-emoji {
+            font-size: 90px;
+            margin-bottom: 10px;
+        }
+
+        .share-card-category {
+            font-family: "Fredoka", sans-serif;
+            font-size: 46px;
+            font-weight: 700;
+            margin-bottom: 22px;
+        }
+
+        .share-card-balance {
+            font-size: 24px;
+            font-weight: 600;
+            margin-bottom: 28px;
+        }
+
+        .share-card-roast {
+            font-size: 19px;
+            line-height: 1.6;
+            font-weight: 600;
+            padding: 0 10px;
+            margin-bottom: 40px;
+        }
+
+        .share-card-footer {
+            font-size: 13px;
+            font-weight: 700;
+            opacity: 0.65;
+        }
+
+
+        /* =========================================
+           PRIVACY
+        ========================================= */
+
+        .privacy {
+            text-align: center;
+            padding-bottom: 50px;
+            font-size: 13px;
+            font-weight: 600;
+            opacity: 0.7;
+        }
+
+
+        /* =========================================
+           RESPONSIVE
+        ========================================= */
+
+        @media (max-width: 800px) {
+
+            .hero {
+                flex-direction: column;
+                text-align: center;
+                padding: 50px 0;
+            }
+
+            .hero-text {
+                width: 100%;
+            }
+
+            .hero-card {
+                width: 90%;
+                max-width: 350px;
+            }
+
+            h1 {
+                font-size: 65px;
+            }
+
+            .hero-description {
+                margin-left: auto;
+                margin-right: auto;
+            }
+
+            .tagline {
+                display: none;
+            }
+
+            .uploaded-section {
+                width: 90%;
+                padding: 20px;
+            }
+
+            .result-section {
+                width: 90%;
+            }
+
+            .result-card {
+                padding: 25px;
+            }
+
+            #categoryText {
+                font-size: 35px;
+            }
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+    <div class="container">
+
+
+        <!-- =========================================
+             HEADER
+        ========================================= -->
+
+        <header>
+
+            <div class="logo">
+                BROKE<span>GPT</span>
+            </div>
+
+            
+
+        </header>
+
+
+        <!-- =========================================
+             HERO
+        ========================================= -->
+
+        <section class="hero">
+
+            <div class="hero-text">
+
+                <div class="small-heading">
+                    💀 FINANCIAL REALITY CHECK
+                </div>
+
+                <h1>
+                    LET'S CHECK<br>
+                    <span>HOW BROKE</span><br>
+                    YOU ARE.
+                </h1>
+
+                <p class="hero-description">
+                    No bank login. No OTP. No financial advice.
+                    Just show us your balance and get the reality
+                    check you probably don't want. 😭
+                </p>
+
+                <p class="warning">
+                    ⚠️ Your financial situation may hurt your feelings.
+                </p>
+
+            </div>
+
+
+            <!-- Balance Card -->
+
+            <div class="hero-card">
+
+                <div class="card-label">
+                    AVAILABLE BALANCE
+                </div>
+
+                <div class="balance">
+                    ₹ 2,450
+                </div>
+
+                <div class="card-status">
+                    LOOKS SUSPICIOUS 👀
+                </div>
+
+            </div>
+
+
+            <!-- Floating Emojis -->
+
+            <div class="emoji emoji-one">
+                💸
+            </div>
+
+            <div class="emoji emoji-two">
+                😭
+            </div>
+
+            <div class="emoji emoji-three">
+                💀
+            </div>
+
+        </section>
+
+
+        <!-- =========================================
+             OPTIONS
+        ========================================= -->
+
+        <section class="options-section">
+
+            <h2 class="options-title">
+                How do you want to show me your balance?
+            </h2>
+
+
+            <div class="options">
+
+
+                <!-- UPLOAD IMAGE -->
+
+                <div class="option-card">
+
+                    <div class="option-icon">
+                        🖼️
+                    </div>
+
+                    <h3>
+                        Upload Image
+                    </h3>
+
+                    <p>
+                        Choose a balance image from your computer.
+                    </p>
+
+
+                    <label
+                        for="imageUpload"
+                        class="option-button">
+
+                        CHOOSE IMAGE
+
+                    </label>
+
+
+                    <input
+                        type="file"
+                        id="imageUpload"
+                        accept="image/*">
+
+                </div>
+
+
+                <!-- SCAN PHOTO -->
+
+                <div class="option-card">
+
+                    <div class="option-icon">
+                        📸
+                    </div>
+
+                    <h3>
+                        Scan Photo
+                    </h3>
+
+                    <p>
+                        Use your laptop camera to capture your balance.
+                    </p>
+
+
+                    <a
+                        href="camera.html"
+                        class="option-button scan-option">
+
+                        OPEN CAMERA
+
+                    </a>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- =========================================
+             UPLOADED IMAGE
+        ========================================= -->
+
+        <section
+            class="uploaded-section"
+            id="uploadedSection">
+
+
+            <h2 class="uploaded-title">
+                🖼️ HERE'S YOUR IMAGE
+            </h2>
+
+
+            <img
+                id="uploadedImage"
+                alt="Selected balance image">
+
+
+            <!-- ROAST BUTTON -->
+
+            <button
+                class="roast-btn"
+                id="roastButton">
+
+                💀 TELL ME HOW BROKE I AM
+
+            </button>
+
+        </section>
+
+
+        <!-- =========================================
+             RESULT
+        ========================================= -->
+
+        <section
+            class="result-section"
+            id="resultSection"
+            style="display: none;">
+
+
+            <div class="result-card">
+
+                <h2>
+                    💀 FINANCIAL REALITY CHECK
+                </h2>
+
+
+                <!-- ROAST METER -->
+
+                <div class="roast-meter-wrap">
+
+                    <div class="roast-meter">
+
+                        <svg viewBox="0 0 300 170" xmlns="http://www.w3.org/2000/svg">
+
+                            <defs>
+                                <linearGradient id="meterGradient" x1="0%" y1="0%" x2="100%" y2="0%">
+                                    <stop offset="0%" stop-color="#ff3b3b" />
+                                    <stop offset="50%" stop-color="#ffcf33" />
+                                    <stop offset="100%" stop-color="#4ade80" />
+                                </linearGradient>
+                            </defs>
+
+                            <!-- dial background arc -->
+                            <path
+                                d="M 20 150 A 130 130 0 0 1 280 150"
+                                fill="none"
+                                stroke="url(#meterGradient)"
+                                stroke-width="26"
+                                stroke-linecap="round" />
+
+                            <!-- dial outline -->
+                            <path
+                                d="M 20 150 A 130 130 0 0 1 280 150"
+                                fill="none"
+                                stroke="#29214f"
+                                stroke-width="3"
+                                stroke-linecap="round" />
+
+                            <!-- needle -->
+                            <g id="meterNeedleGroup">
+                                <line x1="150" y1="150" x2="150" y2="35" stroke="#29214f" stroke-width="6" stroke-linecap="round" />
+                                <circle cx="150" cy="150" r="12" fill="#29214f" />
+                                <circle cx="150" cy="150" r="5" fill="#ffcf33" />
+                            </g>
+
+                            <text x="35" y="168" class="meter-label">BROKE</text>
+                            <text x="220" y="168" class="meter-label">LOADED</text>
+
+                        </svg>
+
+                    </div>
+
+                </div>
+
+                <div class="meter-caption" id="meterCaption">
+                    &nbsp;
+                </div>
+
+
+                <h3 id="balanceText" class="reveal-text">
+                    Available Balance: ₹0
+                </h3>
+
+
+                <h2 id="categoryText" class="reveal-text">
+                    BROKE
+                </h2>
+
+
+                <p id="roastMessage" class="reveal-text"></p>
+
+
+                <!-- SHARE BUTTON (appears once the roast finishes typing) -->
+
+                <button
+                    class="share-btn"
+                    id="shareButton"
+                    style="display: none;">
+
+                    📤 SHARE MY ROAST
+
+                </button>
+
+            </div>
+
+        </section>
+
+
+        <!-- =========================================
+             SHARE CARD (offscreen — html2canvas
+             captures THIS, not the on-page result
+             card, so the exported image has its
+             own clean, fixed-size layout)
+        ========================================= -->
+
+        <div class="share-card-offscreen">
+
+            <div class="share-card" id="shareCard">
+
+                <div class="share-card-logo">
+                    BROKE<span>GPT</span>
+                </div>
+
+                <div class="share-card-tag">
+                    I JUST GOT ROASTED BY BROKEGPT
+                </div>
+
+                <div class="share-card-emoji" id="shareCardEmoji">
+                    💀
+                </div>
+
+                <div class="share-card-category" id="shareCardCategory">
+                    POOR
+                </div>
+
+                <div class="share-card-balance" id="shareCardBalance">
+                    Balance: ₹0
+                </div>
+
+                <div class="share-card-roast" id="shareCardRoast">
+                    roast text here
+                </div>
+
+                <div class="share-card-footer">
+                    🔒 no bank login. no OTP. just vibes.
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- =========================================
+             PRIVACY
+        ========================================= -->
+
+        <div class="privacy">
+
+            🔒 Your bank account is never connected.
+            We only read the image you show us.
+
+        </div>
+
+    </div>
+
+
+    <!-- =========================================
+         TESSERACT OCR
+    ========================================= -->
+
+    <script src="https://cdn.jsdelivr.net/npm/tesseract.js@5/dist/tesseract.min.js"></script>
+
+
+    <!-- =========================================
+         CONFETTI + SHARE CARD LIBRARIES
+    ========================================= -->
+
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.2/dist/confetti.browser.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
+
+
+    <!-- =========================================
+         BROKEGPT ANALYSIS
+    ========================================= -->
+
+    <script src="analyzer.js"></script>
+
+
+    <!-- =========================================
+         PAGE JAVASCRIPT
+    ========================================= -->
+
+    <script>
+
+        // =========================================
+        // GET ELEMENTS
+        // =========================================
+
+        const imageUpload =
+            document.getElementById("imageUpload");
+
+        const uploadedImage =
+            document.getElementById("uploadedImage");
+
+        const uploadedSection =
+            document.getElementById("uploadedSection");
+
+        const roastButton =
+            document.getElementById("roastButton");
+
+        const resultSection =
+            document.getElementById("resultSection");
+
+
+        // =========================================
+        // CURRENT IMAGE
+        // =========================================
+
+        let currentImage = null;
+
+
+        // =========================================
+        // IMAGE UPLOAD
+        // =========================================
+
+        imageUpload.addEventListener(
+            "change",
+            function (event) {
+
+                const file =
+                    event.target.files[0];
+
+
+                if (!file) {
+                    return;
+                }
+
+
+                // Create temporary URL
+                const imageURL =
+                    URL.createObjectURL(file);
+
+
+                // Save image
+                currentImage =
+                    imageURL;
+
+
+                // Display image
+                uploadedImage.src =
+                    imageURL;
+
+
+                // Show uploaded section
+                uploadedSection.style.display =
+                    "block";
+
+
+                // Show roast button
+                roastButton.style.display =
+                    "inline-block";
+
+
+                // Hide previous result
+                resultSection.style.display =
+                    "none";
+
+
+                // Scroll to image
+                setTimeout(function () {
+
+                    uploadedSection.scrollIntoView({
+                        behavior: "smooth",
+                        block: "center"
+                    });
+
+                }, 100);
+
+            }
+        );
+
+
+        // =========================================
+        // ROAST BUTTON
+        // =========================================
+
+        roastButton.addEventListener(
+            "click",
+            async function () {
+
+                // Check whether image exists
+                if (!currentImage) {
+
+                    alert(
+                        "Please upload an image first."
+                    );
+
+                    return;
+                }
+
+
+                // Unlock audio playback NOW, while we
+                // still have the real click gesture
+                // (must happen before the await below)
+                unlockBrokeGPTAudio();
+
+
+                // Change button text
+                roastButton.innerText =
+                    "🔍 ANALYZING YOUR FINANCIAL DAMAGE...";
+
+
+                // Disable button
+                roastButton.disabled =
+                    true;
+
+
+                // =================================
+                // IMPORTANT:
+                // OCR STARTS ONLY HERE
+                // =================================
+
+                await runBrokeGPTAnalysis(
+                    currentImage
+                );
+
+
+                // Restore button
+                roastButton.innerText =
+                    "💀 TELL ME HOW BROKE I AM";
+
+
+                roastButton.disabled =
+                    false;
+
+            }
+        );
+
+    </script>
+
+</body>
+
+</html>

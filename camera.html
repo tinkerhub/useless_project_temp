@@ -1,0 +1,1160 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0">
+
+    <title>BrokeGPT - Scan Photo</title>
+
+
+    <!-- =========================================
+         GOOGLE FONTS
+    ========================================== -->
+
+    <link
+        rel="preconnect"
+        href="https://fonts.googleapis.com">
+
+    <link
+        rel="preconnect"
+        href="https://fonts.gstatic.com"
+        crossorigin>
+
+    <link
+        href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&display=swap"
+        rel="stylesheet">
+
+
+    <!-- =========================================
+         CSS
+    ========================================== -->
+
+    <style>
+
+        /* =========================================
+           RESET
+        ========================================= */
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+
+        /* =========================================
+           BODY
+        ========================================= */
+
+        body {
+            background: #fff4c7;
+            color: #29214f;
+            font-family: "Space Grotesk", sans-serif;
+            overflow-x: hidden;
+        }
+
+
+        /* =========================================
+           MAIN CONTAINER
+        ========================================= */
+
+        .container {
+            width: 90%;
+            max-width: 1000px;
+            margin: auto;
+        }
+
+
+        /* =========================================
+           HEADER
+        ========================================= */
+
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 25px 0;
+        }
+
+
+        .logo {
+            font-family: "Fredoka", sans-serif;
+            font-size: 32px;
+            font-weight: 700;
+            letter-spacing: -1px;
+        }
+
+
+        .logo span {
+            color: #ff5c35;
+        }
+
+
+        .tagline {
+            font-size: 14px;
+            font-weight: 600;
+        }
+
+
+        /* =========================================
+           PAGE TITLE
+        ========================================= */
+
+        .page-heading {
+            text-align: center;
+            margin: 35px 0 25px;
+        }
+
+
+        .page-heading h1 {
+            font-family: "Fredoka", sans-serif;
+            font-size: clamp(45px, 7vw, 75px);
+            line-height: 0.95;
+            letter-spacing: -3px;
+            margin-bottom: 20px;
+        }
+
+
+        .page-heading h1 span {
+            color: #ff5c35;
+        }
+
+
+        .page-heading p {
+            font-size: 17px;
+            line-height: 1.5;
+        }
+
+
+        /* =========================================
+           CAMERA SECTION
+        ========================================= */
+
+        .camera-section {
+            width: 100%;
+            max-width: 600px;
+            margin: 40px auto 70px;
+            padding: 30px;
+            background: #ffcf33;
+            border: 4px solid #29214f;
+            border-radius: 30px;
+            box-shadow: 10px 10px 0 #29214f;
+            text-align: center;
+        }
+
+
+        /* =========================================
+           CAMERA WRAPPER
+        ========================================= */
+
+        .camera-wrapper {
+            width: 420px;
+            max-width: 100%;
+            height: 300px;
+            margin: 0 auto 25px;
+
+            background: #29214f;
+
+            border: 4px solid #29214f;
+            border-radius: 20px;
+
+            overflow: hidden;
+
+            position: relative;
+        }
+
+
+        /* =========================================
+           VIDEO
+        ========================================= */
+
+        #camera {
+            display: block;
+
+            width: 100%;
+            height: 100%;
+
+            object-fit: cover;
+
+            background: #29214f;
+        }
+
+
+        /* =========================================
+           SCANNING BOX
+        ========================================= */
+
+        .scan-box {
+            position: absolute;
+
+            width: 75%;
+            height: 70%;
+
+            top: 15%;
+            left: 12.5%;
+
+            border: 4px dashed #b8f35a;
+
+            border-radius: 15px;
+
+            pointer-events: none;
+
+            box-shadow:
+                0 0 0 9999px rgba(41, 33, 79, 0.35);
+        }
+
+
+        /* =========================================
+           SCAN INSTRUCTION
+        ========================================= */
+
+        .scan-instruction {
+            font-family: "Fredoka", sans-serif;
+            font-size: 20px;
+            margin-bottom: 20px;
+        }
+
+
+        .scan-instruction span {
+            color: #ff5c35;
+        }
+
+
+        /* =========================================
+           BUTTONS
+        ========================================= */
+
+        .button {
+            display: inline-block;
+
+            padding: 14px 25px;
+
+            border-radius: 15px;
+
+            border: 3px solid #29214f;
+
+            background: #b8f35a;
+
+            color: #29214f;
+
+            font-family: "Fredoka", sans-serif;
+
+            font-size: 17px;
+
+            font-weight: 700;
+
+            cursor: pointer;
+
+            box-shadow: 5px 5px 0 #29214f;
+
+            transition: 0.2s;
+
+            text-decoration: none;
+        }
+
+
+        .button:hover {
+            transform: translate(3px, 3px);
+            box-shadow: 2px 2px 0 #29214f;
+        }
+
+
+        .capture-button {
+            background: #b8f35a;
+        }
+
+
+        .back-button {
+            background: white;
+            margin-top: 20px;
+        }
+
+
+        /* =========================================
+           CAPTURED IMAGE SECTION
+        ========================================= */
+
+        .captured-section {
+            display: none;
+
+            width: 90%;
+            max-width: 750px;
+
+            margin: 0 auto 80px;
+
+            padding: 35px;
+
+            background: #b8f35a;
+
+            border: 4px solid #29214f;
+
+            border-radius: 30px;
+
+            box-shadow: 10px 10px 0 #29214f;
+
+            text-align: center;
+        }
+
+
+        .captured-title {
+            font-family: "Fredoka", sans-serif;
+            font-size: 30px;
+            margin-bottom: 25px;
+        }
+
+
+        #capturedImage {
+            display: block;
+
+            width: 100%;
+
+            max-height: 550px;
+
+            object-fit: contain;
+
+            background: white;
+
+            border: 4px solid #29214f;
+
+            border-radius: 20px;
+
+            margin-bottom: 25px;
+        }
+
+
+        /* =========================================
+           ROAST BUTTON
+        ========================================= */
+
+        .roast-btn {
+            display: none;
+
+            padding: 16px 30px;
+
+            background: #ff5c35;
+
+            color: #29214f;
+
+            border: 3px solid #29214f;
+
+            border-radius: 15px;
+
+            font-family: "Fredoka", sans-serif;
+
+            font-size: 18px;
+
+            font-weight: 700;
+
+            cursor: pointer;
+
+            box-shadow: 5px 5px 0 #29214f;
+
+            transition: 0.2s;
+        }
+
+
+        .roast-btn:hover {
+            transform: translate(3px, 3px);
+            box-shadow: 2px 2px 0 #29214f;
+        }
+
+
+        .roast-btn:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+        }
+
+
+        /* =========================================
+           RESULT SECTION
+        ========================================= */
+
+        .result-section {
+            display: none;
+
+            width: 90%;
+            max-width: 750px;
+
+            margin: 0 auto 80px;
+
+            text-align: center;
+        }
+
+
+        .result-card {
+            background: #ffcf33;
+
+            border: 4px solid #29214f;
+
+            border-radius: 30px;
+
+            padding: 40px;
+
+            box-shadow: 10px 10px 0 #29214f;
+        }
+
+
+        .result-card h2 {
+            font-family: "Fredoka", sans-serif;
+            font-size: 32px;
+            margin-bottom: 20px;
+        }
+
+
+        #balanceText {
+            font-size: 24px;
+            margin-bottom: 20px;
+        }
+
+
+        #categoryText {
+            font-family: "Fredoka", sans-serif;
+            font-size: 45px;
+            margin-bottom: 20px;
+        }
+
+
+        #roastMessage {
+            font-size: 18px;
+            line-height: 1.6;
+            font-weight: 600;
+        }
+
+
+        /* =========================================
+           PRIVACY
+        ========================================= */
+
+        .privacy {
+            text-align: center;
+
+            padding-bottom: 50px;
+
+            font-size: 13px;
+
+            font-weight: 600;
+
+            opacity: 0.7;
+        }
+
+
+        /* =========================================
+           MOBILE
+        ========================================= */
+
+        @media (max-width: 600px) {
+
+            .tagline {
+                display: none;
+            }
+
+
+            .camera-section {
+                padding: 20px;
+            }
+
+
+            .camera-wrapper {
+                height: 260px;
+            }
+
+
+            .captured-section {
+                padding: 20px;
+            }
+
+
+            .result-card {
+                padding: 25px;
+            }
+
+
+            #categoryText {
+                font-size: 35px;
+            }
+
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+    <div class="container">
+
+
+        <!-- =========================================
+             HEADER
+        ========================================== -->
+
+        <header>
+
+            <div class="logo">
+                BROKE<span>GPT</span>
+            </div>
+
+
+            
+
+        </header>
+
+
+
+        <!-- =========================================
+             PAGE HEADING
+        ========================================== -->
+
+        <section class="page-heading">
+
+            <h1>
+                SHOW ME<br>
+                <span>YOUR BALANCE.</span>
+            </h1>
+
+
+            <p>
+                Point your phone at the camera and place it
+                inside the scanning box. 📱
+            </p>
+
+        </section>
+
+
+
+        <!-- =========================================
+             CAMERA
+        ========================================== -->
+
+        <section class="camera-section">
+
+
+            <div class="scan-instruction">
+                📱 Place your phone <span>inside the box</span>
+            </div>
+
+
+            <!-- CAMERA PREVIEW -->
+
+            <div class="camera-wrapper">
+
+                <video
+                    id="camera"
+                    autoplay
+                    playsinline>
+                </video>
+
+
+                <!-- Scanning box -->
+
+                <div class="scan-box"></div>
+
+            </div>
+
+
+
+            <!-- CAPTURE BUTTON -->
+
+            <button
+                class="button capture-button"
+                id="captureButton">
+
+                📸 CAPTURE PHOTO
+
+            </button>
+
+
+            <br>
+
+
+            <!-- BACK BUTTON -->
+
+            <a
+                href="index.html"
+                class="button back-button"
+                id="backButton">
+
+                ← BACK TO HOME
+
+            </a>
+
+        </section>
+
+
+
+        <!-- =========================================
+             CAPTURED IMAGE
+        ========================================== -->
+
+        <section
+            class="captured-section"
+            id="capturedSection">
+
+
+            <h2 class="captured-title">
+                🖼️ HERE'S YOUR CAPTURE
+            </h2>
+
+
+            <img
+                id="capturedImage"
+                alt="Captured balance image">
+
+
+            <!-- =====================================
+                 ROAST BUTTON
+            ====================================== -->
+
+            <button
+                class="roast-btn"
+                id="roastButton">
+
+                💀 TELL ME HOW BROKE I AM
+
+            </button>
+
+        </section>
+
+
+
+        <!-- =========================================
+             RESULT
+        ========================================== -->
+
+        <section
+            class="result-section"
+            id="resultSection">
+
+
+            <div class="result-card">
+
+
+                <h2>
+                    💀 FINANCIAL REALITY CHECK
+                </h2>
+
+
+                <h3 id="balanceText">
+                    Available Balance: ₹0
+                </h3>
+
+
+                <h2 id="categoryText">
+                    BROKE
+                </h2>
+
+
+                <p id="roastMessage">
+                    Your financial damage is loading...
+                </p>
+
+
+            </div>
+
+        </section>
+
+
+
+        <!-- =========================================
+             PRIVACY
+        ========================================== -->
+
+        <div class="privacy">
+
+            🔒 Your bank account is never connected.
+            We only read the image you show us.
+
+        </div>
+
+
+    </div>
+
+
+
+    <!-- =========================================
+         TESSERACT OCR
+    ========================================== -->
+
+    <script
+        src="https://cdn.jsdelivr.net/npm/tesseract.js@5/dist/tesseract.min.js">
+    </script>
+
+
+    <!-- =========================================
+         BROKEGPT ANALYSIS
+    ========================================== -->
+
+    <script src="analyzer.js"></script>
+
+
+
+    <!-- =========================================
+         CAMERA JAVASCRIPT
+    ========================================== -->
+
+    <script>
+
+
+        // =========================================
+        // GET HTML ELEMENTS
+        // =========================================
+
+        const camera =
+            document.getElementById("camera");
+
+
+        const captureButton =
+            document.getElementById("captureButton");
+
+
+        const capturedSection =
+            document.getElementById("capturedSection");
+
+
+        const capturedImage =
+            document.getElementById("capturedImage");
+
+
+        const roastButton =
+            document.getElementById("roastButton");
+
+
+        const backButton =
+            document.getElementById("backButton");
+
+
+        const resultSection =
+            document.getElementById("resultSection");
+
+
+
+        // =========================================
+        // VARIABLES
+        // =========================================
+
+        let cameraStream = null;
+
+        let currentImage = null;
+
+
+
+        // =========================================
+        // START CAMERA
+        // =========================================
+
+        async function startCamera() {
+
+            try {
+
+                cameraStream =
+                    await navigator.mediaDevices.getUserMedia({
+                        video: true,
+                        audio: false
+                    });
+
+
+                camera.srcObject =
+                    cameraStream;
+
+
+                console.log(
+                    "Camera started successfully."
+                );
+
+            }
+
+            catch (error) {
+
+                console.error(
+                    "Camera error:",
+                    error
+                );
+
+
+                alert(
+                    "Camera permission was denied. Please allow camera access."
+                );
+
+            }
+
+        }
+
+
+
+        // =========================================
+        // CAPTURE PHOTO
+        // =========================================
+
+        function capturePhoto() {
+
+
+            // -------------------------------------
+            // Check camera
+            // -------------------------------------
+
+            if (
+                camera.videoWidth === 0 ||
+                camera.videoHeight === 0
+            ) {
+
+                alert(
+                    "Camera is not ready yet. Please wait a moment."
+                );
+
+                return;
+            }
+
+
+
+            // -------------------------------------
+            // Get camera dimensions
+            // -------------------------------------
+
+            const videoWidth =
+                camera.videoWidth;
+
+
+            const videoHeight =
+                camera.videoHeight;
+
+
+
+            // -------------------------------------
+            // Scanning area
+            //
+            // 75% of width
+            // 70% of height
+            // -------------------------------------
+
+            const cropWidth =
+                videoWidth * 0.75;
+
+
+            const cropHeight =
+                videoHeight * 0.70;
+
+
+
+            // -------------------------------------
+            // Find center of camera
+            // -------------------------------------
+
+            const cropX =
+                (videoWidth - cropWidth) / 2;
+
+
+            const cropY =
+                (videoHeight - cropHeight) / 2;
+
+
+
+            // -------------------------------------
+            // Create canvas
+            //
+            // We upscale 2x and boost contrast here
+            // because OCR on a PHOTO OF A SCREEN
+            // (webcam capturing a phone) is much
+            // harder than reading a normal screenshot
+            // - the extra resolution + contrast makes
+            // a big difference for Tesseract.
+            // -------------------------------------
+
+            const ocrScale = 2;
+
+            const canvas =
+                document.createElement("canvas");
+
+
+            canvas.width =
+                cropWidth * ocrScale;
+
+
+            canvas.height =
+                cropHeight * ocrScale;
+
+
+
+            // -------------------------------------
+            // Canvas context
+            // -------------------------------------
+
+            const context =
+                canvas.getContext("2d");
+
+
+            context.filter =
+                "grayscale(1) contrast(1.4) brightness(1.05)";
+
+
+
+            // -------------------------------------
+            // Capture ONLY scanning area
+            // (drawn upscaled + filtered)
+            // -------------------------------------
+
+            context.drawImage(
+
+                camera,
+
+                cropX,
+                cropY,
+                cropWidth,
+                cropHeight,
+
+                0,
+                0,
+                cropWidth * ocrScale,
+                cropHeight * ocrScale
+
+            );
+
+
+
+            // -------------------------------------
+            // Convert canvas to image
+            // -------------------------------------
+
+            const imageURL =
+                canvas.toDataURL("image/png");
+
+
+
+            // -------------------------------------
+            // Save image
+            // -------------------------------------
+
+            currentImage =
+                imageURL;
+
+
+
+            // -------------------------------------
+            // Display captured image
+            // -------------------------------------
+
+            capturedImage.src =
+                imageURL;
+
+
+
+            // -------------------------------------
+            // Show captured section
+            // -------------------------------------
+
+            capturedSection.style.display =
+                "block";
+
+
+
+            // -------------------------------------
+            // Show roast button
+            // -------------------------------------
+
+            roastButton.style.display =
+                "inline-block";
+
+
+
+            // -------------------------------------
+            // Hide old result
+            // -------------------------------------
+
+            resultSection.style.display =
+                "none";
+
+
+
+            // -------------------------------------
+            // Scroll to captured image
+            // -------------------------------------
+
+            setTimeout(function () {
+
+                capturedSection.scrollIntoView({
+                    behavior: "smooth",
+                    block: "center"
+                });
+
+            }, 100);
+
+
+
+            console.log(
+                "Phone scanning area captured successfully."
+            );
+
+        }
+
+
+
+        // =========================================
+        // STOP CAMERA
+        // =========================================
+
+        function stopCamera() {
+
+            if (!cameraStream) {
+                return;
+            }
+
+
+            cameraStream
+                .getTracks()
+                .forEach(function (track) {
+
+                    track.stop();
+
+                });
+
+
+            cameraStream = null;
+
+
+            console.log(
+                "Camera stopped."
+            );
+
+        }
+
+
+
+        // =========================================
+        // ROAST BUTTON
+        // =========================================
+
+        roastButton.addEventListener(
+            "click",
+            async function () {
+
+
+                // ---------------------------------
+                // Make sure photo exists
+                // ---------------------------------
+
+                if (!currentImage) {
+
+                    alert(
+                        "Please capture a photo first."
+                    );
+
+                    return;
+                }
+
+
+
+                // ---------------------------------
+                // Unlock audio playback NOW, while we
+                // still have the real click gesture
+                // (must happen before the await below)
+                // ---------------------------------
+
+                unlockBrokeGPTAudio();
+
+
+                // ---------------------------------
+                // Change button text
+                // ---------------------------------
+
+                roastButton.innerText =
+                    "🔍 ANALYZING YOUR FINANCIAL DAMAGE...";
+
+
+
+                // ---------------------------------
+                // Disable button
+                // ---------------------------------
+
+                roastButton.disabled =
+                    true;
+
+
+
+                // ---------------------------------
+                // IMPORTANT:
+                //
+                // OCR STARTS ONLY AFTER
+                // BUTTON CLICK
+                // ---------------------------------
+
+                await runBrokeGPTAnalysis(
+                    currentImage
+                );
+
+
+
+                // ---------------------------------
+                // Restore button
+                // ---------------------------------
+
+                roastButton.innerText =
+                    "💀 TELL ME HOW BROKE I AM";
+
+
+                roastButton.disabled =
+                    false;
+
+            }
+        );
+
+
+
+        // =========================================
+        // CAPTURE BUTTON
+        // =========================================
+
+        captureButton.addEventListener(
+            "click",
+            capturePhoto
+        );
+
+
+
+        // =========================================
+        // BACK BUTTON
+        // =========================================
+
+        backButton.addEventListener(
+            "click",
+            function () {
+
+                stopCamera();
+
+            }
+        );
+
+
+
+        // =========================================
+        // STOP CAMERA WHEN PAGE IS CLOSED
+        // =========================================
+
+        window.addEventListener(
+            "beforeunload",
+            function () {
+
+                stopCamera();
+
+            }
+        );
+
+
+
+        // =========================================
+        // START CAMERA
+        // =========================================
+
+        startCamera();
+
+    </script>
+
+
+</body>
+
+</html>
