@@ -1,0 +1,7 @@
+venv/
+__pycache__/
+*.pyc
+.env
+passpose/backend/models/
+passpose/backend/password.json
+passpose/backend/passpose.db
