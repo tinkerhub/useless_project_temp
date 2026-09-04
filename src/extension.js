@@ -23,55 +23,16 @@ let deletionTimer = null;
 
 
 /* =====================================================
-   ACTIVE ERROR STATE
+   CURRENT CODE STATE
 ===================================================== */
-
-/*
-   Every active syntax error is stored separately.
-
-   Example:
-
-   {
-      "Line 1: expected ':'",
-      "Line 4: expected ':'"
-   }
-
-   size = 2
-
-   Therefore:
-   2 × 25 = 50% damage
-*/
 
 let activeSyntaxErrors = new Set();
 
-
-/*
-   Inactivity damage is either active or inactive.
-*/
+let totalLines = 1;
 
 let inactivityDamageActive = false;
 
-
-/*
-   Deletion damage is temporary.
-*/
-
-let temporaryDamage = 0;
-
-
-/* =====================================================
-   DAMAGE VALUES
-===================================================== */
-
-const DAMAGE = {
-
-    syntax: 25,
-
-    deletion: 40,
-
-    inactivity: 15
-
-};
+let temporaryDeletionDamage = 0;
 
 
 /* =====================================================
@@ -92,7 +53,11 @@ function activate(context) {
     const command =
         vscode.commands.registerCommand(
             'emotionalDamage.openDashboard',
-            openDashboard
+            function () {
+
+                openDashboard();
+
+            }
         );
 
 
@@ -116,7 +81,7 @@ function activate(context) {
 
 
     /* =================================================
-       REAL VS CODE DIAGNOSTICS
+       VS CODE DIAGNOSTICS
     ================================================= */
 
     const diagnostics =
@@ -143,30 +108,9 @@ function activate(context) {
                     );
 
 
-                const errors =
-                    diagnosticsList
-                        .filter(
-                            function (diagnostic) {
-
-                                return (
-                                    diagnostic.severity ===
-                                    vscode.DiagnosticSeverity.Error
-                                );
-
-                            }
-                        );
-
-
-                /*
-                   We don't directly modify the damage here.
-
-                   The dashboard performs its own analysis
-                   and sends the complete active error list.
-                */
-
                 console.log(
-                    'VS Code errors:',
-                    errors.length
+                    'VS Code diagnostics:',
+                    diagnosticsList.length
                 );
 
             }
@@ -180,41 +124,86 @@ function activate(context) {
 
 
 /* =====================================================
-   CALCULATE CURRENT DAMAGE
+   DAMAGE CALCULATION
 ===================================================== */
 
 function calculateActiveDamage() {
 
     /*
-       Every active syntax error = 25%.
+       -----------------------------------------------
+       SYNTAX DAMAGE
+       -----------------------------------------------
 
-       0 errors = 0%
-       1 error  = 25%
-       2 errors = 50%
-       3 errors = 75%
-       4 errors = 100%
+       Damage per error:
+
+       100 / (number of lines + 1)
+
+       Examples:
+
+       1 line  = 50%
+       2 lines = 33%
+       3 lines = 25%
+       4 lines = 20%
+       5 lines = 17%
+       10 lines = 9%
+
+       Multiple errors stack.
+
+       Example:
+
+       3 lines + 2 errors
+
+       100 / 4 = 25
+
+       25 × 2 = 50%
     */
 
-    const syntaxDamage =
-        activeSyntaxErrors.size *
-        DAMAGE.syntax;
 
+    let syntaxDamage = 0;
+
+
+    if (
+        totalLines > 0 &&
+        activeSyntaxErrors.size > 0
+    ) {
+
+        const damagePerError =
+            100 /
+            (totalLines + 1);
+
+
+        syntaxDamage =
+            Math.round(
+                damagePerError *
+                activeSyntaxErrors.size
+            );
+
+    }
+
+
+    /* =================================================
+       INACTIVITY DAMAGE
+    ================================================= */
 
     const inactivityDamage =
         inactivityDamageActive
-            ? DAMAGE.inactivity
+            ? 15
             : 0;
 
+
+    /* =================================================
+       FINAL DAMAGE
+    ================================================= */
 
     activeDamage =
         syntaxDamage +
         inactivityDamage +
-        temporaryDamage;
+        temporaryDeletionDamage;
 
 
-    /*
-       Maximum damage = 100%.
-    */
+    /* =================================================
+       LIMIT
+    ================================================= */
 
     activeDamage =
         Math.max(
@@ -253,7 +242,13 @@ function updateDashboard() {
             eventCount,
 
         history:
-            history
+            history,
+
+        errors:
+            activeSyntaxErrors.size,
+
+        lines:
+            totalLines
 
     });
 }
@@ -265,17 +260,24 @@ function updateDashboard() {
 
 async function updateSyntaxErrors(
     errors,
-    language
+    language,
+    lines
 ) {
 
-    /*
-       Convert incoming errors into a Set.
+    /* -----------------------------------------------
+       SAVE NUMBER OF LINES
+    ------------------------------------------------ */
 
-       This removes duplicates.
+    totalLines =
+        Math.max(
+            1,
+            Number(lines) || 1
+        );
 
-       Because our errors contain line numbers,
-       different lines remain different errors.
-    */
+
+    /* -----------------------------------------------
+       REMOVE DUPLICATES
+    ------------------------------------------------ */
 
     const newErrors =
         new Set(
@@ -287,11 +289,9 @@ async function updateSyntaxErrors(
         activeSyntaxErrors;
 
 
-    /*
-       Find errors that were NOT present before.
-
-       Only these count as new damage events.
-    */
+    /* -----------------------------------------------
+       FIND NEW ERRORS
+    ------------------------------------------------ */
 
     const newlyAddedErrors =
         Array.from(
@@ -307,32 +307,17 @@ async function updateSyntaxErrors(
         );
 
 
-    /*
-       IMPORTANT:
-
-       Replace the complete active error list.
-
-       If an error is fixed, it disappears here.
-
-       Example:
-
-       Before:
-       [Line 1, Line 2]
-
-       After fixing Line 1:
-       [Line 2]
-
-       Damage:
-       50% -> 25%
-    */
+    /* -----------------------------------------------
+       UPDATE ACTIVE ERRORS
+    ------------------------------------------------ */
 
     activeSyntaxErrors =
         newErrors;
 
 
-    /*
-       Create history only for newly detected errors.
-    */
+    /* -----------------------------------------------
+       CREATE HISTORY FOR NEW ERRORS
+    ------------------------------------------------ */
 
     for (
         const error of newlyAddedErrors
@@ -341,9 +326,9 @@ async function updateSyntaxErrors(
         eventCount++;
 
 
-        /* ---------------------------------------------
-           SOUND
-        --------------------------------------------- */
+        /* =============================================
+           PLAY SOUND
+        ============================================== */
 
         try {
 
@@ -361,9 +346,9 @@ async function updateSyntaxErrors(
         }
 
 
-        /* ---------------------------------------------
+        /* =============================================
            AI ROAST
-        --------------------------------------------- */
+        ============================================== */
 
         let roast;
 
@@ -397,9 +382,9 @@ async function updateSyntaxErrors(
         }
 
 
-        /* ---------------------------------------------
-           HISTORY
-        --------------------------------------------- */
+        /* =============================================
+           ADD HISTORY
+        ============================================== */
 
         history.push({
 
@@ -419,13 +404,12 @@ async function updateSyntaxErrors(
         });
 
 
-        /*
-           Keep only the latest 15 events.
-        */
+        /* ---------------------------------------------
+           KEEP ONLY LAST 15
+        ---------------------------------------------- */
 
         if (
-            history.length >
-            15
+            history.length > 15
         ) {
 
             history.shift();
@@ -435,138 +419,88 @@ async function updateSyntaxErrors(
     }
 
 
-    /*
-       Recalculate immediately.
-    */
-
-    calculateActiveDamage();
-
-
     updateDashboard();
 }
 
 
 /* =====================================================
-   TRIGGER DELETION / INACTIVITY
+   DELETION PUNISHMENT
 ===================================================== */
 
-async function triggerPunishment(
-    type,
-    details
+async function triggerDeletion(
+    deletedLines
 ) {
 
-    details =
-        details || {};
+    eventCount++;
 
 
-    /* =================================================
-       DELETION
-    ================================================= */
+    /*
+       Deleting a lot of code causes
+       temporary additional damage.
+    */
+
+    temporaryDeletionDamage =
+        Math.min(
+            40,
+            temporaryDeletionDamage + 40
+        );
+
+
+    /* -----------------------------------------------
+       RESET PREVIOUS DELETION TIMER
+    ------------------------------------------------ */
 
     if (
-        type === 'deletion'
+        deletionTimer
     ) {
 
-        eventCount++;
-
-
-        temporaryDamage =
-            Math.min(
-                100,
-                temporaryDamage +
-                DAMAGE.deletion
-            );
-
-
-        /*
-           Reset deletion timer.
-        */
-
-        if (
+        clearTimeout(
             deletionTimer
-        ) {
-
-            clearTimeout(
-                deletionTimer
-            );
-
-        }
-
-
-        /*
-           Deletion damage disappears
-           after 8 seconds.
-        */
-
-        deletionTimer =
-            setTimeout(
-                function () {
-
-                    temporaryDamage = 0;
-
-                    updateDashboard();
-
-                },
-                8000
-            );
+        );
 
     }
 
 
-    /* =================================================
-       INACTIVITY
-    ================================================= */
+    /* -----------------------------------------------
+       REMOVE DELETION DAMAGE AFTER 8 SEC
+    ------------------------------------------------ */
 
-    if (
-        type === 'inactivity'
-    ) {
+    deletionTimer =
+        setTimeout(
+            function () {
 
-        /*
-           Don't repeatedly punish the same
-           inactivity period.
-        */
+                temporaryDeletionDamage = 0;
 
-        if (
-            inactivityDamageActive
-        ) {
+                updateDashboard();
 
-            return;
-
-        }
+            },
+            8000
+        );
 
 
-        inactivityDamageActive =
-            true;
-
-
-        eventCount++;
-
-    }
-
-
-    /* =================================================
+    /* -----------------------------------------------
        SOUND
-    ================================================= */
+    ------------------------------------------------ */
 
     try {
 
         audioEngine.playSound(
-            type
+            'deletion'
         );
 
-    } catch (soundError) {
+    } catch (error) {
 
         console.error(
             'Sound error:',
-            soundError.message
+            error.message
         );
 
     }
 
 
-    /* =================================================
+    /* -----------------------------------------------
        AI ROAST
-    ================================================= */
+    ------------------------------------------------ */
 
     let roast;
 
@@ -576,60 +510,32 @@ async function triggerPunishment(
         roast =
             await aiRoast
                 .generateEmotionalDamage(
-                    type,
-                    details
+                    'deletion',
+                    {
+                        lines:
+                            deletedLines
+                    }
                 );
 
-    } catch (aiError) {
-
-        console.error(
-            'AI error:',
-            aiError.message
-        );
-
+    } catch (error) {
 
         roast =
-            '💀 Emotional damage detected.';
+            '🎻 You deleted code. Somewhere, a variable is crying.';
 
     }
 
 
-    /* =================================================
-       ICON
-    ================================================= */
-
-    let icon = '💀';
-
-
-    if (
-        type === 'deletion'
-    ) {
-
-        icon = '🎻';
-
-    }
-
-
-    if (
-        type === 'inactivity'
-    ) {
-
-        icon = '🥱';
-
-    }
-
-
-    /* =================================================
-       ADD HISTORY
-    ================================================= */
+    /* -----------------------------------------------
+       HISTORY
+    ------------------------------------------------ */
 
     history.push({
 
         type:
-            type,
+            'deletion',
 
         icon:
-            icon,
+            '🎻',
 
         roast:
             roast,
@@ -642,8 +548,7 @@ async function triggerPunishment(
 
 
     if (
-        history.length >
-        15
+        history.length > 15
     ) {
 
         history.shift();
@@ -652,6 +557,198 @@ async function triggerPunishment(
 
 
     updateDashboard();
+}
+
+
+/* =====================================================
+   INACTIVITY PUNISHMENT
+===================================================== */
+
+async function triggerInactivity() {
+
+    /*
+       Prevent repeated inactivity
+       punishments.
+    */
+
+    if (
+        inactivityDamageActive
+    ) {
+
+        return;
+
+    }
+
+
+    inactivityDamageActive =
+        true;
+
+
+    eventCount++;
+
+
+    /* -----------------------------------------------
+       SOUND
+    ------------------------------------------------ */
+
+    try {
+
+        audioEngine.playSound(
+            'inactivity'
+        );
+
+    } catch (error) {
+
+        console.error(
+            'Sound error:',
+            error.message
+        );
+
+    }
+
+
+    /* -----------------------------------------------
+       AI ROAST
+    ------------------------------------------------ */
+
+    let roast;
+
+
+    try {
+
+        roast =
+            await aiRoast
+                .generateEmotionalDamage(
+                    'inactivity'
+                );
+
+    } catch (error) {
+
+        roast =
+            '🥱 You stopped coding. Even the IDE fell asleep.';
+
+    }
+
+
+    /* -----------------------------------------------
+       HISTORY
+    ------------------------------------------------ */
+
+    history.push({
+
+        type:
+            'inactivity',
+
+        icon:
+            '🥱',
+
+        roast:
+            roast,
+
+        time:
+            new Date()
+                .toLocaleTimeString()
+
+    });
+
+
+    if (
+        history.length > 15
+    ) {
+
+        history.shift();
+
+    }
+
+
+    updateDashboard();
+}
+
+
+/* =====================================================
+   RESET EVERYTHING
+===================================================== */
+
+function resetEverything() {
+
+    activeDamage = 0;
+
+    eventCount = 0;
+
+    history = [];
+
+    activeSyntaxErrors =
+        new Set();
+
+    totalLines = 1;
+
+    inactivityDamageActive =
+        false;
+
+    temporaryDeletionDamage =
+        0;
+
+
+    if (
+        inactivityTimer
+    ) {
+
+        clearTimeout(
+            inactivityTimer
+        );
+
+        inactivityTimer = null;
+
+    }
+
+
+    if (
+        deletionTimer
+    ) {
+
+        clearTimeout(
+            deletionTimer
+        );
+
+        deletionTimer = null;
+
+    }
+
+
+    updateDashboard();
+}
+
+
+/* =====================================================
+   INACTIVITY TIMER
+===================================================== */
+
+function restartInactivityTimer() {
+
+    if (
+        inactivityTimer
+    ) {
+
+        clearTimeout(
+            inactivityTimer
+        );
+
+    }
+
+
+    inactivityTimer =
+        setTimeout(
+            function () {
+
+                if (panel) {
+
+                    triggerInactivity();
+
+                }
+
+            },
+            30000
+        );
 }
 
 
@@ -687,7 +784,6 @@ function openDashboard() {
 
                 retainContextWhenHidden:
                     true
-
             }
 
         );
@@ -700,7 +796,7 @@ function openDashboard() {
 
 
     /* =================================================
-       RECEIVE MESSAGES
+       RECEIVE WEBVIEW MESSAGES
     ================================================= */
 
     panel.webview.onDidReceiveMessage(
@@ -708,7 +804,7 @@ function openDashboard() {
 
 
             /* =========================================
-               ALL ACTIVE SYNTAX ERRORS
+               SYNTAX ERRORS
             ========================================== */
 
             if (
@@ -717,9 +813,15 @@ function openDashboard() {
             ) {
 
                 await updateSyntaxErrors(
+
                     message.errors || [],
+
                     message.language ||
-                        'unknown'
+                        'unknown',
+
+                    message.lines ||
+                        1
+
                 );
 
             }
@@ -729,17 +831,13 @@ function openDashboard() {
                DELETION
             ========================================== */
 
-            if (
+            else if (
                 message.command ===
                 'deletion'
             ) {
 
-                await triggerPunishment(
-                    'deletion',
-                    {
-                        lines:
-                            message.lines
-                    }
+                await triggerDeletion(
+                    message.lines || 1
                 );
 
             }
@@ -749,29 +847,28 @@ function openDashboard() {
                INACTIVITY
             ========================================== */
 
-            if (
+            else if (
                 message.command ===
                 'inactivity'
             ) {
 
-                await triggerPunishment(
-                    'inactivity'
-                );
+                await triggerInactivity();
 
             }
 
 
             /* =========================================
-               USER STARTED TYPING
+               TYPING
             ========================================== */
 
-            if (
+            else if (
                 message.command ===
                 'typing'
             ) {
 
                 /*
-                   Typing cancels inactivity damage.
+                   Typing means the user is active.
+                   Remove inactivity punishment.
                 */
 
                 inactivityDamageActive =
@@ -790,55 +887,12 @@ function openDashboard() {
                RESET
             ========================================== */
 
-            if (
+            else if (
                 message.command ===
                 'reset'
             ) {
 
-                activeDamage = 0;
-
-                eventCount = 0;
-
-                history = [];
-
-                activeSyntaxErrors =
-                    new Set();
-
-                inactivityDamageActive =
-                    false;
-
-                temporaryDamage = 0;
-
-
-                if (
-                    inactivityTimer
-                ) {
-
-                    clearTimeout(
-                        inactivityTimer
-                    );
-
-                    inactivityTimer =
-                        null;
-
-                }
-
-
-                if (
-                    deletionTimer
-                ) {
-
-                    clearTimeout(
-                        deletionTimer
-                    );
-
-                    deletionTimer =
-                        null;
-
-                }
-
-
-                updateDashboard();
+                resetEverything();
 
             }
 
@@ -892,49 +946,6 @@ function openDashboard() {
 
 
 /* =====================================================
-   INACTIVITY TIMER
-===================================================== */
-
-function restartInactivityTimer() {
-
-    if (
-        inactivityTimer
-    ) {
-
-        clearTimeout(
-            inactivityTimer
-        );
-
-    }
-
-
-    inactivityTimer =
-        setTimeout(
-            function () {
-
-                if (panel) {
-
-                    panel.webview.postMessage({
-
-                        type:
-                            'inactivityWarning'
-
-                    });
-
-
-                    triggerPunishment(
-                        'inactivity'
-                    );
-
-                }
-
-            },
-            30000
-        );
-}
-
-
-/* =====================================================
    NONCE
 ===================================================== */
 
@@ -981,6 +992,10 @@ function getDashboardHTML(webview) {
 
 
 <style>
+
+/* =====================================================
+   GLOBAL
+===================================================== */
 
 * {
     box-sizing: border-box;
@@ -1047,9 +1062,9 @@ body {
 
 .logo {
 
-    width: 52px;
+    width: 60px;
 
-    height: 52px;
+    height: 60px;
 
     display: flex;
 
@@ -1057,9 +1072,9 @@ body {
 
     justify-content: center;
 
-    border-radius: 16px;
+    border-radius: 17px;
 
-    font-size: 27px;
+    font-size: 31px;
 
     background:
         linear-gradient(
@@ -1078,25 +1093,27 @@ h1 {
 
     margin: 0;
 
-    font-size: 25px;
+    font-size: 28px;
 }
 
 
 .subtitle {
 
-    margin-top: 3px;
+    margin-top: 4px;
 
     color: #a99db5;
 
-    font-size: 12px;
+    font-size: 13px;
 }
 
 
 .live {
 
-    padding: 8px 13px;
+    padding:
+        9px 15px;
 
-    border-radius: 30px;
+    border-radius:
+        30px;
 
     background:
         rgba(65,210,120,.10);
@@ -1105,9 +1122,11 @@ h1 {
         1px solid
         rgba(100,240,150,.25);
 
-    color: #7df3a6;
+    color:
+        #7df3a6;
 
-    font-size: 11px;
+    font-size:
+        11px;
 }
 
 
@@ -1284,7 +1303,7 @@ h1 {
 
 
 /* =====================================================
-   MAIN
+   MAIN LAYOUT
 ===================================================== */
 
 .main {
@@ -1300,7 +1319,7 @@ h1 {
 
 
 /* =====================================================
-   PANEL
+   PANELS
 ===================================================== */
 
 .panel {
@@ -1324,7 +1343,8 @@ h1 {
 
 .panelHeader {
 
-    padding: 14px 17px;
+    padding:
+        14px 17px;
 
     display: flex;
 
@@ -1341,9 +1361,11 @@ h1 {
 
 .panelTitle {
 
-    font-weight: 800;
+    font-weight:
+        800;
 
-    font-size: 13px;
+    font-size:
+        13px;
 }
 
 
@@ -1357,29 +1379,34 @@ select {
         1px solid
         rgba(255,255,255,.1);
 
-    border-radius: 9px;
+    border-radius:
+        9px;
 
     background:
         #211a2b;
 
-    color: white;
+    color:
+        white;
 
     padding:
         7px 10px;
 
-    outline: none;
+    outline:
+        none;
 }
 
 
 /* =====================================================
-   EDITOR
+   CODE EDITOR
 ===================================================== */
 
 .editor {
 
-    display: flex;
+    display:
+        flex;
 
-    height: 470px;
+    height:
+        470px;
 
     background:
         #0a080d;
@@ -1388,24 +1415,30 @@ select {
 
 .lineNumbers {
 
-    width: 52px;
+    width:
+        52px;
 
     padding:
         17px 10px;
 
-    text-align: right;
+    text-align:
+        right;
 
-    color: #574d61;
+    color:
+        #574d61;
 
     font-family:
         Consolas,
         monospace;
 
-    font-size: 13px;
+    font-size:
+        13px;
 
-    line-height: 21px;
+    line-height:
+        21px;
 
-    user-select: none;
+    user-select:
+        none;
 
     border-right:
         1px solid
@@ -1415,31 +1448,40 @@ select {
 
 textarea {
 
-    flex: 1;
+    flex:
+        1;
 
-    padding: 17px;
+    padding:
+        17px;
 
-    border: 0;
+    border:
+        0;
 
-    outline: 0;
+    outline:
+        0;
 
-    resize: none;
+    resize:
+        none;
 
     background:
         transparent;
 
-    color: #e8e0ef;
+    color:
+        #e8e0ef;
 
     font-family:
         Consolas,
         "Courier New",
         monospace;
 
-    font-size: 14px;
+    font-size:
+        14px;
 
-    line-height: 21px;
+    line-height:
+        21px;
 
-    tab-size: 4;
+    tab-size:
+        4;
 }
 
 
@@ -1451,7 +1493,7 @@ textarea::selection {
 
 
 /* =====================================================
-   FOOTER
+   EDITOR FOOTER
 ===================================================== */
 
 .editorFooter {
@@ -1459,16 +1501,20 @@ textarea::selection {
     padding:
         11px 15px;
 
-    display: flex;
+    display:
+        flex;
 
     justify-content:
         space-between;
 
-    align-items: center;
+    align-items:
+        center;
 
-    color: #786d82;
+    color:
+        #786d82;
 
-    font-size: 11px;
+    font-size:
+        11px;
 
     border-top:
         1px solid
@@ -1478,16 +1524,20 @@ textarea::selection {
 
 button {
 
-    border: 0;
+    border:
+        0;
 
-    border-radius: 9px;
+    border-radius:
+        9px;
 
     padding:
         8px 13px;
 
-    cursor: pointer;
+    cursor:
+        pointer;
 
-    color: white;
+    color:
+        white;
 
     background:
         #2a2233;
@@ -1518,15 +1568,18 @@ button:hover {
 
 .monitor {
 
-    padding: 20px;
+    padding:
+        20px;
 }
 
 
 .monitorTitle {
 
-    color: #9d91a8;
+    color:
+        #9d91a8;
 
-    font-size: 11px;
+    font-size:
+        11px;
 
     text-transform:
         uppercase;
@@ -1538,11 +1591,14 @@ button:hover {
     margin:
         18px 0;
 
-    text-align: center;
+    text-align:
+        center;
 
-    font-size: 62px;
+    font-size:
+        62px;
 
-    font-weight: 900;
+    font-weight:
+        900;
 
     background:
         linear-gradient(
@@ -1571,11 +1627,14 @@ button:hover {
 
 .progress {
 
-    height: 9px;
+    height:
+        9px;
 
-    overflow: hidden;
+    overflow:
+        hidden;
 
-    border-radius: 20px;
+    border-radius:
+        20px;
 
     background:
         #28212f;
@@ -1584,11 +1643,14 @@ button:hover {
 
 .progressBar {
 
-    width: 0%;
+    width:
+        0%;
 
-    height: 100%;
+    height:
+        100%;
 
-    border-radius: 20px;
+    border-radius:
+        20px;
 
     background:
         linear-gradient(
@@ -1602,17 +1664,57 @@ button:hover {
 }
 
 
+#damageExplanation {
+
+    text-align:
+        center;
+
+    color:
+        #786d82;
+
+    font-size:
+        11px;
+
+    margin-top:
+        -8px;
+
+    margin-bottom:
+        16px;
+}
+
+
+#errorInfo {
+
+    text-align:
+        center;
+
+    margin-top:
+        12px;
+
+    color:
+        #a99db5;
+
+    font-size:
+        11px;
+}
+
+
 .watching {
 
-    margin-top: 18px;
+    margin-top:
+        18px;
 
-    padding: 10px;
+    padding:
+        10px;
 
-    text-align: center;
+    text-align:
+        center;
 
-    border-radius: 10px;
+    border-radius:
+        10px;
 
-    color: #73e6a0;
+    color:
+        #73e6a0;
 
     background:
         rgba(80,220,120,.08);
@@ -1625,23 +1727,30 @@ button:hover {
 
 .history {
 
-    margin-top: 18px;
+    margin-top:
+        18px;
 
-    max-height: 280px;
+    max-height:
+        320px;
 
-    overflow-y: auto;
+    overflow-y:
+        auto;
 
-    padding: 15px;
+    padding:
+        15px;
 }
 
 
 .historyItem {
 
-    margin-bottom: 10px;
+    margin-bottom:
+        10px;
 
-    padding: 11px;
+    padding:
+        11px;
 
-    border-radius: 11px;
+    border-radius:
+        11px;
 
     background:
         #17121e;
@@ -1654,35 +1763,46 @@ button:hover {
 
 .historyType {
 
-    color: #a88bdf;
+    color:
+        #a88bdf;
 
-    font-size: 10px;
+    font-size:
+        10px;
 
-    font-weight: 800;
+    font-weight:
+        800;
 }
 
 
 .historyText {
 
-    margin-top: 5px;
+    margin-top:
+        5px;
 
-    color: #d1c8d8;
+    color:
+        #d1c8d8;
 
-    font-size: 11px;
+    font-size:
+        11px;
 
-    white-space: pre-wrap;
+    white-space:
+        pre-wrap;
 }
 
 
 .empty {
 
-    padding: 30px;
+    padding:
+        30px;
 
-    text-align: center;
+    text-align:
+        center;
 
-    color: #655b6c;
+    color:
+        #655b6c;
 
-    font-size: 11px;
+    font-size:
+        11px;
 }
 
 
@@ -1785,7 +1905,7 @@ button:hover {
     <div class="stat">
 
         <div class="statLabel">
-            Current Damage
+            Current Code Damage
         </div>
 
 
@@ -1889,6 +2009,8 @@ Try:
 
 def hello()
 
+print('Hello')
+
 The IDE is watching... 💀"
         ></textarea>
 
@@ -1921,9 +2043,12 @@ The IDE is watching... 💀"
 <div>
 
 
+    <!-- DAMAGE MONITOR -->
+
     <div class="panel">
 
         <div class="monitor">
+
 
             <div class="monitorTitle">
                 Current Emotional Damage
@@ -1938,6 +2063,13 @@ The IDE is watching... 💀"
             </div>
 
 
+            <div
+                id="damageExplanation"
+            >
+                Damage decreases as your code grows.
+            </div>
+
+
             <div class="progress">
 
                 <div
@@ -1945,6 +2077,11 @@ The IDE is watching... 💀"
                     class="progressBar"
                 ></div>
 
+            </div>
+
+
+            <div id="errorInfo">
+                0 active errors
             </div>
 
 
@@ -1957,7 +2094,10 @@ The IDE is watching... 💀"
     </div>
 
 
+    <!-- HISTORY -->
+
     <div class="panel history">
+
 
         <div class="panelHeader">
 
@@ -1990,7 +2130,6 @@ The IDE is watching... 💀"
 
 
 <script nonce="${nonce}">
-
 
 /* =====================================================
    VS CODE API
@@ -2088,6 +2227,18 @@ const reset =
     );
 
 
+const errorInfo =
+    document.getElementById(
+        'errorInfo'
+    );
+
+
+const damageExplanation =
+    document.getElementById(
+        'damageExplanation'
+    );
+
+
 /* =====================================================
    FRONTEND STATE
 ===================================================== */
@@ -2127,6 +2278,11 @@ function animateDamage() {
         targetDamage -
         currentDamage;
 
+
+    /*
+       Move faster when the difference
+       is large and slower when close.
+    */
 
     const step =
         Math.max(
@@ -2190,7 +2346,7 @@ function animateDamage() {
 
 
 /* =====================================================
-   DAMAGE DISPLAY
+   UPDATE DAMAGE DISPLAY
 ===================================================== */
 
 function updateDamageDisplay() {
@@ -2211,19 +2367,6 @@ function updateDamageDisplay() {
 
     progressBar.style.width =
         value + '%';
-
-
-    bigDamage.classList.remove(
-        'pulse'
-    );
-
-
-    void bigDamage.offsetWidth;
-
-
-    bigDamage.classList.add(
-        'pulse'
-    );
 
 
     if (
@@ -2268,7 +2411,7 @@ function updateLineNumbers() {
 
     const count =
         code.value
-            .split('\n')
+            .split('\\n')
             .length;
 
 
@@ -2304,14 +2447,11 @@ function checkBrackets(text) {
 
     const pairs = {
 
-        ')':
-            '(',
+        ')': '(',
 
-        ']':
-            '[',
+        ']': '[',
 
-        '}':
-            '{'
+        '}': '{'
 
     };
 
@@ -2384,7 +2524,6 @@ function checkBrackets(text) {
 
 
     return [];
-
 }
 
 
@@ -2397,30 +2536,16 @@ function checkPython(text) {
     const errors = [];
 
 
-    /*
-       Bracket error.
-    */
-
-    const bracketErrors =
-        checkBrackets(
-            text
-        );
-
-
-    bracketErrors.forEach(
-        function (error) {
-
-            errors.push(
-                error
-            );
-
-        }
-    );
-
-
     const rows =
-        text.split('\n');
+        text.split('\\n');
 
+
+    /*
+       Check every line separately.
+
+       This is important because we want
+       multiple errors at the same time.
+    */
 
     for (
         let i = 0;
@@ -2428,8 +2553,12 @@ function checkPython(text) {
         i++
     ) {
 
+        const originalRow =
+            rows[i];
+
+
         const row =
-            rows[i].trim();
+            originalRow.trim();
 
 
         if (!row) {
@@ -2437,17 +2566,16 @@ function checkPython(text) {
         }
 
 
-        /*
-           Python statements that
-           require a colon.
-        */
+        /* ---------------------------------------------
+           Python blocks that require :
+        ---------------------------------------------- */
 
-        const pattern =
-            /^(def|class|if|elif|else|for|while|try|except|finally|with)\b/;
+        const blockPattern =
+            /^(def|class|if|elif|else|for|while|try|except|finally|with)\\b/;
 
 
         if (
-            pattern.test(row)
+            blockPattern.test(row)
         ) {
 
             if (
@@ -2466,24 +2594,64 @@ function checkPython(text) {
 
         }
 
+
+        /* ---------------------------------------------
+           Python function parentheses
+        ---------------------------------------------- */
+
+        if (
+            row.startsWith(
+                'def '
+            )
+        ) {
+
+            if (
+                !row.includes('(') ||
+                !row.includes(')')
+            ) {
+
+                errors.push(
+
+                    'Line ' +
+                    (i + 1) +
+                    ': invalid function declaration'
+
+                );
+
+            }
+
+        }
+
+
+        /* ---------------------------------------------
+           Python print missing )
+        ---------------------------------------------- */
+
+        if (
+            row.includes(
+                'print('
+            ) &&
+            !row.includes(')')
+        ) {
+
+            errors.push(
+
+                'Line ' +
+                (i + 1) +
+                ': missing ")"'
+
+            );
+
+        }
+
     }
 
 
-    return errors;
-}
-
-
-/* =====================================================
-   JAVASCRIPT CHECKER
-===================================================== */
-
-function checkJavaScript(text) {
-
-    const errors = [];
-
-
     /*
-       Bracket errors.
+       Check brackets.
+
+       Only add the bracket error if
+       it is not already present.
     */
 
     const bracketErrors =
@@ -2503,8 +2671,21 @@ function checkJavaScript(text) {
     );
 
 
+    return errors;
+}
+
+
+/* =====================================================
+   JAVASCRIPT CHECKER
+===================================================== */
+
+function checkJavaScript(text) {
+
+    const errors = [];
+
+
     const rows =
-        text.split('\n');
+        text.split('\\n');
 
 
     for (
@@ -2517,9 +2698,14 @@ function checkJavaScript(text) {
             rows[i].trim();
 
 
-        /*
-           Function declaration.
-        */
+        if (!row) {
+            continue;
+        }
+
+
+        /* ---------------------------------------------
+           Function declaration
+        ---------------------------------------------- */
 
         if (
             row.startsWith(
@@ -2545,9 +2731,9 @@ function checkJavaScript(text) {
         }
 
 
-        /*
-           console.log error.
-        */
+        /* ---------------------------------------------
+           console.log
+        ---------------------------------------------- */
 
         if (
             row.includes(
@@ -2566,7 +2752,55 @@ function checkJavaScript(text) {
 
         }
 
+
+        /* ---------------------------------------------
+           if / for / while
+        ---------------------------------------------- */
+
+        const controlPattern =
+            /^(if|for|while|switch|catch)\\b/;
+
+
+        if (
+            controlPattern.test(row)
+        ) {
+
+            if (
+                !row.includes('{') &&
+                !row.endsWith('{') &&
+                !row.endsWith(';')
+            ) {
+
+                errors.push(
+
+                    'Line ' +
+                    (i + 1) +
+                    ': possible missing "{"'
+
+                );
+
+            }
+
+        }
+
     }
+
+
+    const bracketErrors =
+        checkBrackets(
+            text
+        );
+
+
+    bracketErrors.forEach(
+        function (error) {
+
+            errors.push(
+                error
+            );
+
+        }
+    );
 
 
     return errors;
@@ -2574,10 +2808,12 @@ function checkJavaScript(text) {
 
 
 /* =====================================================
-   SHOW ERROR
+   SHOW ERROR BANNER
 ===================================================== */
 
-function showError(error) {
+function showError(
+    error
+) {
 
     bannerVisible =
         true;
@@ -2621,11 +2857,10 @@ function showError(error) {
     editorStatus.textContent =
         '🔴 ' +
         lastErrors.length +
-        ' error' +
         (
             lastErrors.length === 1
-                ? ''
-                : 's'
+                ? ' error'
+                : ' errors'
         ) +
         ' detected. The IDE is judging you.';
 
@@ -2633,7 +2868,7 @@ function showError(error) {
 
 
 /* =====================================================
-   HIDE ERROR
+   HIDE ERROR BANNER
 ===================================================== */
 
 function hideError() {
@@ -2674,9 +2909,9 @@ function analyze() {
     let errors = [];
 
 
-    /*
-       Empty editor.
-    */
+    /* -----------------------------------------------
+       EMPTY EDITOR
+    ------------------------------------------------ */
 
     if (
         text.trim() === ''
@@ -2685,6 +2920,11 @@ function analyze() {
         errors = [];
 
     }
+
+
+    /* -----------------------------------------------
+       PYTHON
+    ------------------------------------------------ */
 
     else if (
         language.value ===
@@ -2698,6 +2938,11 @@ function analyze() {
 
     }
 
+
+    /* -----------------------------------------------
+       JAVASCRIPT
+    ------------------------------------------------ */
+
     else {
 
         errors =
@@ -2708,9 +2953,9 @@ function analyze() {
     }
 
 
-    /*
-       Remove duplicate errors.
-    */
+    /* -----------------------------------------------
+       REMOVE DUPLICATES
+    ------------------------------------------------ */
 
     errors =
         Array.from(
@@ -2720,18 +2965,28 @@ function analyze() {
         );
 
 
-    /*
-       Store frontend copy.
-    */
+    /* -----------------------------------------------
+       CURRENT NUMBER OF LINES
+    ------------------------------------------------ */
+
+    const currentLineCount =
+        text
+            .split('\\n')
+            .length;
+
+
+    /* -----------------------------------------------
+       SAVE FRONTEND ERRORS
+    ------------------------------------------------ */
 
     lastErrors =
         errors;
 
 
-    /*
-       Send COMPLETE active error list
-       to backend.
-    */
+    /* -----------------------------------------------
+       SEND COMPLETE ERROR LIST
+       TO BACKEND
+    ------------------------------------------------ */
 
     vscode.postMessage({
 
@@ -2742,14 +2997,17 @@ function analyze() {
             language.value,
 
         errors:
-            errors
+            errors,
+
+        lines:
+            currentLineCount
 
     });
 
 
-    /*
-       Show first error in banner.
-    */
+    /* -----------------------------------------------
+       ERROR BANNER
+    ------------------------------------------------ */
 
     if (
         errors.length > 0
@@ -2776,15 +3034,15 @@ function analyze() {
 
 function detectDeletion() {
 
-    const currentLines =
+    const currentLineCount =
         code.value
-            .split('\n')
+            .split('\\n')
             .length;
 
 
     const deleted =
         previousLines -
-        currentLines;
+        currentLineCount;
 
 
     if (
@@ -2805,12 +3063,12 @@ function detectDeletion() {
 
 
     previousLines =
-        currentLines;
+        currentLineCount;
 }
 
 
 /* =====================================================
-   FRONTEND INACTIVITY TIMER
+   INACTIVITY TIMER
 ===================================================== */
 
 function restartTimer() {
@@ -2852,19 +3110,30 @@ code.addEventListener(
     'input',
     function () {
 
+        /* ---------------------------------------------
+           Update line numbers
+        ---------------------------------------------- */
+
         updateLineNumbers();
 
+
+        /* ---------------------------------------------
+           Detect deletion
+        ---------------------------------------------- */
 
         detectDeletion();
 
 
+        /* ---------------------------------------------
+           Restart inactivity timer
+        ---------------------------------------------- */
+
         restartTimer();
 
 
-        /*
-           Typing automatically removes
-           inactivity damage.
-        */
+        /* ---------------------------------------------
+           Tell backend user is active
+        ---------------------------------------------- */
 
         vscode.postMessage({
 
@@ -2873,6 +3142,10 @@ code.addEventListener(
 
         });
 
+
+        /* ---------------------------------------------
+           Wait briefly before analysis
+        ---------------------------------------------- */
 
         if (
             analysisTimer
@@ -2884,11 +3157,6 @@ code.addEventListener(
 
         }
 
-
-        /*
-           Small delay prevents analysis
-           on every single keystroke.
-        */
 
         analysisTimer =
             setTimeout(
@@ -2921,7 +3189,7 @@ language.addEventListener(
 
 
 /* =====================================================
-   RESET
+   RESET BUTTON
 ===================================================== */
 
 reset.addEventListener(
@@ -2967,7 +3235,7 @@ reset.addEventListener(
 
 
 /* =====================================================
-   RECEIVE BACKEND UPDATE
+   RECEIVE BACKEND DATA
 ===================================================== */
 
 window.addEventListener(
@@ -2983,24 +3251,84 @@ window.addEventListener(
             'update'
         ) {
 
-            /*
-               BACKEND IS THE SINGLE
-               SOURCE OF TRUTH.
-            */
+            /* -----------------------------------------
+               Backend is source of truth
+            ------------------------------------------ */
 
             setDamage(
                 data.damage || 0
             );
 
 
+            /* -----------------------------------------
+               Events
+            ------------------------------------------ */
+
             events.textContent =
                 data.events || 0;
 
+
+            /* -----------------------------------------
+               History
+            ------------------------------------------ */
 
             renderHistory(
                 data.history || []
             );
 
+
+            /* -----------------------------------------
+               ACTIVE ERRORS
+            ------------------------------------------ */
+
+            const errorCount =
+                data.errors || 0;
+
+
+            errorInfo.textContent =
+                errorCount +
+                (
+                    errorCount === 1
+                        ? ' active error'
+                        : ' active errors'
+                );
+
+
+            /* -----------------------------------------
+               DAMAGE EXPLANATION
+            ------------------------------------------ */
+
+            if (
+                errorCount > 0 &&
+                data.lines
+            ) {
+
+                const damagePerError =
+                    Math.round(
+                        100 /
+                        (data.lines + 1)
+                    );
+
+
+                damageExplanation.textContent =
+                    damagePerError +
+                    '% per error • ' +
+                    data.lines +
+                    ' lines';
+
+            }
+
+            else {
+
+                damageExplanation.textContent =
+                    'Damage decreases as your code grows.';
+
+            }
+
+
+            /* -----------------------------------------
+               BANNER SCORE
+            ------------------------------------------ */
 
             if (
                 bannerVisible
@@ -3020,10 +3348,12 @@ window.addEventListener(
 
 
 /* =====================================================
-   HISTORY
+   HISTORY RENDERING
 ===================================================== */
 
-function renderHistory(items) {
+function renderHistory(
+    items
+) {
 
     if (
         items.length === 0
@@ -3091,7 +3421,9 @@ function renderHistory(items) {
    ESCAPE HTML
 ===================================================== */
 
-function escapeHTML(text) {
+function escapeHTML(
+    text
+) {
 
     const div =
         document.createElement(
@@ -3141,7 +3473,8 @@ function deactivate() {
             inactivityTimer
         );
 
-        inactivityTimer = null;
+        inactivityTimer =
+            null;
 
     }
 
@@ -3154,7 +3487,8 @@ function deactivate() {
             deletionTimer
         );
 
-        deletionTimer = null;
+        deletionTimer =
+            null;
 
     }
 
