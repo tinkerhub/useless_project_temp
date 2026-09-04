@@ -2,96 +2,140 @@
 
 
 
-# [Project Name] 🎯
+# SORTING SORT 🎯
 
 
 ## Basic Details
-### Team Name: [Name]
+### Team Name: USEFUL
 
 
 ### Team Members
-- Team Lead: [Name] - [College]
-- Member 2: [Name] - [College]
-- Member 3: [Name] - [College]
+- Team Lead: Abhirami Lakshmanan - Govt Model Engineering College
+- Member 2: Sivanee C Prem - Govt Model Engineering College
 
 ### Project Description
-[2-3 lines about what your project does]
+Sorting Sock is a completely unnecessary AI-ish face analysis system that determines what kind of foot energy you possess. Point your camera at yourself, let the sock analyze your face, and receive a completely fictional foot-size compatibility report.
 
 ### The Problem (that doesn't exist)
-[What ridiculous problem are you solving?]
+Humans have spent years solving actual problems like healthcare, transportation, and climate change.
+But nobody has answered the most important question:
+
+“If my face were a foot, what size would it be?”
+
+There was clearly a massive gap in the market for completely unscientific facial-to-foot analysis.
 
 ### The Solution (that nobody asked for)
-[How are you solving it? Keep it fun!]
+Sorting Sock uses your webcam and computer vision to detect your face and smile, extracts facial features, and compares them against a synthetic dataset of 1,000 fictional humans.
+The closest matches determine your:
+
+👣 Estimated Foot Size
+🧦 Foot Compatibility
+📊 Completely Scientific™ Foot Fetish Percentage
+
+A pixel-art sock then delivers your verdict because apparently the sock knows best.
+
+Technical Details
+Technologies/Components Used
 
 ## Technical Details
 ### Technologies/Components Used
 For Software:
-- [Languages used]
-- [Frameworks used]
-- [Libraries used]
-- [Tools used]
+
+Languages: HTML, CSS, JavaScript
+Frameworks: None — vanilla JavaScript
+Libraries:
+OpenCV.js
+Haar Cascade Classifiers
+Tools:
+Firebase Hosting
+Git / GitHub
+Canvas API
+Browser Web APIs
+Data:
+Synthetic JSON dataset containing 1,000 records
+
 
 For Hardware:
-- [List main components]
-- [List specifications]
-- [List tools required]
+No additional hardware required
+Any computer/laptop with:
+Webcam
+Modern web browser
+Internet connection
+Implementation
 
 ### Implementation
 For Software:
+The application follows this pipeline:
+
+Webcam
+   ↓
+OpenCV.js
+   ↓
+Face Detection
+   ↓
+Smile Detection
+   ↓
+Facial Features
+   ↓
+Synthetic Dataset Matching
+   ↓
+10 Closest Records
+   ↓
+Average Results
+   ↓
+Foot Analysis
+
+The application runs the computer-vision processing directly in the browser.
+
+The face is detected using OpenCV.js and a pre-trained Haar Cascade classifier. The extracted facial measurements are then compared against the synthetic dataset using a nearest-neighbor similarity approach.
+
+Important: The foot-related results are intentionally fictional and are not a scientifically valid way to determine foot size, personality, or anything else about a person.
 # Installation
-[commands]
+Clone the repository and open the project:
 
+git clone <your-github-repository-url>
+cd sorting-sock
+
+No package installation is required because the project uses vanilla HTML/CSS/JavaScript and OpenCV.js.
 # Run
-[commands]
-
+# Installation
+git clone <your-github-repository-url>
+cd sorting-sock
+firebase serve
+# Run
+firebase serve
+# Deploy
+firebase deploy
 ### Project Documentation
 For Software:
 
 # Screenshots (Add at least 3)
-![Screenshot1](Add screenshot 1 here with proper name)
-*Add caption explaining what this shows*
+https://drive.google.com/file/d/1we0aBj8Fs7w-00qv_P6vttWV0f8PQJ5g/view?usp=sharing
+The initial Sorting Sock interface featuring the pixel-art sock and retro 8-bit visual design.
 
-![Screenshot2](Add screenshot 2 here with proper name)
-*Add caption explaining what this shows*
+https://drive.google.com/file/d/1MtNd7eFKYoECAjs6BBN3ZzgCMZbJo8IA/view?usp=sharing
+The webcam interface while Sorting Sock detects and analyzes the user's face.
 
-![Screenshot3](Add screenshot 3 here with proper name)
-*Add caption explaining what this shows*
+https://drive.google.com/file/d/19HRlp0u2dC0db-ghLDjWhx0NqEcy8M6m/view?usp=sharing
+The final arcade-style results screen displaying the user's fictional foot analysis.
 
 # Diagrams
-![Workflow](Add your workflow/architecture diagram here)
-*Add caption explaining your workflow*
+https://drive.google.com/file/d/1IXW3vFkBzO3Kj9ZJgrhX4oBIWZEUBc7C/view?usp=sharing
+System workflow showing the path from webcam input through OpenCV face detection, synthetic dataset matching, and final result generation.
 
-For Hardware:
-
-# Schematic & Circuit
-![Circuit](Add your circuit diagram here)
-*Add caption explaining connections*
-
-![Schematic](Add your schematic diagram here)
-*Add caption explaining the schematic*
-
-# Build Photos
-![Components](Add photo of your components here)
-*List out all components shown*
-
-![Build](Add photos of build process here)
-*Explain the build steps*
-
-![Final](Add photo of final product here)
-*Explain the final build*
 
 ### Project Demo
 # Video
-[Add your demo video link here]
-*Explain what the video demonstrates*
+https://drive.google.com/file/d/1YA8I9b50aSUPLL8zdLs3BJvG-8ESVNCy/view?usp=sharing
+The demo shows the complete Sorting Sock experience, starting from the camera, detection of face and smile, running the three-second analysis, displaying the countdown and confetti and generating the final foot analysis
 
 # Additional Demos
-[Add any extra demo materials/links]
+https://mercury-a8766.web.app
 
 ## Team Contributions
-- [Name 1]: [Specific contributions]
-- [Name 2]: [Specific contributions]
-- [Name 3]: [Specific contributions]
+- Abhirami Lakshmanan: Full Stack Development
+- Sivanee C Prem: Full stack Development
+
 
 ---
 Made with ❤️ at TinkerHub Useless Projects 

@@ -1,1 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Sorting Sock</title>
 
+  <link rel="stylesheet" href="styles.css" />
+</head>
+
+<body>
+
+  <main class="computer">
+
+    <!-- Top bar -->
+    <header class="top-bar">
+      <span>SORTING SOCK.EXE</span>
+
+      <div class="window-controls">
+        <span>_</span>
+        <span>□</span>
+        <span>×</span>
+      </div>
+    </header>
+
+    <!-- Main screen -->
+    <section class="screen">
+
+      <div class="status">
+        <span class="status-dot"></span>
+        SYSTEM ONLINE
+      </div>
+
+      <!-- Sock -->
+      <div id="sock" class="sock">
+        <div class="sock-cuff"></div>
+
+        <div class="sock-face">
+            <span id="left-eye">•</span>
+            <span id="right-eye">•</span>
+        </div>
+
+        <div id="sock-mouth" class="sock-mouth">ᴗ</div>
+
+        <div class="sock-blush left-blush"></div>
+        <div class="sock-blush right-blush"></div>
+      </div>
+
+      <!-- Speech bubble -->
+      <div id="speechBubble" class="speech-bubble">
+        <span id="speechText"></span>
+      </div>
+
+      <div id="analysisBar" class="analysis-bar hidden">
+
+  <div class="analysis-label">
+    ANALYZING...
+  </div>
+
+  <div class="analysis-track">
+    <div id="analysisProgress" class="analysis-progress"></div>
+  </div>
+
+
+
+</div>
+
+      <!-- Camera -->
+      <div id="cameraSection" class="camera-section hidden">
+
+        <div class="camera-label">
+          FACIAL SCANNER
+        </div>
+
+        <video id="camera" autoplay playsinline></video>
+
+        <div class="camera-status" id="cameraStatus">
+          CAMERA OFFLINE
+        </div>
+
+      </div>
+
+      <!-- Main controls -->
+      <div class="controls">
+
+        <button id="startCamera">
+          SHOW FACE
+        </button>
+
+        <button id="analyzeButton" class="hidden">
+          ANALYZE ME
+        </button>
+
+      </div>
+
+      <!-- Countdown -->
+      <div id="countdown" class="countdown hidden">
+        3
+      </div>
+
+      <!-- Results -->
+      <section id="results" class="results hidden">
+
+        <div class="results-title">
+          SORTING COMPLETE
+        </div>
+
+        <div class="result-row">
+          <span>EST. FOOT SIZE</span>
+          <strong id="footSize">9.5</strong>
+        </div>
+
+        <div class="result-row">
+          <span>FOOT FETISH INDEX™</span>
+          <strong id="fetishPercentage">73%</strong>
+        </div>
+
+        <div class="result-row">
+          <span>BEST MATCH</span>
+          <strong id="compatibleSize">8.5</strong>
+        </div>
+
+        <p class="final-message">
+          THE SOCK HAS SPOKEN.
+        </p>
+
+        <button id="shareButton">
+          SHARE RESULT
+        </button>
+
+        <button id="resetButton">
+          SORT AGAIN
+        </button>
+
+      </section>
+
+      <!-- Developer controls -->
+      <div class="dev-controls">
+
+        <div>DEV EMOTION</div>
+
+        <button data-emotion="neutral">NEUTRAL</button>
+        <button data-emotion="happy">HAPPY</button>
+        <button data-emotion="sad">SAD</button>
+        <button data-emotion="angry">ANGRY</button>
+
+      </div>
+
+    </section>
+
+    <!-- Bottom bar -->
+    <footer class="bottom-bar">
+      SORTING SOCK SYSTEM v0.1
+      <span id="footerStatus">READY</span>
+    </footer>
+
+  </main>
+
+  <!-- Confetti container -->
+  <div id="confetti"></div>
+
+  <script async src="https://docs.opencv.org/4.x/opencv.js"></script>
+  <script src="script.js"></script>
+
+</body>
+</html>
