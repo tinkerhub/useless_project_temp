@@ -1,0 +1,27 @@
+{
+  "name": "emotional-damage-ide",
+  "displayName": "Emotional Damage IDE",
+  "description": "A VS Code extension that judges your code.",
+  "version": "0.0.1",
+  "publisher": "carenaji2007",
+  "engines": {
+    "vscode": "^1.80.0"
+  },
+  "main": "src/extension.js",
+  "activationEvents": [
+    "*"
+  ],
+  "contributes": {
+    "commands": [
+      {
+        "command": "emotionalDamage.openDashboard",
+        "title": "💀 Open Emotional Damage Dashboard"
+      }
+    ]
+  },
+  "dependencies": {
+    "@google/generative-ai": "^0.24.1",
+    "dotenv": "^17.4.2",
+    "play-sound": "^1.1.6"
+  }
+}
