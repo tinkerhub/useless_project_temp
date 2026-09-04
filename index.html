@@ -1,1 +1,238 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PassPose — Secret Body Pose Authentication</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
 
+    <!-- GLOBAL APP NAVBAR HEADER -->
+    <header class="app-header">
+        <div class="header-logo" id="nav-logo">PASSPPOSE 🕺</div>
+        <nav class="nav-links">
+            <button id="nav-landing-btn" class="nav-btn active-nav">HOME</button>
+            <button id="nav-signup-btn" class="nav-btn">SIGN UP</button>
+            <button id="nav-login-btn" class="nav-btn">LOGIN</button>
+        </nav>
+    </header>
+
+    <!-- ========================================== -->
+    <!-- VIEW 1: LANDING PAGE                       -->
+    <!-- ========================================== -->
+    <div id="landing-view" class="view-container active">
+
+        <!-- Top Instruction Panel -->
+        <div class="top-panel">
+            <h1>WELCOME BACK TO</h1>
+            <h1 class="underline-title">PASSPPOSE :)</h1>
+        </div>
+
+        <!-- Orange Mascot & Interaction Overlay -->
+        <div class="landing-mascot-wrapper">
+            <svg class="landing-mascot-svg" viewBox="0 0 800 600" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <!-- Mascot Body -->
+                <path d="M 100 600 C 100 320, 200 180, 400 180 C 600 180, 700 320, 700 600 Z" fill="#F9A723" stroke="#111" stroke-width="6"/>
+
+                <!-- Body Contour Shading -->
+                <path d="M 160 580 C 160 360, 240 230, 400 230 C 560 230, 640 360, 640 580" stroke="#D9820D" stroke-width="14" stroke-linecap="round" fill="none"/>
+
+                <!-- Left Horn -->
+                <path d="M 270 230 C 210 180, 160 140, 180 80 C 230 110, 260 160, 290 210 Z" fill="#F9A723" stroke="#111" stroke-width="6"/>
+
+                <!-- Right Horn -->
+                <path d="M 530 230 C 590 180, 640 140, 620 80 C 570 110, 540 160, 510 210 Z" fill="#F9A723" stroke="#111" stroke-width="6"/>
+
+                <!-- Head Bumps -->
+                <circle cx="360" cy="182" r="14" fill="#D9820D" stroke="#111" stroke-width="4"/>
+                <circle cx="400" cy="175" r="16" fill="#D9820D" stroke="#111" stroke-width="4"/>
+                <circle cx="440" cy="182" r="14" fill="#D9820D" stroke="#111" stroke-width="4"/>
+
+                <!-- Left Cartoon Eye -->
+                <g transform="translate(320, 270)">
+                    <circle cx="0" cy="0" r="42" fill="#FFFFFF" stroke="#111" stroke-width="5"/>
+                    <circle cx="0" cy="0" r="28" fill="#F9A723" stroke="#D9820D" stroke-width="4"/>
+                    <circle cx="4" cy="-4" r="14" fill="#111111"/>
+                    <circle cx="8" cy="-8" r="4" fill="#FFFFFF"/>
+                </g>
+
+                <!-- Right Cartoon Eye -->
+                <g transform="translate(480, 270)">
+                    <circle cx="0" cy="0" r="42" fill="#FFFFFF" stroke="#111" stroke-width="5"/>
+                    <circle cx="0" cy="0" r="28" fill="#F9A723" stroke="#D9820D" stroke-width="4"/>
+                    <circle cx="-4" cy="-4" r="14" fill="#111111"/>
+                    <circle cx="-8" cy="-8" r="4" fill="#FFFFFF"/>
+                </g>
+
+                <!-- Mascot Hands Holding GO Button -->
+                <path d="M 310 510 C 290 510, 280 540, 310 550 C 330 550, 340 520, 310 510 Z" fill="#F9A723" stroke="#111" stroke-width="5"/>
+                <path d="M 490 510 C 510 510, 520 540, 490 550 C 470 550, 460 520, 490 510 Z" fill="#F9A723" stroke="#111" stroke-width="5"/>
+            </svg>
+
+            <!-- Authentication Card -->
+            <div class="landing-auth-card">
+                <div class="landing-card-inner">
+                    <button id="landing-login-btn" class="btn-yellow">LOGIN</button>
+                    <button id="landing-signup-btn" class="btn-yellow">SIGN UP</button>
+                </div>
+            </div>
+
+            <!-- GO Button -->
+            <div class="go-button-container">
+                <button id="go-btn" class="go-btn">go</button>
+            </div>
+        </div>
+
+    </div>
+
+
+    <!-- ========================================== -->
+    <!-- VIEW 2: SIGN UP PAGE                       -->
+    <!-- ========================================== -->
+    <div id="signup-view" class="view-container">
+
+        <!-- Top Instruction Panel -->
+        <div class="top-panel">
+            <h2>Capture your lil password</h2>
+            <h2>dance</h2>
+        </div>
+
+        <!-- Red Background Mascot -->
+        <svg class="bg-red-mascot" viewBox="0 0 800 600" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M 120 600 C 120 300, 220 160, 400 160 C 580 160, 680 300, 680 600 Z" fill="#E74C3C" stroke="#111" stroke-width="6"/>
+            <path d="M 270 210 C 210 160, 160 120, 180 60 C 230 90, 260 140, 290 190 Z" fill="#E74C3C" stroke="#111" stroke-width="6"/>
+            <path d="M 530 210 C 590 160, 640 120, 620 60 C 570 90, 540 140, 510 190 Z" fill="#E74C3C" stroke="#111" stroke-width="6"/>
+            <g transform="translate(320, 240)">
+                <circle cx="0" cy="0" r="36" fill="#FFFFFF" stroke="#111" stroke-width="5"/>
+                <circle cx="4" cy="-4" r="12" fill="#111111"/>
+            </g>
+            <g transform="translate(480, 240)">
+                <circle cx="0" cy="0" r="36" fill="#FFFFFF" stroke="#111" stroke-width="5"/>
+                <circle cx="-4" cy="-4" r="12" fill="#111111"/>
+            </g>
+        </svg>
+
+        <!-- Auth Interaction Container -->
+        <div class="auth-container">
+            <!-- Email Input Tab -->
+            <div class="email-tab-wrapper">
+                <div class="email-tab">
+                    <label for="signup-email">EMAIL:</label>
+                    <input type="email" id="signup-email" placeholder="user@example.com" required>
+                </div>
+            </div>
+
+            <!-- Webcam & Gesture Box -->
+            <div class="webcam-card">
+                <div class="webcam-viewport">
+                    <video id="signup-video" class="webcam-video" autoplay playsinline muted></video>
+                </div>
+
+                <!-- Sequence Bar -->
+                <div class="sequence-bar">
+                    <div id="signup-current-gesture" class="current-gesture-tag">Gesture: NEUTRAL</div>
+                    <div id="signup-sequence-list" class="sequence-list">Sequence: —</div>
+                </div>
+            </div>
+
+            <!-- Status Banner -->
+            <div id="signup-status" class="status-banner info">Press START to record poses</div>
+
+            <!-- Buttons -->
+            <div class="action-buttons-row">
+                <button id="signup-start-btn" class="btn-yellow">START</button>
+                <button id="signup-confirm-btn" class="btn-yellow">CONFIRM</button>
+                <button id="signup-reset-btn" class="btn-yellow">RESET</button>
+            </div>
+        </div>
+
+    </div>
+
+
+    <!-- ========================================== -->
+    <!-- VIEW 3: LOGIN PAGE                         -->
+    <!-- ========================================== -->
+    <div id="login-view" class="view-container">
+
+        <!-- Top Instruction Panel -->
+        <div class="top-panel">
+            <h2>Enter your lil password dance</h2>
+            <h2>to login</h2>
+        </div>
+
+        <!-- Red Background Mascot -->
+        <svg class="bg-red-mascot" viewBox="0 0 800 600" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M 120 600 C 120 300, 220 160, 400 160 C 580 160, 680 300, 680 600 Z" fill="#E74C3C" stroke="#111" stroke-width="6"/>
+            <path d="M 270 210 C 210 160, 160 120, 180 60 C 230 90, 260 140, 290 190 Z" fill="#E74C3C" stroke="#111" stroke-width="6"/>
+            <path d="M 530 210 C 590 160, 640 120, 620 60 C 570 90, 540 140, 510 190 Z" fill="#E74C3C" stroke="#111" stroke-width="6"/>
+            <g transform="translate(320, 240)">
+                <circle cx="0" cy="0" r="36" fill="#FFFFFF" stroke="#111" stroke-width="5"/>
+                <circle cx="4" cy="-4" r="12" fill="#111111"/>
+            </g>
+            <g transform="translate(480, 240)">
+                <circle cx="0" cy="0" r="36" fill="#FFFFFF" stroke="#111" stroke-width="5"/>
+                <circle cx="-4" cy="-4" r="12" fill="#111111"/>
+            </g>
+        </svg>
+
+        <!-- Auth Interaction Container -->
+        <div class="auth-container">
+            <!-- Email Input Tab -->
+            <div class="email-tab-wrapper">
+                <div class="email-tab">
+                    <label for="login-email">EMAIL:</label>
+                    <input type="email" id="login-email" placeholder="user@example.com" required>
+                </div>
+            </div>
+
+            <!-- Webcam & Gesture Box -->
+            <div class="webcam-card">
+                <div class="webcam-viewport">
+                    <video id="login-video" class="webcam-video" autoplay playsinline muted></video>
+                </div>
+
+                <!-- Sequence Bar -->
+                <div class="sequence-bar">
+                    <div id="login-current-gesture" class="current-gesture-tag">Gesture: NEUTRAL</div>
+                    <div id="login-sequence-list" class="sequence-list">Sequence: —</div>
+                </div>
+            </div>
+
+            <!-- Status Banner -->
+            <div id="login-status" class="status-banner info">Press START RECORDING to verify</div>
+
+            <!-- Buttons -->
+            <div class="action-buttons-row">
+                <button id="login-start-btn" class="btn-yellow">START RECORDING</button>
+                <button id="login-proceed-btn" class="btn-yellow">PROCEED</button>
+                <button id="login-reset-btn" class="btn-yellow">RESET</button>
+            </div>
+        </div>
+
+    </div>
+
+
+    <!-- ========================================== -->
+    <!-- VIEW 4: DEMO PAGE (PROTECTED)              -->
+    <!-- ========================================== -->
+    <div id="demo-view" class="view-container">
+
+        <div class="top-panel">
+            <h1>PASSPPOSE DEMO</h1>
+        </div>
+
+        <div class="demo-card">
+            <h2>🎉 ACCESS GRANTED!</h2>
+            <p id="demo-welcome-msg">Welcome, user!</p>
+            <p>You have successfully authenticated using your secret body pose dance password!</p>
+            
+            <button id="demo-logout-btn" class="btn-yellow" style="margin-top: 20px;">LOG OUT</button>
+        </div>
+
+    </div>
+
+    <!-- Application Script -->
+    <script type="module" src="script.js"></script>
+</body>
+</html>
