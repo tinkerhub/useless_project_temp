@@ -1,0 +1,192 @@
+[
+  {
+    "id": "voice_clip_01",
+    "file": "Voice clip 1.mpeg",
+    "speaker": "Tony Stark",
+    "phrase": "Does mother know you wearth her drapes",
+    "acceptable_phrases": [
+      "does mother know you wearth her drapes",
+      "does mother know you wear her drapes",
+      "does mother know you where is her dress",
+      "does mother know you wear her dress",
+      "does mother know you wearth"
+    ],
+    "keywords": [
+      "mother",
+      "know",
+      "drapes",
+      "dress",
+      "wearth",
+      "wear"
+    ],
+    "target_duration": 4.5
+  },
+  {
+    "id": "voice_clip_02",
+    "file": "Voice clip 2.mpeg",
+    "speaker": "Joey Tribbiani",
+    "phrase": "Hey, How you doin'",
+    "acceptable_phrases": [
+      "hey how you doin",
+      "hey how you doing",
+      "how you doin",
+      "how you doing"
+    ],
+    "keywords": [
+      "hey",
+      "how",
+      "you",
+      "doin",
+      "doing"
+    ],
+    "target_duration": 4.3
+  },
+  {
+    "id": "voice_clip_03",
+    "file": "Voice clip 3.mpeg",
+    "speaker": "Elle Woods",
+    "phrase": "What? Like it's hard?",
+    "acceptable_phrases": [
+      "what like its hard",
+      "what like it is hard",
+      "what like it's hard",
+      "like its hard"
+    ],
+    "keywords": [
+      "what",
+      "like",
+      "hard"
+    ],
+    "target_duration": 1.6
+  },
+  {
+    "id": "voice_clip_04",
+    "file": "Voice clip 4.mpeg",
+    "speaker": "Phoebe Buffay",
+    "phrase": "Do they know that we know?",
+    "acceptable_phrases": [
+      "do they know that we know",
+      "they know that we know",
+      "do they know"
+    ],
+    "keywords": [
+      "they",
+      "know",
+      "we"
+    ],
+    "target_duration": 1.8
+  },
+  {
+    "id": "voice_clip_05",
+    "file": "Voice clip 5.mpeg",
+    "speaker": "Joey Tribbiani",
+    "phrase": "JOEY DOES NOT SHARE FOOD",
+    "acceptable_phrases": [
+      "joey does not share food",
+      "joey doesnt share food",
+      "does not share food"
+    ],
+    "keywords": [
+      "joey",
+      "share",
+      "food"
+    ],
+    "target_duration": 2.0
+  },
+  {
+    "id": "voice_clip_06",
+    "file": "Voice clip 6.mpeg",
+    "speaker": "Karen Smith",
+    "phrase": "On wednesdays we wear pink",
+    "acceptable_phrases": [
+      "on wednesdays we wear pink",
+      "on wednesday we wear pink",
+      "wednesdays we wear pink",
+      "we wear pink"
+    ],
+    "keywords": [
+      "wednesdays",
+      "wednesday",
+      "wear",
+      "pink"
+    ],
+    "target_duration": 2.0
+  },
+  {
+    "id": "voice_clip_07",
+    "file": "Voice clip 7.mpeg",
+    "speaker": "Detective James Carter",
+    "phrase": "DO YOU UNDERSTAND THE WORDS THAT ARE COMING OUTTA MY MOUTH!?",
+    "acceptable_phrases": [
+      "do you understand the words that are coming outta my mouth",
+      "do you understand the words that are coming out of my mouth",
+      "understand the words that are coming outta my mouth",
+      "understand the words that are coming out of my mouth"
+    ],
+    "keywords": [
+      "understand",
+      "words",
+      "coming",
+      "mouth",
+      "outta"
+    ],
+    "target_duration": 5.3
+  },
+  {
+    "id": "voice_clip_08",
+    "file": "Voice clip 8.mpeg",
+    "speaker": "School Dialogue",
+    "phrase": "It's not funny, I got school.",
+    "acceptable_phrases": [
+      "its not funny i got school",
+      "it is not funny i got school",
+      "it's not funny i got school",
+      "not funny i got school"
+    ],
+    "keywords": [
+      "funny",
+      "school",
+      "not"
+    ],
+    "target_duration": 1.6
+  },
+  {
+    "id": "voice_clip_09",
+    "file": "Voice clip 9.mpeg",
+    "speaker": "Movie Dialogue",
+    "phrase": "You know that flapping thing you were doing with your mouth?",
+    "acceptable_phrases": [
+      "you know that flapping thing you were doing with your mouth",
+      "flapping thing you were doing with your mouth",
+      "flapping thing with your mouth"
+    ],
+    "keywords": [
+      "flapping",
+      "thing",
+      "doing",
+      "mouth"
+    ],
+    "target_duration": 2.6
+  },
+  {
+    "id": "voice_clip_10",
+    "file": "Voice clip 10.mpeg",
+    "speaker": "Mitchell Pritchett",
+    "phrase": "Lily where you going, huhh?",
+    "acceptable_phrases": [
+      "lily where you going huhh",
+      "lily where you going huh",
+      "lily where you going",
+      "where you going huhh",
+      "where you going huh"
+    ],
+    "keywords": [
+      "lily",
+      "where",
+      "going",
+      "huhh",
+      "huh"
+    ],
+    "target_duration": 4.2
+  }
+]

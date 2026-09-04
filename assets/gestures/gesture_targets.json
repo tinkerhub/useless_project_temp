@@ -1,0 +1,102 @@
+[
+  {
+    "id": "gesture_01",
+    "image": "WhatsApp Image 2026-09-03 at 6.28.52 PM.jpeg",
+    "name": "TARGET SPECIFICATION 01",
+    "description": "Replicate the exact facial expression, hand gesture, and body position shown in the reference image.",
+    "instructions": "Replicate the exact facial expression, hand gesture, and body position shown in the reference image.",
+    "face_target": "neutral_focus",
+    "gesture_target": "hand_raised",
+    "pose_target": "centered"
+  },
+  {
+    "id": "gesture_02",
+    "image": "WhatsApp Image 2026-09-03 at 6.28.53 PM (1).jpeg",
+    "name": "TARGET SPECIFICATION 02",
+    "description": "Replicate the exact facial expression, hand gesture, and body position shown in the reference image.",
+    "instructions": "Replicate the exact facial expression, hand gesture, and body position shown in the reference image.",
+    "face_target": "concentrated",
+    "gesture_target": "pose_gesture",
+    "pose_target": "centered"
+  },
+  {
+    "id": "gesture_03",
+    "image": "WhatsApp Image 2026-09-03 at 6.28.53 PM (2).jpeg",
+    "name": "TARGET SPECIFICATION 03",
+    "description": "Replicate the exact facial expression, hand gesture, and body position shown in the reference image.",
+    "instructions": "Replicate the exact facial expression, hand gesture, and body position shown in the reference image.",
+    "face_target": "dynamic",
+    "gesture_target": "pose_gesture",
+    "pose_target": "centered"
+  },
+  {
+    "id": "gesture_04",
+    "image": "WhatsApp Image 2026-09-03 at 6.28.53 PM (3).jpeg",
+    "name": "TARGET SPECIFICATION 04",
+    "description": "Replicate the exact facial expression, hand gesture, and body position shown in the reference image.",
+    "instructions": "Replicate the exact facial expression, hand gesture, and body position shown in the reference image.",
+    "face_target": "smile",
+    "gesture_target": "natural",
+    "pose_target": "centered"
+  },
+  {
+    "id": "gesture_05",
+    "image": "WhatsApp Image 2026-09-03 at 6.28.53 PM.jpeg",
+    "name": "TARGET SPECIFICATION 05",
+    "description": "Replicate the exact facial expression, hand gesture, and body position shown in the reference image.",
+    "instructions": "Replicate the exact facial expression, hand gesture, and body position shown in the reference image.",
+    "face_target": "neutral",
+    "gesture_target": "hand_active",
+    "pose_target": "centered"
+  },
+  {
+    "id": "gesture_06",
+    "image": "WhatsApp Image 2026-09-03 at 6.28.54 PM (1).jpeg",
+    "name": "TARGET SPECIFICATION 06",
+    "description": "Replicate the exact facial expression, hand gesture, and body position shown in the reference image.",
+    "instructions": "Replicate the exact facial expression, hand gesture, and body position shown in the reference image.",
+    "face_target": "focused",
+    "gesture_target": "pose_gesture",
+    "pose_target": "centered"
+  },
+  {
+    "id": "gesture_07",
+    "image": "WhatsApp Image 2026-09-03 at 6.28.54 PM (2).jpeg",
+    "name": "TARGET SPECIFICATION 07",
+    "description": "Replicate the exact facial expression, hand gesture, and body position shown in the reference image.",
+    "instructions": "Replicate the exact facial expression, hand gesture, and body position shown in the reference image.",
+    "face_target": "expressive",
+    "gesture_target": "pose_gesture",
+    "pose_target": "centered"
+  },
+  {
+    "id": "gesture_08",
+    "image": "WhatsApp Image 2026-09-03 at 6.28.54 PM.jpeg",
+    "name": "TARGET SPECIFICATION 08",
+    "description": "Replicate the exact facial expression, hand gesture, and body position shown in the reference image.",
+    "instructions": "Replicate the exact facial expression, hand gesture, and body position shown in the reference image.",
+    "face_target": "focused",
+    "gesture_target": "pose_gesture",
+    "pose_target": "centered"
+  },
+  {
+    "id": "gesture_09",
+    "image": "WhatsApp Image 2026-09-03 at 6.28.55 PM (1).jpeg",
+    "name": "TARGET SPECIFICATION 09",
+    "description": "Replicate the exact facial expression, hand gesture, and body position shown in the reference image.",
+    "instructions": "Replicate the exact facial expression, hand gesture, and body position shown in the reference image.",
+    "face_target": "smile",
+    "gesture_target": "hand_active",
+    "pose_target": "centered"
+  },
+  {
+    "id": "gesture_10",
+    "image": "WhatsApp Image 2026-09-03 at 6.28.55 PM.jpeg",
+    "name": "TARGET SPECIFICATION 10",
+    "description": "Replicate the exact facial expression, hand gesture, and body position shown in the reference image.",
+    "instructions": "Replicate the exact facial expression, hand gesture, and body position shown in the reference image.",
+    "face_target": "expressive",
+    "gesture_target": "pose_gesture",
+    "pose_target": "centered"
+  }
+]
