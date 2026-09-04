@@ -1,0 +1,193 @@
+@import "tailwindcss" source(none);
+@source "../src";
+@import "tw-animate-css";
+
+@custom-variant dark (&:is(.dark *));
+
+@theme inline {
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 4px);
+  --radius-2xl: calc(var(--radius) + 8px);
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-destructive-foreground: var(--destructive-foreground);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+  --color-genre: var(--genre);
+  --color-genre-glow: var(--genre-glow);
+  --font-display: "Bebas Neue", ui-sans-serif, sans-serif;
+  --font-sans: "Outfit", ui-sans-serif, system-ui, sans-serif;
+}
+
+:root {
+  --radius: 0.75rem;
+  --background: oklch(0.14 0.015 285);
+  --foreground: oklch(0.96 0.01 90);
+  --card: oklch(0.19 0.018 285);
+  --card-foreground: oklch(0.96 0.01 90);
+  --popover: oklch(0.19 0.018 285);
+  --popover-foreground: oklch(0.96 0.01 90);
+  --primary: oklch(0.83 0.16 84);
+  --primary-foreground: oklch(0.16 0.02 285);
+  --secondary: oklch(0.26 0.03 285);
+  --secondary-foreground: oklch(0.96 0.01 90);
+  --muted: oklch(0.24 0.02 285);
+  --muted-foreground: oklch(0.7 0.02 285);
+  --accent: oklch(0.63 0.23 25);
+  --accent-foreground: oklch(0.97 0.01 90);
+  --destructive: oklch(0.6 0.24 25);
+  --destructive-foreground: oklch(0.97 0.01 90);
+  --border: oklch(1 0 0 / 12%);
+  --input: oklch(1 0 0 / 16%);
+  --ring: oklch(0.83 0.16 84);
+  --genre: oklch(0.83 0.16 84);
+  --genre-glow: oklch(0.63 0.23 25);
+}
+
+@layer base {
+  * {
+    border-color: var(--color-border);
+  }
+
+  body {
+    background-color: var(--color-background);
+    color: var(--color-foreground);
+    font-family: var(--font-sans);
+    overflow-x: hidden;
+  }
+}
+
+/* ---------- cinematic atmosphere ---------- */
+
+@utility film-grain {
+  position: relative;
+}
+
+.grain-layer {
+  pointer-events: none;
+  position: fixed;
+  inset: -50%;
+  z-index: 50;
+  opacity: 0.16;
+  mix-blend-mode: overlay;
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='160' height='160'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3'/></filter><rect width='160' height='160' filter='url(%23n)' opacity='0.5'/></svg>");
+  animation: grain 0.6s steps(3) infinite;
+}
+
+@keyframes grain {
+  0% { transform: translate(0, 0); }
+  33% { transform: translate(-3%, 2%); }
+  66% { transform: translate(2%, -3%); }
+  100% { transform: translate(0, 0); }
+}
+
+.vignette {
+  pointer-events: none;
+  position: fixed;
+  inset: 0;
+  z-index: 40;
+  background: radial-gradient(ellipse at center, transparent 45%, oklch(0.05 0.01 285 / 0.85) 100%);
+}
+
+.spotlight {
+  pointer-events: none;
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  background:
+    radial-gradient(60rem 40rem at 20% -10%, color-mix(in oklab, var(--genre) 22%, transparent), transparent 70%),
+    radial-gradient(50rem 36rem at 90% 110%, color-mix(in oklab, var(--genre-glow) 24%, transparent), transparent 70%);
+  animation: breathe 9s ease-in-out infinite alternate;
+  transition: background 0.8s ease;
+}
+
+@keyframes breathe {
+  from { opacity: 0.65; transform: scale(1); }
+  to { opacity: 1; transform: scale(1.08); }
+}
+
+.dust {
+  position: fixed;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+  overflow: hidden;
+}
+
+.dust span {
+  position: absolute;
+  bottom: -10vh;
+  border-radius: 9999px;
+  background: color-mix(in oklab, var(--genre) 70%, white);
+  opacity: 0.35;
+  filter: blur(0.5px);
+  animation: float-up linear infinite;
+}
+
+@keyframes float-up {
+  0% { transform: translate3d(0, 0, 0) scale(0.6); opacity: 0; }
+  10% { opacity: 0.45; }
+  100% { transform: translate3d(var(--dx, 4vw), -115vh, 0) scale(1.2); opacity: 0; }
+}
+
+@keyframes reel-in {
+  from { opacity: 0; transform: translateY(28px) scale(0.97); filter: blur(8px); }
+  to { opacity: 1; transform: none; filter: blur(0); }
+}
+
+.reel-in { animation: reel-in 0.55s cubic-bezier(0.16, 1, 0.3, 1) both; }
+
+@keyframes flare {
+  0%, 100% { text-shadow: 0 0 18px color-mix(in oklab, var(--genre) 45%, transparent); }
+  50% { text-shadow: 0 0 42px color-mix(in oklab, var(--genre) 85%, transparent); }
+}
+
+.flare { animation: flare 3.2s ease-in-out infinite; }
+
+@keyframes flicker {
+  0%, 100% { opacity: 1; }
+  8% { opacity: 0.4; }
+  10% { opacity: 1; }
+  42% { opacity: 0.75; }
+  44% { opacity: 1; }
+}
+
+.flicker { animation: flicker 5s linear infinite; }
+
+@keyframes shake {
+  0%, 100% { transform: translate(0, 0) rotate(0deg); }
+  20% { transform: translate(-6px, 3px) rotate(-0.4deg); }
+  40% { transform: translate(5px, -4px) rotate(0.5deg); }
+  60% { transform: translate(-4px, -2px) rotate(-0.3deg); }
+  80% { transform: translate(4px, 3px) rotate(0.3deg); }
+}
+
+.shake { animation: shake 0.5s ease-in-out; }
+
+@keyframes slam {
+  0% { opacity: 0; transform: scale(1.6); filter: blur(14px); letter-spacing: 0.3em; }
+  100% { opacity: 1; transform: scale(1); filter: blur(0); letter-spacing: 0.02em; }
+}
+
+.slam { animation: slam 0.5s cubic-bezier(0.2, 0.9, 0.2, 1) both; }
+
+.genre-scope {
+  --genre: var(--g);
+  --genre-glow: var(--gg);
+}

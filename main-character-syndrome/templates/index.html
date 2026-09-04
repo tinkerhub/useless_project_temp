@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Main Character Syndrome</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}" />
+    <script src="https://sdk.scdn.co/spotify-player.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@mediapipe/camera_utils/camera_utils.js" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@mediapipe/drawing_utils/drawing_utils.js" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@mediapipe/pose/pose.js" crossorigin="anonymous"></script>
+  </head>
+  <body>
+    <div class="app-shell">
+      <header class="topbar panel">
+        <div>
+          <div class="eyebrow">AI CINEMATIC SITUATION ANALYZER</div>
+          <h1>MAIN CHARACTER SYNDROME</h1>
+        </div>
+        <div class="status-stack">
+          <span class="status-chip" id="systemStatus">System: Standing by</span>
+          <span class="status-chip" id="cameraStatus">Camera: Offline</span>
+          <span class="status-chip" id="audioStatusBadge">Audio: Idle</span>
+          <span class="status-chip spotify-status" id="spotifyStatus">🔴 SPOTIFY NOT CONNECTED</span>
+        </div>
+      </header>
+
+      <section class="controls panel">
+        <div class="button-row">
+          <button id="startExperienceBtn" class="primary">▶ START EXPERIENCE</button>
+          <button id="testAudioBtn">🔊 TEST AUDIO</button>
+          <button id="toggleMuteBtn">🔇 Toggle Mute</button>
+          <button id="connectSpotifyBtn">🎧 CONNECT SPOTIFY</button>
+        </div>
+
+        <div class="compact-controls">
+          <label>
+            Music Mode
+            <select id="musicMode">
+              <option value="ai">🎵 AI CINEMATIC MODE</option>
+              <option value="offline" selected>🎧 LOCAL BGM MODE</option>
+              <option value="spotify">🎶 SPOTIFY (disabled)</option>
+            </select>
+          </label>
+
+          <label>
+            Universe
+            <select id="universeSelector">
+              <option value="Indian Cinema">🇮🇳 Indian Cinema</option>
+              <option value="Indian Comedy">😂 Indian Comedy</option>
+              <option value="College / Campus">🎓 College / Campus</option>
+              <option value="Default Cinematic">🎬 Default Cinematic</option>
+              <option value="Anime Protagonist">🎌 Anime Protagonist</option>
+              <option value="Horror Thriller">👻 Horror Thriller</option>
+              <option value="Meme Mode">🤡 Meme Mode</option>
+            </select>
+          </label>
+
+          <label class="volume-box">
+            Volume
+            <input id="volumeSlider" type="range" min="0" max="1" step="0.01" value="0.7" />
+          </label>
+        </div>
+
+        <div class="spotify-box">
+          <label>
+            Spotify Playlist URL (Optional)
+            <input id="spotifyLink" type="text" placeholder="https://open.spotify.com/playlist/..." />
+          </label>
+          <button id="activatePlaylistBtn" class="secondary">ACTIVATE PLAYLIST</button>
+          <iframe id="spotifyEmbed" title="Spotify Embed" style="display:none" src=""></iframe>
+        </div>
+      </section>
+
+      <main class="main-grid">
+        <section class="webcam-panel panel">
+          <div class="camera-view">
+            <video id="webcam" autoplay playsinline muted></video>
+            <canvas id="poseCanvas"></canvas>
+            <div class="scanlines"></div>
+            <div class="reticle"></div>
+            <div class="ai-badge">AI ACTIVE</div>
+          </div>
+        </section>
+
+        <aside class="side-panel">
+          <div class="scene-card panel">
+            <div class="section-label">🎬 CURRENT SCENE</div>
+            <div id="sceneName" class="scene-name">AWAITING SIGNAL</div>
+          </div>
+
+          <div class="panel commentary-box">
+            <div class="section-label">AI COMMENTARY</div>
+            <p id="commentaryText">The scene is still calibrating. Emotional stakes remain suspiciously low.</p>
+          </div>
+
+          <div class="panel gauge-box">
+            <div class="section-label">DRAMA GAUGE</div>
+            <div class="radial-gauge">
+              <div class="gauge-ring"></div>
+              <div id="dramaValue" class="gauge-value">0%</div>
+            </div>
+          </div>
+
+          <div class="panel data-card">
+            <div class="section-label">ACTIVITY</div>
+            <div id="activityText">⏳ Idle</div>
+            <small id="activityConfidence">Confidence: 0%</small>
+          </div>
+
+          <div class="panel data-card">
+            <div class="section-label">NOW PLAYING</div>
+            <div id="soundtrackText">🎵 Awaiting soundtrack</div>
+            <small id="soundtrackMeta">Source: Procedural Audio</small>
+            <div id="trackDetails" class="track-details"></div>
+            <div class="player-controls">
+              <button id="prevTrackBtn">⏮ Previous</button>
+              <button id="playTrackBtn">▶ Play</button>
+              <button id="pauseTrackBtn">⏸ Pause</button>
+              <button id="skipTrackBtn">⏭ Skip</button>
+            </div>
+          </div>
+        </aside>
+      </main>
+
+      <section class="demo-panel panel">
+        <div class="section-label">DEMO MODE</div>
+        <div class="demo-grid">
+          <button data-demo="mass_entry">🔥 Mass Entry</button>
+          <button data-demo="comedy_chase">🏃 Comedy Chase</button>
+          <button data-demo="royal">👑 Claim Throne</button>
+          <button data-demo="dreamy">🌌 Zone Out</button>
+          <button data-demo="dramatic_reveal">⚡ Sudden Freeze</button>
+          <button data-demo="chaos">💀 Chaos</button>
+          <button data-demo="victory">🥛 Legendary Recovery</button>
+          <button data-demo="hero_entry">💇 Main Character Hair Flip</button>
+        </div>
+      </section>
+
+      <section class="developer-panel panel">
+        <button id="debugToggle" class="debug-toggle">Developer Debug Panel ▾</button>
+        <div id="debugContent" class="debug-content">
+          <div class="debug-grid">
+            <span>Camera: <strong id="debugCamera">Offline</strong></span>
+            <span>MediaPipe: <strong id="debugMediapipe">Standby</strong></span>
+            <span>Backend API: <strong id="debugBackend">Disconnected</strong></span>
+            <span>Current Scene: <strong id="debugScene">Awaiting signal</strong></span>
+            <span>Music Category: <strong id="debugCategory">None</strong></span>
+            <span>Audio Provider: <strong id="debugProvider">Procedural</strong></span>
+            <span>Audio Status: <strong id="debugAudioStatus">Idle</strong></span>
+          </div>
+        </div>
+      </section>
+    </div>
+
+    <script src="{{ url_for('static', filename='js/remote_audio_provider.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/spotify_provider.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/procedural_audio_provider.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/audio_manager.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/script.js') }}"></script>
+  </body>
+</html>
