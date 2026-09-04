@@ -1,0 +1,1849 @@
+/* =========================================================
+   RESET
+========================================================= */
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html,
+body {
+    width: 100%;
+    height: 100%;
+}
+
+body {
+    font-family: "Press Start 2P", monospace;
+    background: #09baba;
+    overflow: hidden;
+}
+
+
+/* =========================================================
+   MAIN DESKTOP
+========================================================= */
+
+.desktop {
+    position: relative;
+
+    width: 100vw;
+    height: 100dvh;
+
+    overflow: hidden;
+
+    background-color: #09baba;
+
+    background-image:
+        linear-gradient(
+            rgba(255, 255, 255, 0.18) 1px,
+            transparent 1px
+        ),
+        linear-gradient(
+            90deg,
+            rgba(255, 255, 255, 0.18) 1px,
+            transparent 1px
+        );
+
+    background-size:
+        clamp(20px, 3vw, 42px)
+        clamp(20px, 3vw, 42px);
+}
+
+
+/* =========================================================
+   SMALL WINDOWS
+========================================================= */
+
+.small-window {
+    position: absolute;
+
+    background: #eee8ef;
+
+    border: clamp(2px, 0.3vw, 5px) solid #090909;
+
+    box-shadow:
+        clamp(4px, 0.6vw, 9px)
+        clamp(4px, 0.6vw, 9px)
+        0 #f3279b,
+
+        clamp(7px, 0.9vw, 14px)
+        clamp(7px, 0.9vw, 14px)
+        0 #080808;
+
+    z-index: 5;
+}
+
+.window-title {
+    height: clamp(25px, 3.1vh, 35px);
+
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    padding: 0 clamp(4px, 0.6vw, 9px);
+
+    background: #e92999;
+
+    border-bottom: 3px solid #080808;
+
+    font-size: clamp(7px, 0.75vw, 12px);
+}
+
+.window-menu {
+    height: clamp(22px, 2.8vh, 30px);
+
+    display: flex;
+    align-items: center;
+
+    padding-left: clamp(5px, 0.6vw, 9px);
+
+    background: #eee8ef;
+
+    border-bottom: 2px solid #222;
+
+    font-family: Arial, sans-serif;
+
+    font-weight: bold;
+
+    font-size: clamp(8px, 0.85vw, 13px);
+}
+
+.close-btn,
+.window-control {
+    width: clamp(17px, 1.7vw, 23px);
+    height: clamp(17px, 2.1vh, 22px);
+
+    background: #e7e0e6;
+
+    border: 2px solid #111;
+
+    font-family: Arial, sans-serif;
+
+    font-weight: bold;
+
+    cursor: pointer;
+}
+
+
+/* =========================================================
+   TOP LEFT MALLU_SYS
+========================================================= */
+
+.mallu-sys {
+    top: 2.5vh;
+    left: 1.8vw;
+
+    width: clamp(120px, 13.6vw, 185px);
+    height: clamp(145px, 20vh, 210px);
+}
+
+.palm-tree {
+    text-align: center;
+
+    font-size: clamp(45px, 5.3vw, 72px);
+
+    margin-top: clamp(8px, 1.5vh, 16px);
+
+    filter: drop-shadow(3px 3px 0 #111);
+}
+
+.version {
+    text-align: right;
+
+    padding: 0 clamp(5px, 0.7vw, 10px);
+
+    font-size: clamp(7px, 0.8vw, 11px);
+}
+
+
+/* =========================================================
+   TOP RIGHT NOTES
+========================================================= */
+
+.notes-window {
+    top: 2.8vh;
+    right: 2vw;
+
+    width: clamp(125px, 12.2vw, 170px);
+    height: clamp(145px, 19vh, 195px);
+}
+
+.pink-title {
+    background: #e92b96;
+}
+
+.notes-content {
+    padding: clamp(7px, 1vw, 14px);
+
+    font-family: Arial, sans-serif;
+
+    font-size: clamp(8px, 0.9vw, 13px);
+
+    line-height: 1.4;
+
+    background: #fff7d6;
+
+    height: calc(100% - 32px);
+}
+
+.notes-content ul {
+    margin: 2px 0 4px 20px;
+}
+
+.ok-btn {
+    display: block;
+
+    margin: auto;
+
+    padding:
+        clamp(3px, 0.5vw, 6px)
+        clamp(10px, 1.2vw, 18px);
+
+    border: 2px solid #111;
+
+    background: #eee8ef;
+
+    box-shadow: 2px 2px 0 #111;
+
+    font-weight: bold;
+
+    font-size: clamp(8px, 0.8vw, 11px);
+}
+
+
+/* =========================================================
+   DESKTOP ICONS
+========================================================= */
+
+.desktop-icon {
+    position: absolute;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    width: clamp(80px, 9.5vw, 130px);
+
+    text-align: center;
+
+    z-index: 3;
+
+    color: white;
+
+    text-shadow:
+        2px 2px 0 #111,
+        -1px -1px 0 #111;
+
+    font-size: clamp(7px, 0.75vw, 12px);
+}
+
+.desktop-icon span {
+    display: block;
+
+    margin-top: clamp(3px, 0.6vh, 7px);
+}
+
+.pixel-icon {
+    font-size: clamp(35px, 4.3vw, 60px);
+
+    line-height: 1;
+
+    filter: drop-shadow(4px 4px 0 #111);
+}
+
+.save-icon {
+    left: 4.5vw;
+    top: 30vh;
+}
+
+.memory-icon {
+    left: 4.3vw;
+    top: 50vh;
+}
+
+.star-icon {
+    left: 4.5vw;
+    top: 70vh;
+}
+
+.game-icon {
+    right: 5vw;
+    top: 28vh;
+}
+
+.cd-icon {
+    right: 4.8vw;
+    top: 43vh;
+}
+
+.secret-icon {
+    right: 4.7vw;
+    top: 59vh;
+}
+
+
+/* =========================================================
+   MAIN YELLOW WINDOW
+========================================================= */
+
+/*
+   IMPORTANT:
+   The title is now sized relative to THIS window.
+   This prevents the title from escaping the yellow box
+   when the browser is maximized.
+*/
+
+.main-window {
+    position: absolute;
+
+    left: 50%;
+    top: 10vh;
+
+    transform: translateX(-50%);
+
+    width: min(58vw, 780px);
+
+    height: min(31vh, 315px);
+
+    min-width: 360px;
+    min-height: 190px;
+
+    background: #ffe800;
+
+    border: clamp(3px, 0.35vw, 5px) solid #090909;
+
+    box-shadow:
+        clamp(6px, 0.8vw, 11px)
+        clamp(6px, 0.8vw, 11px)
+        0 #f2259b,
+
+        clamp(10px, 1.2vw, 17px)
+        clamp(10px, 1.2vw, 17px)
+        0 #090909;
+
+    z-index: 4;
+
+    /* Makes child sizes depend on this box */
+    container-type: inline-size;
+}
+
+
+/* =========================================================
+   YELLOW WINDOW BAR
+========================================================= */
+
+.main-window-bar {
+    width: 100%;
+
+    height: clamp(30px, 4.2vh, 44px);
+
+    border-bottom:
+        clamp(2px, 0.3vw, 4px)
+        solid #111;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: space-between;
+
+    padding:
+        0 clamp(5px, 0.8vw, 12px);
+
+    background: #ffe800;
+}
+
+.hamburger {
+    font-family: Arial, sans-serif;
+
+    font-size: clamp(17px, 2vw, 28px);
+}
+
+.window-buttons {
+    display: flex;
+
+    gap: clamp(4px, 0.5vw, 8px);
+}
+
+.window-buttons button {
+    width: clamp(23px, 2.5vw, 36px);
+
+    height: clamp(22px, 3.1vh, 33px);
+
+    background: #fff000;
+
+    border:
+        clamp(2px, 0.2vw, 3px)
+        solid #111;
+
+    font-size: clamp(13px, 1.5vw, 20px);
+
+    font-weight: bold;
+
+    cursor: pointer;
+}
+
+
+/* =========================================================
+   MAIN TITLE — FIXED
+========================================================= */
+
+.main-title {
+    width: 100%;
+
+    padding:
+        0 5%;
+
+    margin-top: clamp(18px, 3vh, 32px);
+
+    text-align: center;
+
+    /*
+       cqw = percentage of the yellow window width.
+
+       This is the important fix.
+       The title can no longer grow independently
+       of the yellow box.
+    */
+    font-size: clamp(
+        30px,
+        10.5cqw,
+        84px
+    );
+
+    line-height: 1.22;
+
+    color: #171616;
+
+    white-space: nowrap;
+
+    text-shadow:
+        clamp(3px, 0.5cqw, 7px)
+        clamp(3px, 0.5cqw, 7px)
+        0 #ed1a91,
+
+        clamp(6px, 0.9cqw, 12px)
+        clamp(6px, 0.9cqw, 12px)
+        0 #070606;
+}
+
+
+/* =========================================================
+   MALAYALAM SECTION
+========================================================= */
+
+.malayalam-section {
+    position: absolute;
+
+    top: 40vh;
+
+    left: 50%;
+
+    transform: translateX(-50%);
+
+    width: min(48vw, 650px);
+
+    z-index: 4;
+}
+
+.malayalam-text {
+    text-align: center;
+    color: rgb(218, 212, 54);
+
+    font-family: "Noto Sans Malayalam", sans-serif;
+
+    font-size: clamp(
+        20px,
+        3.4vw,
+        46px
+    );
+
+    font-weight: 800;
+
+    line-height: 1.4;
+
+    white-space: nowrap;
+
+    /* Retro pixel-style shadow */
+    text-shadow:
+        3px 3px 0 #111,
+        6px 6px 0 #111;
+
+    letter-spacing: 1px;
+
+    transform: rotate(-2deg);
+}
+
+
+.red-underline {
+    width: 88%;
+
+    height: clamp(12px, 2vh, 25px);
+
+    margin: -4px auto 0;
+
+    border-bottom:
+        clamp(3px, 0.5vw, 7px)
+        solid #f32323;
+
+    border-radius: 50%;
+
+    transform: rotate(1deg);
+}
+
+
+/* =========================================================
+   ABACUS
+========================================================= */
+
+.abacus {
+    width: clamp(70px, 8.5vw, 115px);
+    height: clamp(60px, 9.3vh, 95px);
+    border: clamp(3px, 0.35vw, 5px) solid #111;
+    border-radius: 18px;
+    box-shadow: clamp(3px, 0.4vw, 5px) clamp(3px, 0.4vw, 5px) 0 #111;
+    padding: 8px;
+    box-sizing: border-box; /* Ensures padding doesn't distort alignment */
+    transform:translateX(-150px);
+    /* Base background color */
+    background-color: #fff7ec;
+    
+    /* Creates 4 vertical rods positioned exactly behind space-around items */
+    background-image: 
+        linear-gradient(90deg, transparent 2px, #111 2px, #111 4px, transparent 4px),
+        linear-gradient(90deg, transparent 2px, #111 2px, #111 4px, transparent 4px),
+        linear-gradient(90deg, transparent 2px, #111 2px, #111 4px, transparent 4px),
+        linear-gradient(90deg, transparent 2px, #111 2px, #111 4px, transparent 4px);
+    background-size: 6px 100%;
+    background-repeat: no-repeat;
+    background-position: 16.5% 0, 38.5% 0, 61.5% 0, 83.5% 0;
+}
+
+.abacus > div {
+    display: flex;
+    justify-content: space-around;
+    height: 7px;
+    margin-bottom: clamp(2px, 0.5vh, 4px); /* Adds vertical spacing between wires */
+    position: relative;
+    z-index: 2; /* Keeps beads in front of the horizontal wire background */
+}
+
+/* Optional: Adds horizontal wire lines behind each row of beads */
+.abacus > div::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 80%;
+    height: 2px;
+    background: #111;
+    transform: translateY(-50%);
+    z-index: -1; 
+}
+
+.abacus i {
+    width: clamp(8px, 1vw, 13px);
+    height: clamp(8px, 1.3vh, 13px);
+    border-radius: 50%;
+    border: 2px solid #111;
+    box-sizing: border-box;
+}
+
+.abacus > div:nth-child(1) i { background: #ed1a91; }
+.abacus > div:nth-child(2) i { background: #1676db; }
+.abacus > div:nth-child(3) i { background: #ff9e00; }
+.abacus > div:nth-child(4) i { background: #20b653; }
+
+
+/* =========================================================
+   MESSAGE WINDOW
+========================================================= */
+
+.message-window {
+    position: absolute;
+
+    left: 50%;
+
+    top: 63%;
+
+    transform: translateX(-50%);
+
+    width: min(39vw, 530px);
+
+    height: clamp(100px, 15vh, 155px);
+
+    background: #fff9e6;
+
+    border:
+        clamp(2px, 0.3vw, 4px)
+        solid #111;
+
+    box-shadow:
+        clamp(4px, 0.5vw, 7px)
+        clamp(4px, 0.5vw, 7px)
+        0 #7529e8,
+
+        clamp(7px, 0.8vw, 11px)
+        clamp(7px, 0.8vw, 11px)
+        0 #111;
+
+    z-index: 6;
+}
+
+.message-title-bar {
+    height: clamp(23px, 3.4vh, 35px);
+
+    background: #7432df;
+
+    border-bottom: 3px solid #111;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: space-between;
+
+    padding: 0 6px;
+
+    color: white;
+}
+
+.message-title-bar button {
+    width: clamp(15px, 1.5vw, 21px);
+
+    height: clamp(15px, 2vh, 20px);
+
+    border: 2px solid #111;
+
+    background: #f7e9d7;
+
+    font-weight: bold;
+}
+
+.message-body {
+    position: relative;
+
+    height: calc(100% - 34px);
+
+    display: flex;
+
+    justify-content: center;
+
+    align-items: center;
+
+    text-align: center;
+
+    font-family: "Press Start 2P", monospace;
+
+    font-size: clamp(
+        7px,
+        1.1vw,
+        15px
+    );
+
+    line-height: 1.8;
+}
+
+.heart {
+    position: absolute;
+
+    right: clamp(8px, 1.5vw, 20px);
+
+    bottom: clamp(5px, 1vh, 13px);
+
+    color: #f52d52;
+
+    font-family: Arial, sans-serif;
+
+    font-size: clamp(
+        24px,
+        3vw,
+        40px
+    );
+
+    text-shadow: 3px 3px 0 #111;
+}
+
+
+/* =========================================================
+   START BUTTON
+========================================================= */
+
+.start-btn {
+    position: absolute;
+
+    left: 50%;
+
+    top: 81%;
+
+    transform: translateX(-50%);
+
+    width: min(45.6vw, 620px);
+
+    min-height: clamp(
+        80px,
+        12.7vh,
+        130px
+    );
+
+    border:
+        clamp(3px, 0.45vw, 6px)
+        solid #111;
+
+    background: #ed1a91;
+
+    color: white;
+
+    font-family: "Press Start 2P", monospace;
+
+    font-size: clamp(
+        10px,
+        1.6vw,
+        22px
+    );
+
+    line-height: 1.7;
+
+    cursor: pointer;
+
+    box-shadow:
+        clamp(5px, 0.7vw, 9px)
+        clamp(5px, 0.7vw, 9px)
+        0 #00e0df,
+
+        clamp(8px, 1vw, 15px)
+        clamp(8px, 1vw, 15px)
+        0 #111;
+
+    z-index: 7;
+
+    transition: transform 0.15s ease;
+}
+
+.start-btn span {
+    display: block;
+
+    padding-right: 50px;
+}
+
+.start-btn strong {
+    position: absolute;
+
+    right: clamp(15px, 3vw, 40px);
+
+    top: 50%;
+
+    transform: translateY(-50%);
+
+    color: #fff000;
+
+    font-size: clamp(
+        25px,
+        3.3vw,
+        45px
+    );
+
+    text-shadow: 3px 3px 0 #111;
+}
+
+.start-btn:hover {
+    transform: translateX(-50%) translateY(-5px);
+}
+
+.start-btn:active {
+    transform: translateX(-50%) translateY(3px);
+}
+
+
+/* =========================================================
+   COMPUTER
+========================================================= */
+
+/*:root {
+    --comp-body: #a5a3ab;
+    --comp-body-dark: #8c8a92; /* For 3D sides */
+    --comp-border: #121214;
+    --comp-screen: #062f3a;
+    --comp-screen-border: #5e5f67;
+    --comp-accent: #11e5e0;
+}
+
+/* 1. Setup the 3D Stage */
+.computer {
+    position: absolute;
+    left: 2vw;
+    bottom: 7vh;
+    width: clamp(160px, 20vw, 260px);
+    z-index: 4;
+    
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    
+    /* Enables 3D perspective space for child elements */
+    perspective: 800px;
+    transform-style: preserve-3d;
+}
+
+/* 2. Monitor with Retro Bezel Depth */
+.monitor {
+    width: 68%;
+    height: clamp(75px, 11vh, 115px);
+    background: var(--comp-body);
+    
+    /* Thick 3D layered borders matching your drawing style */
+    border: clamp(3px, 0.4vw, 5px) solid var(--comp-border);
+    border-radius: 6px;
+    
+    /* Slight isometric tilt back and left rotate */
+    transform: rotateX(6deg) rotateY(-12deg) rotateZ(-1deg);
+    
+    /* Double shadow creates the dark underside and the crisp black outline */
+    box-shadow: 
+        -4px 6px 0 var(--comp-body-dark),
+        -4px 6px 0 3px var(--comp-border);
+        
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    box-sizing: border-box;
+    margin-bottom: -2px; /* Pulls base closer */
+    z-index: 3;
+}
+
+.screen {
+    width: 84%;
+    height: 78%;
+    background: var(--comp-screen);
+    border: clamp(3px, 0.35vw, 4px) solid var(--comp-screen-border);
+    color: var(--comp-accent);
+    position: relative;
+    border-radius: 3px;
+    
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+/* Face positioning fixes */
+.eyes {
+    font-size: clamp(12px, 1.6vw, 20px);
+    letter-spacing: clamp(12px, 2vw, 24px);
+    margin-left: clamp(12px, 2vw, 24px); /* Balancing letter-spacing offset */
+    line-height: 1;
+    margin-top: 15px;
+}
+
+.smiley {
+    font-size: clamp(18px, 2.2vw, 26px);
+    transform: scaleY(-1) translateY(4px); /* Flips the smile to match your upside-down drawing */
+    line-height: 1;
+}
+
+/* 3. The Thick Desktop Base Unit */
+.computer-base {
+    width: 96%;
+    height: clamp(30px, 4.5vh, 46px);
+    background: var(--comp-body);
+    border: clamp(3px, 0.35vw, 5px) solid var(--comp-border);
+    border-radius: 4px;
+    
+    /* Steeper tilt than monitor to create an isometric wedge appearance */
+    transform: rotateX(22deg) rotateY(-16deg) rotateZ(-2deg) translateY(-5px);
+    
+    /* Giant retro shadow extrusions */
+    box-shadow: 
+        -8px 10px 0 var(--comp-body-dark),
+        -8px 10px 0 4px var(--comp-border);
+        
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    padding: 6px 12px;
+    z-index: 2;
+}
+
+/* Floppy Disk / CD Drive Lines */
+.drive {
+    width: 85%;
+    height: clamp(3px, 0.5vh, 6px);
+    background: #1a1a1c;
+    border-bottom: 2px solid #555;
+    border-radius: 1px;
+    margin: 2px 0;
+}
+
+/* 4. Skewed, Slanted Keyboard Pad */
+.keyboard {
+    width: 90%;
+    height: clamp(18px, 2.8vh, 28px);
+    background: #b6b4bc;
+    border: clamp(3px, 0.35vw, 4px) solid var(--comp-border);
+    border-radius: 3px;
+    
+    /* Extreme flat perspective tilt laying down on the desk surface */
+    transform: rotateX(55deg) rotateY(-14deg) rotateZ(-8deg) translate3d(-18px, 5px, 10px);
+    
+    box-shadow: 
+        -5px 6px 0 var(--comp-body-dark),
+        -5px 6px 0 3px var(--comp-border);
+        
+    display: flex;
+    flex-wrap: wrap;
+    align-content: center;
+    justify-content: space-between;
+    padding: 4px 8px;
+    box-sizing: border-box;
+    z-index: 1;
+}
+
+.keyboard span {
+    display: inline-block;
+    width: 18%;
+    height: clamp(3px, 0.4vh, 5px);
+    background: #e1dfe6;
+    border-bottom: 2px solid #8c8a92;
+    border-radius: 1px;
+    margin-bottom: 2px;
+}
+
+/* =========================================================
+   STATUS WINDOW
+========================================================= */
+
+.status-window {
+    position: absolute;
+
+    right: 2.2vw;
+
+    bottom: 7.3vh;
+
+    width: clamp(160px, 17.3vw, 235px);
+
+    height: clamp(115px, 16.6vh, 170px);
+
+    background: #e8e3ea;
+
+    border:
+        clamp(3px, 0.35vw, 5px)
+        solid #111;
+
+    box-shadow:
+        clamp(4px, 0.5vw, 7px)
+        clamp(4px, 0.5vw, 7px)
+        0 #111;
+
+    z-index: 6;
+}
+
+.status-title {
+    height: clamp(25px, 3.3vh, 35px);
+
+    background: #7133dd;
+
+    color: white;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: space-between;
+
+    padding: 0 7px;
+
+    font-size: clamp(7px, 0.75vw, 10px);
+}
+
+.status-title .close-btn {
+    width: clamp(17px, 1.6vw, 22px);
+
+    height: clamp(17px, 2vh, 22px);
+}
+
+.status-body {
+    padding: clamp(7px, 1vw, 14px);
+
+    font-size: clamp(7px, 0.75vw, 10px);
+}
+
+.status-heart {
+    font-family: Arial, sans-serif;
+
+    color: #f52d52;
+
+    font-size: clamp(
+        20px,
+        2.1vw,
+        28px
+    );
+
+    margin-bottom: 8px;
+}
+
+.status-heart span {
+    color: #111;
+
+    font-family: "Press Start 2P", monospace;
+
+    font-size: clamp(7px, 0.75vw, 10px);
+}
+
+.progress-bar {
+    height: clamp(16px, 2.2vh, 23px);
+
+    background: #eee;
+
+    border: 3px solid #111;
+
+    padding: 2px;
+
+    margin-bottom: 8px;
+}
+
+.progress-bar div {
+    width: 100%;
+
+    height: 100%;
+
+    background: #ed1a91;
+
+    background-image:
+        repeating-linear-gradient(
+            90deg,
+            transparent 0,
+            transparent 17px,
+            #111 18px,
+            #111 20px
+        );
+}
+
+.status-body p {
+    font-size: clamp(6px, 0.65vw, 9px);
+
+    line-height: 1.5;
+}
+
+
+/* =========================================================
+   SPARKLES
+========================================================= */
+
+.sparkle {
+    position: absolute;
+
+    color: #ff25c2;
+
+    font-size: clamp(18px, 2vw, 28px);
+
+    z-index: 2;
+
+    animation: sparkle 1.8s infinite alternate;
+}
+
+.sparkle-1 {
+    left: 18.5vw;
+    top: 2vh;
+}
+
+.sparkle-2 {
+    left: 22vw;
+    top: 57vh;
+}
+
+.sparkle-3 {
+    left: 55vw;
+    top: 2vh;
+}
+
+.sparkle-4 {
+    right: 22vw;
+    top: 57vh;
+}
+
+.sparkle-5 {
+    right: 29vw;
+    top: 66vh;
+}
+
+.desktop-plus {
+    position: absolute;
+
+    color: #111;
+
+    font-family: Arial, sans-serif;
+
+    font-size: clamp(18px, 1.8vw, 25px);
+
+    z-index: 2;
+}
+
+.plus-1 {
+    left: 16vw;
+    top: 29vh;
+}
+
+.plus-2 {
+    left: 18vw;
+    bottom: 29vh;
+}
+
+@keyframes sparkle {
+
+    from {
+        transform: scale(0.8) rotate(0deg);
+        opacity: 0.6;
+    }
+
+    to {
+        transform: scale(1.2) rotate(20deg);
+        opacity: 1;
+    }
+}
+
+
+/* =========================================================
+   TASKBAR
+========================================================= */
+
+.taskbar {
+    position: absolute;
+
+    bottom: 0;
+    left: 0;
+
+    width: 100%;
+
+    height: clamp(42px, 5.7vh, 60px);
+
+    background: #4f23d4;
+
+    border-top:
+        clamp(3px, 0.4vw, 5px)
+        solid #111;
+
+    display: flex;
+
+    align-items: center;
+
+    padding:
+        clamp(3px, 0.5vh, 6px)
+        clamp(5px, 0.8vw, 12px);
+
+    z-index: 20;
+}
+
+.start-menu {
+    height: clamp(30px, 4.1vh, 43px);
+
+    min-width: clamp(85px, 10vw, 140px);
+
+    background: #e7e1e9;
+
+    border:
+        clamp(2px, 0.3vw, 4px)
+        solid #111;
+
+    box-shadow: 3px 3px 0 #111;
+
+    font-family: "Press Start 2P", monospace;
+
+    font-size: clamp(7px, 0.8vw, 11px);
+
+    cursor: pointer;
+}
+
+.task-icon {
+    width: clamp(30px, 3vw, 43px);
+
+    height: clamp(30px, 4.1vh, 43px);
+
+    margin-left: clamp(4px, 0.6vw, 9px);
+
+    background: #80b3c5;
+
+    border: 3px solid #111;
+
+    font-size: clamp(13px, 1.4vw, 19px);
+
+    cursor: pointer;
+}
+
+.task-space {
+    flex: 1;
+}
+
+.clock {
+    height: clamp(30px, 4.1vh, 43px);
+
+    min-width: clamp(70px, 7.5vw, 105px);
+
+    display: flex;
+
+    justify-content: center;
+
+    align-items: center;
+
+    color: white;
+
+    border-left: 3px solid #3413a2;
+
+    border-right: 3px solid #3413a2;
+
+    font-size: clamp(7px, 0.8vw, 11px);
+}
+
+.volume {
+    color: white;
+
+    padding: 0 clamp(5px, 0.8vw, 12px);
+
+    font-size: clamp(13px, 1.4vw, 18px);
+}
+
+
+/* =========================================================
+   POPUP
+========================================================= */
+
+.popup-overlay {
+    position: fixed;
+
+    inset: 0;
+
+    background: rgba(0, 0, 0, 0.55);
+
+    display: none;
+
+    align-items: center;
+
+    justify-content: center;
+
+    z-index: 100;
+}
+
+.popup-overlay.show {
+    display: flex;
+}
+
+.start-popup {
+    width: min(85vw, 450px);
+
+    background: #fff7df;
+
+    border:
+        clamp(3px, 0.4vw, 5px)
+        solid #111;
+
+    box-shadow:
+        7px 7px 0 #ed1a91,
+        12px 12px 0 #111;
+}
+
+.popup-header {
+    height: clamp(35px, 4.5vh, 47px);
+
+    background: #7330dc;
+
+    color: white;
+
+    border-bottom: 4px solid #111;
+
+    display: flex;
+
+    justify-content: space-between;
+
+    align-items: center;
+
+    padding: 0 10px;
+
+    font-size: clamp(8px, 0.9vw, 12px);
+}
+
+.popup-header button {
+    width: 25px;
+
+    height: 25px;
+
+    background: #f4dfe5;
+
+    border: 3px solid #111;
+
+    font-size: 17px;
+
+    cursor: pointer;
+}
+
+.popup-content {
+    text-align: center;
+
+    padding:
+        clamp(20px, 3.5vh, 35px)
+        clamp(15px, 2vw, 25px);
+}
+
+.popup-content h2 {
+    font-size: clamp(12px, 1.4vw, 18px);
+
+    margin-bottom: 20px;
+}
+
+.popup-content p {
+    font-size: clamp(8px, 0.9vw, 11px);
+
+    line-height: 2;
+
+    margin-bottom: 20px;
+}
+
+#beginBtn {
+    background: #ed1a91;
+
+    color: white;
+
+    border: 4px solid #111;
+
+    padding:
+        clamp(10px, 1.5vh, 16px)
+        clamp(12px, 1.5vw, 22px);
+
+    font-family: "Press Start 2P", monospace;
+
+    font-size: clamp(7px, 0.85vw, 11px);
+
+    cursor: pointer;
+
+    box-shadow: 4px 4px 0 #111;
+}
+
+#beginBtn:hover {
+    transform: translateY(-3px);
+}
+
+
+/* =========================================================
+   RESPONSIVE FIX
+   Works for maximized + restored laptop windows,
+   tablets, mobiles and landscape screens
+   ========================================================= */
+
+
+/* =========================
+   LAPTOP / DESKTOP
+   ========================= */
+
+@media (min-width: 901px) {
+
+    .main-window {
+        width: min(58vw, 780px);
+        height: clamp(210px, 31vh, 315px);
+
+        /* Prevent the window from becoming too wide on
+           unusual browser dimensions */
+        max-width: 780px;
+
+        left: 50%;
+        top: clamp(55px, 10vh, 95px);
+        transform: translateX(-50%);
+    }
+
+    .main-title {
+        width: 100%;
+        padding: 0 4%;
+
+        margin-top: clamp(18px, 3vh, 30px);
+
+        /*
+           cqw keeps the title tied to the yellow box,
+           NOT the browser width.
+        */
+        font-size: clamp(28px, 9.5cqw, 76px);
+
+        line-height: 1.18;
+        white-space: nowrap;
+    }
+
+    .malayalam-section {
+        top: clamp(300px, 43.5vh, 470px);
+        width: min(48vw, 650px);
+    }
+
+    .malayalam-text {
+        font-size: clamp(20px, 3.4vw, 46px);
+        line-height: 1.35;
+        white-space: nowrap;
+    }
+
+    .message-window {
+        top: clamp(480px, 63vh, 650px);
+        width: min(39vw, 530px);
+        height: clamp(105px, 15vh, 155px);
+    }
+
+    .start-btn {
+        top: clamp(620px, 81vh, 800px);
+        width: min(45.6vw, 620px);
+        min-height: clamp(80px, 12.7vh, 130px);
+    }
+}
+
+
+/* =========================================================
+   SMALLER / RESTORED LAPTOP WINDOW
+   ========================================================= */
+
+@media (min-width: 901px) and (max-height: 750px) {
+
+    .main-window {
+        top: 5vh;
+        width: min(58vw, 720px);
+        height: clamp(190px, 34vh, 270px);
+    }
+
+    .main-title {
+        margin-top: clamp(14px, 2.5vh, 22px);
+        font-size: clamp(27px, 9cqw, 65px);
+        line-height: 1.15;
+    }
+
+    .malayalam-section {
+        top: 40vh;
+    }
+
+    .malayalam-text {
+        font-size: clamp(18px, 3vw, 36px);
+    }
+
+    .message-window {
+        top: 57vh;
+        height: clamp(95px, 15vh, 130px);
+    }
+
+    .start-btn {
+        top: 75vh;
+        min-height: clamp(70px, 12vh, 105px);
+    }
+}
+
+
+/* =========================================================
+   TABLET
+   ========================================================= */
+
+@media (max-width: 900px) and (min-width: 601px) {
+
+    .mallu-sys,
+    .notes-window {
+        transform: scale(.8);
+    }
+
+    .mallu-sys {
+        transform-origin: top left;
+    }
+
+    .notes-window {
+        transform-origin: top right;
+    }
+
+    .desktop-icon {
+        transform: scale(.75);
+    }
+
+    .computer {
+        transform: scale(.8);
+        transform-origin: bottom left;
+    }
+
+    .status-window {
+        transform: scale(.8);
+        transform-origin: bottom right;
+    }
+
+    .main-window {
+        width: 62vw;
+        height: clamp(205px, 30vh, 285px);
+
+        min-width: 0;
+        max-width: 700px;
+
+        top: clamp(45px, 7vh, 70px);
+    }
+
+    .main-title {
+        width: 100%;
+        padding: 0 4%;
+
+        margin-top: clamp(16px, 2.5vh, 25px);
+
+        font-size: clamp(27px, 9.5cqw, 64px);
+        line-height: 1.18;
+    }
+
+    .malayalam-section {
+        top: 41vh;
+        width: 54vw;
+        max-width: 650px;
+    }
+
+    .malayalam-text {
+        font-size: clamp(18px, 3vw, 34px);
+    }
+
+    .message-window {
+        top: 61vh;
+        width: 43vw;
+        max-width: 530px;
+        height: clamp(100px, 15vh, 145px);
+    }
+
+    .start-btn {
+        top: 79vh;
+        width: 50vw;
+        max-width: 620px;
+    }
+}
+
+
+/* =========================================================
+   MOBILE
+   ========================================================= */
+
+@media (max-width: 600px) {
+
+    body {
+        overflow: hidden;
+    }
+
+    .desktop {
+        width: 100vw;
+        height: 100dvh;
+        min-height: 0;
+
+        background-size: 25px 25px;
+    }
+
+    .mallu-sys,
+    .notes-window,
+    .desktop-icon,
+    .computer,
+    .status-window,
+    .desktop-plus,
+    .sparkle {
+        display: none;
+    }
+
+    .main-window {
+        top: clamp(32px, 6vh, 55px);
+
+        left: 50%;
+        transform: translateX(-50%);
+
+        width: 84vw;
+
+        height: clamp(155px, 25vh, 220px);
+
+        min-width: 0;
+        min-height: 0;
+
+        max-width: 520px;
+        max-height: 220px;
+    }
+
+    .main-window-bar {
+        height: 32px;
+    }
+
+    .main-title {
+        width: 100%;
+
+        margin-top: clamp(15px, 2.5vh, 21px);
+
+        padding: 0 4%;
+
+        /*
+           The title scales according to the yellow box.
+           This is what prevents "HOW MALLU ARE YOU?"
+           from escaping on different window sizes.
+        */
+        font-size: clamp(21px, 9.8cqw, 42px);
+
+        line-height: 1.22;
+
+        white-space: nowrap;
+    }
+
+    .malayalam-section {
+        top: clamp(34vh, 37vh, 39vh);
+
+        left: 50%;
+        transform: translateX(-50%);
+
+        width: 90vw;
+        max-width: 600px;
+    }
+
+    .malayalam-text {
+        font-size: clamp(17px, 5.8vw, 30px);
+        line-height: 1.3;
+        white-space: nowrap;
+    }
+
+    .calculator-icon {
+        display: none;
+    }
+
+    .message-window {
+        top: clamp(47vh, 49vh, 51vh);
+
+        left: 50%;
+        transform: translateX(-50%);
+
+        width: 82vw;
+        max-width: 530px;
+
+        height: clamp(105px, 15vh, 135px);
+
+        min-height: 0;
+        max-height: none;
+    }
+
+    .message-body {
+        font-size: clamp(7px, 2.5vw, 11px);
+        line-height: 1.65;
+        padding: 0 8px;
+    }
+
+    .start-btn {
+        top: clamp(66vh, 68vh, 70vh);
+
+        left: 50%;
+        transform: translateX(-50%);
+
+        width: 80vw;
+        max-width: 620px;
+
+        min-height: clamp(100px, 12vh, 125px);
+
+        max-height: none;
+
+        font-size: clamp(8px, 2.7vw, 12px);
+
+        line-height: 1.6;
+    }
+
+    .start-btn span {
+        padding-right: 42px;
+    }
+
+    .start-btn strong {
+        right: 15px;
+
+        font-size: clamp(25px, 7vw, 30px);
+    }
+
+    .taskbar {
+        height: 52px;
+    }
+
+    .start-menu {
+        min-width: 95px;
+        font-size: 7px;
+    }
+
+    .task-icon {
+        width: 35px;
+        height: 38px;
+
+        margin-left: 5px;
+
+        font-size: 14px;
+    }
+
+    .clock {
+        min-width: 65px;
+        font-size: 7px;
+    }
+
+    .volume {
+        font-size: 14px;
+    }
+
+    .start-popup {
+        width: 82vw;
+        max-width: 450px;
+    }
+
+    .popup-content {
+        padding: 25px 15px;
+    }
+
+    .popup-content h2 {
+        font-size: 13px;
+    }
+
+    .popup-content p {
+        font-size: 8px;
+    }
+
+    #beginBtn {
+        font-size: 8px;
+        padding: 12px 10px;
+    }
+}
+
+
+/* =========================================================
+   VERY SMALL PHONES
+   ========================================================= */
+
+@media (max-width: 380px) {
+
+    .main-window {
+        top: 5vh;
+
+        width: 86vw;
+        height: 155px;
+    }
+
+    .main-window-bar {
+        height: 30px;
+    }
+
+    .main-title {
+        margin-top: 17px;
+        padding: 0 3%;
+
+        font-size: clamp(20px, 9.5cqw, 31px);
+
+        line-height: 1.18;
+    }
+
+    .malayalam-section {
+        top: 34vh;
+        width: 94vw;
+    }
+
+    .malayalam-text {
+        font-size: 17px;
+        line-height: 1.25;
+    }
+
+    .message-window {
+        top: 46vh;
+
+        width: 86vw;
+        height: 105px;
+    }
+
+    .message-body {
+        font-size: 7px;
+        line-height: 1.55;
+    }
+
+    .start-btn {
+        top: 66vh;
+
+        width: 83vw;
+        min-height: 98px;
+
+        font-size: 7px;
+        line-height: 1.55;
+    }
+
+    .start-btn span {
+        padding-right: 35px;
+    }
+
+    .start-btn strong {
+        right: 12px;
+        font-size: 24px;
+    }
+}
+
+
+/* =========================================================
+   LANDSCAPE LAPTOP / PHONE
+   ========================================================= */
+
+@media (max-height: 500px) and (orientation: landscape) {
+
+    .main-window {
+        top: 4vh;
+
+        width: min(68vw, 650px);
+
+        height: clamp(140px, 38vh, 190px);
+
+        min-width: 0;
+        min-height: 0;
+    }
+
+    .main-window-bar {
+        height: 30px;
+    }
+
+    .main-title {
+        margin-top: 9px;
+
+        font-size: clamp(20px, 8.5cqw, 43px);
+
+        line-height: 1.12;
+    }
+
+    .malayalam-section {
+        top: 42vh;
+        width: 75vw;
+    }
+
+    .malayalam-text {
+        font-size: clamp(14px, 3vw, 25px);
+        line-height: 1.2;
+    }
+
+    .message-window {
+        top: 56vh;
+
+        width: min(55vw, 530px);
+
+        height: clamp(70px, 17vh, 95px);
+    }
+
+    .message-body {
+        font-size: 7px;
+        line-height: 1.45;
+    }
+
+    .start-btn {
+        top: 75vh;
+
+        width: min(62vw, 620px);
+
+        min-height: 62px;
+
+        font-size: 7px;
+        line-height: 1.45;
+    }
+
+    .start-btn strong {
+        right: 15px;
+        font-size: 24px;
+    }
+
+    .taskbar {
+        height: 38px;
+    }
+
+    .start-menu {
+        height: 30px;
+    }
+
+    .task-icon {
+        width: 30px;
+        height: 30px;
+    }
+
+    .clock {
+        height: 30px;
+    }
+}

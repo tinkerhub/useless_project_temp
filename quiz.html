@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>How Mallu Are You?</title>
+
+  <link rel="stylesheet" href="quiz.css">
+</head>
+
+<body>
+
+  <!-- DESKTOP LAYOUT -->
+  <div class="desktop-layout">
+
+
+    <!-- PHOTO WINDOW -->
+    <div class="photo-window">
+
+      <div class="mini-titlebar">
+
+        <span id="photo-title">
+          PHOTO.exe
+        </span>
+
+        <div class="window-buttons">
+          <span>×</span>
+        </div>
+
+      </div>
+
+
+      <div class="photo-content">
+
+        <img
+          id="question-image"
+          src="images/question1.jpeg"
+          alt="Question image"
+        >
+
+      </div>
+
+    </div>
+
+
+    <!-- MAIN QUIZ WINDOW -->
+    <main class="quiz-window">
+
+      <div class="quiz-titlebar">
+
+        <span>MALLU_SYS</span>
+
+        <div class="window-buttons">
+          <span>_</span>
+          <span>□</span>
+          <span>×</span>
+        </div>
+
+      </div>
+
+
+      <div class="quiz-content">
+
+
+        <!-- PROGRESS -->
+        <div class="progress-row">
+
+          <span id="question-number">
+            Q.1/10
+          </span>
+
+          <div class="progress-bar">
+
+            <div
+              class="progress-fill"
+              id="progress-fill">
+            </div>
+
+          </div>
+
+        </div>
+
+
+        <!-- QUESTION -->
+        <h1 id="question-text">
+          
+        </h1>
+    <!-- AUDIO QUESTION -->
+        <div id="question-audio-container"></div>
+
+<!-- ANSWERS -->
+        <div
+  class="answers-container"
+  id="answers-container">
+</div>
+
+
+        <!-- ANSWERS -->
+        <div
+          class="answers-container"
+          id="answers-container">
+        </div>
+
+
+        <!-- NEXT -->
+        <button
+          id="next-button"
+          class="next-button"
+          disabled>
+
+          NEXT →
+
+        </button>
+
+      </div>
+
+    </main>
+
+
+    <!-- CHAYA / NOTES WINDOW -->
+    <div class="notes-window">
+
+      <div class="mini-titlebar">
+
+        <span>NOTES.txt</span>
+
+        <div class="window-buttons">
+          <span>_</span>
+          <span>□</span>
+          <span>×</span>
+        </div>
+
+      </div>
+
+
+      <div class="notes-content">
+
+        <strong>Life is better with:</strong>
+
+        <ul>
+          <li>Chaya</li>
+          <li>Parippu</li>
+          <li>Payasam</li>
+        </ul>
+
+        <button>OK</button>
+
+      </div>
+
+    </div>
+
+
+  </div>
+
+
+  <!-- TASKBAR -->
+  <footer class="taskbar">
+
+    <button class="start-button">
+      😊 START
+    </button>
+
+
+    <div class="task-icons">
+      <span>🌐</span>
+      <span>🎵</span>
+      <span>💬</span>
+    </div>
+
+
+    <div class="clock" id="clock">
+      10:58 PM
+    </div>
+
+  </footer>
+
+
+  <script src="quiz.js"></script>
+
+</body>
+</html>
