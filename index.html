@@ -1,1 +1,757 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>WhyClick!! — Zone Optical & Balanced Voice Deck</title>
+  <style>
+    :root {
+      --bg: #070b14;
+      --card-bg: rgba(18, 26, 47, 0.75);
+      --accent: #38bdf8;
+      --royal: #3b82f6;
+      --cornflower: #6495ed;
+      --text: #f8fafc;
+      --muted: #94a3b8;
+      --glow: rgba(56, 189, 248, 0.25);
+    }
 
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      background-color: var(--bg);
+      background-image: 
+        radial-gradient(at 10% 20%, rgba(59, 130, 246, 0.18) 0px, transparent 50%),
+        radial-gradient(at 90% 80%, rgba(100, 149, 237, 0.15) 0px, transparent 50%);
+      color: var(--text);
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 20px;
+    }
+
+    .container { width: 100%; max-width: 1100px; }
+
+    .screen-shake {
+      animation: shake 0.4s cubic-bezier(0.36, 0.07, 0.19, 0.97) both;
+    }
+
+    @keyframes shake {
+      10%, 90% { transform: translate3d(-2px, 0, 0); }
+      20%, 80% { transform: translate3d(3px, 0, 0); }
+      30%, 50%, 70% { transform: translate3d(-5px, 0, 0); }
+      40%, 60% { transform: translate3d(5px, 0, 0); }
+    }
+
+    header { text-align: center; margin-bottom: 16px; }
+
+    .logo {
+      font-size: 2.8rem;
+      font-weight: 900;
+      letter-spacing: -1px;
+      background: linear-gradient(135deg, #60a5fa 0%, #38bdf8 50%, #93c5fd 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      text-shadow: 0 10px 30px rgba(56, 189, 248, 0.3);
+      display: inline-block;
+      margin-bottom: 4px;
+    }
+
+    .tagline {
+      font-size: 0.95rem;
+      color: var(--muted);
+      margin-bottom: 12px;
+      font-weight: 500;
+    }
+
+    .command-pills {
+      display: flex;
+      flex-wrap: nowrap;
+      justify-content: center;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 14px;
+      overflow-x: auto;
+    }
+
+    .pill {
+      white-space: nowrap;
+      background: rgba(30, 41, 59, 0.6);
+      backdrop-filter: blur(8px);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      padding: 4px 10px;
+      border-radius: 9999px;
+      font-size: 0.78rem;
+      font-weight: 500;
+      color: #cbd5e1;
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      flex-shrink: 0;
+    }
+
+    .pill strong { color: var(--accent); }
+
+    .video-card {
+      position: relative;
+      background: #000;
+      border-radius: 16px 16px 0 0;
+      overflow: hidden;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      box-shadow: 0 20px 50px -10px rgba(0, 0, 0, 0.8), 0 0 40px -15px var(--glow);
+    }
+
+    video#player {
+      width: 100%;
+      min-height: 360px;
+      max-height: 420px;
+      aspect-ratio: 16 / 9;
+      display: block;
+      background: #000;
+      object-fit: cover;
+    }
+
+    #sparkle-canvas {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      z-index: 15;
+    }
+
+    #webcam-feed, #motion-canvas { display: none; }
+
+    .audio-only-cover {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: radial-gradient(circle, #111827 0%, #030712 100%);
+      display: none;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      color: var(--accent);
+      z-index: 10;
+      gap: 12px;
+    }
+
+    .audio-only-cover .pulse-ring {
+      width: 80px;
+      height: 80px;
+      border-radius: 50%;
+      border: 2px solid var(--accent);
+      animation: pulse 2s infinite ease-out;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 2rem;
+    }
+
+    @keyframes pulse {
+      0% { transform: scale(0.9); box-shadow: 0 0 0 0 rgba(56, 189, 248, 0.7); }
+      70% { transform: scale(1.1); box-shadow: 0 0 0 20px rgba(56, 189, 248, 0); }
+      100% { transform: scale(0.9); box-shadow: 0 0 0 0 rgba(56, 189, 248, 0); }
+    }
+
+    .skip-alert {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%) scale(0.9);
+      padding: 12px 20px;
+      border-radius: 12px;
+      font-size: 1.3rem;
+      font-weight: 800;
+      pointer-events: none;
+      opacity: 0;
+      transition: all 0.25s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+      z-index: 20;
+      backdrop-filter: blur(8px);
+    }
+
+    #rewind-indicator {
+      left: 20px;
+      background: rgba(245, 158, 11, 0.95);
+      color: #000;
+      box-shadow: 0 0 30px rgba(245, 158, 11, 0.5);
+    }
+
+    #forward-indicator {
+      right: 20px;
+      background: rgba(56, 189, 248, 0.95);
+      color: #000;
+      box-shadow: 0 0 30px rgba(56, 189, 248, 0.5);
+    }
+
+    .arcade-popup {
+      position: absolute;
+      top: 24px;
+      left: 50%;
+      transform: translateX(-50%) scale(0.7);
+      padding: 8px 18px;
+      border-radius: 10px;
+      font-size: 1.1rem;
+      font-weight: 900;
+      letter-spacing: 0.5px;
+      text-transform: uppercase;
+      pointer-events: none;
+      opacity: 0;
+      z-index: 25;
+      transition: all 0.25s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+      box-shadow: 0 8px 30px rgba(0, 0, 0, 0.6);
+    }
+
+    .popup-max { background: linear-gradient(135deg, #f97316, #ef4444); color: #fff; border: 2px solid #fed7aa; }
+    .popup-mute { background: linear-gradient(135deg, #64748b, #334155); color: #f1f5f9; border: 2px solid #94a3b8; }
+    .popup-up { background: linear-gradient(135deg, #0284c7, #38bdf8); color: #04101e; border: 2px solid #bae6fd; }
+    .popup-down { background: linear-gradient(135deg, #475569, #1e293b); color: #e2e8f0; border: 2px solid #64748b; }
+
+    .toolbar {
+      background: var(--card-bg);
+      backdrop-filter: blur(16px);
+      padding: 12px 18px;
+      border-radius: 0 0 16px 16px;
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-top: none;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      align-items: center;
+      margin-bottom: 12px;
+    }
+
+    input[type="text"] {
+      flex: 1;
+      min-width: 220px;
+      background: rgba(10, 15, 29, 0.7);
+      border: 1px solid #334155;
+      padding: 8px 12px;
+      border-radius: 8px;
+      color: #fff;
+      font-size: 13.5px;
+      outline: none;
+    }
+
+    input[type="text"]:focus { border-color: var(--accent); }
+
+    .btn {
+      padding: 8px 14px;
+      border-radius: 8px;
+      border: none;
+      font-weight: 600;
+      font-size: 13px;
+      cursor: pointer;
+      background: #1e293b;
+      color: #f1f5f9;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .btn:hover { background: #334155; }
+    .btn-upload { background: var(--royal); }
+    .btn-upload:hover { background: #2563eb; }
+    .btn-toggle-active { background: #8b5cf6 !important; }
+
+    .start-btn {
+      width: 100%;
+      padding: 10px 14px;
+      border-radius: 8px;
+      border: none;
+      background: linear-gradient(135deg, #0284c7 0%, #38bdf8 100%);
+      color: #070b14;
+      font-size: 0.9rem;
+      font-weight: 700;
+      cursor: pointer;
+      box-shadow: 0 4px 14px rgba(56, 189, 248, 0.35);
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    .metrics-panel {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+      gap: 14px;
+      margin-top: 14px;
+    }
+
+    .card {
+      background: var(--card-bg);
+      backdrop-filter: blur(12px);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 12px;
+      padding: 12px 16px;
+      font-family: monospace;
+      font-size: 13px;
+      line-height: 1.4;
+    }
+
+    .card-title {
+      font-size: 11px;
+      color: var(--cornflower);
+      text-transform: uppercase;
+      margin-bottom: 4px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-weight: 800;
+    }
+
+    .progress-bar {
+      width: 100%;
+      height: 4px;
+      background: rgba(255, 255, 255, 0.08);
+      border-radius: 2px;
+      overflow: hidden;
+      margin: 2px 0 6px;
+    }
+
+    .progress-fill {
+      height: 100%;
+      width: 0%;
+      background: var(--accent);
+      transition: width 0.1s ease;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container" id="app-container">
+    <header>
+      <div class="logo">WhyClick!!</div>
+      <div class="tagline">Silent zone waving & far-field voice arcade.</div>
+      
+      <div class="command-pills">
+        <div class="pill">👈 <span>Wave Left:</span> <strong>-10s Rewind</strong></div>
+        <div class="pill">👉 <span>Wave Right:</span> <strong>+10s Forward</strong></div>
+        <div class="pill">🗣️ <span>Far-Field:</span> <strong>"Louder/Fly" / "Down/Quiet"</strong></div>
+        <div class="pill">🔇 <span>Far-Field:</span> <strong>"Mute" / "Max"</strong></div>
+      </div>
+    </header>
+
+    <video id="webcam-feed" playsinline muted></video>
+    <canvas id="motion-canvas" width="64" height="48"></canvas>
+
+    <div class="video-card">
+      <video id="player" loop playsinline>
+        <source src="https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4" type="video/mp4" />
+      </video>
+
+      <canvas id="sparkle-canvas"></canvas>
+      <div class="arcade-popup" id="arcade-alert">🚀 FLY! Volume Up!</div>
+
+      <div class="audio-only-cover" id="audio-mask">
+        <div class="pulse-ring">📻</div>
+        <h2 style="font-size: 1.5rem; color: #fff;">Audio-Only Mode</h2>
+        <p style="color: var(--muted); font-size: 0.9rem;">Screen dark. Zone waving & voice controls active.</p>
+      </div>
+
+      <div class="skip-alert" id="rewind-indicator">👈 -10s REWIND</div>
+      <div class="skip-alert" id="forward-indicator">👉 +10s FORWARD</div>
+    </div>
+
+    <div class="toolbar">
+      <input type="text" id="url-field" placeholder="Paste direct .mp4 video link..." />
+      <button class="btn" id="load-url-btn" type="button">Load URL</button>
+      
+      <input type="file" id="local-file-picker" accept="video/*" style="display: none;" />
+      <button class="btn btn-upload" id="upload-trigger-btn" type="button">📁 Upload Video</button>
+
+      <button class="btn" id="audio-only-btn" type="button">📻 Audio Only</button>
+    </div>
+
+    <button class="start-btn" id="start-btn">⚡ Activate Hands-Free Mode</button>
+
+    <div class="metrics-panel">
+      <div class="card">
+        <span class="card-title">👁️ Split-Zone Motion Tracking</span>
+        <div>Left Zone: <span id="left-val" style="color:var(--accent); font-weight:bold;">0%</span></div>
+        <div class="progress-bar"><div class="progress-fill" id="left-fill"></div></div>
+        <div>Right Zone: <span id="right-val" style="color:var(--accent); font-weight:bold;">0%</span></div>
+        <div class="progress-bar"><div class="progress-fill" id="right-fill"></div></div>
+        <div>Last Detected: <span id="action-val" style="color:#e2e8f0;">Standby</span></div>
+      </div>
+
+      <div class="card">
+        <span class="card-title">🎙️ Far-Field Voice Engine</span>
+        <div>Current Volume: <span id="vol-val" style="color:var(--accent); font-weight:bold;">50%</span></div>
+        <div class="progress-bar"><div class="progress-fill" id="vol-fill" style="width: 50%; background:#38bdf8;"></div></div>
+        <div>Heard Buffer: <span id="speech-log" style="color:#e2e8f0;">Listening...</span></div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const appContainer = document.getElementById('app-container');
+    const video = document.getElementById('player');
+    const startBtn = document.getElementById('start-btn');
+    const audioMask = document.getElementById('audio-mask');
+    const audioOnlyBtn = document.getElementById('audio-only-btn');
+    const leftVal = document.getElementById('left-val');
+    const leftFill = document.getElementById('left-fill');
+    const rightVal = document.getElementById('right-val');
+    const rightFill = document.getElementById('right-fill');
+    const actionVal = document.getElementById('action-val');
+    const volVal = document.getElementById('vol-val');
+    const volFill = document.getElementById('vol-fill');
+    const speechLog = document.getElementById('speech-log');
+    const fwdAlert = document.getElementById('forward-indicator');
+    const rewAlert = document.getElementById('rewind-indicator');
+    const arcadeAlert = document.getElementById('arcade-alert');
+    const urlField = document.getElementById('url-field');
+    const loadUrlBtn = document.getElementById('load-url-btn');
+    const localPicker = document.getElementById('local-file-picker');
+    const uploadTriggerBtn = document.getElementById('upload-trigger-btn');
+
+    const webcam = document.getElementById('webcam-feed');
+    const motionCanvas = document.getElementById('motion-canvas');
+    const ctx = motionCanvas.getContext('2d', { willReadFrequently: true });
+    let prevFrameData = null;
+
+    // Feature 1: Particle Sparkle Canvas Setup
+    const sparkleCanvas = document.getElementById('sparkle-canvas');
+    const sCtx = sparkleCanvas.getContext('2d');
+    let particles = [];
+
+    function resizeSparkleCanvas() {
+      sparkleCanvas.width = video.clientWidth;
+      sparkleCanvas.height = video.clientHeight;
+    }
+    window.addEventListener('resize', resizeSparkleCanvas);
+
+    class Sparkle {
+      constructor(x, y, color) {
+        this.x = x;
+        this.y = y;
+        this.size = Math.random() * 4 + 2;
+        this.speedX = (Math.random() - 0.5) * 6;
+        this.speedY = (Math.random() - 0.5) * 6;
+        this.color = color;
+        this.alpha = 1;
+        this.decay = Math.random() * 0.03 + 0.02;
+      }
+      update() {
+        this.x += this.speedX;
+        this.y += this.speedY;
+        this.alpha -= this.decay;
+      }
+      draw() {
+        sCtx.save();
+        sCtx.globalAlpha = Math.max(0, this.alpha);
+        sCtx.fillStyle = this.color;
+        sCtx.shadowBlur = 10;
+        sCtx.shadowColor = this.color;
+        sCtx.beginPath();
+        sCtx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+        sCtx.fill();
+        sCtx.restore();
+      }
+    }
+
+    function renderSparkles() {
+      sCtx.clearRect(0, 0, sparkleCanvas.width, sparkleCanvas.height);
+      for (let i = particles.length - 1; i >= 0; i--) {
+        particles[i].update();
+        particles[i].draw();
+        if (particles[i].alpha <= 0) particles.splice(i, 1);
+      }
+      requestAnimationFrame(renderSparkles);
+    }
+    renderSparkles();
+
+    function spawnJediSparks(normX, normY, color) {
+      if (!sparkleCanvas.width) resizeSparkleCanvas();
+      const targetX = (1 - normX) * sparkleCanvas.width;
+      const targetY = normY * sparkleCanvas.height;
+      for (let i = 0; i < 4; i++) {
+        particles.push(new Sparkle(targetX, targetY, color));
+      }
+    }
+
+    // Feature 2: Comic Pop-Culture Floating Badges
+    function triggerArcadePopup(text, typeClass, doShake = false) {
+      arcadeAlert.className = `arcade-popup ${typeClass}`;
+      arcadeAlert.innerText = text;
+      arcadeAlert.style.opacity = '1';
+      arcadeAlert.style.transform = 'translateX(-50%) scale(1.05)';
+
+      if (doShake) {
+        appContainer.classList.add('screen-shake');
+        setTimeout(() => appContainer.classList.remove('screen-shake'), 450);
+      }
+
+      setTimeout(() => {
+        arcadeAlert.style.opacity = '0';
+        arcadeAlert.style.transform = 'translateX(-50%) scale(0.7)';
+      }, 900);
+    }
+
+    video.volume = 0.5;
+    let isAudioOnly = false;
+    let lastActionTime = 0;
+    const ACTION_COOLDOWN_MS = 850;
+
+    function setVolumeDisplay(val) {
+      const pct = Math.round(val * 100);
+      volVal.innerText = `${pct}%`;
+      volFill.style.width = `${pct}%`;
+    }
+
+    audioOnlyBtn.addEventListener('click', () => {
+      isAudioOnly = !isAudioOnly;
+      audioMask.style.display = isAudioOnly ? 'flex' : 'none';
+      audioOnlyBtn.classList.toggle('btn-toggle-active', isAudioOnly);
+    });
+
+    // File Picker Triggers
+    uploadTriggerBtn.addEventListener('click', () => {
+      localPicker.value = '';
+      localPicker.click();
+    });
+
+    localPicker.addEventListener('change', (e) => {
+      const file = e.target.files && e.target.files[0];
+      if (!file) return;
+
+      if (video.dataset.blobUrl) {
+        URL.revokeObjectURL(video.dataset.blobUrl);
+      }
+
+      const blobUrl = URL.createObjectURL(file);
+      video.dataset.blobUrl = blobUrl;
+
+      video.removeAttribute('src');
+      while (video.firstChild) {
+        video.removeChild(video.firstChild);
+      }
+
+      video.src = blobUrl;
+      video.load();
+      video.play().catch(err => console.warn('Autoplay prevented:', err));
+    });
+
+    loadUrlBtn.addEventListener('click', () => {
+      const url = urlField.value.trim();
+      if (!url) return;
+
+      if (video.dataset.blobUrl) {
+        URL.revokeObjectURL(video.dataset.blobUrl);
+        delete video.dataset.blobUrl;
+      }
+
+      video.removeAttribute('src');
+      while (video.firstChild) {
+        video.removeChild(video.firstChild);
+      }
+
+      video.src = url;
+      video.load();
+      video.play().catch(err => console.warn('Autoplay prevented:', err));
+    });
+
+    function showFlash(element) {
+      element.style.opacity = '1';
+      element.style.transform = 'translateY(-50%) scale(1.05)';
+      setTimeout(() => { 
+        element.style.opacity = '0';
+        element.style.transform = 'translateY(-50%) scale(0.9)';
+      }, 650);
+    }
+
+    // Split-Zone Optical Engine
+    function processMotion() {
+      if (webcam.readyState >= 2) {
+        ctx.drawImage(webcam, 0, 0, motionCanvas.width, motionCanvas.height);
+        const currentFrame = ctx.getImageData(0, 0, motionCanvas.width, motionCanvas.height);
+        const data = currentFrame.data;
+
+        if (prevFrameData) {
+          let leftZoneDelta = 0;
+          let rightZoneDelta = 0;
+          let leftXSum = 0, leftYSum = 0;
+          let rightXSum = 0, rightYSum = 0;
+
+          const midX = motionCanvas.width / 2;
+          const halfPixels = (motionCanvas.width * motionCanvas.height) / 2;
+
+          for (let i = 0; i < data.length; i += 4) {
+            const diff = Math.abs(data[i] - prevFrameData[i]) + 
+                         Math.abs(data[i+1] - prevFrameData[i+1]) + 
+                         Math.abs(data[i+2] - prevFrameData[i+2]);
+
+            if (diff > 85) {
+              const pixelIdx = i / 4;
+              const x = pixelIdx % motionCanvas.width;
+              const y = Math.floor(pixelIdx / motionCanvas.width);
+
+              if (x >= midX) {
+                leftZoneDelta++;
+                leftXSum += x;
+                leftYSum += y;
+              } else {
+                rightZoneDelta++;
+                rightXSum += x;
+                rightYSum += y;
+              }
+            }
+          }
+
+          const leftPercent = (leftZoneDelta / halfPixels) * 100;
+          const rightPercent = (rightZoneDelta / halfPixels) * 100;
+
+          leftVal.innerText = `${Math.round(leftPercent)}%`;
+          leftFill.style.width = `${Math.min(100, Math.round(leftPercent * 2))}%`;
+
+          rightVal.innerText = `${Math.round(rightPercent)}%`;
+          rightFill.style.width = `${Math.min(100, Math.round(rightPercent * 2))}%`;
+
+          if (leftZoneDelta > 15) {
+            spawnJediSparks(
+              (leftXSum / leftZoneDelta) / motionCanvas.width,
+              (leftYSum / leftZoneDelta) / motionCanvas.height,
+              '#f59e0b'
+            );
+          }
+          if (rightZoneDelta > 15) {
+            spawnJediSparks(
+              (rightXSum / rightZoneDelta) / motionCanvas.width,
+              (rightYSum / rightZoneDelta) / motionCanvas.height,
+              '#38bdf8'
+            );
+          }
+
+          const now = Date.now();
+          if (now - lastActionTime > ACTION_COOLDOWN_MS) {
+            if (leftPercent > 20 && leftPercent > (rightPercent * 1.5)) {
+              actionVal.innerText = "👈 Left Zone Wave (-10s)";
+              video.currentTime = Math.max(0, video.currentTime - 10);
+              showFlash(rewAlert);
+              lastActionTime = now;
+            } else if (rightPercent > 20 && rightPercent > (leftPercent * 1.5)) {
+              actionVal.innerText = "👉 Right Zone Wave (+10s)";
+              video.currentTime = Math.min(video.duration, video.currentTime + 10);
+              showFlash(fwdAlert);
+              lastActionTime = now;
+            }
+          }
+        }
+
+        prevFrameData = data;
+      }
+      requestAnimationFrame(processMotion);
+    }
+
+    // Voice Engine: Fixed volume routing, final results only, and debounce lockout
+    async function initAudioEngine() {
+      const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+      if (!SpeechRecognition) {
+        speechLog.innerText = "Speech API unsupported";
+        return;
+      }
+
+      const recognition = new SpeechRecognition();
+      recognition.continuous = true;
+      recognition.interimResults = false; // Only trigger on completed/finalized phrases
+      recognition.lang = 'en-US';
+      recognition.maxAlternatives = 3;
+
+      // Volume Up (+20%): 'loud' and 'louder' routed here instead of max
+      const flyRegex = /\b(fly|flai|flight|flying|ply|lie|lai|high|hai|hi|up|app|cup|sky|loud|louder)\b/i;
+      
+      // Volume Down (-20%): 'quiet' and 'quit' routed here instead of mute
+      const downRegex = /\b(down|dawn|doun|don|dan|town|tawn|brown|done|dum|low|drop|quiet|quite|quit)\b/i;
+      
+      // Mute (0%): Exclusively explicit silence commands
+      const muteRegex = /\b(mute|mewt|silence|silent|shut|stfu|stop)\b/i;
+      
+      // Max (100%): Exclusively maximum ceiling commands
+      const maxRegex = /\b(max|maks|full|boost|top|hundred)\b/i;
+
+      let lastVoiceTrigger = 0;
+      const VOICE_COOLDOWN_MS = 1200; // 1.2-second debounce to prevent double-firing
+
+      recognition.onresult = (event) => {
+        let chunkText = "";
+
+        for (let i = event.resultIndex; i < event.results.length; ++i) {
+          for (let j = 0; j < event.results[i].length; j++) {
+            chunkText += " " + event.results[i][j].transcript.toLowerCase();
+          }
+        }
+
+        speechLog.innerText = `"${chunkText.trim().slice(-30)}"`;
+
+        const now = Date.now();
+        if (now - lastVoiceTrigger < VOICE_COOLDOWN_MS) return;
+
+        if (maxRegex.test(chunkText)) {
+          lastVoiceTrigger = now;
+          video.muted = false;
+          video.volume = 1;
+          setVolumeDisplay(1);
+          triggerArcadePopup("🔥 MAX POWER!", "popup-max", true);
+        } else if (muteRegex.test(chunkText)) {
+          lastVoiceTrigger = now;
+          video.muted = true;
+          setVolumeDisplay(0);
+          triggerArcadePopup("🤫 Shhh... Muted!", "popup-mute", false);
+        } else if (flyRegex.test(chunkText)) {
+          lastVoiceTrigger = now;
+          video.muted = false;
+          video.volume = Math.min(1, Number((video.volume + 0.2).toFixed(2)));
+          setVolumeDisplay(video.volume);
+          triggerArcadePopup("🔊 Volume Up!", "popup-up", false);
+        } else if (downRegex.test(chunkText)) {
+          lastVoiceTrigger = now;
+          video.muted = false;
+          video.volume = Math.max(0, Number((video.volume - 0.2).toFixed(2)));
+          setVolumeDisplay(video.volume);
+          triggerArcadePopup("🔉 Volume Down!", "popup-down", false);
+        }
+      };
+
+      recognition.onerror = (e) => {
+        if (e.error !== 'no-speech') console.warn('Speech engine hiccup:', e.error);
+      };
+
+      recognition.onend = () => {
+        try { recognition.start(); } catch (err) {}
+      };
+
+      recognition.start();
+    }
+
+    startBtn.addEventListener('click', async () => {
+      try {
+        const videoStream = await navigator.mediaDevices.getUserMedia({ 
+          video: { width: 320, height: 240, frameRate: 30 } 
+        });
+        webcam.srcObject = videoStream;
+        await webcam.play();
+        resizeSparkleCanvas();
+
+        await navigator.mediaDevices.getUserMedia({
+          audio: {
+            echoCancellation: false,
+            noiseSuppression: false,
+            autoGainControl: true
+          }
+        });
+
+        await initAudioEngine();
+
+        processMotion();
+        video.play();
+        startBtn.style.display = 'none';
+      } catch (err) {
+        alert('Permission Denied: Camera and Microphone are required: ' + err.message);
+      }
+    });
+  </script>
+</body>
+</html>

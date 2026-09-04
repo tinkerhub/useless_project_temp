@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Open My File</title>
+</head>
+<body>
+
+    <h1>My Google Drive File</h1>
+
+    <a href="https://drive.google.com/file/d/1w-8qse0Tyd3Vk4OWDqcUUaWcg4Mo-KXy/view?usp=drive_link"
+       target="_blank">
+        <button>Open File</button>
+    </a>
+
+</body>
+</html>
