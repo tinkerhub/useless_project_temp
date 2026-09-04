@@ -1,0 +1,512 @@
+#root {
+  width: 100%;
+  min-height: 100vh;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  min-width: 320px;
+  min-height: 100vh;
+}
+
+/* =========================================================
+   SCAN PAGE
+   ========================================================= */
+
+.scan-page {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 30px 20px 50px;
+  background: #ffffff;
+}
+
+.scan-page h1 {
+  margin: 0;
+  font-size: 32px;
+  font-weight: 700;
+  color: #222222;
+  text-align: center;
+}
+
+/* =========================================================
+   PALLU TECHO TITLE
+   ========================================================= */
+
+.pallu-title {
+  margin: 0 0 55px;
+  font-family:
+    "Comic Sans MS",
+    "Arial Rounded MT Bold",
+    "Trebuchet MS",
+    sans-serif;
+  font-size: 150px;
+  font-weight: 900;
+  letter-spacing: 2px;
+  color: #222222;
+  text-align: center;
+  line-height: 0.95;
+  transform: none;
+  text-shadow:
+    4px 4px 0px #eeeeee;
+}
+
+/* =========================================================
+   CAT CAMERA
+   ========================================================= */
+
+.cat-camera {
+  position: relative;
+  width: min(90vw, 900px);
+  aspect-ratio: 874 / 1111;
+  overflow: hidden;
+  border-radius: 18px;
+  background: #111111;
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.12);
+  flex-shrink: 0;
+}
+
+.cat-image {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: fill;
+  display: block;
+  z-index: 1;
+}
+
+.mouth-camera {
+  position: absolute;
+  left: 36.6%;
+  top: 54.9%;
+  width: 30.9%;
+  height: 13.5%;
+  z-index: 5;
+  overflow: hidden;
+  background: #111111;
+  clip-path: polygon(
+    0% 35%,
+    2% 29%,
+    5% 24%,
+    9% 19%,
+    14% 15%,
+    20% 11%,
+    27% 8%,
+    34% 8%,
+    40% 11%,
+    45% 16%,
+    48% 21%,
+    50% 24%,
+    52% 21%,
+    55% 16%,
+    60% 11%,
+    66% 8%,
+    73% 8%,
+    80% 11%,
+    86% 15%,
+    91% 20%,
+    95% 26%,
+    98% 32%,
+    100% 38%,
+    99% 47%,
+    97% 55%,
+    94% 63%,
+    90% 70%,
+    86% 76%,
+    81% 82%,
+    75% 87%,
+    68% 92%,
+    60% 96%,
+    53% 99%,
+    50% 100%,
+    47% 99%,
+    40% 97%,
+    32% 93%,
+    25% 89%,
+    19% 84%,
+    14% 78%,
+    9% 71%,
+    6% 64%,
+    3% 56%,
+    1% 47%
+  );
+}
+
+.mouth-camera video {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 100%;
+  height: 100%;
+  display: block;
+  object-fit: cover;
+  transform: translate(-50%, -50%) scaleX(-1) scale(6);
+  transform-origin: center center;
+}
+
+.camera-label {
+  position: absolute;
+  left: 18px;
+  top: 18px;
+  z-index: 10;
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  padding: 7px 12px;
+  border-radius: 20px;
+  background: rgba(0, 0, 0, 0.65);
+  color: white;
+  font-size: 13px;
+  font-weight: 500;
+}
+
+.camera-dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: #ff3b30;
+}
+
+.scan-instruction {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  margin-top: 18px;
+  color: #555555;
+  font-size: 14px;
+  text-align: center;
+}
+
+.tooth-circle {
+  width: 28px;
+  height: 28px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  background: #f1f1f1;
+  flex-shrink: 0;
+}
+
+.tooth-circle span {
+  font-size: 15px;
+}
+
+.name-input-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 7px;
+  margin: 18px 0 14px;
+}
+
+.name-input-container label {
+  font-size: 14px;
+  font-weight: 600;
+  color: #333333;
+}
+
+.name-input-container input {
+  width: min(300px, 80vw);
+  padding: 11px 14px;
+  border: 1px solid #cccccc;
+  border-radius: 9px;
+  outline: none;
+  font-size: 15px;
+  text-align: center;
+  box-sizing: border-box;
+}
+
+.name-input-container input:focus {
+  border-color: #777777;
+}
+
+.name-input-container input::placeholder {
+  color: #999999;
+}
+
+.capture-button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 9px;
+  margin-top: 8px;
+  padding: 12px 28px;
+  border: none;
+  border-radius: 10px;
+  background: #222222;
+  color: #ffffff;
+  font-size: 15px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: transform 0.15s ease, opacity 0.15s ease;
+}
+
+.capture-button:hover:not(:disabled) {
+  transform: translateY(-1px);
+}
+
+.capture-button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.capture-camera-icon {
+  font-size: 15px;
+}
+
+.scan-status {
+  margin-top: 12px;
+  max-width: 700px;
+  color: #666666;
+  font-size: 14px;
+  text-align: center;
+}
+
+/* =========================================================
+   NO TEETH ERROR
+   ========================================================= */
+
+.scan-error {
+  margin-top: 18px;
+  max-width: 800px;
+  color: #d60000;
+  font-size: 36px;
+  font-weight: 900;
+  text-align: center;
+  letter-spacing: 0.7px;
+}
+
+/* =========================================================
+   RESULTS PAGE
+   ========================================================= */
+
+.results-page {
+  min-height: 100vh;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background: #ffffff;
+  padding: 50px 20px 70px;
+  box-sizing: border-box;
+}
+
+.gauge-section {
+  width: 100%;
+  max-width: 600px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+
+.gauge-section h1 {
+  margin: 0 0 25px;
+  font-size: 36px;
+  font-weight: 800;
+  color: #222222;
+  text-align: center;
+}
+
+.gauge {
+  position: relative;
+  width: 480px;
+  max-width: 95vw;
+  margin: 0 auto;
+  display: block;
+}
+
+.gauge-svg {
+  width: 100%;
+  height: auto;
+  display: block;
+  overflow: visible;
+}
+
+.gauge-needle {
+  transition: transform 1s ease-out;
+}
+
+.gauge-score {
+  font-size: 32px;
+  font-weight: 800;
+  fill: #222222;
+}
+
+.gauge-out-of {
+  font-size: 13px;
+  font-weight: 700;
+  fill: #666666;
+}
+
+.gauge-label {
+  position: absolute;
+  font-size: 16px;
+  font-weight: 700;
+  color: #333333;
+}
+
+.leaderboard-section {
+  width: 100%;
+  max-width: 750px;
+  margin: 75px auto 0;
+  text-align: center;
+}
+
+.leaderboard-section h2 {
+  margin: 0 0 25px;
+  font-size: 36px;
+  font-weight: 800;
+  color: #222222;
+  text-align: center;
+}
+
+.leaderboard {
+  width: 100%;
+  border: 1px solid #e5e5e5;
+  border-radius: 16px;
+  overflow: hidden;
+  background: #ffffff;
+}
+
+.leaderboard-row {
+  display: grid;
+  grid-template-columns: 80px 1fr 100px;
+  align-items: center;
+  min-height: 68px;
+  padding: 0 25px;
+  border-bottom: 1px solid #eeeeee;
+  box-sizing: border-box;
+}
+
+.leaderboard-row:last-child {
+  border-bottom: none;
+}
+
+.leaderboard-row.current-player {
+  background: #f3f0ff;
+  font-weight: 800;
+}
+
+.leaderboard-rank {
+  text-align: center;
+  font-size: 19px;
+  font-weight: 800;
+  color: #555555;
+}
+
+.leaderboard-name {
+  text-align: center;
+  font-size: 19px;
+  font-weight: 700;
+  color: #222222;
+}
+
+.leaderboard-score {
+  text-align: center;
+  font-size: 21px;
+  font-weight: 800;
+  color: #222222;
+}
+
+.leaderboard-loading,
+.leaderboard-empty {
+  text-align: center;
+  color: #666666;
+  font-size: 17px;
+  font-weight: 600;
+}
+
+.scan-again-button {
+  margin-top: 30px;
+  padding: 13px 28px;
+  border: none;
+  border-radius: 10px;
+  background: #222222;
+  color: #ffffff;
+  font-size: 16px;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.scan-again-button:hover {
+  opacity: 0.9;
+}
+
+/* =========================================================
+   MOBILE
+   ========================================================= */
+
+@media (max-width: 600px) {
+
+  .scan-page {
+    padding-left: 12px;
+    padding-right: 12px;
+  }
+
+  .pallu-title {
+    font-size: 150px;
+    letter-spacing: 10px;
+    margin-bottom: 100px;
+  }
+
+  .scan-page h1 {
+    font-size: 150px;
+  }
+
+  .cat-camera {
+    width: 95vw;
+  }
+
+  .scan-error {
+    font-size: 30px;
+  }
+
+  .results-page {
+    padding: 35px 15px 50px;
+  }
+
+  .gauge-section h1 {
+    font-size: 30px;
+    margin-bottom: 20px;
+  }
+
+  .gauge {
+    width: 390px;
+    max-width: 95vw;
+  }
+
+  .leaderboard-section {
+    margin-top: 55px;
+  }
+
+  .leaderboard-section h2 {
+    font-size: 30px;
+  }
+
+  .leaderboard-row {
+    grid-template-columns: 55px 1fr 75px;
+    min-height: 60px;
+    padding: 0 12px;
+  }
+
+  .leaderboard-rank {
+    font-size: 16px;
+  }
+
+  .leaderboard-name {
+    font-size: 16px;
+  }
+
+  .leaderboard-score {
+    font-size: 18px;
+  }
+}
