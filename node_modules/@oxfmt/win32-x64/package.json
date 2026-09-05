@@ -1,0 +1,24 @@
+{
+  "name": "@oxfmt/win32-x64",
+  "version": "0.2.0",
+  "author": "Boshen and oxc contributors",
+  "license": "MIT",
+  "homepage": "https://oxc.rs",
+  "bugs": "https://github.com/oxc-project/oxc/issues",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/oxc-project/oxc",
+    "directory": "npm/oxfmt"
+  },
+  "os": [
+    "win32"
+  ],
+  "cpu": [
+    "x64"
+  ],
+  "publishConfig": {
+    "executableFiles": [
+      "oxfmt"
+    ]
+  }
+}
