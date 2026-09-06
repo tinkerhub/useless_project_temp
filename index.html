@@ -1,1 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Attorney General Tab-ney Wright</title>
+  <link rel="icon" type="image/gif" href="extension/assets/icons/Judge_Favicon.gif?v=4">
+  <link rel="icon" type="image/png" sizes="48x48" href="extension/assets/icons/Judge_Favicon_48.png?v=4">
+  <link rel="icon" type="image/png" sizes="32x32" href="extension/assets/icons/Judge_Favicon_32.png?v=4">
+  <link rel="icon" type="image/png" sizes="16x16" href="extension/assets/icons/Judge_Favicon_16.png?v=4">
+  <link rel="shortcut icon" href="extension/assets/icons/favicon.ico?v=4">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=VT323&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="extension/courtroom.css">
+  <style>
+    .launcher-card {
+      max-width: 700px;
+      margin: 40px auto;
+      background: rgba(14, 21, 32, 0.95);
+      border: 3px solid var(--gold-primary);
+      box-shadow: 0 0 40px rgba(0, 0, 0, 0.9), 0 0 20px rgba(240, 192, 64, 0.2);
+      padding: 24px;
+      text-align: center;
+      display: flex;
+      flex-direction: column;
+      gap: 18px;
+    }
+    .launcher-title {
+      font-size: 16px;
+      color: var(--gold-primary);
+      text-shadow: 0 0 10px rgba(240, 192, 64, 0.6);
+      line-height: 1.5;
+    }
+    .launcher-desc {
+      font-family: var(--font-terminal);
+      font-size: 20px;
+      color: #9ab0ce;
+      line-height: 1.4;
+    }
+    .test-scenario-list {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      margin-top: 10px;
+    }
+    .scenario-btn {
+      background: #151e2d;
+      border: 2px solid #28374d;
+      color: #e2eaf4;
+      font-family: var(--font-pixel);
+      font-size: 9px;
+      padding: 12px 16px;
+      text-align: left;
+      cursor: pointer;
+      text-decoration: none;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      transition: all 0.15s ease;
+    }
+    .scenario-btn:hover {
+      border-color: var(--gold-primary);
+      background: #202b3f;
+      color: var(--gold-primary);
+      transform: translateX(4px);
+    }
+    .scenario-tag {
+      font-family: var(--font-terminal);
+      font-size: 16px;
+      color: var(--phosphor-cyan);
+    }
+    .custom-box {
+      border-top: 1px dashed #28374d;
+      padding-top: 16px;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      text-align: left;
+    }
+    .custom-box input {
+      background: #090d14;
+      border: 1px solid #2a3a52;
+      color: #fff;
+      font-family: var(--font-terminal);
+      font-size: 18px;
+      padding: 8px;
+    }
+  </style>
+</head>
+<body style="display: flex; align-items: center; justify-content: center; min-height: 100vh;">
 
+  <div id="crt-overlay"></div>
+
+  <div class="launcher-card">
+    <div style="font-size: 32px;">⚖️</div>
+    <div class="launcher-title">⚖️ ATTORNEY GENERAL TAB-NEY WRIGHT</div>
+    <p class="launcher-desc">
+      Unauthorized Tab Murder interceptor courtroom. Select a test tab to stand trial or enter custom tab details.
+    </p>
+
+    <div class="test-scenario-list">
+      <a class="scenario-btn" href="extension/courtroom.html?title=50+Mechanical+Keyboard+Builds+I+Will+Never+Solder&url=https://reddit.com/r/MechanicalKeyboards">
+        <span>⌨️ Mechanical Keyboard Obsession</span>
+        <span class="scenario-tag">reddit.com</span>
+      </a>
+
+      <a class="scenario-btn" href="extension/courtroom.html?title=Abandoned+Shopping+Cart+($1,420+of+Camping+Gear)&url=https://store.example.com/checkout">
+        <span>🛒 Abandoned Cart ($1,420)</span>
+        <span class="scenario-tag">store.example.com</span>
+      </a>
+
+      <a class="scenario-btn" href="extension/courtroom.html?title=How+to+Center+a+Div+Without+Crying+(2016+Edition)&url=https://stackoverflow.com/questions/12345/center-div">
+        <span>💻 StackOverflow Div Centering</span>
+        <span class="scenario-tag">stackoverflow.com</span>
+      </a>
+
+      <a class="scenario-btn" href="extension/courtroom.html?title=List+of+Common+Cognitive+Biases+(Unread+for+3+Months)&url=https://en.wikipedia.org/wiki/List_of_cognitive_biases">
+        <span>🧠 Wikipedia Bias Rabbit Hole</span>
+        <span class="scenario-tag">wikipedia.org</span>
+      </a>
+    </div>
+
+    <form class="custom-box" onsubmit="event.preventDefault(); launchCustom();">
+      <label style="font-size: 8px; color: var(--gold-primary);">CUSTOM ACCUSED TAB:</label>
+      <input type="text" id="cust-title" placeholder="Tab Title (e.g. My Important Spreadsheet)" required value="Secret Plan to Start a Bakery">
+      <input type="text" id="cust-url" placeholder="Tab URL" required value="https://google.com/search?q=sourdough+starter">
+      <button type="submit" class="retro-btn" style="background: var(--gold-dark); color: #000; padding: 10px; font-size: 9px; margin-top: 6px;">
+        ⚡ ARRAIGN CUSTOM TAB
+      </button>
+    </form>
+  </div>
+
+  <script>
+    function launchCustom() {
+      const title = encodeURIComponent(document.getElementById('cust-title').value);
+      const url = encodeURIComponent(document.getElementById('cust-url').value);
+      window.location.href = `extension/courtroom.html?title=${title}&url=${url}`;
+    }
+  </script>
+</body>
+</html>

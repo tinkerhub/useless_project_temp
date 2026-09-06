@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Attorney General Tab-ney Wright</title>
+  <link rel="icon" type="image/gif" href="assets/icons/Judge_Favicon.gif?v=4">
+  <link rel="icon" type="image/png" sizes="48x48" href="assets/icons/Judge_Favicon_48.png?v=4">
+  <link rel="icon" type="image/png" sizes="32x32" href="assets/icons/Judge_Favicon_32.png?v=4">
+  <link rel="icon" type="image/png" sizes="16x16" href="assets/icons/Judge_Favicon_16.png?v=4">
+  <link rel="shortcut icon" href="assets/icons/favicon.ico?v=4">
+  <!-- Google Fonts fallback for high-res systems -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=VT323&display=swap" rel="stylesheet">
+  <!-- Retro Courtroom Styles -->
+  <link rel="stylesheet" href="courtroom.css">
+</head>
+<body>
+
+  <!-- CRT SCANLINES & BARREL VIGNETTE OVERLAY -->
+  <div id="crt-overlay"></div>
+
+  <!-- FULLSCREEN GAVEL STRIKE CUTSCENE OVERLAY -->
+  <div id="gavel-cutscene" class="gavel-cutscene-overlay" aria-hidden="true">
+    <div class="gavel-cutscene-inner">
+      <img id="gavel-cutscene-img" src="assets/sprites/Judge_Gavel.gif" alt="Judge Gavel Slam Cutscene" draggable="false">
+    </div>
+  </div>
+
+  <!-- MAIN COURTROOM CONTAINER -->
+  <main id="courtroom-container">
+
+    <!-- 1. TOP HUD: CASE DOSSIER & COURT BANNER -->
+    <header id="court-header">
+      <div class="hud-top-bar">
+        <div class="court-seal-title">
+          <span class="seal-icon">⚖️</span>
+          <span>ATTORNEY GENERAL TAB-NEY WRIGHT</span>
+        </div>
+        <div class="hud-status-tags">
+          <span class="status-badge" id="engine-status">OLLAMA AI JURY</span>
+          <span class="case-id-tag" id="case-id">CASE #TAB-8842</span>
+          <a class="discord-hud-btn" id="discord-hud-btn" href="https://discord.gg/DDC8hVVDh" target="_blank" rel="noopener noreferrer" title="View Live Trial Docket on Discord">💬 DISCORD DOCKET</a>
+          <button class="audio-toggle-btn" id="audio-btn" title="Toggle Courtroom Audio">🔊 SFX: ON</button>
+        </div>
+      </div>
+
+      <!-- ACCUSED TAB DOSSIER -->
+      <div class="dossier-card">
+        <div class="dossier-label">
+          <span>⚠️ CHARGE:</span>
+          <span>UNAUTHORIZED TAB MURDER</span>
+        </div>
+        <div class="dossier-target">
+          <div class="accused-title" id="accused-title">Loading Accused Tab...</div>
+          <div class="accused-url" id="accused-url">chrome://tabs/unknown</div>
+        </div>
+      </div>
+    </header>
+
+    <!-- 2. JUDGE BENCH & SPRITE STAGE -->
+    <section id="stage-area" aria-label="Judicial Bench">
+      <!-- Courtroom background backdrop -->
+      <div class="court-backdrop">
+        <div class="backdrop-pillars"></div>
+        <!-- Layered Courtroom Artwork -->
+        <img class="court-room-bg" src="assets/backgrounds/Court-Room.jpg" alt="Courtroom Chamber" draggable="false">
+      </div>
+
+      <!-- Judge Animated Sprite -->
+      <div class="judge-wrapper">
+        <img 
+          id="judge-sprite" 
+          src="assets/sprites/Judge_Normal_Idle.gif" 
+          alt="Honorable Tab Magistrate" 
+          draggable="false"
+        >
+      </div>
+
+      <!-- Wood-Paneled Court Bench Podium -->
+      <div class="judge-bench">
+        <div class="bench-trim"></div>
+        <div class="bench-nameplate">ATTORNEY GENERAL TAB-NEY WRIGHT</div>
+      </div>
+    </section>
+
+    <!-- RESURRECTED PINNED ALERT BANNER (Revealed on GUILTY) -->
+    <div id="resurrect-alert">
+      📌 SANCTION ENFORCED: TAB RESURRECTED & PINNED! 30-MINUTE DETENTION ACTIVE!
+    </div>
+
+    <!-- OFFICIAL COURT ORDER PDF DOWNLOAD (Revealed on Verdict) -->
+    <div id="pdf-container">
+      <a id="pdf-download-btn" class="retro-btn pdf-order-btn" download="court_order.pdf" href="#">
+        DOWNLOAD OFFICIAL COURT ORDER WARRANT (PDF)
+      </a>
+      <a id="discord-verdict-btn" class="retro-btn discord-verdict-btn" target="_blank" rel="noopener noreferrer" href="https://discord.gg/DDC8hVVDh">
+        VIEW VERDICT ON DISCORD
+      </a>
+    </div>
+
+    <!-- 15-SECOND ADJOURN COUNTDOWN BANNER -->
+    <div id="adjourn-banner" class="adjourn-banner">
+      <span class="adjourn-icon">⏳</span>
+      <span id="adjourn-text">COURT ADJOURNS IN 15 SECONDS...</span>
+    </div>
+
+    <!-- DELIBERATION LOADING BANNER (Revealed on DELIBERATING) -->
+    <div id="deliberation-banner">
+      <div class="deliberation-text">⚡ CONSULTING LOCAL GPU JURY VIA OLLAMA...</div>
+      <div class="retro-progress-bar">
+        <div class="retro-progress-fill"></div>
+      </div>
+    </div>
+
+    <!-- AUDIO UNLOCK BANNER (Shows if browser blocks autoplay until user interaction) -->
+    <div id="audio-unlock-prompt" class="audio-unlock-banner" title="Click anywhere to enable 16-bit court audio">
+      🔊 CLICK ANYWHERE TO UNMUTE COURT AUDIO
+    </div>
+
+    <!-- 3. PHOENIX WRIGHT STYLE DIALOGUE BOX -->
+    <section id="dialogue-container" aria-label="Courtroom Dialogue" title="Click to skip dialogue">
+      <div class="speaker-badge" id="dialogue-speaker">ATTY. GEN. TAB-NEY WRIGHT</div>
+      <div id="dialogue-text"><span id="dialogue-content">Court is now in session! Defendant, you stand accused of UNAUTHORIZED TAB MURDER.</span><span class="typing-cursor"></span></div>
+      <div class="prompt-indicator" id="prompt-indicator" title="Awaiting Testimony">▼</div>
+    </section>
+
+    <!-- 4. DEFENDANT TESTIMONY DOCK -->
+    <footer id="testimony-dock">
+      <div class="dock-header">
+        <span class="dock-title">DEFENDANT TESTIMONY DOCK</span>
+        <div class="dock-header-right">
+          <div id="recording-status">
+            <span class="rec-dot">🔴</span>
+            <span>RECORDING TESTIMONY... [SPEAK NOW]</span>
+          </div>
+          <span id="char-counter" class="char-counter">0/280</span>
+        </div>
+      </div>
+
+      <div id="mic-notice" class="mic-notice" role="alert"></div>
+
+      <div class="input-row">
+        <div class="plea-input-container">
+          <textarea 
+            id="plea-input" 
+            placeholder="Plead for this tab's life... (e.g. 'Your Honor, I swear I was going to read it tonight!')"
+            rows="2"
+            maxlength="280"
+          ></textarea>
+        </div>
+
+        <div class="action-btn-group">
+          <button type="button" id="mic-btn" class="retro-btn">
+            <span id="mic-icon">🎙️</span>
+            <span id="mic-btn-text">VOICE PLEA</span>
+          </button>
+          <button type="button" id="submit-btn" class="retro-btn">
+            <span>SUBMIT PLEA</span>
+          </button>
+
+          <!-- Dramatic Verdict Stamp (Covers the Voice and Submit Plea buttons, leaving Magistrate visible) -->
+          <div id="verdict-stamp-container">
+            <div id="verdict-stamp" class="verdict-stamp">GUILTY</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- QUICK PRESET PLEAS -->
+      <div class="preset-pleas-row">
+        <span class="preset-chip-label">QUICK EXCUSES:</span>
+        <button type="button" class="preset-chip" data-plea="I was totally going to read this article tonight before bed!">"Read it tonight!"</button>
+        <button type="button" class="preset-chip" data-plea="This tab has been consuming 1.8GB of RAM for 3 weeks straight!">"Eating all my RAM!"</button>
+        <button type="button" class="preset-chip" data-plea="My cat walked on Ctrl+W, it was a complete accident!">"Cat stepped on keyboard!"</button>
+        <button type="button" class="preset-chip" data-plea="I found a cheaper flight on another tab, this tab is obsolete!">"Found a cheaper deal!"</button>
+      </div>
+    </footer>
+
+  </main>
+
+  <!-- Courtroom Engine Script -->
+  <script src="courtroom.js"></script>
+</body>
+</html>

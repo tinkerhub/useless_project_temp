@@ -1,0 +1,39 @@
+{
+  "manifest_version": 3,
+  "name": "Attorney General Tab-ney Wright",
+  "version": "1.0",
+  "description": "Puts closed tabs on trial before Attorney General Tab-ney Wright.",
+  "action": {
+    "default_icon": {
+      "16": "assets/icons/Judge_Favicon_16.png",
+      "32": "assets/icons/Judge_Favicon_32.png",
+      "48": "assets/icons/Judge_Favicon_48.png",
+      "128": "assets/icons/Judge_Favicon_128.png"
+    }
+  },
+  "icons": {
+    "16": "assets/icons/Judge_Favicon_16.png",
+    "32": "assets/icons/Judge_Favicon_32.png",
+    "48": "assets/icons/Judge_Favicon_48.png",
+    "128": "assets/icons/Judge_Favicon_128.png"
+  },
+  "permissions": [
+    "tabs",
+    "storage",
+    "alarms"
+  ],
+  "background": {
+    "service_worker": "background.js"
+  },
+  "web_accessible_resources": [
+    {
+      "resources": [
+        "courtroom.html",
+        "courtroom.css",
+        "courtroom.js",
+        "assets/*"
+      ],
+      "matches": ["<all_urls>"]
+    }
+  ]
+}
