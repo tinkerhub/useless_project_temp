@@ -1,0 +1,17 @@
+fileFormatVersion: 2
+guid: bec9fcb81cb735c468340b9005e94ab2
+ScriptedImporter:
+  internalIDToNameTable: []
+  externalObjects: {}
+  serializedVersion: 2
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+  script: {fileID: 11500000, guid: 625f186215c104763be7675aa2d941aa, type: 3}
+AssetOrigin:
+  serializedVersion: 1
+  productId: 403066
+  packageName: "Realistic Ruins - Free Sample \uFF08archway_pillar\uFF09"
+  packageVersion: 1.0.0
+  assetPath: Assets/Symphonie/Ruins/Shader/Ruins_URP.shadergraph
+  uploadId: 982956

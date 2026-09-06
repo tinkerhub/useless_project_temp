@@ -1,0 +1,65 @@
+# Unity-generated directories
+[Ll]ibrary/
+[Tt]emp/
+[Oo]bj/
+[Bb]uild/
+[Bb]uilds/
+[Ll]ogs/
+[Uu]ser[Ss]ettings/
+[Mm]emoryCaptures/
+[Rr]ecordings/
+
+# Unity-generated files
+*.csproj
+*.sln
+*.suo
+*.tmp
+*.user
+*.userprefs
+*.pidb
+*.booproj
+*.svd
+*.pdb
+*.mdb
+*.opendb
+*.VC.db
+*.pidb.meta
+*.pdb.meta
+*.mdb.meta
+sysinfo.txt
+[Uu]pgrade[Ll]og*.htm
+[Uu]pgrade[Ll]og*.txt
+[Uu]pgrade[Ll]og*.xml
+
+# Unity crash reports and packaged builds
+crashlytics-build.properties
+*.apk
+*.aab
+*.unitypackage
+
+# JetBrains Rider / IntelliJ
+.idea/
+*.sln.iml
+
+# Visual Studio / VS Code
+.vs/
+.vscode/
+
+# Arduino build and local tooling output
+arduino/**/build/
+arduino/**/.pio/
+arduino/**/*.elf
+arduino/**/*.hex
+arduino/**/*.bin
+arduino/**/*.map
+
+# Operating-system files
+.DS_Store
+Thumbs.db
+Desktop.ini
+
+# Local environment files and logs
+.env
+.env.*
+!.env.example
+*.log
