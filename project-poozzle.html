@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Poo-zzle — chummaDO</title>
+<link rel="stylesheet" href="style.css">
+<link rel="stylesheet" href="game-landing.css">
+<link rel="stylesheet" href="poozzle.css">
+</head>
+<body>
+
+<div class="pz-wrap">
+
+  <div class="topbar pz-topbar">
+    <a href="index.html" style="font-family:'Chillax',sans-serif;font-size:1.4rem;color:var(--red);-webkit-text-stroke:1px var(--ink);">chummaDO</a>
+    <button class="hamburger-btn" id="navToggle" aria-label="Open menu">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+
+  <!-- ================= LANDING GATE ================= -->
+  <section class="gl-landing" id="pzLanding">
+
+    <div class="gl-copy">
+      <h1 class="gl-title gl-font" id="pzTitleType"></h1>
+      <p class="gl-rules gl-font" id="pzRulesType"></p>
+      <button class="gl-start-btn gl-font" id="pzStartBtn">START CAMERA</button>
+    </div>
+
+    <div class="pz-error" id="pzError"></div>
+
+    <div class="gl-stickman-lane" aria-hidden="true">
+      <svg class="gl-stickman" viewBox="0 0 40 50" xmlns="http://www.w3.org/2000/svg">
+        <circle class="sm-head" cx="20" cy="8" r="6" fill="none" stroke="#000" stroke-width="3"/>
+        <line class="sm-body" x1="20" y1="14" x2="20" y2="32" stroke="#000" stroke-width="3" stroke-linecap="round"/>
+        <line class="sm-arm-l" x1="20" y1="18" x2="11" y2="27" stroke="#000" stroke-width="3" stroke-linecap="round"/>
+        <line class="sm-arm-r" x1="20" y1="18" x2="29" y2="27" stroke="#000" stroke-width="3" stroke-linecap="round"/>
+        <line class="sm-leg-l" x1="20" y1="32" x2="11" y2="46" stroke="#000" stroke-width="3" stroke-linecap="round"/>
+        <line class="sm-leg-r" x1="20" y1="32" x2="29" y2="46" stroke="#000" stroke-width="3" stroke-linecap="round"/>
+      </svg>
+    </div>
+
+  </section>
+
+  <!-- ================= CAMERA STAGE ================= -->
+  <section class="pz-stage" id="pzStage">
+    <div class="pz-frame" id="pzFrame">
+      <video id="pzVideo" autoplay playsinline muted></video>
+      <canvas class="pz-flower-canvas" id="pzFlowerCanvas"></canvas>
+
+      <div class="pz-loading-badge" id="pzModelBadge">LOADING HAND TRACKING…</div>
+      <div class="pz-mode-banner" id="pzModeBanner"></div>
+
+      <button class="pz-cta right" id="pzFlowerBtn" title="Draw flowers with your hand">
+        <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+          <g stroke="#000000" stroke-width="6" stroke-linejoin="round">
+            <path d="M50 50 L50 18 A14 14 0 1 1 64 32 Z" fill="#FFE566"/>
+            <path d="M50 50 L82 50 A14 14 0 1 1 68 64 Z" fill="#FFE566"/>
+            <path d="M50 50 L50 82 A14 14 0 1 1 36 68 Z" fill="#FFE566"/>
+            <path d="M50 50 L18 50 A14 14 0 1 1 32 36 Z" fill="#FFE566"/>
+            <circle cx="50" cy="50" r="11" fill="#B3B347"/>
+          </g>
+        </svg>
+      </button>
+      <span class="pz-cta-label right">FLOWERS</span>
+
+      <button class="pz-cta left" id="pzPuzzleBtn" title="Frame a square with both hands, pinch to capture, then swipe to solve">
+        <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+          <g stroke="#000000" stroke-width="6" stroke-linejoin="round">
+            <path d="M20 20 H50 V44 A10 10 0 0 0 50 56 V80 H20 Z" fill="#FFE566"/>
+            <path d="M50 20 H80 V50 A10 10 0 0 1 62 50 V80 H50 V56 A10 10 0 0 1 50 44 Z" fill="#B3B347"/>
+          </g>
+        </svg>
+      </button>
+      <span class="pz-cta-label left">PUZZLE</span>
+
+      <div class="pz-guide" id="pzGuide"></div>
+      <div class="pz-live-square" id="pzLiveSquare"></div>
+      <button class="pz-shutter" id="pzShutterBtn">📸 CAPTURE SQUARE</button>
+
+      <div class="pz-puzzle" id="pzPuzzle">
+        <div class="pz-puzzle-hud">
+          <span class="pz-pill" id="pzRetakeBtn">↺ NEW PHOTO</span>
+          <span class="pz-pill" id="pzExitBtn">✕ EXIT</span>
+        </div>
+        <div class="pz-win" id="pzWin">
+          <h2>SOLVED IT! 🌸</h2>
+          <button id="pzWinRetry">SHUFFLE AGAIN</button>
+          <button id="pzWinNew">NEW PHOTO</button>
+        </div>
+      </div>
+
+      <div class="pz-cursor" id="pzCursor"></div>
+      <div class="pz-cursor pz-cursor2" id="pzCursor2"></div>
+      <div class="pz-toast" id="pzToast"></div>
+    </div>
+
+    <div class="pz-controls-row">
+      <a href="projects.html">← Back to all projects</a>
+    </div>
+  </section>
+
+</div>
+
+<footer>
+  <div class="foot-logo">chummaDO</div>
+  <div class="foot-tag">വെറുതെ ഇരിക്കല്ലേ, ചുമ്മാ ഡു ചെയ്യ്</div>
+  <ul class="foot-links">
+    <li><a href="index.html">Home</a></li>
+    <li><a href="projects.html">Projects</a></li>
+  </ul>
+  <div class="copyright">© 2026 CHUMMADO. MADE OUT OF PURE BOREDOM.</div>
+</footer>
+
+<div class="site-menu-backdrop" id="siteMenuBackdrop"></div>
+<nav class="site-menu" id="siteMenu">
+  <button class="menu-close-btn" id="navCloseBtn">✕</button>
+  <a href="index.html">🏠 Home</a>
+  <div class="menu-title">GAMES</div>
+  <a href="project-poozzle.html">🌸 Poo-zzle</a>
+  <a href="project-chummalist.html">📝 Chumma List</a>
+  <a href="project-fivestars.html">⭐ 5 Star Game</a>
+  <a href="project-cheetahcrawl.html">🐆 Cheetah Crawl</a>
+  <div class="menu-title">MORE</div>
+  <a href="projects.html">🕹️ All Games</a>
+</nav>
+<script src="nav.js"></script>
+<script src="game-landing.js"></script>
+<script type="module" src="poozzle.js"></script>
+</body>
+</html>

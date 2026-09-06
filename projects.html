@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>chummaDO — Projects</title>
+<link rel="stylesheet" href="style.css">
+<link rel="stylesheet" href="hack.css">
+<link rel="stylesheet" href="projects.css">
+</head>
+<body>
+
+<div class="pj-page">
+
+  <div class="pj-header">
+    <div class="pj-navrow">
+      <a href="index.html" class="pj-brand">chummaDO</a>
+      <button class="hamburger-btn" id="navToggle" aria-label="Open menu">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </div>
+
+  <button class="pj-marquee" id="hackCtaBtn" aria-label="if you are reallllllyyyyy boredddd click this">
+    <div class="pj-marquee-track">
+      <div class="pj-marquee-group">
+        <span>if you are reallllllyyyyy boredddd click this</span>
+        <span>if you are reallllllyyyyy boredddd click this</span>
+        <span>if you are reallllllyyyyy boredddd click this</span>
+        <span>if you are reallllllyyyyy boredddd click this</span>
+      </div>
+      <div class="pj-marquee-group" aria-hidden="true">
+        <span>if you are reallllllyyyyy boredddd click this</span>
+        <span>if you are reallllllyyyyy boredddd click this</span>
+        <span>if you are reallllllyyyyy boredddd click this</span>
+        <span>if you are reallllllyyyyy boredddd click this</span>
+      </div>
+    </div>
+  </button>
+
+  <div class="pj-grid">
+
+    <a class="pj-tile" href="project-poozzle.html">
+      <img src="img-poozzle.png" alt="Poo-zzle">
+      <span class="pj-title pj-title-yellow">Poo-zzle</span>
+    </a>
+
+    <a class="pj-tile" href="project-chummalist.html">
+      <img src="img-chummalist.png" alt="Chumma List">
+      <span class="pj-title pj-title-white">Chumma List</span>
+    </a>
+
+    <a class="pj-tile pj-tile-contain" href="project-fivestars.html">
+      <img src="img-fivestars.png" alt="5 Star Game">
+    </a>
+
+    <a class="pj-tile" href="project-cheetahcrawl.html">
+      <img src="img-cheetahcrawl.png" alt="Cheetah Crawl">
+      <span class="pj-title pj-title-white">Cheetah Crawl</span>
+    </a>
+
+    <button type="button" class="pj-tile pj-blank" data-comingsoon><span>coming soon</span></button>
+    <button type="button" class="pj-tile pj-blank" data-comingsoon><span>coming soon</span></button>
+
+  </div>
+
+</div>
+
+<footer>
+  <div class="foot-logo">chummaDO</div>
+  <div class="foot-tag">വെറുതെ ഇരിക്കല്ലേ, ചുമ്മാ ഡു ചെയ്യ്</div>
+  <ul class="foot-links">
+    <li><a href="index.html">Home</a></li>
+    <li><a href="projects.html">Projects</a></li>
+  </ul>
+  <div class="copyright">© 2026 CHUMMADO. MADE OUT OF PURE BOREDOM.</div>
+</footer>
+
+<div class="site-menu-backdrop" id="siteMenuBackdrop"></div>
+<nav class="site-menu" id="siteMenu">
+  <button class="menu-close-btn" id="navCloseBtn">✕</button>
+  <a href="index.html">🏠 Home</a>
+  <div class="menu-title">GAMES</div>
+  <a href="project-poozzle.html">🌸 Poo-zzle</a>
+  <a href="project-chummalist.html">📝 Chumma List</a>
+  <a href="project-fivestars.html">⭐ 5 Star Game</a>
+  <a href="project-cheetahcrawl.html">🐆 Cheetah Crawl</a>
+  <div class="menu-title">MORE</div>
+  <a href="projects.html">🕹️ All Games</a>
+</nav>
+<script src="nav.js"></script>
+
+<!-- ================= "COMING SOON" IS A LIE ================= -->
+<div class="cs-backdrop" id="csBackdrop" role="dialog" aria-modal="true" aria-labelledby="csTitle">
+  <div class="cs-card">
+    <button class="cs-close" id="csClose" aria-label="Close">✕</button>
+    <div class="cs-emoji" id="csEmoji">🤡</div>
+    <h2 class="cs-title" id="csTitle">"COMING SOON"</h2>
+    <p class="cs-body" id="csBody"></p>
+    <button class="cs-ok" id="csOk">fine, I'll stay bored</button>
+  </div>
+</div>
+<script src="comingsoon.js"></script>
+
+<!-- ================= FAKE HACK TAKEOVER ================= -->
+<div class="hack-overlay" id="hackOverlay">
+  <canvas class="hack-canvas" id="hackCanvas"></canvas>
+  <div class="hack-scanlines"></div>
+  <div class="hack-vignette"></div>
+  <button class="hack-cancel" id="hackCancelBtn">[ESC] disconnect</button>
+  <div class="hack-log" id="hackLog"></div>
+  <div class="hack-endscreen" id="hackEndScreen">
+    <div class="hack-granted">ACCESS GRANTED</div>
+    <button class="hack-enter-btn" id="hackEnterBtn">ENTER</button>
+  </div>
+</div>
+<script src="hack.js"></script>
+
+</body>
+</html>

@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Cheetah Crawl — chummaDO</title>
+<link rel="stylesheet" href="style.css">
+<link rel="stylesheet" href="game-landing.css">
+<link rel="stylesheet" href="cheetahcrawl.css">
+</head>
+<body>
+
+<div class="cc-wrap">
+
+  <div class="topbar">
+    <a href="index.html" style="font-family:'Chillax',sans-serif;font-size:1.4rem;color:var(--red);-webkit-text-stroke:1px var(--ink);">chummaDO</a>
+    <button class="hamburger-btn" id="navToggle" aria-label="Open menu">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+
+  <section class="cc-stage">
+
+    <!-- ================= IDLE ================= -->
+    <div class="cc-panel gl-landing show" id="ccIdle">
+      <div class="gl-copy">
+        <h1 class="gl-title gl-font" id="ccTitleType"></h1>
+        <p class="gl-rules gl-font" id="ccRulesType"></p>
+        <button class="gl-start-btn gl-font" id="ccStartBtn">START RACE</button>
+      </div>
+
+      <div class="gl-stickman-lane gl-lane--tarzan" aria-hidden="true">
+        <div class="gl-swing">
+          <div class="gl-rope"></div>
+          <svg class="gl-stickman gl-stickman--tarzan" viewBox="0 0 40 50" xmlns="http://www.w3.org/2000/svg">
+            <circle class="sm-head" cx="20" cy="8" r="6" fill="none" stroke="#000" stroke-width="3"/>
+            <line class="sm-body" x1="20" y1="14" x2="20" y2="32" stroke="#000" stroke-width="3" stroke-linecap="round"/>
+            <line class="sm-arm-l" x1="20" y1="18" x2="11" y2="27" stroke="#000" stroke-width="3" stroke-linecap="round"/>
+            <line class="sm-arm-r" x1="20" y1="18" x2="29" y2="27" stroke="#000" stroke-width="3" stroke-linecap="round"/>
+            <line class="sm-leg-l" x1="20" y1="32" x2="11" y2="46" stroke="#000" stroke-width="3" stroke-linecap="round"/>
+            <line class="sm-leg-r" x1="20" y1="32" x2="29" y2="46" stroke="#000" stroke-width="3" stroke-linecap="round"/>
+          </svg>
+        </div>
+      </div>
+    </div>
+
+    <!-- ================= RACE ================= -->
+    <div class="cc-panel" id="ccRace">
+      <div class="cc-countdown" id="ccCountdown" style="display:none;">3</div>
+
+      <div class="cr-arena" id="crArena" style="display:none;">
+
+        <div class="cr-lane">
+          <span class="cc-lane-label">YOU</span>
+          <div class="cr-sky">
+            <div class="cr-sun"></div>
+            <div class="cr-hill cr-hill-left"></div>
+            <div class="cr-hill cr-hill-right"></div>
+          </div>
+          <div class="cr-road" id="crRoadCheetah">
+            <div class="cr-road-surface"></div>
+            <div class="cr-finish" id="crFinishCheetah"><span>🏁</span></div>
+          </div>
+          <div class="cr-dust" id="crDust"></div>
+          <div class="cr-racer" id="ccCheetah">🐆</div>
+          <div class="cr-shadow"></div>
+        </div>
+
+        <div class="cr-lane">
+          <span class="cc-lane-label">COMPUTER</span>
+          <div class="cr-sky">
+            <div class="cr-sun"></div>
+            <div class="cr-hill cr-hill-left"></div>
+            <div class="cr-hill cr-hill-right"></div>
+          </div>
+          <div class="cr-road" id="crRoadTurtle">
+            <div class="cr-road-surface"></div>
+            <div class="cr-finish" id="crFinishTurtle"><span>🏁</span></div>
+          </div>
+          <div class="cr-racer cr-turtle" id="ccTurtle">🐢</div>
+          <div class="cr-shadow"></div>
+        </div>
+
+      </div>
+
+      <button class="cc-run-btn" id="ccRunBtn" style="display:none;">TAP TO RUN!</button>
+      <p class="cc-hint" id="ccHint" style="display:none;">mash it as fast as you want. it will not help.</p>
+    </div>
+
+    <!-- ================= RESULT ================= -->
+    <div class="cc-result" id="ccResult">
+      <h2>COMPUTER WINS.</h2>
+      <p id="ccResultText">The turtle crosses the line. You, a cheetah, are still near the start.</p>
+      <div class="cc-stat" id="ccResultStat">You reached 0% of the track.</div>
+      <button class="cc-again-btn" id="ccAgainBtn">RACE AGAIN (YOU'LL LOSE AGAIN)</button>
+    </div>
+
+    <div class="cc-controls-row" style="margin-top:24px;">
+      <a href="projects.html" style="font-weight:700;font-size:.85rem;background:var(--white);border:2px solid var(--ink);padding:10px 20px;border-radius:999px;box-shadow:3px 3px 0 var(--ink);">← Back to all projects</a>
+    </div>
+
+  </section>
+
+</div>
+
+<footer>
+  <div class="foot-logo">chummaDO</div>
+  <div class="foot-tag">വെറുതെ ഇരിക്കല്ലേ, ചുമ്മാ ഡു ചെയ്യ്</div>
+  <ul class="foot-links">
+    <li><a href="index.html">Home</a></li>
+    <li><a href="projects.html">Projects</a></li>
+  </ul>
+  <div class="copyright">© 2026 CHUMMADO. MADE OUT OF PURE BOREDOM.</div>
+</footer>
+
+<div class="site-menu-backdrop" id="siteMenuBackdrop"></div>
+<nav class="site-menu" id="siteMenu">
+  <button class="menu-close-btn" id="navCloseBtn">✕</button>
+  <a href="index.html">🏠 Home</a>
+  <div class="menu-title">GAMES</div>
+  <a href="project-poozzle.html">🌸 Poo-zzle</a>
+  <a href="project-chummalist.html">📝 Chumma List</a>
+  <a href="project-fivestars.html">⭐ 5 Star Game</a>
+  <a href="project-cheetahcrawl.html">🐆 Cheetah Crawl</a>
+  <div class="menu-title">MORE</div>
+  <a href="projects.html">🕹️ All Games</a>
+</nav>
+<script src="nav.js"></script>
+<script src="game-landing.js"></script>
+<script src="cheetahcrawl.js"></script>
+</body>
+</html>

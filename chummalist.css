@@ -1,0 +1,220 @@
+/* Chumma List — a notebook page pretending to be a to-do app */
+
+
+.cl-wrap{
+  min-height:100vh;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+}
+
+.cl-stage{
+  flex:1;
+  width:100%;
+  display:flex;
+  justify-content:center;
+  padding:20px 4vw 80px;
+}
+
+/* ---------- the notebook page ---------- */
+.cl-page{
+  position:relative;
+  width:100%;
+  max-width:680px;
+  background:
+    linear-gradient(90deg, transparent 0 54px, rgba(179,179,71,.35) 54px, rgba(179,179,71,.35) 57px, transparent 57px),
+    repeating-linear-gradient(
+      to bottom,
+      #fffdf8 0,
+      #fffdf8 38px,
+      #cfe3f5 39px,
+      #fffdf8 40px
+    );
+  border:1px solid rgba(0,0,0,.12);
+  border-radius:4px 18px 18px 4px;
+  box-shadow:9px 9px 0 var(--ink);
+  padding:34px 32px 40px 74px;
+}
+
+/* spiral binding along the left edge */
+.cl-page::before{
+  content:"";
+  position:absolute;
+  top:0;
+  bottom:0;
+  left:22px;
+  width:2px;
+  background-image:radial-gradient(circle, var(--ink) 3.5px, transparent 3.6px);
+  background-size:100% 34px;
+  background-repeat:repeat-y;
+  background-position:0 20px;
+}
+
+.cl-title{
+  font-family:'Chillax',sans-serif;
+  font-weight:700;
+  font-size:clamp(2.2rem,7vw,3.2rem);
+  color:var(--ink);
+  transform:rotate(-1.5deg);
+  margin:0 0 6px;
+}
+
+.cl-sub{
+  font-family:'Chillax',sans-serif;
+  font-size:1.05rem;
+  color:var(--ink);
+  opacity:.65;
+  margin:0 0 22px;
+}
+
+/* ---------- input row ---------- */
+.cl-input-row{
+  display:flex;
+  gap:10px;
+  margin-bottom:18px;
+}
+.cl-input{
+  flex:1;
+  font-family:'Chillax',sans-serif;
+  font-size:1.25rem;
+  color:var(--ink);
+  background:transparent;
+  border:none;
+  border-bottom:2px dashed rgba(0,0,0,.35);
+  padding:6px 4px;
+  outline:none;
+}
+.cl-input::placeholder{color:rgba(0,0,0,.4);}
+.cl-add-btn{
+  font-family:'Chillax',sans-serif;
+  font-weight:700;
+  font-size:1.1rem;
+  color:var(--ink);
+  background:var(--red);
+  border:2px solid var(--ink);
+  border-radius:12px;
+  padding:8px 20px;
+  cursor:pointer;
+  box-shadow:3px 3px 0 var(--ink);
+}
+.cl-add-btn:hover{transform:translate(-2px,-2px);}
+
+/* ---------- the list itself ---------- */
+.cl-list{
+  list-style:none;
+  margin:0 0 24px;
+  padding:0;
+  display:flex;
+  flex-direction:column;
+  gap:2px;
+}
+.cl-item{
+  display:flex;
+  align-items:center;
+  gap:12px;
+  font-family:'Chillax',sans-serif;
+  font-size:1.25rem;
+  color:var(--ink);
+  padding:6px 2px;
+  min-height:40px;
+}
+.cl-checkbox{
+  flex:0 0 auto;
+  width:24px;height:24px;
+  border:2.5px solid var(--ink);
+  border-radius:6px;
+  cursor:pointer;
+  position:relative;
+  background:transparent;
+  transform:rotate(-3deg);
+}
+.cl-checkbox.checked::after{
+  content:"✓";
+  position:absolute;
+  inset:0;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-size:1.1rem;
+  color:var(--ink);
+  font-weight:700;
+}
+.cl-item-text{
+  flex:1;
+  word-break:break-word;
+}
+.cl-item.checked .cl-item-text{
+  opacity:.5;
+  text-decoration:line-through;
+  text-decoration-color:var(--ink);
+  text-decoration-thickness:2px;
+}
+.cl-remove-btn{
+  flex:0 0 auto;
+  background:none;
+  border:none;
+  font-family:'Chillax',sans-serif;
+  font-size:1.1rem;
+  color:rgba(0,0,0,.4);
+  cursor:pointer;
+  padding:2px 6px;
+}
+.cl-remove-btn:hover{color:var(--ink);}
+
+.cl-empty{
+  font-family:'Chillax',sans-serif;
+  font-size:1.1rem;
+  color:rgba(0,0,0,.4);
+  font-style:italic;
+  padding:8px 2px 20px;
+}
+
+/* ---------- schedule button + output ---------- */
+.cl-schedule-btn{
+  display:block;
+  width:100%;
+  font-family:'Chillax',sans-serif;
+  font-size:1.1rem;
+  letter-spacing:1px;
+  color:var(--ink);
+  background:var(--dark-pink);
+  border:3px solid var(--ink);
+  padding:16px;
+  border-radius:14px;
+  box-shadow:5px 5px 0 var(--ink);
+  cursor:pointer;
+  margin-top:6px;
+}
+.cl-schedule-btn:hover{transform:translate(-2px,-2px);}
+.cl-schedule-btn:disabled{opacity:.7;cursor:wait;transform:none;}
+
+.cl-schedule-out{
+  margin-top:26px;
+  padding-top:18px;
+  border-top:2px dashed rgba(0,0,0,.25);
+  display:none;
+}
+.cl-schedule-out.show{display:block;}
+.cl-schedule-out h3{
+  font-family:'Chillax',sans-serif;
+  font-weight:700;
+  font-size:1.4rem;
+  color:var(--ink);
+  transform:rotate(-1deg);
+  margin:0 0 10px;
+}
+.cl-schedule-line{
+  font-family:'Chillax',sans-serif;
+  font-size:1.15rem;
+  color:var(--ink);
+  line-height:1.9;
+  padding-left:6px;
+}
+.cl-schedule-line b{color:var(--ink);}
+
+.cl-note{
+  margin-top:16px;
+  font-size:.78rem;
+  color:rgba(0,0,0,.5);
+  font-family:'Chillax',sans-serif;
+}

@@ -1,0 +1,305 @@
+/* Cheetah Crawl — you're the fastest animal alive. you still lose. */
+
+.cc-wrap{
+  min-height:100vh;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+}
+
+.cc-stage{
+  flex:1;
+  width:100%;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+  text-align:center;
+  padding:40px 5vw 80px;
+}
+
+/* ---------- idle ---------- */
+.cc-panel{
+  display:none;
+  flex-direction:column;
+  align-items:center;
+  width:100%;
+  max-width:720px;
+}
+.cc-panel.show{display:flex;}
+
+/* ---------- race ---------- */
+.cc-countdown{
+  font-family:'Chillax',sans-serif;
+  font-size:5rem;
+  color:var(--ink);
+  margin-bottom:10px;
+}
+
+/* ---------- road-view arena ---------- */
+.cr-arena{
+  display:flex;
+  gap:16px;
+  width:100%;
+  max-width:640px;
+  height:min(62vh, 520px);
+  min-height:340px;
+}
+
+.cr-lane{
+  position:relative;
+  flex:1;
+  border:4px solid var(--ink);
+  border-radius:18px;
+  box-shadow:7px 7px 0 var(--ink);
+  overflow:hidden;
+  background:var(--ink);
+  perspective:340px;
+  perspective-origin:50% 26%;
+}
+
+/* sky + horizon, sitting behind the tilted road plane */
+.cr-sky{
+  position:absolute;
+  top:0; left:0; right:0;
+  height:40%;
+  background:linear-gradient(to bottom, #fffdf0, var(--cream));
+  z-index:0;
+  overflow:hidden;
+}
+.cr-hill{
+  position:absolute;
+  bottom:-16px;
+  width:75%;
+  height:56px;
+  border-radius:50% 50% 0 0;
+  background:var(--dark-pink);
+  opacity:.6;
+}
+.cr-hill.cr-hill-left{ left:-20%; }
+.cr-hill.cr-hill-right{
+  right:-25%;
+  width:55%;
+  height:38px;
+  background:var(--pink);
+  opacity:.65;
+}
+.cr-sun{
+  position:absolute;
+  top:10px;
+  right:16px;
+  width:26px;height:26px;
+  border-radius:50%;
+  background:var(--red);
+  border:2px solid var(--ink);
+  opacity:.85;
+}
+
+.cc-lane-label{
+  position:absolute;
+  left:50%;
+  top:10px;
+  transform:translateX(-50%);
+  font-family:'Chillax',sans-serif;
+  font-size:.65rem;
+  letter-spacing:.5px;
+  background:var(--white);
+  color:var(--ink);
+  padding:4px 12px;
+  border-radius:999px;
+  z-index:4;
+  border:2px solid var(--ink);
+  white-space:nowrap;
+}
+
+/* the road is one flat rectangle, tilted away from the viewer in real 3D —
+   the browser's own perspective projection does the converging/vanishing
+   work, so the dashed lines and edges naturally taper toward a horizon. */
+.cr-road{
+  position:absolute;
+  left:50%;
+  bottom:0;
+  width:82%;
+  height:230%;
+  transform-origin:bottom center;
+  transform:translateX(-50%) rotateX(60deg);
+  transform-style:preserve-3d;
+  background:#1a1a1a;
+  z-index:1;
+}
+.cr-road-surface{
+  position:absolute;
+  inset:0;
+  background:
+    linear-gradient(90deg, transparent 0 10%, var(--cream) 10% 13%, transparent 13% 87%, var(--cream) 87% 90%, transparent 90% 100%),
+    repeating-linear-gradient(to bottom, var(--cream) 0 60px, transparent 60px 130px);
+  background-size: 100% 100%, 14px 130px;
+  background-position: 0 0, center 0;
+  background-repeat: no-repeat, repeat-y;
+}
+
+.cr-finish{
+  position:absolute;
+  left:8%;
+  right:8%;
+  height:50px;
+  top:0;
+  background-image:
+    repeating-linear-gradient(90deg, var(--white) 0 22px, var(--ink) 22px 44px);
+  background-size:44px 44px;
+  border-top:4px solid var(--ink);
+  border-bottom:4px solid var(--ink);
+  z-index:2;
+}
+.cr-finish span{
+  position:absolute;
+  top:-34px;
+  right:-6px;
+  font-size:1.5rem;
+  transform:rotateX(-60deg);
+}
+
+.cr-dust{
+  position:absolute;
+  bottom:22px;
+  left:50%;
+  width:6px;height:6px;
+  pointer-events:none;
+  z-index:3;
+}
+.cr-dust-puff{
+  position:absolute;
+  bottom:0;
+  border-radius:50%;
+  background:var(--white);
+  opacity:.85;
+  animation:crDustPop .5s ease-out forwards;
+}
+@keyframes crDustPop{
+  0%{transform:translate(-50%,0) scale(.4); opacity:.85;}
+  100%{transform:translate(var(--dx,-30px),18px) scale(1.4); opacity:0;}
+}
+
+.cr-shadow{
+  position:absolute;
+  bottom:16px;
+  left:50%;
+  width:52px;height:14px;
+  transform:translateX(-50%);
+  background:rgba(0,0,0,.28);
+  border-radius:50%;
+  filter:blur(2px);
+  z-index:3;
+  animation:crShadowPulse 0.5s ease-in-out infinite;
+}
+@keyframes crShadowPulse{
+  0%,100%{transform:translateX(-50%) scaleX(1);}
+  50%{transform:translateX(-50%) scaleX(.82);}
+}
+
+.cr-racer{
+  position:absolute;
+  bottom:22px;
+  left:50%;
+  transform:translate(-50%,0) scaleX(-1);
+  font-size:3.4rem;
+  line-height:1;
+  z-index:4;
+  filter:drop-shadow(2px 3px 0 rgba(0,0,0,.3));
+  animation:crRunBob .38s ease-in-out infinite;
+  transform-origin:bottom center;
+}
+.cr-racer.cr-turtle{
+  animation:crRunBobSlow .7s ease-in-out infinite;
+  transform:translate(-50%,0) scaleX(-1);
+}
+@keyframes crRunBob{
+  0%,100%{transform:translate(-50%,0) scaleX(-1) rotate(0deg) scale(1,1);}
+  25%{transform:translate(-50%,-10px) scaleX(-1) rotate(-6deg) scale(.94,1.08);}
+  50%{transform:translate(-50%,0) scaleX(-1) rotate(0deg) scale(1.06,.92);}
+  75%{transform:translate(-50%,-6px) scaleX(-1) rotate(6deg) scale(.96,1.05);}
+}
+@keyframes crRunBobSlow{
+  0%,100%{transform:translate(-50%,0) scaleX(-1) rotate(0deg) scale(1,1);}
+  50%{transform:translate(-50%,-5px) scaleX(-1) rotate(-3deg) scale(1.04,.96);}
+}
+.cr-racer.cr-boost{
+  animation:crBoost .32s cubic-bezier(.34,1.56,.64,1);
+}
+@keyframes crBoost{
+  0%{transform:translate(-50%,0) scaleX(-1) scale(1,1);}
+  35%{transform:translate(-50%,-22px) scaleX(-1) scale(.82,1.28) rotate(-10deg);}
+  70%{transform:translate(-50%,-4px) scaleX(-1) scale(1.16,.86) rotate(6deg);}
+  100%{transform:translate(-50%,0) scaleX(-1) scale(1,1);}
+}
+
+.cc-run-btn{
+  margin-top:30px;
+  width:100%;
+  max-width:340px;
+  font-family:'Chillax',sans-serif;
+  font-size:1.3rem;
+  letter-spacing:1px;
+  color:var(--ink);
+  background:var(--pink);
+  padding:24px;
+  border-radius:999px;
+  border:4px solid var(--ink);
+  box-shadow:6px 6px 0 var(--ink);
+  cursor:pointer;
+  user-select:none;
+  -webkit-user-select:none;
+  touch-action:manipulation;
+}
+.cc-run-btn:active{
+  transform:translate(3px,3px);
+  box-shadow:2px 2px 0 var(--ink);
+}
+
+.cc-hint{
+  margin-top:14px;
+  font-size:.85rem;
+  opacity:.6;
+  font-weight:600;
+}
+
+/* ---------- result ---------- */
+.cc-result{
+  display:none;
+  flex-direction:column;
+  align-items:center;
+  gap:14px;
+  max-width:520px;
+}
+.cc-result.show{display:flex;}
+.cc-result h2{
+  font-family:'Chillax',sans-serif;
+  font-size:clamp(2rem,7vw,3rem);
+  -webkit-text-stroke:1.5px var(--ink);
+  color:var(--red);
+  margin:0;
+}
+.cc-result p{opacity:.8;line-height:1.6;font-weight:600;}
+.cc-result .cc-stat{
+  font-family:'Chillax',sans-serif;
+  font-size:1.1rem;
+  color:var(--ink);
+  background:var(--pink);
+  border:2px solid var(--ink);
+  padding:8px 18px;
+  border-radius:999px;
+}
+.cc-again-btn{
+  margin-top:8px;
+  font-family:'Chillax',sans-serif;
+  font-size:.95rem;
+  letter-spacing:.5px;
+  color:var(--ink);
+  background:var(--red);
+  border:3px solid var(--ink);
+  padding:13px 28px;
+  border-radius:999px;
+  box-shadow:5px 5px 0 var(--ink);
+  cursor:pointer;
+}
+.cc-again-btn:hover{transform:translate(-2px,-2px);}

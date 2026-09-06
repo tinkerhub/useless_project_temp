@@ -2,34 +2,39 @@
 
 
 
-# [Project Name] 🎯
+# [chummaDO] 🎯
 
 
 ## Basic Details
-### Team Name: [Name]
+### Team Name: [mission_deploy]
 
 
 ### Team Members
-- Team Lead: [Name] - [College]
-- Member 2: [Name] - [College]
+- Team Lead: [Fathima henna kc] - [SCMS school of engineering and technology]
+- Member 2: [Hridya r] - [SCMS school of engineering and technology]
 - Member 3: [Name] - [College]
 
 ### Project Description
-[2-3 lines about what your project does]
+[Our project provides more boredom to users trying to cure boredom. It includes pointless To Do list which gives the most unproductive changes ever, a cheetah turtle running race where the cheetah always loses ie the user never wins, poo-zle which has a interactive hand-tracked floral air-canvas along with a live picture captured turned into 9x9 puzzle game and fun elements and a do nothing game and a hacking decoy button which makes the user think they are hacked.]
 
 ### The Problem (that doesn't exist)
-[What ridiculous problem are you solving?]
+[Everyone is bored in this fast paced world, so we want to cure boredom with a fair chance the person gets more bored and annoyed.]
 
 ### The Solution (that nobody asked for)
-[How are you solving it? Keep it fun!]
+[ig we are giving them a fair and equal chance at curing their boredome and potentially getting more bored. they might get too interested and playfull with out fllower air-canvas and get their boredom cured, but at the same time they have the do nothing game and stupid cheetah game to get more bored.]
 
 ## Technical Details
 ### Technologies/Components Used
 For Software:
-- [Languages used]
-- [Frameworks used]
-- [Libraries used]
-- [Tools used]
+- [HTML5,CSS3,JavaScript(ES6+,Vanilla-no transpiling]
+- [plain static site]
+- [MediaPipe Tasks Vision (HandLandmarker) — real-time hand tracking for the Poo-zzle game
+Fontshare CDN — Chillax font (site-wide type)
+Google Fonts — Baloo Chettan 2 (Malayalam glyph fallback)
+Groq SDK-free REST call (fetch) to the Groq Chat Completions API (openai/gpt-oss-20b model) — powers the Chumma List "unproductive schedule" generator]
+- [Git & GitHub — version control
+Vercel — hosting + serverless functions (Node.js runtime) for the /api/schedule endpoint that keeps the Groq API key server-side
+Browser localStorage — persists Chumma List to-do items client-side]
 
 For Hardware:
 - [List main components]
@@ -39,23 +44,24 @@ For Hardware:
 ### Implementation
 For Software:
 # Installation
-[commands]
+[git clone https://github.com/hennakc/mission_deploy
+cd mission_deploy]
 
 # Run
-[commands]
+[npx serve .]
 
 ### Project Documentation
 For Software:
 
-# Screenshots (Add at least 3)
-![Screenshot1](Add screenshot 1 here with proper name)
-*Add caption explaining what this shows*
+# Screenshots 
+![Screenshot1](1.home-page.png)
+*it*
 
-![Screenshot2](Add screenshot 2 here with proper name)
-*Add caption explaining what this shows*
+![Screenshot2](2.page.png)
+*it contains all our useless games and functions.*
 
-![Screenshot3](Add screenshot 3 here with proper name)
-*Add caption explaining what this shows*
+![Screenshot3](3.best-to-do.png)
+*it creates useless unproductive schedules from out To-Do lists*
 
 # Diagrams
 ![Workflow](Add your workflow/architecture diagram here)
@@ -89,8 +95,8 @@ For Hardware:
 [Add any extra demo materials/links]
 
 ## Team Contributions
-- [Name 1]: [Specific contributions]
-- [Name 2]: [Specific contributions]
+- [Hridya r]: [API integration and deployment]
+- [Fathima henna kc]: [UI/UX]
 - [Name 3]: [Specific contributions]
 
 ---

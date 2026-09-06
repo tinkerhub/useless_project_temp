@@ -1,0 +1,306 @@
+/* Shared "title card" opening screen for chummaDO's games — used by
+   Poo-zzle, 5 Star Game and Cheetah Crawl (Chumma List is its own thing
+   and doesn't use this). Just a name, a line of rules, a CTA button, and
+   a doomed stickman running along the bottom of the screen. */
+
+@import url('https://fonts.googleapis.com/css2?family=Baloo+Chettan+2:wght@500;700;800&display=swap');
+
+.gl-landing{
+  position:relative;
+  flex:1;
+  width:100%;
+  min-height:80vh;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+  overflow:hidden;
+  padding:40px 6vw 100px;
+}
+
+.gl-copy{
+  width:100%;
+  max-width:900px;
+}
+
+/* Apple's own system font, right off the OS — this is the only legitimate
+   way to use "the Apple font" on the web: San Francisco only ever renders
+   on Apple devices themselves, and everyone else gets their own native
+   equivalent instead of a fake substitute. */
+.gl-font{
+  font-family:-apple-system, BlinkMacSystemFont, "SF Pro Display", "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+}
+
+.gl-title{
+  font-weight:800;
+  font-size:clamp(2rem,8vw,4.6rem);
+  line-height:1;
+  color:#000;
+  text-transform:uppercase;
+  text-align:left;
+  white-space:nowrap;
+  margin:0 0 22px;
+  transform:rotate(-2deg);
+  min-height:1.1em;
+}
+
+.gl-rules{
+  font-weight:700;
+  font-size:clamp(1.3rem,3.4vw,1.9rem);
+  color:#000;
+  text-align:right;
+  line-height:1.6;
+  max-width:560px;
+  margin:0 0 40px 12%;
+  min-height:2.4em;
+}
+
+.gl-start-btn{
+  display:block;
+  margin:0 auto;
+  font-weight:700;
+  font-size:1.15rem;
+  letter-spacing:1px;
+  color:#000;
+  background:var(--pink);
+  padding:18px 42px;
+  border-radius:999px;
+  border:3px solid #000;
+  box-shadow:6px 6px 0 #000;
+  cursor:pointer;
+  transition:transform .15s ease, box-shadow .15s ease;
+}
+.gl-start-btn:hover{transform:translate(-3px,-3px);box-shadow:9px 9px 0 #000;}
+.gl-start-btn:disabled{opacity:.6;cursor:wait;transform:none;box-shadow:6px 6px 0 #000;}
+
+/* keep each word intact — never let the browser break a line between two
+   letters of the same word (only between whole words) */
+.gl-word{
+  display:inline-block;
+  white-space:nowrap;
+}
+
+/* zigzag baseline: every other character rides a touch higher/lower and
+   tilts slightly, instead of sitting on one flat line — kept subtle so it
+   stays readable */
+.gl-zig{
+  display:inline-block;
+  white-space:pre;
+}
+.gl-zig:nth-child(odd){ transform:translateY(-0.03em) rotate(-1.5deg); }
+.gl-zig:nth-child(even){ transform:translateY(0.04em) rotate(1.5deg); }
+
+/* typewriter caret while a line is being typed */
+.gl-title.gl-typing::after,
+.gl-rules.gl-typing::after{
+  content:"";
+  display:inline-block;
+  width:.09em;
+  height:.9em;
+  background:currentColor;
+  margin-left:.1em;
+  vertical-align:-0.1em;
+  animation:glCaretBlink .8s step-end infinite;
+}
+@keyframes glCaretBlink{ 50%{opacity:0;} }
+
+@media (max-width:640px){
+  .gl-title{ text-align:center; transform:none; white-space:normal; font-size:clamp(2rem,11vw,3.2rem); }
+  .gl-rules{ text-align:center; margin:0 auto 28px; }
+  .gl-start-btn{ margin:0 auto; }
+}
+
+/* ---------- the doomed stickman — big, loud, unmissable ---------- */
+.gl-stickman-lane{
+  position:fixed;
+  left:0;
+  right:0;
+  bottom:0;
+  height:220px;
+  pointer-events:none;
+  z-index:5;
+}
+.gl-stickman{
+  position:absolute;
+  bottom:10px;
+  left:0;
+  width:90px;
+  height:112px;
+  transform-box:view-box;
+  transform-origin:50% 100%;
+  animation:glRunAndDie 7s ease-in infinite;
+  filter:drop-shadow(3px 4px 0 rgba(0,0,0,.15));
+}
+.gl-stickman .sm-arm-l,
+.gl-stickman .sm-arm-r,
+.gl-stickman .sm-leg-l,
+.gl-stickman .sm-leg-r{
+  transform-box:view-box;
+  animation:glLimbSwing .3s ease-in-out infinite;
+}
+.gl-stickman .sm-arm-l{ transform-origin:20px 18px; animation-delay:.15s; }
+.gl-stickman .sm-arm-r{ transform-origin:20px 18px; }
+.gl-stickman .sm-leg-l{ transform-origin:20px 32px; }
+.gl-stickman .sm-leg-r{ transform-origin:20px 32px; animation-delay:.15s; }
+
+@keyframes glLimbSwing{
+  0%,100%{ transform:rotate(24deg); }
+  50%{ transform:rotate(-24deg); }
+}
+
+/* run → SLAM into the wall, hard, held long enough to actually register →
+   crumple over → dead. tuned so the whole thing stays on-screen. */
+@keyframes glRunAndDie{
+  0%{ transform:translateX(0) rotate(0deg) scale(1); }
+  50%{ transform:translateX(calc(100vw - 130px)) rotate(0deg) scale(1); }
+  53%{ transform:translateX(calc(100vw - 100px)) rotate(28deg) scale(1.05,.9); }
+  56%{ transform:translateX(calc(100vw - 118px)) rotate(-34deg) scale(.92,1.1); }
+  59%{ transform:translateX(calc(100vw - 104px)) rotate(22deg) scale(1.04,.94); }
+  62%{ transform:translateX(calc(100vw - 112px)) rotate(-14deg) scale(1); }
+  65%{ transform:translateX(calc(100vw - 108px)) rotate(6deg) scale(1); }
+  72%{ transform:translateX(calc(100vw - 108px)) rotate(0deg) scale(1); }
+  88%{ transform:translateX(calc(100vw - 108px)) rotate(92deg) scale(1); }
+  97%{ transform:translateX(calc(100vw - 108px)) rotate(92deg) scale(1); opacity:1; }
+  99%{ opacity:0; }
+  100%{ transform:translateX(0) rotate(0deg) scale(1); opacity:0; }
+}
+
+/* ============================================================
+   Per-game stickman variants
+   - Poo-zzle keeps the default glRunAndDie above, untouched.
+   - 5 Star Game: trips face-first at the middle of the screen,
+     lies there a beat, picks himself up and jogs off the end.
+   - Cheetah Crawl: throws a rope to the top of the screen and
+     Tarzan-swings up and out of view, then does it all again.
+   ============================================================ */
+
+/* ---------- 5 Star Game — the mid-screen faceplant ---------- */
+.gl-stickman--fall{
+  animation:glTripFall 6s ease-in-out infinite;
+}
+@keyframes glTripFall{
+  0%  { transform:translateX(0) translateY(0) rotate(0deg); }
+  26% { transform:translateX(44vw) translateY(0) rotate(0deg); }         /* jog to the middle */
+  31% { transform:translateX(48vw) translateY(-22px) rotate(66deg); }    /* toe catches, pitches forward */
+  37% { transform:translateX(50vw) translateY(-34px) rotate(92deg); }    /* full faceplant on the ground */
+  40% { transform:translateX(50vw) translateY(-32px) rotate(87deg); }    /* bounce settle */
+  56% { transform:translateX(50vw) translateY(-34px) rotate(90deg); }    /* just lies there */
+  61% { transform:translateX(50vw) translateY(-16px) rotate(42deg); }    /* pushes up on his arms */
+  67% { transform:translateX(50vw) translateY(0) rotate(-6deg); }        /* staggers upright */
+  70% { transform:translateX(50vw) translateY(0) rotate(0deg); }         /* back on his feet */
+  92% { transform:translateX(calc(100vw - 90px)) translateY(0) rotate(0deg); } /* jog to the end */
+  97% { transform:translateX(100vw) translateY(0) rotate(0deg); opacity:1; }
+  98% { opacity:0; }
+  100%{ transform:translateX(0) translateY(0) rotate(0deg); opacity:0; }
+}
+/* flailing limbs read better than a tidy run while he's face-down */
+.gl-stickman--fall .sm-arm-l,
+.gl-stickman--fall .sm-arm-r,
+.gl-stickman--fall .sm-leg-l,
+.gl-stickman--fall .sm-leg-r{
+  animation-duration:.22s;
+}
+
+/* ---------- Cheetah Crawl — walk in, throw a rope, jump to the top ----------
+   Four beats on a 6s loop:
+     1. 0-22%  walk in from off the left edge to the rope spot
+     2. 22-30% plant, fling both arms up, rope shoots to the top
+     3. 30-90% ride the rope up and off the top of the screen
+     4. 90-100% gone — reset off-left and do it all again            */
+.gl-lane--tarzan{
+  top:0;
+  height:100vh;
+}
+/* the wrapper carries the rope + stickman; its pivot is the top of the
+   screen. The stickman's own animation just handles the walk-in. */
+.gl-swing{
+  position:absolute;
+  top:0;
+  left:32vw;
+  width:0;
+  height:90vh;
+  transform-origin:50% 0;
+  animation:glTarzan 6s ease-in-out infinite;
+}
+.gl-lane--tarzan .gl-stickman{
+  position:absolute;
+  left:-45px;
+  bottom:0;
+  top:auto;
+  animation:glTarzanWalk 6s ease-in-out infinite;
+}
+.gl-rope{
+  position:absolute;
+  top:0;
+  left:-2px;
+  width:4px;
+  height:100%;
+  background:#000;
+  transform-origin:50% 0;
+  transform:scaleY(0);
+  animation:glRopeThrow 6s ease-out infinite;
+}
+/* arms swing while walking, then fling overhead to throw + grip the rope */
+.gl-stickman--tarzan .sm-arm-l{
+  transform-box:view-box;
+  transform-origin:20px 18px;
+  animation:glTarzanArmL 6s ease-in-out infinite;
+}
+.gl-stickman--tarzan .sm-arm-r{
+  transform-box:view-box;
+  transform-origin:20px 18px;
+  animation:glTarzanArmR 6s ease-in-out infinite;
+}
+
+@keyframes glTarzanWalk{
+  0%   { transform:translateX(-54vw); }
+  22%  { transform:translateX(0); }        /* reached the rope spot */
+  100% { transform:translateX(0); }
+}
+@keyframes glRopeThrow{
+  0%   { transform:scaleY(0); opacity:1; }
+  22%  { transform:scaleY(0); }             /* no rope yet — still walking */
+  30%  { transform:scaleY(1); }             /* THROW — rope shoots to the top */
+  88%  { transform:scaleY(1); opacity:1; }
+  93%  { transform:scaleY(1); opacity:0; }
+  100% { transform:scaleY(0); opacity:0; }
+}
+@keyframes glTarzan{
+  0%   { transform:rotate(0deg) translateY(0) scale(1); opacity:1; }
+  22%  { transform:rotate(0deg) translateY(0) scale(1); opacity:1; }   /* stood still through the walk */
+  30%  { transform:rotate(-6deg) translateY(0) scale(1); }             /* takes the rope, small tug */
+  44%  { transform:rotate(-24deg) translateY(0) scale(1); }            /* wind back */
+  60%  { transform:rotate(22deg) translateY(-4vh) scale(.9); }         /* swing across, gaining height */
+  74%  { transform:rotate(-10deg) translateY(-18vh) scale(.64); }      /* haul up the rope */
+  85%  { transform:rotate(5deg) translateY(-36vh) scale(.4); }         /* climbing toward the top */
+  91%  { transform:rotate(0deg) translateY(-54vh) scale(.26); opacity:1; } /* up and over the top */
+  95%  { opacity:0; }
+  100% { transform:rotate(0deg) translateY(0) scale(1); opacity:0; }
+}
+@keyframes glTarzanArmL{
+  0%   { transform:rotate(12deg); }
+  6%   { transform:rotate(-16deg); }
+  12%  { transform:rotate(14deg); }
+  18%  { transform:rotate(-12deg); }
+  22%  { transform:rotate(0deg); }
+  30%  { transform:rotate(120deg); }   /* flung up to throw, then grips */
+  100% { transform:rotate(120deg); }
+}
+@keyframes glTarzanArmR{
+  0%   { transform:rotate(-12deg); }
+  6%   { transform:rotate(16deg); }
+  12%  { transform:rotate(-14deg); }
+  18%  { transform:rotate(12deg); }
+  22%  { transform:rotate(0deg); }
+  30%  { transform:rotate(-120deg); }
+  100% { transform:rotate(-120deg); }
+}
+
+@media (max-width:640px){
+  .gl-swing{ left:26vw; }
+  @keyframes glTarzanWalk{
+    0%{ transform:translateX(-40vw); }
+    22%{ transform:translateX(0); }
+    100%{ transform:translateX(0); }
+  }
+}

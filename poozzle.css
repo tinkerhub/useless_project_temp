@@ -1,0 +1,356 @@
+/* Poo-zzle — camera flower + hand-solved puzzle game */
+
+.pz-wrap{
+  min-height:100vh;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+}
+
+.pz-topbar{
+  width:100%;
+}
+
+.pz-error{
+  margin-top:22px;
+  background:var(--white);
+  border:2px solid var(--red);
+  color:var(--ink);
+  font-weight:700;
+  padding:14px 22px;
+  border-radius:14px;
+  max-width:440px;
+  display:none;
+}
+.pz-error.show{display:block;}
+
+/* ---------- camera stage ---------- */
+.pz-stage{
+  display:none;
+  width:100%;
+  flex:1;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+  padding:20px 4vw 60px;
+}
+.pz-stage.active{display:flex;}
+
+.pz-frame{
+  position:relative;
+  width:100%;
+  max-width:min(96vw, 1180px);
+  max-height:90vh;
+  border-radius:28px;
+  overflow:hidden;
+  border:4px solid var(--ink);
+  box-shadow:9px 9px 0 var(--ink);
+  background:#111;
+}
+
+.pz-frame video{
+  position:absolute;
+  inset:0;
+  width:100%;
+  height:100%;
+  object-fit:fill;
+  transform:scaleX(-1);
+  display:block;
+}
+
+.pz-flower-canvas{
+  position:absolute;
+  inset:0;
+  width:100%;
+  height:100%;
+  pointer-events:none;
+}
+
+.pz-cursor{
+  position:absolute;
+  width:26px;
+  height:26px;
+  border-radius:50%;
+  border:3px solid var(--white);
+  background:rgba(179,179,71,.55);
+  transform:translate(-50%,-50%);
+  pointer-events:none;
+  transition:background .1s ease, width .1s ease, height .1s ease;
+  display:none;
+  z-index:6;
+}
+.pz-cursor.pinched{
+  background:rgba(214,213,139,.85);
+  width:18px;height:18px;
+}
+.pz-cursor2{
+  border-color:var(--white);
+  background:rgba(107,203,255,.55);
+}
+.pz-cursor2.pinched{
+  background:rgba(46,134,222,.85);
+}
+
+/* corner CTA buttons */
+.pz-cta{
+  position:absolute;
+  top:16px;
+  width:72px;
+  height:72px;
+  border-radius:50%;
+  background:var(--white);
+  border:3px solid var(--ink);
+  box-shadow:5px 5px 0 var(--ink);
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  cursor:pointer;
+  z-index:8;
+  transition:transform .15s ease;
+}
+.pz-cta:hover{transform:translate(-2px,-2px);}
+.pz-cta svg{width:38px;height:38px;}
+.pz-cta.right{right:16px;}
+.pz-cta.left{left:16px;}
+.pz-cta.on{background:var(--red);}
+.pz-cta.on svg{filter:brightness(0);}
+.pz-cta-label{
+  position:absolute;
+  top:92px;
+  font-family:'Chillax',sans-serif;
+  font-size:.65rem;
+  letter-spacing:.5px;
+  background:var(--ink);
+  color:var(--white);
+  padding:4px 10px;
+  border-radius:999px;
+  z-index:8;
+  white-space:nowrap;
+  pointer-events:none;
+}
+.pz-cta-label.right{right:16px;}
+.pz-cta-label.left{left:16px;}
+
+.pz-mode-banner{
+  position:absolute;
+  top:60px;
+  left:50%;
+  transform:translateX(-50%);
+  font-family:'Chillax',sans-serif;
+  font-size:.8rem;
+  letter-spacing:.5px;
+  background:var(--white);
+  color:var(--ink);
+  border:2px solid var(--ink);
+  padding:8px 18px;
+  border-radius:999px;
+  z-index:9;
+  display:none;
+  box-shadow:3px 3px 0 var(--ink);
+}
+.pz-mode-banner.show{display:block;}
+
+.pz-toast{
+  position:absolute;
+  bottom:16px;
+  left:50%;
+  transform:translateX(-50%);
+  background:var(--ink);
+  color:var(--white);
+  font-weight:700;
+  font-size:.82rem;
+  padding:9px 18px;
+  border-radius:999px;
+  z-index:8;
+  opacity:0;
+  transition:opacity .3s ease;
+  white-space:nowrap;
+  max-width:90%;
+  text-align:center;
+}
+.pz-toast.show{opacity:1;}
+
+.pz-loading-badge{
+  position:absolute;
+  top:14px;
+  left:50%;
+  transform:translateX(-50%);
+  background:var(--dark-pink);
+  color:var(--ink);
+  font-family:'Chillax',sans-serif;
+  font-size:.75rem;
+  letter-spacing:.5px;
+  padding:7px 16px;
+  border-radius:999px;
+  z-index:9;
+}
+
+/* capture guide */
+.pz-guide{
+  position:absolute;
+  border:3px dashed var(--white);
+  border-radius:16px;
+  box-shadow:0 0 0 2000px rgba(0,0,0,.35);
+  pointer-events:none;
+  z-index:5;
+  display:none;
+}
+.pz-guide.show{display:block;}
+
+/* live square framed live by both hands */
+.pz-live-square{
+  position:absolute;
+  border:4px dashed var(--pink);
+  border-radius:14px;
+  box-shadow:0 0 0 2000px rgba(0,0,0,.35), 0 0 22px rgba(255,229,102,.9);
+  pointer-events:none;
+  z-index:5;
+  display:none;
+  animation:pzDash 1s linear infinite;
+}
+.pz-live-square.show{display:block;}
+.pz-live-square.ready{border-color:var(--red);box-shadow:0 0 0 2000px rgba(0,0,0,.3), 0 0 30px rgba(179,179,71,.95);}
+@keyframes pzDash{
+  0%{border-color:var(--pink);}
+  50%{border-color:var(--white);}
+  100%{border-color:var(--pink);}
+}
+
+.pz-shutter{
+  position:absolute;
+  bottom:16px;
+  left:50%;
+  transform:translateX(-50%);
+  font-family:'Chillax',sans-serif;
+  font-size:.95rem;
+  letter-spacing:.5px;
+  color:var(--ink);
+  background:var(--white);
+  border:3px solid var(--ink);
+  padding:11px 26px;
+  border-radius:999px;
+  box-shadow:4px 4px 0 var(--ink);
+  cursor:pointer;
+  z-index:8;
+  display:none;
+}
+.pz-shutter.show{display:block;}
+
+/* puzzle overlay */
+.pz-puzzle{
+  position:absolute;
+  border-radius:16px;
+  overflow:hidden;
+  border:3px solid var(--ink);
+  z-index:7;
+  display:none;
+  background:var(--ink);
+}
+.pz-puzzle.show{display:block;}
+
+.pz-tile{
+  position:absolute;
+  width:33.3334%;
+  height:33.3334%;
+  transition:transform .16s ease;
+  box-sizing:border-box;
+  border:1px solid rgba(255,255,255,.25);
+  cursor:pointer;
+}
+.pz-tile canvas{width:100%;height:100%;display:block;}
+.pz-tile.hoverable{outline:4px solid var(--pink);outline-offset:-4px;}
+
+.pz-blank-hint{
+  position:absolute;
+  width:33.3334%;
+  height:33.3334%;
+  border:3px dashed rgba(255,229,102,.85);
+  border-radius:8px;
+  box-sizing:border-box;
+  pointer-events:none;
+  transition:transform .16s ease;
+  animation:pzBlankPulse 1.4s ease-in-out infinite;
+}
+@keyframes pzBlankPulse{
+  0%,100%{opacity:.45;}
+  50%{opacity:.9;}
+}
+
+@keyframes pzTileFlash{
+  0%{filter:brightness(1.9);}
+  100%{filter:brightness(1);}
+}
+.pz-tile.flash{animation:pzTileFlash .35s ease-out;}
+
+.pz-puzzle-hud{
+  position:absolute;
+  top:10px;
+  left:10px;
+  right:10px;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  z-index:9;
+}
+.pz-puzzle-hud .pz-pill{
+  font-family:'Chillax',sans-serif;
+  font-size:.7rem;
+  letter-spacing:.5px;
+  background:var(--white);
+  color:var(--ink);
+  border:2px solid var(--ink);
+  padding:6px 12px;
+  border-radius:999px;
+  cursor:pointer;
+}
+
+.pz-win{
+  position:absolute;
+  inset:0;
+  display:none;
+  align-items:center;
+  justify-content:center;
+  flex-direction:column;
+  gap:16px;
+  background:rgba(255,255,102,.92);
+  z-index:10;
+  text-align:center;
+  padding:20px;
+}
+.pz-win.show{display:flex;}
+.pz-win h2{
+  font-family:'Chillax',sans-serif;
+  color:var(--red);
+  font-size:2rem;
+  -webkit-text-stroke:1px var(--ink);
+  margin:0;
+}
+.pz-win button{
+  font-family:'Chillax',sans-serif;
+  font-size:.9rem;
+  color:var(--ink);
+  background:var(--red);
+  border:3px solid var(--ink);
+  padding:12px 24px;
+  border-radius:999px;
+  box-shadow:4px 4px 0 var(--ink);
+  cursor:pointer;
+}
+
+.pz-controls-row{
+  margin-top:20px;
+  display:flex;
+  gap:14px;
+  flex-wrap:wrap;
+  justify-content:center;
+}
+.pz-controls-row a, .pz-controls-row button{
+  font-weight:700;
+  font-size:.85rem;
+  background:var(--white);
+  border:2px solid var(--ink);
+  padding:10px 20px;
+  border-radius:999px;
+  box-shadow:3px 3px 0 var(--ink);
+  cursor:pointer;
+}

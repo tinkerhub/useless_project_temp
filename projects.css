@@ -1,0 +1,269 @@
+/* Projects page — portfolio-grid redesign (layout inspired by a reference
+   screenshot: thin nav row, centered title block, then an edge-to-edge
+   image grid) reskinned entirely in chummaDO's own palette. */
+
+.pj-page{
+  display:flex;
+  flex-direction:column;
+  min-height:100vh;
+}
+
+/* thin nav strip — the site's "present" accent colour */
+.pj-header{
+  background:var(--red);
+  border-bottom:3px solid var(--ink);
+  flex:0 0 auto;
+}
+
+.pj-navrow{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  padding:10px 5vw;
+}
+.pj-navrow .pj-brand{
+  font-family:'Chillax',sans-serif;
+  font-size:1.4rem;
+  color:var(--ink);
+}
+
+/* scrolling marquee — replaces the old title block. Big, loud, yellow
+   banner with an endless repeating strip of red outlined text; clicking
+   anywhere on it fires the existing hacking easter egg (hack.js already
+   binds to #hackCtaBtn, which this element keeps). */
+.pj-marquee{
+  display:block;
+  width:100%;
+  overflow:hidden;
+  background:var(--cream);
+  border:none;
+  border-bottom:3px solid var(--ink);
+  padding:0;
+  cursor:pointer;
+  flex:0 0 auto;
+}
+.pj-marquee-track{
+  display:flex;
+  width:max-content;
+  animation:pjMarqueeScroll 18s linear infinite;
+}
+.pj-marquee:hover .pj-marquee-track{
+  animation-play-state:paused;
+}
+.pj-marquee-group{
+  display:flex;
+  flex-shrink:0;
+}
+.pj-marquee-group span{
+  display:inline-block;
+  white-space:nowrap;
+  font-family:'Chillax',sans-serif;
+  font-weight:700;
+  font-size:clamp(1.8rem, 5.5vw, 3.6rem);
+  letter-spacing:.5px;
+  color:var(--red);
+  -webkit-text-stroke:1px var(--ink);
+  padding:26px 2.2rem;
+  line-height:1;
+}
+@keyframes pjMarqueeScroll{
+  from{ transform:translateX(0); }
+  to{ transform:translateX(-50%); }
+}
+
+/* ---------- 6-tile image grid — matches the reference's multi-column
+   layout: landscape rectangles, filling the remaining screen height so
+   they read as large tiles rather than small squares ---------- */
+.pj-grid{
+  display:grid;
+  grid-template-columns:repeat(3, 1fr);
+  grid-template-rows:repeat(2, 1fr);
+  flex:1 1 auto;
+  min-height:440px;
+  width:100%;
+}
+
+@media (max-width:760px){
+  .pj-page{ min-height:auto; }
+  .pj-grid{
+    grid-template-columns:repeat(2, 1fr);
+    grid-template-rows:none;
+    grid-auto-rows:minmax(220px, 1fr);
+    flex:0 0 auto;
+  }
+}
+
+.pj-tile{
+  position:relative;
+  display:block;
+  overflow:hidden;
+  border:1px solid var(--ink);
+  background:var(--cream);
+}
+.pj-tile img{
+  position:absolute;
+  inset:0;
+  width:100%;
+  height:100%;
+  object-fit:cover;
+  display:block;
+  transition:transform .5s ease;
+}
+.pj-tile:hover img{
+  transform:scale(1.07);
+}
+
+/* this source photo is a tall portrait shot with "Eat" up top and
+   "Do Nothing" down low — cropping it to fill a short wide banner would
+   cut one of them off, so show the whole frame instead of covering */
+.pj-tile-contain{
+  background:var(--ink);
+}
+.pj-tile-contain img{
+  object-fit:contain;
+}
+.pj-tile::after{
+  content:"";
+  position:absolute;
+  inset:0;
+  background:linear-gradient(to top, rgba(0,0,0,.55), transparent 45%);
+  opacity:0;
+  transition:opacity .3s ease;
+}
+.pj-tile:hover::after{
+  opacity:1;
+}
+
+.pj-title{
+  position:absolute;
+  inset:0;
+  z-index:2;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  text-align:center;
+  padding:0 6%;
+  font-family:'Chillax',sans-serif;
+  font-weight:700;
+  font-size:clamp(1.4rem, 2.6vw, 2.4rem);
+  letter-spacing:1px;
+  text-transform:uppercase;
+  line-height:1.1;
+  pointer-events:none;
+  text-shadow:0 3px 14px rgba(0,0,0,.4), 0 0 3px rgba(0,0,0,.3);
+}
+.pj-title-yellow{ color:var(--cream); }
+.pj-title-white{ color:var(--white); }
+
+.pj-tile.pj-blank{
+  background:repeating-linear-gradient(
+    45deg,
+    var(--pink) 0 14px,
+    var(--cream) 14px 28px
+  );
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  cursor:pointer;
+  border:1px solid var(--ink);
+  font:inherit;
+  color:inherit;
+}
+.pj-tile.pj-blank:hover span{
+  transform:rotate(-2deg) scale(1.05);
+}
+.pj-tile.pj-blank span{
+  transition:transform .2s ease;
+}
+.pj-tile.pj-blank span{
+  font-family:'Chillax',sans-serif;
+  font-weight:700;
+  font-size:.85rem;
+  letter-spacing:1px;
+  text-transform:uppercase;
+  color:var(--ink);
+  background:var(--white);
+  border:2px solid var(--ink);
+  padding:9px 20px;
+  border-radius:999px;
+}
+
+/* ---------- "coming soon" is a lie — modal ---------- */
+.cs-backdrop{
+  position:fixed;
+  inset:0;
+  z-index:120;
+  display:none;
+  align-items:center;
+  justify-content:center;
+  padding:5vw;
+  background:rgba(0,0,0,.6);
+}
+.cs-backdrop.is-open{ display:flex; }
+
+.cs-card{
+  position:relative;
+  width:min(440px, 100%);
+  background:var(--white);
+  border:3px solid var(--ink);
+  box-shadow:var(--shadow);
+  padding:34px 26px 26px;
+  text-align:center;
+  transform:rotate(-1deg);
+  animation:csPop .28s cubic-bezier(.2,1.4,.5,1);
+}
+@keyframes csPop{
+  from{ transform:rotate(-1deg) scale(.7); opacity:0; }
+  to{ transform:rotate(-1deg) scale(1); opacity:1; }
+}
+
+.cs-close{
+  position:absolute;
+  top:8px;
+  right:10px;
+  background:none;
+  border:none;
+  font-size:1.2rem;
+  cursor:pointer;
+  color:var(--ink);
+  line-height:1;
+}
+
+.cs-emoji{
+  font-size:3rem;
+  line-height:1;
+  margin-bottom:10px;
+}
+.cs-title{
+  font-family:'Chillax',sans-serif;
+  font-weight:700;
+  font-size:1.5rem;
+  letter-spacing:1px;
+  text-transform:uppercase;
+  margin:0 0 12px;
+}
+.cs-body{
+  font-family:'Chillax',sans-serif;
+  font-size:1rem;
+  line-height:1.5;
+  margin:0 0 20px;
+}
+.cs-ok{
+  font-family:'Chillax',sans-serif;
+  font-weight:700;
+  font-size:.9rem;
+  letter-spacing:.5px;
+  text-transform:uppercase;
+  color:var(--ink);
+  background:var(--cream);
+  border:2px solid var(--ink);
+  box-shadow:3px 3px 0 var(--ink);
+  padding:11px 22px;
+  border-radius:999px;
+  cursor:pointer;
+}
+.cs-ok:active{
+  transform:translate(3px,3px);
+  box-shadow:none;
+}
+

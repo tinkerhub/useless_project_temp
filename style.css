@@ -1,0 +1,504 @@
+/* chummaDO — shared styles — "Zesty Lemon" theme */
+
+@import url('https://api.fontshare.com/v2/css?f[]=chillax@400,500,600,700&display=swap');
+/* Baloo Chettan 2 stays only as a Malayalam-glyph fallback for Chillax (Latin-only) below */
+@import url('https://fonts.googleapis.com/css2?family=Baloo+Chettan+2:wght@500;700;800&display=swap');
+
+:root{
+  --red:#B3B347;
+  --pink:#FFE566;
+  --dark-pink:#D6D58B;
+  --white:#FFFFFF;
+  --ink:#000000;
+  --cream:#FFFF66;
+  --shadow: 6px 6px 0 var(--ink);
+}
+
+*{box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+body{
+  margin:0;
+  background:var(--cream);
+  color:var(--ink);
+  font-family:'Chillax',sans-serif;
+  overflow-x:hidden;
+}
+
+a{text-decoration:none;color:inherit;}
+ul{list-style:none;margin:0;padding:0;}
+
+/* ---------- top bar ---------- */
+.topbar{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  padding:22px 5vw;
+  position:relative;
+  z-index:5;
+}
+.badge{
+  font-family:'Chillax',sans-serif;
+  background:var(--ink);
+  color:var(--pink);
+  padding:8px 16px;
+  border-radius:10px;
+  font-size:.85rem;
+  letter-spacing:.5px;
+  transform:rotate(-3deg);
+  border:2px solid var(--ink);
+}
+.nav-pill{
+  display:flex;
+  gap:10px;
+}
+.nav-pill a{
+  font-weight:700;
+  font-size:.85rem;
+  letter-spacing:.5px;
+  background:var(--white);
+  border:2px solid var(--ink);
+  padding:10px 20px;
+  border-radius:999px;
+  box-shadow:3px 3px 0 var(--ink);
+  transition:transform .15s ease;
+  white-space:nowrap;
+}
+.nav-pill a:hover{transform:translate(-2px,-2px);}
+.nav-pill a.primary{
+  background:var(--red);
+  color:var(--ink);
+}
+
+/* ---------- hamburger menu (shared across every page) ---------- */
+.hamburger-btn{
+  width:48px;
+  height:48px;
+  border-radius:50%;
+  background:var(--white);
+  border:2px solid var(--ink);
+  box-shadow:3px 3px 0 var(--ink);
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+  gap:5px;
+  cursor:pointer;
+  flex:0 0 auto;
+  transition:transform .15s ease;
+}
+.hamburger-btn:hover{transform:translate(-2px,-2px);}
+.hamburger-btn span{
+  display:block;
+  width:20px;
+  height:3px;
+  border-radius:2px;
+  background:var(--ink);
+  transition:transform .25s ease, opacity .2s ease;
+}
+.hamburger-btn.open span:nth-child(1){transform:translateY(8px) rotate(45deg);}
+.hamburger-btn.open span:nth-child(2){opacity:0;}
+.hamburger-btn.open span:nth-child(3){transform:translateY(-8px) rotate(-45deg);}
+
+.site-menu-backdrop{
+  position:fixed;
+  inset:0;
+  background:rgba(0,0,0,.45);
+  z-index:98;
+  opacity:0;
+  pointer-events:none;
+  transition:opacity .25s ease;
+}
+.site-menu-backdrop.open{opacity:1;pointer-events:auto;}
+
+.site-menu{
+  position:fixed;
+  top:0;
+  right:0;
+  bottom:0;
+  width:min(84vw, 340px);
+  background:var(--white);
+  border-left:4px solid var(--ink);
+  box-shadow:-8px 0 0 rgba(0,0,0,.08);
+  z-index:99;
+  padding:26px 22px;
+  display:flex;
+  flex-direction:column;
+  gap:8px;
+  transform:translateX(100%);
+  transition:transform .3s ease;
+  overflow-y:auto;
+}
+.site-menu.open{transform:translateX(0);}
+
+.site-menu .menu-title{
+  font-family:'Chillax',sans-serif;
+  font-size:.75rem;
+  letter-spacing:1px;
+  color:var(--ink);
+  opacity:.7;
+  margin:14px 0 2px;
+}
+.site-menu .menu-title:first-child{margin-top:2px;}
+
+.site-menu a{
+  display:flex;
+  align-items:center;
+  gap:10px;
+  font-weight:700;
+  font-size:1rem;
+  color:var(--ink);
+  background:var(--cream);
+  border:2px solid var(--ink);
+  padding:12px 16px;
+  border-radius:14px;
+  transition:transform .15s ease, background .15s ease;
+}
+.site-menu a:hover{transform:translateX(-3px);background:var(--pink);}
+
+.site-menu .menu-close-btn{
+  align-self:flex-end;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  background:var(--ink);
+  color:var(--white);
+  border:none;
+  width:38px;height:38px;
+  padding:0;
+  border-radius:50%;
+  font-size:1.1rem;
+  margin-bottom:6px;
+  cursor:pointer;
+}
+
+/* ---------- hero ---------- */
+.hero{
+  position:relative;
+  min-height:92vh;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+  text-align:center;
+  padding:40px 5vw 80px;
+}
+
+/* Same wordmark treatment as the small nav logo (Chillax, red fill, black
+   stroke, natural mixed case) — just scaled up to hero size. */
+.hero-title{
+  position:relative;
+  font-family:'Chillax',sans-serif;
+  font-size:clamp(3.2rem, 15vw, 10rem);
+  line-height:1;
+  color:var(--red);
+  -webkit-text-stroke:3px var(--ink);
+  margin:0;
+}
+
+.hero-sub{
+  font-weight:600;
+  font-size:1.05rem;
+  color:var(--ink);
+  opacity:.75;
+  margin:26px auto 8px;
+  letter-spacing:.5px;
+  max-width:560px;
+}
+
+.tagline-wrap{
+  margin:28px auto 12px;
+  max-width:95vw;
+}
+.tagline{
+  font-family:'Chillax','Baloo Chettan 2',sans-serif;
+  font-weight:700;
+  font-size:clamp(.85rem, 3.4vw, 2.2rem);
+  color:var(--ink);
+  background:linear-gradient(180deg, transparent 62%, var(--pink) 62%);
+  display:inline;
+  padding:0 6px;
+  line-height:1.5;
+  white-space:nowrap;
+}
+
+.hero-cta{
+  margin-top:38px;
+  display:inline-flex;
+  align-items:center;
+  gap:10px;
+  font-family:'Chillax',sans-serif;
+  font-size:1.2rem;
+  letter-spacing:1px;
+  color:var(--ink);
+  background:var(--red);
+  padding:18px 38px;
+  border-radius:999px;
+  border:3px solid var(--ink);
+  box-shadow:6px 6px 0 var(--ink);
+  transition:transform .15s ease, box-shadow .15s ease;
+}
+.hero-cta:hover{
+  transform:translate(-3px,-3px);
+  box-shadow:9px 9px 0 var(--ink);
+}
+
+/* decorative burst */
+.burst{
+  position:absolute;
+  pointer-events:none;
+  opacity:.9;
+}
+.burst.one{ top:8%; left:4%; width:min(20vw,170px); }
+.burst.two{ bottom:6%; right:5%; width:min(22vw,190px); }
+.burst.three{ top:40%; right:2%; width:min(9vw,80px); }
+
+/* the one-line headline (see .hero-headline media rule above) runs close
+   to edge-to-edge on wide screens, so pull the corner decorations back
+   and shrink them so they clear its vertical band instead of overlapping it */
+@media (min-width:760px){
+  .burst.one{ top:2%; left:1.5%; width:min(10vw,100px); }
+  .burst.two{ bottom:2%; right:1.5%; width:min(11vw,110px); }
+}
+
+.floaty{animation:floaty 5s ease-in-out infinite;}
+.floaty.delay{animation-delay:1.2s;}
+@keyframes floaty{
+  0%,100%{transform:translateY(0) rotate(var(--r,0deg));}
+  50%{transform:translateY(-16px) rotate(var(--r,0deg));}
+}
+
+/* ---------- section heading (projects page) ---------- */
+.section-head{
+  text-align:center;
+  padding:70px 5vw 10px;
+}
+.section-head h2{
+  font-family:'Chillax',sans-serif;
+  font-size:clamp(2.2rem,6vw,4rem);
+  color:var(--red);
+  text-transform:uppercase;
+  letter-spacing:1px;
+  -webkit-text-stroke:1.5px var(--ink);
+  margin:0;
+}
+.section-head p{
+  font-weight:600;
+  color:var(--ink);
+  opacity:.7;
+  margin-top:10px;
+}
+
+/* ---------- project grid ---------- */
+.grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(240px,1fr));
+  gap:34px;
+  max-width:1200px;
+  margin:40px auto 90px;
+  padding:0 5vw;
+}
+
+.card{
+  position:relative;
+  background:var(--white);
+  border:3px solid var(--ink);
+  border-radius:26px;
+  padding:34px 22px 28px;
+  text-align:center;
+  box-shadow:7px 7px 0 var(--ink);
+  transition:transform .18s ease, box-shadow .18s ease;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  gap:14px;
+}
+.card:hover{
+  transform:translate(-5px,-5px);
+  box-shadow:12px 12px 0 var(--ink);
+}
+.card .icon-wrap{
+  width:120px;
+  height:120px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  border-radius:50%;
+  background:var(--pink);
+  border:3px solid var(--ink);
+}
+.card:nth-child(2) .icon-wrap{background:var(--dark-pink);}
+.card:nth-child(3) .icon-wrap{background:var(--red);}
+.card:nth-child(4) .icon-wrap{background:var(--pink);}
+.card:nth-child(5) .icon-wrap{background:var(--dark-pink);}
+.card .icon-wrap svg{width:70px;height:70px;}
+
+.card h3{
+  font-family:'Chillax',sans-serif;
+  font-size:1.4rem;
+  letter-spacing:.5px;
+  color:var(--ink);
+  margin:0;
+  text-transform:uppercase;
+}
+.card p{
+  font-size:.92rem;
+  color:var(--ink);
+  opacity:.7;
+  margin:0;
+  min-height:40px;
+}
+.card .tag{
+  font-family:'Chillax',sans-serif;
+  font-size:.7rem;
+  letter-spacing:1px;
+  background:var(--ink);
+  color:var(--white);
+  padding:5px 12px;
+  border-radius:999px;
+}
+
+/* ---------- FAQ ---------- */
+.faq{
+  max-width:820px;
+  margin:0 auto 90px;
+  padding:0 5vw;
+}
+.faq-item{
+  background:var(--white);
+  border:3px solid var(--ink);
+  border-radius:18px;
+  margin-bottom:16px;
+  overflow:hidden;
+  box-shadow:5px 5px 0 var(--ink);
+}
+.faq-q{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  padding:20px 24px;
+  cursor:pointer;
+  font-weight:700;
+  font-size:1.02rem;
+}
+.faq-q .plus{
+  font-family:'Chillax',sans-serif;
+  font-size:1.3rem;
+  color:var(--ink);
+  transition:transform .2s ease;
+  flex:0 0 auto;
+  margin-left:16px;
+}
+.faq-item.open .faq-q .plus{transform:rotate(45deg);}
+.faq-a{
+  max-height:0;
+  overflow:hidden;
+  transition:max-height .25s ease;
+  padding:0 24px;
+  font-size:.95rem;
+  opacity:.8;
+  line-height:1.6;
+}
+.faq-item.open .faq-a{
+  max-height:300px;
+  padding-bottom:22px;
+}
+
+/* ---------- footer ---------- */
+footer{
+  background:var(--ink);
+  color:var(--pink);
+  padding:50px 5vw 26px;
+  text-align:center;
+}
+footer .foot-logo{
+  font-family:'Chillax',sans-serif;
+  font-size:2rem;
+  color:var(--white);
+  text-transform:uppercase;
+  letter-spacing:1px;
+}
+footer .foot-tag{
+  font-family:'Chillax','Baloo Chettan 2',sans-serif;
+  color:var(--pink);
+  margin-top:6px;
+  font-size:1.1rem;
+}
+footer .foot-links{
+  display:flex;
+  justify-content:center;
+  gap:26px;
+  flex-wrap:wrap;
+  margin:26px 0;
+  font-size:.85rem;
+  font-weight:600;
+}
+footer .foot-links a:hover{color:var(--white);}
+footer .copyright{
+  font-size:.75rem;
+  opacity:.6;
+  margin-top:20px;
+  letter-spacing:.5px;
+}
+
+/* ---------- stub project page ---------- */
+.stub{
+  min-height:80vh;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+  text-align:center;
+  padding:60px 6vw;
+}
+.stub .icon-wrap{
+  width:140px;height:140px;
+  border-radius:50%;
+  background:var(--pink);
+  border:3px solid var(--ink);
+  display:flex;align-items:center;justify-content:center;
+  box-shadow:7px 7px 0 var(--ink);
+  margin-bottom:28px;
+}
+.stub .icon-wrap svg{width:82px;height:82px;}
+.stub h1{
+  font-family:'Chillax',sans-serif;
+  font-size:clamp(2.2rem,7vw,4rem);
+  color:var(--red);
+  text-transform:uppercase;
+  -webkit-text-stroke:1.5px var(--ink);
+  margin:0 0 14px;
+}
+.stub .status{
+  font-family:'Chillax',sans-serif;
+  background:var(--dark-pink);
+  color:var(--ink);
+  padding:8px 20px;
+  border-radius:999px;
+  border:2px solid var(--ink);
+  font-size:.85rem;
+  letter-spacing:1px;
+  margin-bottom:18px;
+}
+.stub p{
+  max-width:520px;
+  font-size:1rem;
+  opacity:.75;
+  line-height:1.7;
+}
+.stub .back{
+  margin-top:30px;
+  font-weight:700;
+  font-size:.9rem;
+  background:var(--white);
+  border:2px solid var(--ink);
+  padding:12px 26px;
+  border-radius:999px;
+  box-shadow:4px 4px 0 var(--ink);
+}
+.stub .back:hover{transform:translate(-2px,-2px);}
+
+@media (max-width:640px){
+  .topbar{flex-direction:column;gap:14px;}
+  footer .foot-links{gap:14px;}
+  .burst.three{ top:auto; bottom:2%; right:4%; }
+}

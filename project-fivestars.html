@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>5 Star Game — chummaDO</title>
+<link rel="stylesheet" href="style.css">
+<link rel="stylesheet" href="game-landing.css">
+<link rel="stylesheet" href="fivestars.css">
+</head>
+<body>
+
+<div class="fs-wrap">
+
+  <div class="topbar">
+    <a href="index.html" style="font-family:'Chillax',sans-serif;font-size:1.4rem;color:var(--red);-webkit-text-stroke:1px var(--ink);">chummaDO</a>
+    <button class="hamburger-btn" id="navToggle" aria-label="Open menu">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+
+  <section class="fs-stage">
+
+    <!-- ================= IDLE ================= -->
+    <div class="fs-panel gl-landing show" id="fsIdle">
+      <div class="gl-copy">
+        <h1 class="gl-title gl-font" id="fsTitleType"></h1>
+        <p class="gl-rules gl-font" id="fsRulesType"></p>
+        <button class="gl-start-btn gl-font" id="fsStartBtn">START</button>
+      </div>
+
+      <div class="gl-stickman-lane" aria-hidden="true">
+        <svg class="gl-stickman gl-stickman--fall" viewBox="0 0 40 50" xmlns="http://www.w3.org/2000/svg">
+          <circle class="sm-head" cx="20" cy="8" r="6" fill="none" stroke="#000" stroke-width="3"/>
+          <line class="sm-body" x1="20" y1="14" x2="20" y2="32" stroke="#000" stroke-width="3" stroke-linecap="round"/>
+          <line class="sm-arm-l" x1="20" y1="18" x2="11" y2="27" stroke="#000" stroke-width="3" stroke-linecap="round"/>
+          <line class="sm-arm-r" x1="20" y1="18" x2="29" y2="27" stroke="#000" stroke-width="3" stroke-linecap="round"/>
+          <line class="sm-leg-l" x1="20" y1="32" x2="11" y2="46" stroke="#000" stroke-width="3" stroke-linecap="round"/>
+          <line class="sm-leg-r" x1="20" y1="32" x2="29" y2="46" stroke="#000" stroke-width="3" stroke-linecap="round"/>
+        </svg>
+      </div>
+    </div>
+
+    <!-- ================= PLAYING ================= -->
+    <div class="fs-panel" id="fsPlaying">
+      <div id="fsGetReady" class="fs-getready">GET READY… DON'T MOVE!</div>
+    </div>
+
+    <!-- HUD + growing button live outside the centered flex panel so they can
+         use fixed positioning (top-right corner / full-viewport centering). -->
+    <div class="fs-hud" id="fsHud">
+      <div class="fs-timer" id="fsTimer">0.0s</div>
+      <div class="fs-stars" id="fsStars">
+        <svg viewBox="0 0 100 100"><path d="M50 8 L61 37 L92 40 L68 60 L75 91 L50 74 L25 91 L32 60 L8 40 L39 37 Z" fill="#FFC64B" stroke="#000000" stroke-width="5" stroke-linejoin="round"/></svg>
+        <svg viewBox="0 0 100 100"><path d="M50 8 L61 37 L92 40 L68 60 L75 91 L50 74 L25 91 L32 60 L8 40 L39 37 Z" fill="#FFC64B" stroke="#000000" stroke-width="5" stroke-linejoin="round"/></svg>
+        <svg viewBox="0 0 100 100"><path d="M50 8 L61 37 L92 40 L68 60 L75 91 L50 74 L25 91 L32 60 L8 40 L39 37 Z" fill="#FFC64B" stroke="#000000" stroke-width="5" stroke-linejoin="round"/></svg>
+        <svg viewBox="0 0 100 100"><path d="M50 8 L61 37 L92 40 L68 60 L75 91 L50 74 L25 91 L32 60 L8 40 L39 37 Z" fill="#FFC64B" stroke="#000000" stroke-width="5" stroke-linejoin="round"/></svg>
+        <svg viewBox="0 0 100 100"><path d="M50 8 L61 37 L92 40 L68 60 L75 91 L50 74 L25 91 L32 60 L8 40 L39 37 Z" fill="#FFC64B" stroke="#000000" stroke-width="5" stroke-linejoin="round"/></svg>
+      </div>
+    </div>
+
+    <button class="fs-push-btn" id="fsPushBtn">PUSH THIS BUTTON</button>
+
+    <!-- ================= RESULT ================= -->
+    <div class="fs-result" id="fsResult">
+      <h2 id="fsResultTitle">—</h2>
+      <p id="fsResultText"></p>
+      <div class="fs-time" id="fsResultTime"></div>
+      <button class="fs-again-btn" id="fsAgainBtn">PLAY AGAIN</button>
+    </div>
+
+  </section>
+
+</div>
+
+<footer>
+  <div class="foot-logo">chummaDO</div>
+  <div class="foot-tag">വെറുതെ ഇരിക്കല്ലേ, ചുമ്മാ ഡു ചെയ്യ്</div>
+  <ul class="foot-links">
+    <li><a href="index.html">Home</a></li>
+    <li><a href="projects.html">Projects</a></li>
+  </ul>
+  <div class="copyright">© 2026 CHUMMADO. MADE OUT OF PURE BOREDOM.</div>
+</footer>
+
+<div class="site-menu-backdrop" id="siteMenuBackdrop"></div>
+<nav class="site-menu" id="siteMenu">
+  <button class="menu-close-btn" id="navCloseBtn">✕</button>
+  <a href="index.html">🏠 Home</a>
+  <div class="menu-title">GAMES</div>
+  <a href="project-poozzle.html">🌸 Poo-zzle</a>
+  <a href="project-chummalist.html">📝 Chumma List</a>
+  <a href="project-fivestars.html">⭐ 5 Star Game</a>
+  <a href="project-cheetahcrawl.html">🐆 Cheetah Crawl</a>
+  <div class="menu-title">MORE</div>
+  <a href="projects.html">🕹️ All Games</a>
+</nav>
+<script src="nav.js"></script>
+<script src="game-landing.js"></script>
+<script src="fivestars.js"></script>
+</body>
+</html>
