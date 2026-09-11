@@ -2,17 +2,16 @@
 
 
 
-# [Project Name] 🎯
+# STRATOS 🎯
 
 
 ## Basic Details
-### Team Name: [Name]
+### Team Name: Iyaaaa
 
 
 ### Team Members
-- Team Lead: [Name] - [College]
-- Member 2: [Name] - [College]
-- Member 3: [Name] - [College]
+- Team Lead: Diya Anish - SNGCE
+- Member 2: Riya anna k.f - SNGCE
 
 ### Project Description
 [2-3 lines about what your project does]
