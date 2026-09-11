@@ -2,97 +2,122 @@
 
 
 
-# [Project Name] 🎯
+# [Save My Biscuit] 🎯
 
 
 ## Basic Details
-### Team Name: [Name]
+### Team Name: [PrarthanaAlfa]
 
 
 ### Team Members
-- Team Lead: [Name] - [College]
-- Member 2: [Name] - [College]
-- Member 3: [Name] - [College]
+- Team Lead: [Prarthana J] - [KAHM Unity Women's College, Manjeri(Autonomous)]
+- Member 2: [Alfa Thasneem M] - [KAHM Unity Women's College, Manjeri(Autonomous)]
 
 ### Project Description
-[2-3 lines about what your project does]
+[ A fun and useless web project that tests how long different biscuits can survive when dipped in tea using biscuit characteristics, image analysis, and a survival score. ☕]
 
 ### The Problem (that doesn't exist)
-[What ridiculous problem are you solving?]
+[How long can a biscuit survive when dipped in tea?]
 
 ### The Solution (that nobody asked for)
-[How are you solving it? Keep it fun!]
+[People have never needed to know which biscuit can survive the longest tea dunk. So, we decided to solve this completely unnecessary problem. ☕]
 
 ## Technical Details
 ### Technologies/Components Used
 For Software:
-- [Languages used]
-- [Frameworks used]
-- [Libraries used]
-- [Tools used]
+- [HTML,CSS,JavaScript]
+- [None]
+- [None]
+- [VS Code,OpenCode,Git,GitHub,Live Server]
 
 For Hardware:
-- [List main components]
-- [List specifications]
-- [List tools required]
+- [Laptop]
+- [Windows 11]
+- [Keyboard,mouse,Internet Connection]
 
 ### Implementation
 For Software:
+1. Download or clone the project from GitHub.
+2. Open the project folder in VS Code.
+3. Open index.html using Live Server.
 # Installation
-[commands]
+[npm install -g opencode-ai]
 
 # Run
-[commands]
+[Open the project folder in VS Code.
+Open index.html using Live Server.
+The website will run in the browser at:
+http://127.0.0.1:5500/]
 
 ### Project Documentation
 For Software:
+Project Name: Save My Biscuit
+Technologies: HTML, CSS, JavaScript
+AI Coding Tool: OpenCode
+Code Editor: VS Code
+Development Tool: Live Server
+Version Control: Git & GitHub
+Main Features: Biscuit selection, tea-dipping animation, survival score calculation, result display, and custom biscuit image upload.
+Purpose: A fun and useless project that solves a problem that does not exist — finding out how long a biscuit can survive a tea dunk. ☕
 
 # Screenshots (Add at least 3)
-![Screenshot1](Add screenshot 1 here with proper name)
-*Add caption explaining what this shows*
+* 1. Home Page
+!![alt text](image.png)
+!https://drive.google.com/file/d/1kqoeMqJvPE7V30YQUICTTKb5UpigRzRv/view?usp=drive_link
+2. Home Page 2
+![alt text](<HOME 2.png>)
+https://drive.google.com/file/d/1CgbnGakP2Y36oMDYXxAYo2z4QRsalL23/view?usp=drive_link
+3. Home Page 3
+![alt text](<HOME 3.png>)
+https://drive.google.com/file/d/1Nx-wlISBGc_qLMfeEeNUxXDLs6yOILxm/view?usp=drive_link
+*Shows the biscuit collection where users can choose a biscuit or test their own biscuit.*
 
-![Screenshot2](Add screenshot 2 here with proper name)
-*Add caption explaining what this shows*
+4. Tea Dipping test
+![alt text](<TEA DIPPING.png>)
+https://drive.google.com/file/d/1ZE9z4D5588o3l0V5TGIFvF832bjVV_Q9/view?usp=drive_link
+*Shows the selected biscuit being dipped into the tea with the survival timer and animation.*
+5. Survival Test
+![alt text](<SURVIVAL RESULT.png>)
+https://drive.google.com/file/d/1iEz5fq2BEun8ceP_BspkbY7_QrtCrD-2/view?usp=drive_link
+*Shows the biscuit's survival time, survival score, and final survival category.*
 
-![Screenshot3](Add screenshot 3 here with proper name)
-*Add caption explaining what this shows*
+6. Upload Your Own 1
+![alt text](<UPLOAD YOUR OWN 1.png>)
+https://drive.google.com/file/d/1YL2heuithH6hLu7qTeqnTKWvYNd0G_YT/view?usp=drive_link
+7. Upload Your Own 2
+![alt text](<UPLOAD YOUR OWN 2.png>)
+https://drive.google.com/file/d/13DJw1D8OA4-vbPMiPz7iLZWi79_HjzFl/view?usp=drive_link
+8. Upload Your Own 3
+![alt text](<UPLOAD YOUR OWN 3.png>)
+https://drive.google.com/file/d/1lUc_SNIUCfVSHa3hLlNDmmK1OL6pVavv/view?usp=drive_link
+*Shows the option to upload a custom biscuit image and test its survival.*
 
 # Diagrams
-![Workflow](Add your workflow/architecture diagram here)
-*Add caption explaining your workflow*
-
-For Hardware:
-
-# Schematic & Circuit
-![Circuit](Add your circuit diagram here)
-*Add caption explaining connections*
-
-![Schematic](Add your schematic diagram here)
-*Add caption explaining the schematic*
-
-# Build Photos
-![Components](Add photo of your components here)
-*List out all components shown*
-
-![Build](Add photos of build process here)
-*Explain the build steps*
-
-![Final](Add photo of final product here)
-*Explain the final build*
+!Choose Biscuit / Upload Biscuit
+           ↓
+Display Biscuit Image 🍪
+           ↓
+Analyse Biscuit Characteristics 🧠
+           ↓
+Calculate Survival Score 📊
+           ↓
+Tea Dipping Animation ☕
+           ↓
+Calculate Survival Time ⏱️
+           ↓
+Display Result 🏆
+           ↓
+Try Another Biscuit
+*Workflow showing the complete Biscuit Survival Test process, from selecting or uploading a biscuit to tea dipping, survival analysis, and the final result.*
 
 ### Project Demo
 # Video
-[Add your demo video link here]
-*Explain what the video demonstrates*
-
-# Additional Demos
-[Add any extra demo materials/links]
+[https://drive.google.com/file/d/1_vqdwJhgJfhVNRx73kQcw52KtDN-hf1b/view?usp=drive_link]
+*The video demonstrates the Biscuit Survival Test, including biscuit selection, tea-dipping animation, survival analysis, survival score, final result, and the option to upload and test a custom biscuit.*
 
 ## Team Contributions
-- [Name 1]: [Specific contributions]
-- [Name 2]: [Specific contributions]
-- [Name 3]: [Specific contributions]
-
+- [Prarthana J]: [HTML, CSS, and JavaScript coding, UI implementation, tea-dipping animation, biscuit selection, image upload feature, survival calculation, and testing.]
+- [Alfa Thasneem M]: [Project idea and concept development, creation of project images and visual assets, feature planning, testing, and documentation.]
 ---
 Made with ❤️ at TinkerHub Useless Projects 
 

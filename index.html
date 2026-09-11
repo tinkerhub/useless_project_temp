@@ -1,1 +1,190 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
+<title>Save My Biscuit ☕</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,600;1,700&display=swap" rel="stylesheet">
+
+<link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+<header>
+    <h1>Save My Biscuit</h1>
+    <p>How long will your biscuit survive? </p>
+</header>
+
+
+<div class="container" id="homeScreen">
+
+    <h2 class="section-title">Choose Your Biscuit 🍪</h2>
+
+    <div class="biscuit-grid" id="biscuitGrid">
+        <!-- Biscuit cards are rendered here by script.js -->
+    </div>
+
+
+    <!-- UPLOAD -->
+    <div class="upload-section">
+
+        <h2>📸 Test Your Own Biscuit</h2>
+
+        <p>
+            Have a mysterious biscuit at home?
+            Upload it and let our highly scientific laboratory analyse it. 🧪
+        </p>
+
+        <label for="imageInput" class="upload-btn">
+            📷 Upload Biscuit Image
+        </label>
+
+        <input type="file"
+               id="imageInput"
+               accept="image/*"
+               onchange="handleUpload(event)">
+
+        <img id="uploadedPreview">
+
+    </div>
+
+
+    <!-- LEADERBOARD -->
+    <div class="leaderboard">
+
+        <h2>🏆 TEA SURVIVAL CHAMPIONS</h2>
+
+        <div id="leaderboard">
+            <!-- Ranked live from test results by script.js -->
+        </div>
+
+    </div>
+
+</div>
+
+
+<!-- TEST SCREEN -->
+
+<div class="container" id="testScreen">
+
+    <h2 class="test-title">
+        🔬 Biscuit Laboratory
+    </h2>
+
+    <p class="test-subtitle" id="testingName">
+        Preparing biscuit...
+    </p>
+
+    <div class="tea-area">
+
+        <img id="animatedBiscuit"
+             src=""
+             alt="Biscuit">
+
+        <div class="tea-cup">
+            <div class="tea-surface"></div>
+            <div class="handle"></div>
+        </div>
+
+    </div>
+
+    <div id="statusText">
+        Preparing tea immersion...
+    </div>
+
+    <!-- RESULT -->
+
+    <div id="result">
+
+        <img id="resultImage"
+             class="result-biscuit"
+             src=""
+             alt="Biscuit">
+
+        <h2 id="resultName"></h2>
+
+        <div class="survival-time">
+            Predicted Survival Time:
+            <strong id="resultTime"></strong>
+        </div>
+
+        <div class="score" id="resultScore"></div>
+
+        <div class="category" id="resultCategory"></div>
+
+        <p class="message" id="resultMessage"></p>
+
+        <div class="features">
+
+            <div class="feature">
+                <div class="feature-name">
+                    <span>Thickness</span>
+                    <span id="thicknessValue"></span>
+                </div>
+
+                <div class="bar">
+                    <div class="bar-fill" id="thicknessBar"></div>
+                </div>
+            </div>
+
+
+            <div class="feature">
+                <div class="feature-name">
+                    <span>Shape Stability</span>
+                    <span id="stabilityValue"></span>
+                </div>
+
+                <div class="bar">
+                    <div class="bar-fill" id="stabilityBar"></div>
+                </div>
+            </div>
+
+
+            <div class="feature">
+                <div class="feature-name">
+                    <span>Surface Stability</span>
+                    <span id="surfaceValue"></span>
+                </div>
+
+                <div class="bar">
+                    <div class="bar-fill" id="surfaceBar"></div>
+                </div>
+            </div>
+
+
+            <div class="feature">
+                <div class="feature-name">
+                    <span>Crack Resistance</span>
+                    <span id="crackValue"></span>
+                </div>
+
+                <div class="bar">
+                    <div class="bar-fill" id="crackBar"></div>
+                </div>
+            </div>
+
+        </div>
+
+        <button class="restart-btn" onclick="goHome()">
+            🍪 Try Another Biscuit
+        </button>
+
+    </div>
+
+</div>
+
+
+<footer>
+    🍪 Biscuit Survival Test — A completely unnecessary scientific experiment ☕
+</footer>
+
+
+<script src="script.js"></script>
+
+</body>
+</html>

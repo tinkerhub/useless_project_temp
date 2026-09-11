@@ -1,0 +1,95 @@
+{
+  "Butter Cookies": {
+    "score": 72,
+    "time": 8.4,
+    "thickness": 72,
+    "stability": 76,
+    "surface": 70,
+    "cracks": 90,
+    "image": "https://static.vecteezy.com/system/resources/previews/030/739/904/non_2x/round-cookies-isolated-on-transparent-background-biscuit-top-view-cut-out-generative-ai-png.png"
+  },
+  "Marie Gold": {
+    "score": 43,
+    "time": 5.8,
+    "thickness": 43,
+    "stability": 52,
+    "surface": 60,
+    "cracks": 45,
+    "image": "https://static.vecteezy.com/system/resources/previews/024/509/639/non_2x/biscuit-isolated-on-transparent-background-created-with-generative-ai-png.png"
+  },
+  "Good Day": {
+    "score": 79,
+    "time": 9.5,
+    "thickness": 79,
+    "stability": 82,
+    "surface": 78,
+    "cracks": 80,
+    "scale": 1.3,
+    "image": "https://www.britannia.co.in/_next/image?url=%2Fimages%2FBiscuitTilted.png&w=640&q=75"
+  },
+  "Chocolate Biscuit": {
+    "score": 76,
+    "time": 8.9,
+    "thickness": 76,
+    "stability": 80,
+    "surface": 73,
+    "cracks": 78,
+    "image": "https://static.vecteezy.com/system/resources/previews/044/813/579/non_2x/chocolate-biscuit-isolated-on-transparent-background-free-png.png"
+  },
+  "Little Hearts": {
+    "score": 82,
+    "time": 10.1,
+    "thickness": 82,
+    "stability": 85,
+    "surface": 80,
+    "cracks": 82,
+    "image": "https://www.britannia.co.in/_next/image?url=%2Fimages%2FLittle_heart_Duo.png&w=640&q=75"
+  },
+  "Oreo": {
+    "score": 91,
+    "time": 11.2,
+    "thickness": 91,
+    "stability": 94,
+    "surface": 89,
+    "cracks": 93,
+    "image": "https://images.ctfassets.net/kvfvpz4abpco/7n3VlWuCUPBuMVzlmo9Pwe/bc74da99bbbed46fc896cb5166fc81d1/oreo-footer.png?w=1920"
+  },
+  "Tiger": {
+    "score": 67,
+    "time": 7.2,
+    "thickness": 67,
+    "stability": 70,
+    "surface": 66,
+    "cracks": 68,
+    "image": "https://www.continentalbiscuits.com.pk/wp-content/uploads/tiger_biscuit_image.png"
+  },
+  "50-50": {
+    "score": 70,
+    "time": 7.8,
+    "thickness": 70,
+    "stability": 73,
+    "surface": 71,
+    "cracks": 72,
+    "image": "https://pngimg.com/d/biscuit_PNG65.png"
+  },
+  "Jim Jam": {
+    "score": 74,
+    "time": 8.1,
+    "thickness": 74,
+    "stability": 77,
+    "surface": 75,
+    "cracks": 76,
+    "scale": 1.3,
+    "image": "https://png.pngtree.com/png-clipart/20231011/original/pngtree-jam-biscuits-macro-isolated-industry-picture-image_13117033.png"
+  },
+  "Dark Fantasy": {
+    "score": 87,
+    "time": 10.7,
+    "thickness": 87,
+    "stability": 89,
+    "surface": 86,
+    "cracks": 90,
+    "scale": 1.3,
+    "image": "https://www.pngplay.com/wp-content/uploads/15/Dark-Chocolate-Cookies-PNG-Clipart-Background.png"
+  }
+}
