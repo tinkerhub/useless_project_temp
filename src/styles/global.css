@@ -1,0 +1,146 @@
+/* =========================================
+   UselessOS™ Design System
+   ========================================= */
+
+:root {
+    /* Backgrounds */
+    --color-bg: #f4f4f5;
+    --color-surface: #ffffff;
+    --color-surface-hover: #fafafa;
+    --color-surface-muted: #f0f0f2;
+
+    /* Text */
+    --color-text: #18181b;
+    --color-text-secondary: #71717a;
+    --color-text-muted: #a1a1aa;
+
+    /* Borders */
+    --color-border: #e4e4e7;
+    --color-border-strong: #d4d4d8;
+
+    /* Accent */
+    --color-accent: #7c3aed;
+    --color-accent-hover: #6d28d9;
+    --color-accent-soft: #ede9fe;
+    --color-accent-text: #6d28d9;
+
+    /* Status */
+    --color-success: #16a34a;
+    --color-warning: #d97706;
+    --color-danger: #dc2626;
+
+    /* Shadows */
+    --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.05);
+    --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.08);
+    --shadow-lg: 0 10px 30px rgba(0, 0, 0, 0.1);
+
+    /* Radius */
+    --radius-sm: 6px;
+    --radius-md: 10px;
+    --radius-lg: 16px;
+
+    /* Spacing */
+    --space-1: 4px;
+    --space-2: 8px;
+    --space-3: 12px;
+    --space-4: 16px;
+    --space-5: 20px;
+    --space-6: 24px;
+    --space-8: 32px;
+    --space-10: 40px;
+    --space-12: 48px;
+}
+
+/* =========================================
+   Dark Theme
+   ========================================= */
+
+[data-theme="dark"] {
+    --color-bg: #09090b;
+    --color-surface: #18181b;
+    --color-surface-hover: #202024;
+    --color-surface-muted: #27272a;
+
+    --color-text: #f4f4f5;
+    --color-text-secondary: #a1a1aa;
+    --color-text-muted: #71717a;
+
+    --color-border: #27272a;
+    --color-border-strong: #3f3f46;
+
+    --color-accent: #a78bfa;
+    --color-accent-hover: #8b5cf6;
+    --color-accent-soft: #2e1065;
+    --color-accent-text: #c4b5fd;
+
+    --color-success: #4ade80;
+    --color-warning: #fbbf24;
+    --color-danger: #f87171;
+
+    --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.3);
+    --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.4);
+    --shadow-lg: 0 10px 30px rgba(0, 0, 0, 0.5);
+}
+
+/* =========================================
+   Reset
+   ========================================= */
+
+* {
+    box-sizing: border-box;
+}
+
+html,
+body,
+#root {
+    margin: 0;
+    min-height: 100%;
+}
+
+body {
+    min-height: 100vh;
+    background: var(--color-bg);
+    color: var(--color-text);
+
+    font-family:
+        Inter,
+        ui-sans-serif,
+        system-ui,
+        -apple-system,
+        BlinkMacSystemFont,
+        "Segoe UI",
+        sans-serif;
+
+    transition:
+        background-color 0.2s ease,
+        color 0.2s ease;
+}
+
+button,
+input,
+select,
+textarea {
+    font: inherit;
+}
+
+button {
+    cursor: pointer;
+}
+
+/* =========================================
+   App Layout
+   ========================================= */
+
+.app {
+    min-height: 100vh;
+}
+
+.main-content {
+    width: 100%;
+    min-height: 100vh;
+
+    display: flex;
+    justify-content: center;
+
+    padding: var(--space-12) var(--space-6);
+}

@@ -1,0 +1,472 @@
+.typer-page {
+    width: 100%;
+    max-width: 760px;
+}
+
+/* =========================================
+   Header
+   ========================================= */
+
+.typer-header {
+    margin-bottom: var(--space-8);
+}
+
+.typer-eyebrow {
+    display: inline-flex;
+    align-items: center;
+
+    margin-bottom: var(--space-3);
+
+    padding: 6px 10px;
+
+    border: 1px solid var(--color-border);
+    border-radius: 999px;
+
+    background: var(--color-surface);
+
+    color: var(--color-text-secondary);
+
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+}
+
+.typer-title {
+    margin: 0;
+
+    color: var(--color-text);
+
+    font-size: clamp(32px, 5vw, 48px);
+    line-height: 1.05;
+    letter-spacing: -0.04em;
+}
+
+.typer-subtitle {
+    margin: var(--space-4) 0 0;
+
+    color: var(--color-text-secondary);
+
+    font-size: 16px;
+    line-height: 1.6;
+}
+
+/* =========================================
+   Main Card
+   ========================================= */
+
+.typer-card {
+    padding: var(--space-8);
+
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-lg);
+
+    background: var(--color-surface);
+
+    box-shadow: var(--shadow-md);
+}
+
+/* =========================================
+   Sample
+   ========================================= */
+
+.typer-sample {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-2);
+
+    margin-bottom: var(--space-5);
+
+    padding: var(--space-4);
+
+    border: 1px solid var(--color-accent-soft);
+    border-radius: var(--radius-md);
+
+    background: var(--color-accent-soft);
+}
+
+.typer-sample-label {
+    color: var(--color-accent-text);
+
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+}
+
+.typer-sample-text {
+    color: var(--color-text);
+
+    font-family:
+        ui-monospace,
+        SFMono-Regular,
+        Menlo,
+        Consolas,
+        monospace;
+    font-size: 15px;
+    line-height: 1.7;
+}
+
+/* =========================================
+   Textarea
+   ========================================= */
+
+.typer-textarea {
+    width: 100%;
+    min-height: 140px;
+
+    resize: vertical;
+
+    padding: var(--space-4);
+
+    border: 1px solid var(--color-border-strong);
+    border-radius: var(--radius-md);
+
+    outline: none;
+
+    background: var(--color-surface);
+    color: var(--color-text);
+
+    font-family:
+        ui-monospace,
+        SFMono-Regular,
+        Menlo,
+        Consolas,
+        monospace;
+    font-size: 15px;
+    line-height: 1.7;
+
+    transition:
+        border-color 0.15s ease,
+        box-shadow 0.15s ease;
+}
+
+.typer-textarea:hover {
+    border-color: var(--color-accent);
+}
+
+.typer-textarea:focus {
+    border-color: var(--color-accent);
+
+    box-shadow:
+        0 0 0 3px var(--color-accent-soft);
+}
+
+.typer-textarea::placeholder {
+    color: var(--color-text-muted);
+}
+
+/* =========================================
+   Counters
+   ========================================= */
+
+.typer-counters {
+    display: flex;
+    gap: var(--space-4);
+
+    margin-top: var(--space-2);
+}
+
+.typer-counter {
+    color: var(--color-text-muted);
+
+    font-size: 12px;
+}
+
+.typer-progress {
+    width: 100%;
+    height: 6px;
+
+    margin-top: var(--space-2);
+
+    overflow: hidden;
+
+    border-radius: 999px;
+
+    background: var(--color-surface-muted);
+
+    transition: background-color 0.2s ease;
+}
+
+.typer-progress-fill {
+    height: 100%;
+
+    border-radius: 999px;
+
+    background: var(--color-accent);
+
+    transition: width 0.1s linear;
+}
+
+/* =========================================
+   Actions
+   ========================================= */
+
+.typer-actions {
+    display: flex;
+    gap: var(--space-3);
+
+    margin-top: var(--space-5);
+}
+
+.analyze-button {
+    flex: 1;
+
+    padding: 14px 20px;
+
+    border: none;
+    border-radius: var(--radius-md);
+
+    background: var(--color-accent);
+    color: white;
+
+    font-size: 14px;
+    font-weight: 700;
+
+    transition:
+        background-color 0.15s ease,
+        transform 0.15s ease,
+        box-shadow 0.15s ease,
+        opacity 0.15s ease;
+}
+
+.analyze-button:hover:not(:disabled) {
+    background: var(--color-accent-hover);
+
+    transform: translateY(-1px);
+
+    box-shadow: var(--shadow-md);
+}
+
+.analyze-button:active:not(:disabled) {
+    transform: translateY(0);
+}
+
+.analyze-button:focus-visible {
+    outline: 2px solid var(--color-accent);
+    outline-offset: 2px;
+}
+
+.analyze-button:disabled {
+    cursor: not-allowed;
+    opacity: 0.5;
+}
+
+.retry-button {
+    padding: 14px 18px;
+
+    border: 1px solid var(--color-border-strong);
+    border-radius: var(--radius-md);
+
+    background: var(--color-surface);
+    color: var(--color-text-secondary);
+
+    font-size: 14px;
+    font-weight: 600;
+
+    transition:
+        background-color 0.15s ease,
+        color 0.15s ease;
+}
+
+.retry-button:hover {
+    background: var(--color-surface-hover);
+    color: var(--color-text);
+}
+
+.retry-button:focus-visible {
+    outline: 2px solid var(--color-accent);
+    outline-offset: 2px;
+}
+
+/* =========================================
+   Verdict
+   ========================================= */
+
+.typer-verdict {
+    margin-top: var(--space-6);
+
+    padding: var(--space-6);
+
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-md);
+
+    background: var(--color-surface-muted);
+
+    animation: verdict-in 0.25s ease;
+}
+
+@keyframes verdict-in {
+    from {
+        opacity: 0;
+        transform: translateY(4px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.typer-verdict-empty {
+    border-style: dashed;
+
+    background: transparent;
+}
+
+.verdict-label {
+    margin: 0 0 var(--space-4);
+
+    color: var(--color-text-muted);
+
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+}
+
+.verdict-metrics {
+    display: grid;
+    grid-template-columns: repeat(
+        2,
+        1fr
+    );
+
+    gap: var(--space-3);
+}
+
+.verdict-metric {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+
+    padding: var(--space-3);
+
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-sm);
+
+    background: var(--color-surface);
+}
+
+.verdict-metric-label {
+    color: var(--color-text-muted);
+
+    font-size: 11px;
+}
+
+.verdict-metric-value {
+    color: var(--color-text);
+
+    font-size: 18px;
+    font-weight: 700;
+}
+
+.verdict-conclusion {
+    margin: var(--space-5) 0 0;
+
+    color: var(--color-text);
+
+    font-size: 18px;
+    line-height: 1.5;
+}
+
+.verdict-confidence {
+    margin-top: var(--space-5);
+
+
+    padding-top: var(--space-4);
+
+    border-top: 1px solid var(--color-border);
+}
+
+.verdict-confidence-head {
+    display: flex;
+    justify-content: space-between;
+
+    color: var(--color-text-secondary);
+
+    font-size: 12px;
+    font-weight: 600;
+}
+
+.confidence-bar {
+    width: 100%;
+    height: 8px;
+
+    margin-top: var(--space-2);
+
+    overflow: hidden;
+
+    border-radius: 999px;
+
+    background: var(--color-surface);
+}
+
+.confidence-fill {
+    height: 100%;
+
+    border-radius: 999px;
+
+    background: var(--color-accent);
+
+    transition: width 0.3s ease;
+}
+
+.verdict-footnote {
+    margin: var(--space-3) 0 0;
+
+    color: var(--color-text-muted);
+
+    font-size: 12px;
+    line-height: 1.5;
+}
+
+.verdict-placeholder {
+    margin: 0;
+
+    color: var(--color-text-muted);
+
+    font-size: 14px;
+    line-height: 1.6;
+}
+
+/* =========================================
+   Stats
+   ========================================= */
+
+.typer-stats {
+    display: flex;
+    justify-content: space-between;
+
+    margin-top: var(--space-5);
+
+    color: var(--color-text-muted);
+
+    font-size: 12px;
+}
+
+/* =========================================
+   Responsive
+   ========================================= */
+
+@media (max-width: 600px) {
+    .typer-card {
+        padding: var(--space-5);
+    }
+
+    .verdict-metrics {
+        grid-template-columns: 1fr;
+    }
+
+    .typer-actions {
+        flex-direction: column;
+    }
+
+    .analyze-button {
+        flex: none;
+    }
+
+    .retry-button {
+        width: 100%;
+    }
+}
