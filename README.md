@@ -12,7 +12,7 @@
 ### Team Members
 - Team Lead: [Prarthana J] - [KAHM Unity Women's College, Manjeri(Autonomous)]
 - Member 2: [Alfa Thasneem M] - [KAHM Unity Women's College, Manjeri(Autonomous)]
-- 
+
 ### Project Description
 [ A fun and useless web project that tests how long different biscuits can survive when dipped in tea using biscuit characteristics, image analysis, and a survival score. ☕]
 
