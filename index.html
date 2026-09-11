@@ -1,1 +1,397 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Passive-Aggressive Mug of Judgement - Control Center</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-database-compat.js"></script>
+</head>
+<body class="bg-slate-950 text-slate-100 min-h-screen font-sans antialiased">
+
+    <div id="audio-banner" class="bg-amber-500/10 border-b border-amber-500/20 px-4 py-2 text-center text-xs text-amber-300 flex items-center justify-center gap-2">
+        <span>⚠️ Browser Audio Policy: Click anywhere or test an event to enable sound playback.</span>
+        <button onclick="unlockAudio()" class="underline font-semibold hover:text-amber-200">Enable Sound</button>
+    </div>
+
+    <header class="border-b border-slate-800 bg-slate-900/50 backdrop-blur sticky top-0 z-50">
+        <div class="max-w-7xl mx-auto px-4 py-4 flex flex-col sm:flex-row justify-between items-center gap-4">
+            <div>
+                <h1 class="text-xl font-bold tracking-tight text-amber-400 flex items-center gap-2">
+                    ☕ Mug of Judgement <span class="text-xs px-2 py-0.5 rounded bg-amber-400/15 text-amber-300 border border-amber-400/20">Control Center</span>
+                </h1>
+                <p class="text-xs text-slate-400">Firebase Realtime DB: <span id="db-status" class="text-amber-500 font-mono">Connecting...</span></p>
+            </div>
+            <div class="flex items-center gap-3 w-full sm:w-auto">
+                <button onclick="triggerMasterReset()" class="bg-rose-600 hover:bg-rose-500 text-white font-semibold px-4 py-2 rounded-lg text-sm transition-all shadow-lg shadow-rose-600/10 flex items-center gap-1.5">
+                    🔄 Master Reset
+                </button>
+                <button onclick="triggerMockEvent('test_mock')" class="bg-amber-500 hover:bg-amber-400 text-slate-950 font-semibold px-4 py-2 rounded-lg text-sm transition-all shadow-lg shadow-amber-500/10">
+                    Test Mock
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <main class="max-w-7xl mx-auto px-4 py-8 space-y-8">
+
+        <!-- Top Section: Telemetry, Simulation Mode, and Wi-Fi Config side-by-side -->
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+            
+            <!-- 1. Presentation Time Control (Simulation Mode) -->
+            <div class="bg-slate-900 border border-slate-800 rounded-2xl p-6 shadow-xl space-y-4 flex flex-col justify-between">
+                <div>
+                    <h2 class="text-lg font-semibold text-slate-200 flex items-center gap-2 mb-4">
+                        ⏱️ Presentation Time Control
+                    </h2>
+                    <div class="space-y-3 text-xs">
+                        <label class="flex items-center gap-2 p-2.5 bg-slate-950 rounded-lg border border-slate-800/60 cursor-pointer">
+                            <input type="radio" name="timeMode" id="mode-system" checked onclick="toggleTimeMode(false)" class="text-amber-500 focus:ring-amber-500">
+                            <span class="text-slate-200 font-medium">Use System / NTP Time</span>
+                        </label>
+                        <label class="flex items-center gap-2 p-2.5 bg-slate-950 rounded-lg border border-slate-800/60 cursor-pointer">
+                            <input type="radio" name="timeMode" id="mode-simulated" onclick="toggleTimeMode(true)" class="text-amber-500 focus:ring-amber-500">
+                            <span class="text-slate-200 font-medium">Override / Set Time</span>
+                        </label>
+                        <div id="sim-time-container" class="hidden pt-2 flex items-center gap-2">
+                            <input type="time" id="sim-time-input" class="bg-slate-950 border border-slate-800 rounded-lg px-3 py-2 text-sm text-amber-400 font-mono w-full focus:outline-none focus:border-amber-500" value="08:00">
+                            <button onclick="applySimulatedTime()" class="bg-amber-500 hover:bg-amber-400 text-slate-950 font-semibold px-3 py-2 rounded-lg text-xs transition-all shrink-0">
+                                Apply
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                <div class="pt-4 border-t border-slate-800/80">
+                    <h3 class="text-xs font-semibold text-slate-400 mb-2">🚨 Last Judgement Event</h3>
+                    <p id="active-event-log" class="text-xs font-mono text-amber-400 bg-slate-950 p-3 rounded-lg border border-slate-800">Waiting for trigger...</p>
+                </div>
+            </div>
+
+            <!-- 2. ESP8266 Wi-Fi Config -->
+            <div class="bg-slate-900 border border-slate-800 rounded-2xl p-6 shadow-xl space-y-4">
+                <h2 class="text-lg font-semibold text-slate-200 flex items-center gap-2">
+                    📶 ESP8266 Wi-Fi Config
+                </h2>
+                <div class="space-y-2 text-xs">
+                    <div class="flex justify-between items-center p-2.5 bg-slate-950 rounded-lg border border-slate-800/60">
+                        <span class="text-slate-400">SSID:</span>
+                        <span id="ap-ssid" class="font-mono text-amber-400">Mug-Of-Judgement</span>
+                    </div>
+                    <div class="flex justify-between items-center p-2.5 bg-slate-950 rounded-lg border border-slate-800/60">
+                        <span class="text-slate-400">Password:</span>
+                        <span id="ap-pass" class="font-mono text-slate-300">judgement123</span>
+                    </div>
+                </div>
+                <div class="flex flex-col items-center justify-center pt-2">
+                    <div class="bg-white p-3 rounded-xl shadow-md mb-2">
+                        <img id="wifi-qr-img" src="" alt="Scan to connect to Wi-Fi" class="w-28 h-28 object-contain">
+                    </div>
+                    <p class="text-[11px] text-slate-500 text-center">Scan with phone camera to join network</p>
+                </div>
+            </div>
+
+            <!-- 3. Live Telemetry -->
+            <div class="bg-slate-900 border border-slate-800 rounded-2xl p-6 shadow-xl">
+                <h2 class="text-lg font-semibold text-slate-200 mb-4 flex items-center gap-2">
+                    📊 Live Telemetry
+                </h2>
+                <div class="space-y-3 text-sm">
+                    <div class="flex justify-between items-center p-2.5 bg-slate-950 rounded-xl border border-slate-800/60">
+                        <span class="text-slate-400 text-xs">Current Time Set:</span>
+                        <span id="tele-time" class="font-mono font-medium text-amber-400 text-xs">--:--</span>
+                    </div>
+                    <div class="flex justify-between items-center p-2.5 bg-slate-950 rounded-xl border border-slate-800/60">
+                        <span class="text-slate-400 text-xs">Temperature (NTC):</span>
+                        <span id="tele-temp" class="font-mono font-medium text-amber-400 text-xs">-- °C <span id="temp-condition" class="text-[10px] ml-1"></span></span>
+                    </div>
+                    <div class="flex justify-between items-center p-2.5 bg-slate-950 rounded-xl border border-slate-800/60">
+                        <span class="text-slate-400 text-xs">Liquid Bridge:</span>
+                        <span id="tele-liquid" class="font-mono font-medium text-emerald-400 text-xs">--</span>
+                    </div>
+                    <div class="flex justify-between items-center p-2.5 bg-slate-950 rounded-xl border border-slate-800/60">
+                        <span class="text-slate-400 text-xs">Motion Status:</span>
+                        <span id="tele-motion" class="font-mono font-medium text-sky-400 text-xs">--</span>
+                    </div>
+                    <div class="flex justify-between items-center p-2.5 bg-slate-950 rounded-xl border border-slate-800/60">
+                        <span class="text-slate-400 text-xs">Mug Stability:</span>
+                        <span id="tele-stability" class="font-mono font-medium text-purple-400 text-xs">--</span>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- Bottom Section: Audio Config at the Very Last -->
+        <div class="bg-slate-900 border border-slate-800 rounded-2xl p-6 shadow-xl">
+            <div class="flex justify-between items-center mb-6">
+                <div>
+                    <h2 class="text-lg font-semibold text-slate-200">🔊 Audio Clip Customization</h2>
+                    <p class="text-xs text-slate-400">Link your raw GitHub MP3 files to each trigger condition.</p>
+                </div>
+                <button onclick="saveAllAudioLinks()" class="bg-emerald-600 hover:bg-emerald-500 text-slate-950 font-semibold px-4 py-2 rounded-lg text-sm transition-all shadow-lg shadow-emerald-600/10">
+                    Save Audio Config
+                </button>
+            </div>
+
+            <div id="audio-list" class="grid grid-cols-1 md:grid-cols-2 gap-4 max-h-[500px] overflow-y-auto pr-2">
+            </div>
+        </div>
+
+    </main>
+
+    <audio id="judgement-audio" preload="auto"></audio>
+
+    <script>
+        const sessionStartTime = Date.now();
+
+        const firebaseConfig = {
+            databaseURL: "https://mugofjudgement-default-rtdb.firebaseio.com/"
+        };
+        firebase.initializeApp(firebaseConfig);
+        const db = firebase.database();
+
+        let audioUnlocked = false;
+
+        function unlockAudio() {
+            const player = document.getElementById('judgement-audio');
+            player.src = "data:audio/wav;base64,UklGRiQAAABXQVZFZm10IBAAAAABAAEAQB8AAEAfAAABAAgAZGF0YQAAAAA=";
+            player.play().then(() => {
+                player.pause();
+                player.currentTime = 0;
+                audioUnlocked = true;
+                document.getElementById('audio-banner').style.display = 'none';
+            }).catch(err => {
+                audioUnlocked = true; 
+                document.getElementById('audio-banner').style.display = 'none';
+            });
+        }
+
+        document.addEventListener('click', () => {
+            if (!audioUnlocked) {
+                unlockAudio();
+            }
+        }, { once: true });
+
+        const dbStatusEl = document.getElementById('db-status');
+        db.ref(".info/connected").on("value", (snap) => {
+            if (snap.val() === true) {
+                dbStatusEl.textContent = "Connected";
+                dbStatusEl.className = "text-emerald-400 font-mono";
+            } else {
+                dbStatusEl.textContent = "Disconnected";
+                dbStatusEl.className = "text-rose-400 font-mono";
+            }
+        });
+
+        // Initialize static QR code directly on page load
+        const apSsid = "Mug-Of-Judgement";
+        const apPass = "judgement123";
+        const wifiString = `WIFI:S:${apSsid};T:WPA;P:${apPass};;`;
+        const qrUrl = `https://api.qrserver.com/v1/create-qr-code/?size=160x160&data=${encodeURIComponent(wifiString)}`;
+        document.getElementById('wifi-qr-img').src = qrUrl;
+
+        const audioClips = [
+            { id: "temp_hot", label: "1A. 0001_too_hot (Too Hot Warning)" },
+            { id: "temp_cold", label: "1B. 0002_too_cold (Too Cold Warning)" },
+            { id: "phantom_1", label: "2A. 0003_phantom_sip_first (Single Offense)" },
+            { id: "phantom_2", label: "2B. 0004_phantom_sip_repeat (Repeat Offense)" },
+            { id: "neglected_drink", label: "3. 0005_neglected_drink (Procrastinator Alert)" },
+            { id: "unwashed_dish", label: "4. 0006_dirty_mug (Unwashed Dish Penalty)" },
+            { id: "anger_shake", label: "5. 0007_anger_shake (Anger Shake Escalation)" },
+            { id: "late_night", label: "6. 0008_late_night_caffeine (Late-Night Sarcasm)" },
+            { id: "morning_greeting", label: "7. 0009_first_sip (First Sip of the Day / Hello Guys)" },
+            { id: "staredown", label: "8. 0010_stare_down (Intermittent Pings)" },
+            { id: "bottom_scraper", label: "9. 0011_bottom_scraper (Desperation Check)" },
+            { id: "earthquake_panic", label: "10. 0012_spill_panic (Spill / Earthquake Panic)" }
+        ];
+
+        const audioListContainer = document.getElementById('audio-list');
+        audioClips.forEach(clip => {
+            const item = document.createElement('div');
+            item.className = "bg-slate-950 p-3 rounded-xl border border-slate-800/80 flex flex-col justify-between gap-2";
+            item.innerHTML = `
+                <div>
+                    <span class="text-xs font-medium text-slate-200">${clip.label}</span>
+                </div>
+                <div class="flex gap-2">
+                    <input type="text" id="audio_${clip.id}" placeholder="https://raw.githubusercontent.com/..." class="w-full bg-slate-900 border border-slate-800 rounded-lg px-3 py-1.5 text-xs text-slate-300 focus:outline-none focus:border-amber-500 font-mono">
+                    <button onclick="testSingleAudio('${clip.id}')" class="bg-slate-800 hover:bg-slate-700 text-slate-300 px-3 py-1.5 rounded-lg text-xs font-medium border border-slate-700 shrink-0">Test</button>
+                </div>
+            `;
+            audioListContainer.appendChild(item);
+        });
+
+        db.ref('config/audio').on('value', (snapshot) => {
+            const data = snapshot.val() || {};
+            audioClips.forEach(clip => {
+                const input = document.getElementById(`audio_${clip.id}`);
+                if (input && data[clip.id]) {
+                    input.value = data[clip.id];
+                }
+            });
+        });
+
+        function toggleTimeMode(isSimulated) {
+            const container = document.getElementById('sim-time-container');
+            if (isSimulated) {
+                container.classList.remove('hidden');
+            } else {
+                container.classList.add('hidden');
+                db.ref('config/time').set({
+                    useSimulation: false
+                });
+            }
+        }
+
+        function applySimulatedTime() {
+            const timeVal = document.getElementById('sim-time-input').value; // format "HH:MM"
+            if (!timeVal) return;
+            
+            const [hours, minutes] = timeVal.split(':').map(Number);
+            db.ref('config/time').set({
+                useSimulation: true,
+                simHour: hours,
+                simMinute: minutes
+            }).then(() => {
+                alert(`Simulated time applied: ${timeVal}`);
+            });
+        }
+
+        function triggerMasterReset() {
+            if (confirm("Are you sure you want to perform a Master Reset? This will reset daily triggers, stare-down counters, and clear states.")) {
+                db.ref('control/reset').set({
+                    timestamp: Date.now()
+                }).then(() => {
+                    alert("Master Reset command sent to the mug!");
+                });
+            }
+        }
+
+        db.ref('telemetry').on('value', (snapshot) => {
+            const data = snapshot.val() || {};
+            
+            const timeElem = document.getElementById('tele-time');
+            if (data.currentTimeFormatted) {
+                timeElem.textContent = data.currentTimeFormatted + (data.simulatedActive ? " (Sim)" : " (Live)");
+            } else {
+                timeElem.textContent = "--:--";
+            }
+
+            const tempVal = data.temperature;
+            const tempElem = document.getElementById('tele-temp');
+            
+            if (tempVal !== undefined) {
+                let textDesc = "";
+                if (tempVal > 68) {
+                    textDesc = "(Scalding Hot)";
+                } else if (tempVal >= 50 && tempVal <= 68) {
+                    textDesc = "(Drinkable)";
+                } else if (tempVal >= 30 && tempVal < 50) {
+                    textDesc = "(Cooling)";
+                } else {
+                    textDesc = "(Freezing Cold)";
+                }
+                tempElem.innerHTML = `${tempVal} °C <span class="text-[10px] font-normal ml-1">${textDesc}</span>`;
+            } else {
+                tempElem.textContent = "-- °C";
+            }
+
+            const liquidVal = data.liquidBridge !== undefined ? data.liquidBridge : data.liquid;
+            const liquidElem = document.getElementById('tele-liquid');
+            if (liquidVal !== undefined) {
+                liquidElem.textContent = liquidVal ? "Wet" : "Dry";
+                liquidElem.className = liquidVal ? "font-mono font-medium text-emerald-400 text-xs" : "font-mono font-medium text-amber-600 text-xs";
+            } else {
+                liquidElem.textContent = "--";
+            }
+
+            const rawMotion = data.motionStatus !== undefined ? data.motionStatus : data.motion;
+            const motionElem = document.getElementById('tele-motion');
+            const stabilityElem = document.getElementById('tele-stability');
+            
+            if (rawMotion !== undefined) {
+                const isIdle = (rawMotion.includes("Stationary") || rawMotion.includes("Idle") || rawMotion.includes("Stable"));
+                motionElem.textContent = isIdle ? "Idle" : "Active";
+                motionElem.className = isIdle ? "font-mono font-medium text-slate-400 text-xs" : "font-mono font-medium text-emerald-400 text-xs";
+                stabilityElem.textContent = rawMotion;
+            } else {
+                motionElem.textContent = "--";
+                stabilityElem.textContent = "--";
+            }
+        });
+
+        db.ref('triggers/latest_event').on('value', (snapshot) => {
+            const trigger = snapshot.val();
+            if (!trigger) return;
+
+            const eventId = trigger.event;
+            const eventTime = trigger.timestamp || 0;
+            document.getElementById('active-event-log').textContent = `Triggered: [${eventId}] at ${new Date(eventTime).toLocaleTimeString()}`;
+
+            if (eventTime > sessionStartTime) {
+                playEventAudio(eventId);
+            } else {
+                console.log("Ignored stale historical trigger on page load:", eventId);
+            }
+        });
+
+        function playEventAudio(eventId) {
+            const player = document.getElementById('judgement-audio');
+            
+            if (eventId === 'test_mock') {
+                player.src = "audio/testmock.mp3";
+                player.play().catch(err => {
+                    document.getElementById('audio-banner').style.display = 'block';
+                });
+                return;
+            }
+
+            db.ref(`config/audio/${eventId}`).once('value').then((audioSnap) => {
+                const audioPath = audioSnap.val();
+                if (audioPath) {
+                    player.src = audioPath;
+                    player.play().catch(err => {
+                        document.getElementById('audio-banner').style.display = 'block';
+                    });
+                }
+            });
+        }
+
+        function testSingleAudio(eventId) {
+            const inputVal = document.getElementById(`audio_${eventId}`).value;
+            if (!inputVal) {
+                alert("Please enter a valid raw MP3 URL for " + eventId + " first!");
+                return;
+            }
+            const player = document.getElementById('judgement-audio');
+            player.src = inputVal;
+            player.play().catch(err => {
+                alert("Playback failed. Check console for URL/CORS errors.");
+            });
+        }
+
+        function saveAllAudioLinks() {
+            const audioData = {};
+            audioClips.forEach(clip => {
+                const val = document.getElementById(`audio_${clip.id}`).value;
+                audioData[clip.id] = val;
+            });
+
+            db.ref('config/audio').set(audioData).then(() => {
+                alert("Audio clip paths saved successfully!");
+            }).catch(err => {
+                alert("Failed to save audio files: " + err.message);
+            });
+        }
+
+        function triggerMockEvent(eventId) {
+            db.ref('triggers/latest_event').set({
+                event: eventId,
+                timestamp: Date.now()
+            });
+        }
+    </script>
+</body>
+</html>
 
