@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Thermal Bridge — Laptop Cooling Control</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+  <div class="bg-grid" aria-hidden="true"></div>
+
+  <div class="shell">
+
+    <!-- ============ HEADER ============ -->
+    <header class="topbar">
+      <div class="brand">
+        <span class="brand-mark">◆</span>
+        <span class="brand-name">Thermal Bridge</span>
+      </div>
+
+      <div id="status-badge" class="status-badge status-offline" role="status" aria-live="polite">
+        <span class="status-dot"></span>
+        <span id="status-text">Offline / Bridge Disconnected</span>
+      </div>
+    </header>
+
+    <main class="layout">
+
+      <!-- ============ ONBOARDING CARD ============ -->
+      <section id="onboarding-card" class="card onboarding">
+        <div class="onboarding-header">
+          <h2>Connect the Local Bridge</h2>
+          <p class="muted">The dashboard talks to a small local agent on your machine — it needs
+            direct hardware access that browsers can't provide.</p>
+        </div>
+
+        <ol class="steps">
+          <li class="step">
+            <div class="step-index">1</div>
+            <div class="step-body">
+              <h3>Select your device</h3>
+              <label class="field-label" for="device-select">Device family</label>
+              <select id="device-select" class="select">
+                <option value="dell">Dell Inspiron / XPS</option>
+                <option value="lenovo">Lenovo ThinkPad</option>
+                <option value="asus">ASUS ROG / TUF</option>
+                <option value="other">Other / Generic</option>
+              </select>
+              <p id="device-note" class="note"></p>
+            </div>
+          </li>
+
+          <li class="step">
+            <div class="step-index">2</div>
+            <div class="step-body">
+              <h3>Download the local bridge</h3>
+              <p class="muted">A signed Windows executable. No installation — just run it.</p>
+              <a id="download-btn"
+                 class="btn btn-primary"
+                 href="https://github.com/bone-fires/thaatha/releases/latest/download/icastfireball.exe"
+                 download>
+                Download icastfireball.exe
+              </a>
+            </div>
+          </li>
+
+          <li class="step">
+            <div class="step-index">3</div>
+            <div class="step-body">
+              <h3>Run it as Administrator</h3>
+              <p class="muted">
+                Right-click the downloaded file → <strong>Run as administrator</strong>.
+                Fan control requires elevated privileges. Keep the console window open —
+                closing it instantly restores automatic fan control.
+              </p>
+            </div>
+          </li>
+        </ol>
+
+        <div class="onboarding-footer">
+          <span class="pulse-dot" aria-hidden="true"></span>
+          <span class="muted small">Waiting for agent at <code>ws://127.0.0.1:9876</code>…</span>
+        </div>
+      </section>
+
+      <!-- ============ COMPACT "CONNECTED" TRAY (hidden until connected) ============ -->
+      <section id="connected-tray" class="card tray hidden">
+        <div class="tray-left">
+          <span class="tray-dot"></span>
+          <div>
+            <h3>Agent Connected</h3>
+            <p class="muted small">127.0.0.1:9876</p>
+          </div>
+        </div>
+        <button id="reopen-onboarding" class="btn btn-ghost btn-sm">Bridge settings</button>
+      </section>
+
+      <!-- ============ TELEMETRY ============ -->
+      <section class="grid-2">
+        <div class="card metric-card">
+          <div class="metric-label">CPU Temperature</div>
+          <div class="metric-value">
+            <span id="cpu-temp">--</span><span class="metric-unit">°C</span>
+          </div>
+          <div class="metric-bar-track">
+            <div id="cpu-temp-bar" class="metric-bar-fill temp-fill" style="width: 0%"></div>
+          </div>
+        </div>
+
+        <div class="card metric-card">
+          <div class="metric-label">Fan Speed</div>
+          <div class="metric-value">
+            <span id="fan-rpm">--</span><span class="metric-unit">RPM</span>
+          </div>
+          <div class="metric-bar-track">
+            <div id="fan-rpm-bar" class="metric-bar-fill fan-fill" style="width: 0%"></div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ============ CONTROLS ============ -->
+      <section id="controls-panel" class="card controls locked">
+        <div class="lock-overlay" aria-hidden="true">
+          <span class="lock-icon">🔒</span>
+          <span class="small muted">Connect the bridge to unlock controls</span>
+        </div>
+
+        <div class="control-block">
+          <div class="control-block-header">
+            <h3>Cooling Floor</h3>
+            <span id="floor-value" class="value-pill">0%</span>
+          </div>
+          <p class="muted small">
+            Sets a minimum fan speed. The agent enforces
+            <code>MAX(BIOS default, your floor)</code> — fans never spin slower than the
+            factory curve, only faster.
+          </p>
+          <input id="floor-slider" type="range" min="0" max="100" step="5" value="0"
+                 class="slider" disabled aria-label="Cooling floor percentage" />
+          <div class="slider-scale">
+            <span>0%</span><span>50%</span><span>100%</span>
+          </div>
+        </div>
+
+        <div class="control-block">
+          <div class="control-block-header">
+            <h3>Heat Overload</h3>
+            <label class="switch">
+              <input id="heat-toggle" type="checkbox" disabled />
+              <span class="switch-track"><span class="switch-thumb"></span></span>
+            </label>
+          </div>
+          <p class="muted small">Runs controlled CPU stress threads to generate heat on demand.</p>
+
+          <div class="thread-select-row">
+            <label class="field-label" for="thread-slider">Worker threads</label>
+            <span id="thread-value" class="value-pill">1</span>
+          </div>
+          <input id="thread-slider" type="range" min="1" max="16" step="1" value="1"
+                 class="slider" disabled aria-label="Number of stress threads" />
+        </div>
+
+        <button id="emergency-stop" class="btn btn-danger btn-full" disabled>
+          ⛔ Emergency Stop
+        </button>
+      </section>
+
+    </main>
+
+    <footer class="page-footer">
+      <span class="muted small">Thermal Bridge — runs entirely on your machine. No telemetry leaves localhost.</span>
+    </footer>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>

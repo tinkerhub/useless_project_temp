@@ -1,0 +1,30 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>net8.0-windows</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+    <AssemblyName>icastfireball</AssemblyName>
+    <RootNamespace>LaptopThermalBridge</RootNamespace>
+
+    <!-- Fan/sensor access requires elevation -->
+    <ApplicationManifest>app.manifest</ApplicationManifest>
+
+    <!-- Publish settings for a single self-contained exe (GitHub Releases friendly) -->
+    <RuntimeIdentifier>win-x64</RuntimeIdentifier>
+    <SelfContained>true</SelfContained>
+    <PublishSingleFile>true</PublishSingleFile>
+    <IncludeNativeLibrariesForSelfExtract>true</IncludeNativeLibrariesForSelfExtract>
+    <InvariantGlobalization>true</InvariantGlobalization>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <!-- Hardware sensor + fan control access -->
+    <PackageReference Include="LibreHardwareMonitorLib" Version="0.9.4" />
+
+    <!-- Native System.Net.WebSockets is used for the server (HttpListener + WebSocket),
+         so no external WebSocket package is required. -->
+  </ItemGroup>
+
+</Project>

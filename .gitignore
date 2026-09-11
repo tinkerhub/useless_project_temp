@@ -1,0 +1,15 @@
+# .NET build and publish output
+**/bin/
+**/obj/
+**/publish/
+*.user
+*.suo
+
+# Local tooling and diagnostics
+.vscode/
+.idea/
+*.log
+
+# OS files
+.DS_Store
+Thumbs.db
