@@ -1,0 +1,56 @@
+@import "tailwindcss";
+
+@theme {
+  --color-chicken-golden: #E69F00;
+  --color-chicken-crispy: #C66C00;
+  --color-chicken-spicy: #D92311;
+  --color-chicken-buttermilk: #FDF5E6;
+  --color-dark-bg: #111111;
+  --color-dark-panel: #1C1C1C;
+
+  --font-sans: 'Inter', ui-sans-serif, system-ui, sans-serif;
+}
+
+@layer base {
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap');
+
+  *, *::before, *::after {
+    box-sizing: border-box;
+  }
+
+  html, body {
+    height: 100%;
+    overscroll-behavior: none;
+  }
+
+  body {
+    @apply bg-dark-bg text-chicken-buttermilk antialiased;
+    font-family: var(--font-sans);
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    /* Prevent text selection during swiping */
+    user-select: none;
+    -webkit-user-select: none;
+  }
+
+  /* Allow text selection where needed */
+  p, span, h1, h2, h3, h4, h5, h6 {
+    user-select: text;
+    -webkit-user-select: text;
+  }
+}
+
+@layer utilities {
+  .glass-panel {
+    @apply bg-white/5 backdrop-blur-md border border-white/10 rounded-2xl;
+  }
+
+  .text-balance {
+    text-wrap: balance;
+  }
+
+  /* Smooth drag transition reset */
+  .drag-reset {
+    transition: transform 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  }
+}
