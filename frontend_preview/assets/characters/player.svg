@@ -1,0 +1,49 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" shape-rendering="crispEdges">
+  <!-- Shadow -->
+  <ellipse cx="16" cy="29" rx="8" ry="2.5" fill="rgba(0,0,0,0.35)"/>
+  <!-- Boots -->
+  <rect x="11" y="24" width="4" height="4" fill="#3e2723"/>
+  <rect x="17" y="24" width="4" height="4" fill="#3e2723"/>
+  <rect x="10" y="27" width="5" height="2" fill="#271612"/>
+  <rect x="17" y="27" width="5" height="2" fill="#271612"/>
+  <!-- Legs / Trousers -->
+  <rect x="12" y="21" width="3" height="4" fill="#475569"/>
+  <rect x="17" y="21" width="3" height="4" fill="#475569"/>
+  <!-- Torso & Blue Tunic -->
+  <rect x="11" y="13" width="10" height="9" fill="#2563eb"/>
+  <rect x="12" y="14" width="8" height="7" fill="#3b82f6"/>
+  <!-- Golden Belt & Buckle -->
+  <rect x="11" y="19" width="10" height="2" fill="#78350f"/>
+  <rect x="15" y="19" width="2" height="2" fill="#facc15"/>
+  <!-- Cape Behind -->
+  <rect x="9" y="14" width="2" height="9" fill="#1d4ed8"/>
+  <rect x="21" y="14" width="2" height="9" fill="#1d4ed8"/>
+  <rect x="9" y="22" width="14" height="2" fill="#1e40af"/>
+  <!-- Arms & Pauldrons (Shoulder Guards) -->
+  <rect x="9" y="13" width="3" height="4" fill="#94a3b8"/>
+  <rect x="20" y="13" width="3" height="4" fill="#94a3b8"/>
+  <rect x="9" y="17" width="2" height="4" fill="#cbd5e1"/>
+  <rect x="21" y="17" width="2" height="4" fill="#cbd5e1"/>
+  <!-- Hands / Gauntlets -->
+  <rect x="9" y="21" width="2" height="2" fill="#64748b"/>
+  <rect x="21" y="21" width="2" height="2" fill="#64748b"/>
+  <!-- Shield on Left Arm -->
+  <rect x="6" y="14" width="4" height="8" fill="#e2e8f0"/>
+  <rect x="7" y="15" width="2" height="6" fill="#3b82f6"/>
+  <rect x="6" y="21" width="4" height="2" fill="#94a3b8"/>
+  <!-- Sword Hilt on Right Hip -->
+  <rect x="22" y="18" width="4" height="1" fill="#facc15"/>
+  <rect x="23" y="19" width="2" height="6" fill="#e2e8f0"/>
+  <!-- Helmet & Head -->
+  <rect x="11" y="5" width="10" height="8" fill="#94a3b8"/>
+  <rect x="12" y="4" width="8" height="9" fill="#cbd5e1"/>
+  <!-- Visor Slit -->
+  <rect x="13" y="8" width="7" height="2" fill="#0f172a"/>
+  <!-- Glowing Eye Glint -->
+  <rect x="14" y="8" width="2" height="1" fill="#38bdf8"/>
+  <rect x="17" y="8" width="2" height="1" fill="#38bdf8"/>
+  <!-- Golden Helmet Crest / Plume -->
+  <rect x="15" y="1" width="2" height="4" fill="#facc15"/>
+  <rect x="14" y="2" width="4" height="2" fill="#eab308"/>
+  <rect x="13" y="3" width="6" height="1" fill="#ca8a04"/>
+</svg>

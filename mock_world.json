@@ -1,0 +1,227 @@
+{
+  "version": "1.0.0",
+  "seed": "octocat-legendary-realm-42",
+  "user": {
+    "username": "octocat",
+    "displayName": "The Monalisa Octocat",
+    "avatarUrl": "https://avatars.githubusercontent.com/u/583231?v=4",
+    "htmlUrl": "https://github.com/octocat",
+    "totalRepos": 4
+  },
+  "dimensions": {
+    "width": 25,
+    "height": 25,
+    "tileSize": 32
+  },
+  "spawnPoint": {
+    "x": 3,
+    "y": 12
+  },
+  "gatekeeper": {
+    "name": "Grimwald the Gatekeeper",
+    "status": "welcome",
+    "position": {
+      "x": 2,
+      "y": 12
+    },
+    "interactionRange": 1.5,
+    "dialogue": {
+      "greeting": "Halt, traveler! You stand before the Mystic Gates of GitWorld.",
+      "success": "Welcome back, Octocat! The chronicles confirm your deeds. The gate stands open!",
+      "failure": "The seal remains unbroken. Authenticate with GitHub to forge your realm."
+    }
+  },
+  "tileLegend": {
+    "0": { "name": "deep_water", "collidable": true },
+    "1": { "name": "water_edge", "collidable": true },
+    "2": { "name": "grass", "collidable": false },
+    "3": { "name": "dirt_path", "collidable": false },
+    "4": { "name": "stone_path", "collidable": false },
+    "5": { "name": "forest_grass", "collidable": false },
+    "6": { "name": "volcanic_stone", "collidable": false },
+    "7": { "name": "sand", "collidable": false },
+    "8": { "name": "stone_wall", "collidable": true }
+  },
+  "terrain": {
+    "ground": [
+      [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+      [0,2,2,2,2,2,5,5,5,5,5,2,2,2,2,2,6,6,6,6,6,2,2,2,0],
+      [0,2,2,2,2,5,5,5,5,5,5,5,2,2,2,6,6,6,6,6,6,6,2,2,0],
+      [0,2,2,2,5,5,5,5,5,5,5,5,5,2,6,6,6,6,6,6,6,6,6,2,0],
+      [0,2,2,5,5,5,5,5,5,5,5,5,5,2,6,6,6,6,6,6,6,6,6,2,0],
+      [0,2,2,5,5,5,5,5,5,5,5,5,2,2,2,6,6,6,6,6,6,6,2,2,0],
+      [0,2,2,2,5,5,5,5,5,5,5,2,2,2,2,2,6,6,6,6,6,2,2,2,0],
+      [0,2,2,2,2,2,2,3,3,3,3,3,3,3,3,3,3,3,2,2,2,2,2,2,0],
+      [0,2,2,2,2,2,2,3,2,2,2,2,2,2,2,2,2,3,2,2,2,2,2,2,0],
+      [0,2,2,2,2,2,2,3,2,2,4,4,4,4,4,2,2,3,2,2,2,2,2,2,0],
+      [0,8,8,8,2,2,2,3,2,2,4,4,4,4,4,2,2,3,2,2,2,2,2,2,0],
+      [0,8,4,8,2,2,2,3,2,2,4,4,4,4,4,2,2,3,2,2,2,2,2,2,0],
+      [0,4,4,4,4,3,3,3,3,3,4,4,4,4,4,3,3,3,3,3,3,3,2,2,0],
+      [0,8,4,8,2,2,2,3,2,2,4,4,4,4,4,2,2,3,2,2,2,3,2,2,0],
+      [0,8,8,8,2,2,2,3,2,2,4,4,4,4,4,2,2,3,2,2,2,3,2,2,0],
+      [0,2,2,2,2,2,2,3,2,2,2,2,2,2,2,2,2,3,2,2,2,3,2,2,0],
+      [0,2,2,2,2,2,2,3,3,3,3,3,3,3,3,3,3,3,2,2,2,3,2,2,0],
+      [0,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,3,2,2,0],
+      [0,2,2,7,7,7,7,7,2,2,2,2,2,2,2,2,2,2,7,7,7,3,7,2,0],
+      [0,2,7,7,7,7,7,7,7,2,2,2,2,2,2,2,2,7,7,7,7,3,7,7,0],
+      [0,2,7,7,7,7,7,7,7,2,2,2,2,2,2,2,7,7,7,7,7,3,7,7,0],
+      [0,2,2,7,7,7,7,7,2,2,2,2,2,2,2,2,2,7,7,7,7,3,7,2,0],
+      [0,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,0],
+      [0,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,0],
+      [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]
+    ],
+    "collision": [
+      [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1],
+      [1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
+      [1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
+      [1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
+      [1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
+      [1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
+      [1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
+      [1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
+      [1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
+      [1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
+      [1,1,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
+      [1,1,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
+      [1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
+      [1,1,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
+      [1,1,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
+      [1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
+      [1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
+      [1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
+      [1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
+      [1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
+      [1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
+      [1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
+      [1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
+      [1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
+      [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1]
+    ]
+  },
+  "buildings": [
+    {
+      "id": "bldg-1",
+      "name": "Grand Citadel (git-world-core)",
+      "x": 11,
+      "y": 10,
+      "width": 3,
+      "height": 3,
+      "spriteType": "castle_large",
+      "biome": "stone_city",
+      "interactionPoint": {
+        "x": 12,
+        "y": 13
+      },
+      "repository": {
+        "id": 101,
+        "name": "git-world-core",
+        "fullName": "octocat/git-world-core",
+        "description": "A fantasy RPG engine visualizing GitHub profiles as living interactive worlds.",
+        "htmlUrl": "https://github.com/octocat/git-world-core",
+        "primaryLanguage": "TypeScript",
+        "languageColor": "#3178c6",
+        "stars": 248,
+        "forks": 42,
+        "openIssues": 5,
+        "sizeKb": 12450,
+        "sizeTier": "large",
+        "lastPushedAt": "2026-09-09T18:30:00Z",
+        "isFork": false,
+        "topics": ["rpg", "typescript", "canvas", "gamedev"]
+      }
+    },
+    {
+      "id": "bldg-2",
+      "name": "Alchemist Tower (neural-spellbook)",
+      "x": 7,
+      "y": 3,
+      "width": 2,
+      "height": 2,
+      "spriteType": "tower_medium",
+      "biome": "mystic_forest",
+      "interactionPoint": {
+        "x": 8,
+        "y": 5
+      },
+      "repository": {
+        "id": 102,
+        "name": "neural-spellbook",
+        "fullName": "octocat/neural-spellbook",
+        "description": "Deep learning models trained on arcane incantations and natural language recipes.",
+        "htmlUrl": "https://github.com/octocat/neural-spellbook",
+        "primaryLanguage": "Python",
+        "languageColor": "#3572A5",
+        "stars": 89,
+        "forks": 14,
+        "openIssues": 2,
+        "sizeKb": 3200,
+        "sizeTier": "medium",
+        "lastPushedAt": "2026-09-02T11:15:00Z",
+        "isFork": false,
+        "topics": ["machine-learning", "python", "nlp"]
+      }
+    },
+    {
+      "id": "bldg-3",
+      "name": "Volcanic Forge (iron-engine)",
+      "x": 17,
+      "y": 3,
+      "width": 2,
+      "height": 2,
+      "spriteType": "forge_medium",
+      "biome": "iron_forge",
+      "interactionPoint": {
+        "x": 18,
+        "y": 5
+      },
+      "repository": {
+        "id": 103,
+        "name": "iron-engine",
+        "fullName": "octocat/iron-engine",
+        "description": "Blazing fast deterministic physics and collision detection engine in Rust.",
+        "htmlUrl": "https://github.com/octocat/iron-engine",
+        "primaryLanguage": "Rust",
+        "languageColor": "#dea584",
+        "stars": 612,
+        "forks": 87,
+        "openIssues": 8,
+        "sizeKb": 7800,
+        "sizeTier": "large",
+        "lastPushedAt": "2026-08-28T09:40:00Z",
+        "isFork": false,
+        "topics": ["rust", "wasm", "physics", "performance"]
+      }
+    },
+    {
+      "id": "bldg-4",
+      "name": "Coastal Tavern (octo-portfolio)",
+      "x": 19,
+      "y": 18,
+      "width": 2,
+      "height": 1,
+      "spriteType": "cottage_small",
+      "biome": "meadow",
+      "interactionPoint": {
+        "x": 20,
+        "y": 19
+      },
+      "repository": {
+        "id": 104,
+        "name": "octo-portfolio",
+        "fullName": "octocat/octo-portfolio",
+        "description": "Personal pixel-art portfolio website showcasing developer adventures.",
+        "htmlUrl": "https://github.com/octocat/octo-portfolio",
+        "primaryLanguage": "CSS",
+        "languageColor": "#563d7c",
+        "stars": 19,
+        "forks": 3,
+        "openIssues": 0,
+        "sizeKb": 410,
+        "sizeTier": "small",
+        "lastPushedAt": "2026-07-15T16:00:00Z",
+        "isFork": true,
+        "topics": ["portfolio", "pixel-art", "css"]
+      }
+    }
+  ]
+}

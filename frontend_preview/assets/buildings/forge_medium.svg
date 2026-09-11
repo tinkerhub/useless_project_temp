@@ -1,0 +1,40 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" shape-rendering="crispEdges">
+  <!-- Shadow -->
+  <ellipse cx="32" cy="60" rx="28" ry="4" fill="rgba(0,0,0,0.4)"/>
+
+  <!-- Main Stone Forge Walls -->
+  <rect x="10" y="24" width="44" height="37" fill="#1c1917"/>
+  <rect x="12" y="26" width="40" height="33" fill="#292524"/>
+
+  <!-- Heavy Slate Roof -->
+  <polygon points="32,8 6,26 58,26" fill="#1c1917"/>
+  <polygon points="32,10 10,24 54,24" fill="#44403c"/>
+
+  <!-- Forge Chimney on Right -->
+  <rect x="42" y="2" width="10" height="18" fill="#1c1917"/>
+  <rect x="43" y="4" width="8" height="16" fill="#292524"/>
+  <rect x="41" y="1" width="12" height="3" fill="#0c0a09"/>
+  <!-- Smoke Plumes -->
+  <circle cx="47" cy="-2" r="3" fill="rgba(120,113,108,0.5)"/>
+  <circle cx="50" cy="-6" r="4" fill="rgba(120,113,108,0.35)"/>
+  <circle cx="53" cy="-11" r="5" fill="rgba(120,113,108,0.2)"/>
+  <!-- Glowing Embers flying out of chimney -->
+  <rect x="46" y="0" width="2" height="2" fill="#ea580c"/>
+  <rect x="48" y="-4" width="1" height="1" fill="#facc15"/>
+
+  <!-- Fiery Open Hearth / Furnace Doorway -->
+  <rect x="22" y="42" width="20" height="19" fill="#0c0a09"/>
+  <path d="M 24 61 L 24 46 A 8 8 0 0 1 40 46 L 40 61 Z" fill="#c2410c"/>
+  <!-- Molten Fire Core -->
+  <path d="M 27 61 L 27 50 A 5 5 0 0 1 37 50 L 37 61 Z" fill="#f97316"/>
+  <rect x="30" y="54" width="4" height="7" fill="#fef08a"/>
+
+  <!-- Anvil Outside Door -->
+  <rect x="46" y="52" width="8" height="3" fill="#78716c"/>
+  <rect x="49" y="55" width="2" height="4" fill="#57534e"/>
+  <rect x="47" y="59" width="6" height="2" fill="#44403c"/>
+
+  <!-- Hanging Iron Weapon Sign -->
+  <rect x="14" y="32" width="6" height="6" fill="#1c1917"/>
+  <rect x="16" y="34" width="2" height="2" fill="#ef4444"/>
+</svg>

@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" shape-rendering="crispEdges">
+  <rect width="32" height="32" fill="#1e293b"/>
+  <!-- Heavy fortress blocks -->
+  <rect x="1" y="1" width="14" height="9" fill="#475569"/>
+  <rect x="17" y="1" width="14" height="9" fill="#334155"/>
+  <rect x="1" y="11" width="8" height="10" fill="#334155"/>
+  <rect x="11" y="11" width="14" height="10" fill="#475569"/>
+  <rect x="27" y="11" width="4" height="10" fill="#334155"/>
+  <rect x="1" y="22" width="14" height="9" fill="#475569"/>
+  <rect x="17" y="22" width="14" height="9" fill="#334155"/>
+  <!-- Battlements crest at top -->
+  <rect x="1" y="1" width="14" height="2" fill="#64748b"/>
+  <rect x="17" y="1" width="14" height="2" fill="#64748b"/>
+</svg>

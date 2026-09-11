@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" shape-rendering="crispEdges">
+  <rect width="32" height="32" fill="#334155"/>
+  <!-- Cobblestone pavers -->
+  <rect x="2" y="2" width="12" height="12" fill="#64748b" rx="2"/>
+  <rect x="16" y="2" width="14" height="12" fill="#475569" rx="2"/>
+  <rect x="2" y="16" width="14" height="14" fill="#475569" rx="2"/>
+  <rect x="18" y="16" width="12" height="14" fill="#64748b" rx="2"/>
+  <!-- Highlight edges on stones -->
+  <rect x="3" y="3" width="10" height="2" fill="#94a3b8"/>
+  <rect x="17" y="3" width="12" height="2" fill="#64748b"/>
+  <rect x="3" y="17" width="12" height="2" fill="#64748b"/>
+  <rect x="19" y="17" width="10" height="2" fill="#94a3b8"/>
+  <!-- Mortar lines in between -->
+  <line x1="0" y1="15" x2="32" y2="15" stroke="#1e293b" stroke-width="2"/>
+  <line x1="15" y1="0" x2="15" y2="15" stroke="#1e293b" stroke-width="2"/>
+  <line x1="17" y1="15" x2="17" y2="32" stroke="#1e293b" stroke-width="2"/>
+</svg>

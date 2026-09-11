@@ -1,0 +1,304 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>GitWorld — An Interactive Fantasy RPG of your Repositories</title>
+  <link rel="stylesheet" href="style.css">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🏰</text></svg>">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+</head>
+<body>
+
+  <!-- Optional Retro CRT Scanlines Overlay -->
+  <div id="crt-overlay"></div>
+
+  <!-- HUD Top Bar -->
+  <header id="hud-header">
+    <div class="hud-left">
+      <div class="brand-badge">
+        <span>🏰 GitWorld</span>
+        <span class="realm-name" id="current-realm-label">Connecting...</span>
+      </div>
+
+      <div class="user-pill" id="user-pill">
+        <img id="user-avatar" src="https://avatars.githubusercontent.com/u/583231?v=4" alt="Avatar">
+        <div>
+          <div id="user-name" style="font-weight:700;font-size:12px;">Adventurer</div>
+          <div class="title-tag" id="user-title">Lvl. 1 Novice</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="hud-center">
+      <div class="hud-stats">
+        <div class="stat-chip" title="Total Stars across Realm">
+          <span>⭐</span> <span id="stat-stars">0</span>
+        </div>
+        <div class="stat-chip" title="Total Forks">
+          <span>🍴</span> <span id="stat-forks">0</span>
+        </div>
+        <div class="stat-chip" title="Kingdom Buildings (Repositories)">
+          <span>🏛️</span> <span id="stat-repos">0</span>
+        </div>
+      </div>
+
+      <div class="search-box">
+        <span style="font-size:12px;opacity:0.7;">🔍</span>
+        <input type="text" id="hud-search-input" placeholder="Visit user realm (e.g. torvalds)...">
+      </div>
+    </div>
+
+    <div class="hud-right">
+      <button class="btn-icon active" id="btn-toggle-3d" onclick="window.app.toggle3DMode()" title="Switch between 3D and 2D mode">
+        <span>🌐 3D Realm</span>
+      </button>
+      <button class="btn-icon" onclick="window.app.openProfileModal()" title="Developer RPG Character Sheet">
+        <span>⚔️</span> <span>Profile</span>
+      </button>
+      <button class="btn-icon" onclick="window.app.openSettingsModal()" title="Settings & Display Options">
+        <span>⚙️</span> <span>Settings</span>
+      </button>
+      <button class="btn-icon" onclick="window.app.logout()" title="Seal the Gates (Logout)">
+        <span>🚪</span> <span>Logout</span>
+      </button>
+    </div>
+  </header>
+
+  <!-- Main Game 3D & 2D Canvas Container -->
+  <main id="game-canvas-container">
+    <div id="game-3d-container" style="position:absolute;inset:0;"></div>
+    <canvas id="game-canvas" style="display:none;"></canvas>
+  </main>
+
+  <!-- Minimap Card -->
+  <div id="minimap-card">
+    <canvas id="minimap-canvas" width="140" height="140"></canvas>
+    <div class="minimap-label">Realm Map</div>
+  </div>
+
+  <!-- Interactive Proximity Prompt -->
+  <div id="interaction-prompt">
+    <kbd>E</kbd>
+    <span id="interaction-label">Inspect Realm</span>
+  </div>
+
+  <!-- Fantasy Gate Landing Page Overlay (Unauthenticated / Initial Entrance) -->
+  <div id="gate-overlay">
+    <div class="gate-portal-card">
+      <h1 class="gate-title">GITWORLD</h1>
+      <p class="gate-subtitle">Visualizing GitHub chronicles as a living, procedural fantasy RPG realm.</p>
+
+      <div class="gatekeeper-box">
+        <div class="gatekeeper-avatar">🧙‍♂️</div>
+        <div>
+          <div style="color:var(--gold);font-weight:bold;font-size:13px;font-family:'Cinzel',serif;margin-bottom:4px;">Grimwald the Gatekeeper</div>
+          <div class="gatekeeper-dialogue" id="gatekeeper-dialogue-text">
+            "Halt, traveler! You stand before the Mystic Gates. Present your GitHub seal to forge your realm, or seek out the domain of another creator."
+          </div>
+        </div>
+      </div>
+
+      <div class="gate-actions">
+        <button class="btn-primary-gate" onclick="window.location.href='http://localhost:5000/api/auth/github'">
+          <span>🛡️ Knock on the Gate (GitHub Login)</span>
+        </button>
+
+        <button class="btn-secondary-gate" onclick="window.location.href='http://localhost:5000/api/auth/mock-login'">
+          ⚡ Quick Test (Mock Octocat Login)
+        </button>
+
+        <button class="btn-secondary-gate" style="margin-top:8px;background:rgba(56,189,248,0.15);border-color:var(--azure);" onclick="window.app.exploreAsGuest()">
+          🌲 Wander Realm as Guest (Octocat Domain)
+        </button>
+
+        <div style="margin-top:12px;border-top:1px solid rgba(255,255,255,0.1);padding-top:14px;">
+          <div style="font-size:12px;color:var(--text-muted);margin-bottom:6px;">Or wander into any developer's public realm without logging in:</div>
+          <div class="explore-input-row">
+            <input type="text" id="gate-search-input" placeholder="Enter GitHub username (e.g. torvalds, octocat)">
+            <button class="btn-icon" id="btn-gate-search">Explore Realm</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Parchment Repository & File Inspector Modal -->
+  <div class="modal-backdrop" id="parchment-modal">
+    <div class="parchment-scroll">
+      <div class="parchment-header">
+        <div class="parchment-title-area">
+          <h2 id="p-repo-title">git-world-core</h2>
+          <div class="parchment-badge-row">
+            <span class="p-badge" id="p-repo-lang">TypeScript</span>
+            <span class="p-badge" id="p-repo-stars">★ 248</span>
+            <span class="p-badge" id="p-repo-forks">🍴 42</span>
+            <span class="p-badge" id="p-repo-issues">🐛 5 Issues</span>
+          </div>
+        </div>
+        <div style="display:flex;gap:10px;align-items:center;">
+          <a id="p-repo-link" href="#" target="_blank" class="btn-icon" style="background:#5a3d1c;color:#f4ebd0;text-decoration:none;">
+            <span>↗ Journey to GitHub</span>
+          </a>
+          <button class="btn-close-parchment" onclick="window.app.closeAllModals()">✕</button>
+        </div>
+      </div>
+
+      <div class="parchment-tabs">
+        <button class="parchment-tab active" data-tab="overview">📜 Overview & Lore</button>
+        <button class="parchment-tab" data-tab="files">📁 File Inspector</button>
+        <button class="parchment-tab" data-tab="commits">⏳ Chronicles (Commits)</button>
+      </div>
+
+      <div class="parchment-body">
+        <!-- Tab 1: Overview -->
+        <div class="tab-panel active" id="tab-overview">
+          <div style="font-family:'MedievalSharp',cursive;font-size:18px;margin-bottom:16px;line-height:1.5;" id="p-repo-desc">
+            A fantasy RPG engine visualizing GitHub profiles as living interactive worlds.
+          </div>
+          <div style="background:#e8dcbe;padding:14px;border-radius:6px;border:1px solid var(--parchment-border);margin-bottom:16px;">
+            <div style="font-weight:700;margin-bottom:6px;font-size:13px;color:#5a3d1c;">ARCHIVE METRICS</div>
+            <div style="display:grid;grid-template-columns:repeat(2,1fr);gap:8px;font-size:13px;">
+              <div>Scale / Disk: <strong id="p-repo-size">12.4 MB (large tier)</strong></div>
+              <div>Protection Status: <strong>Publicly Preserved</strong></div>
+            </div>
+          </div>
+          <div style="font-size:13px;color:#6b5030;">
+            💡 <em>Tip: Switch to the <strong>File Inspector</strong> tab above to browse the source files directly inside the game!</em>
+          </div>
+        </div>
+
+        <!-- Tab 2: File Inspector & Code Viewer -->
+        <div class="tab-panel" id="tab-files">
+          <div class="file-tree-container">
+            <div class="file-tree-list" id="file-tree-list">
+              <!-- Dynamically populated files -->
+            </div>
+            <div class="code-viewer-pane">
+              <div class="code-header">
+                <span id="code-filename">README.md</span>
+                <span id="code-size" style="opacity:0.7;"></span>
+              </div>
+              <pre class="code-content" id="code-content">// Select a file from the list to read its runes...</pre>
+            </div>
+          </div>
+        </div>
+
+        <!-- Tab 3: Commit History -->
+        <div class="tab-panel" id="tab-commits">
+          <div class="commit-timeline" id="commit-timeline">
+            <!-- Dynamically populated commits -->
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Developer RPG Profile Modal -->
+  <div class="modal-backdrop" id="rpg-modal">
+    <div class="rpg-modal-card">
+      <div class="rpg-header">
+        <div class="rpg-title">
+          <h2>DEVELOPER GRIMOIRE</h2>
+          <div id="rpg-char-title" style="color:var(--azure);font-family:'Cinzel',serif;font-size:14px;margin-top:4px;">
+            Archmage of the TypeScript Citadel
+          </div>
+        </div>
+        <button class="btn-close-parchment" onclick="window.app.closeAllModals()">✕</button>
+      </div>
+
+      <div class="rpg-stats-grid">
+        <div class="rpg-stat-box">
+          <div class="stat-val" id="rpg-level-val">1</div>
+          <div class="stat-lbl">Developer Level</div>
+        </div>
+        <div class="rpg-stat-box">
+          <div class="stat-val" id="rpg-power-val">0</div>
+          <div class="stat-lbl">Realm Power</div>
+        </div>
+        <div class="rpg-stat-box">
+          <div class="stat-val" id="rpg-stars-val">0</div>
+          <div class="stat-lbl">Total Starlight (Stars)</div>
+        </div>
+      </div>
+
+      <h3 style="font-family:'Cinzel',serif;color:var(--gold);font-size:14px;margin-bottom:10px;">ELEMENTAL MASTERY (LANGUAGES)</h3>
+      <div id="rpg-languages-container" style="margin-bottom:20px;"></div>
+
+      <h3 style="font-family:'Cinzel',serif;color:var(--gold);font-size:14px;margin-bottom:10px;">REALM ACHIEVEMENTS</h3>
+      <div class="achievements-grid" id="rpg-achievements-container"></div>
+    </div>
+  </div>
+
+  <!-- Settings Modal -->
+  <div class="modal-backdrop" id="settings-modal">
+    <div class="settings-modal-card">
+      <div class="rpg-header">
+        <h2 style="font-family:'Cinzel',serif;color:var(--azure);font-size:20px;">REALM PREFERENCES</h2>
+        <button class="btn-close-parchment" onclick="window.app.closeAllModals()">✕</button>
+      </div>
+
+      <div class="settings-row">
+        <div>
+          <label>Retro CRT Scanlines</label>
+          <div style="font-size:11px;color:var(--text-muted);">Simulate retro arcade monitor scanlines</div>
+        </div>
+        <label class="switch">
+          <input type="checkbox" id="setting-crt" checked onchange="window.app.toggleCRT(this.checked)">
+          <span class="slider"></span>
+        </label>
+      </div>
+
+      <div class="settings-row">
+        <div>
+          <label>Show Grid Lines</label>
+          <div style="font-size:11px;color:var(--text-muted);">Display tactical tile borders on map</div>
+        </div>
+        <label class="switch">
+          <input type="checkbox" id="setting-grid" onchange="window.app.toggleGrid(this.checked)">
+          <span class="slider"></span>
+        </label>
+      </div>
+
+      <div class="settings-row">
+        <div>
+          <label>Show Realm Minimap</label>
+          <div style="font-size:11px;color:var(--text-muted);">Display radar in bottom right corner</div>
+        </div>
+        <label class="switch">
+          <input type="checkbox" id="setting-minimap" checked onchange="window.app.toggleMinimap(this.checked)">
+          <span class="slider"></span>
+        </label>
+      </div>
+
+      <div style="margin-top:20px;text-align:right;">
+        <button class="btn-icon" onclick="window.app.closeAllModals()" style="display:inline-flex;">Close</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Gatekeeper Dialogue Modal -->
+  <div class="modal-backdrop" id="gatekeeper-modal">
+    <div class="rpg-modal-card" style="width:520px;border-color:var(--gold);">
+      <div style="display:flex;gap:16px;align-items:center;margin-bottom:16px;">
+        <div class="gatekeeper-avatar" style="width:52px;height:52px;font-size:32px;">🧙‍♂️</div>
+        <div>
+          <h2 style="font-family:'Cinzel',serif;color:var(--gold);font-size:18px;">Grimwald the Gatekeeper</h2>
+          <div style="font-size:12px;color:var(--azure);">Guardian of the Realm Archway</div>
+        </div>
+      </div>
+      <div style="font-family:'MedievalSharp',cursive;font-size:16px;line-height:1.5;background:rgba(0,0,0,0.4);padding:16px;border-radius:8px;border:1px solid #2e344e;margin-bottom:16px;" id="gk-dialogue">
+        "Walk forth, wanderer! Every building here was forged from your real code. Approach them and press [E] to inspect their scrolls."
+      </div>
+      <div style="text-align:right;">
+        <button class="btn-icon" onclick="window.app.closeAllModals()" style="display:inline-flex;">Farewell</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Application Scripts -->
+  <script src="game.js"></script>
+  <script src="game3d.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>

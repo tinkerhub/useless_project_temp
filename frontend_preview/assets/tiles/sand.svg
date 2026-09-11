@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" shape-rendering="crispEdges">
+  <rect width="32" height="32" fill="#ca8a04"/>
+  <!-- Golden dunes -->
+  <rect x="0" y="4" width="32" height="6" fill="#eab308"/>
+  <rect x="0" y="18" width="32" height="6" fill="#eab308"/>
+  <rect x="4" y="10" width="8" height="2" fill="#fde047"/>
+  <rect x="18" y="24" width="10" height="2" fill="#fde047"/>
+</svg>
