@@ -1,0 +1,158 @@
+:root {
+  --color-angry: #FF4B4B;
+  --color-shy: #FAD2E1;
+  --color-sleepy: #1E1B4B;
+  --color-excited: #FFD166;
+  --color-dramatic: #5A189A;
+  --color-sad: #4A6B82;
+  --color-confused: #B8B8D1;
+  --color-toddler: #FFE29A;
+  --color-overprotective: #C9E4CA;
+  --color-bargainer: #FFB347;
+
+  --pompom-body: #BCE7FD;
+  --pompom-stroke: #FFFFFF;
+
+  --font-heading: 'Fredoka', 'Outfit', sans-serif;
+  --font-body: 'Outfit', 'Inter', sans-serif;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: var(--font-body);
+  background-color: var(--color-excited);
+  color: #1a1a2e;
+  min-height: 100vh;
+  overflow-x: hidden;
+  transition: background-color 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Glassmorphism containers */
+.glass-panel {
+  background: rgba(255, 255, 255, 0.75);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(255, 255, 255, 0.4);
+  box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.08);
+}
+
+.glass-card {
+  background: rgba(255, 255, 255, 0.85);
+  backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.6);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.06);
+}
+
+/* Animations */
+@keyframes vibration {
+  0% { transform: translate(0, 0); }
+  20% { transform: translate(-3px, 1px); }
+  40% { transform: translate(3px, -1px); }
+  60% { transform: translate(-3px, -1px); }
+  80% { transform: translate(3px, 1px); }
+  100% { transform: translate(0, 0); }
+}
+
+@keyframes pulse-breath {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.04); }
+}
+
+@keyframes bounce-jump {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-16px); }
+}
+
+@keyframes float-zzz {
+  0% { transform: translate(0, 0) scale(0.8); opacity: 0; }
+  50% { opacity: 0.8; }
+  100% { transform: translate(12px, -30px) scale(1.2); opacity: 0; }
+}
+
+@keyframes swoon-tremble {
+  0%, 100% { transform: rotate(0deg); }
+  25% { transform: rotate(-2deg); }
+  75% { transform: rotate(2deg); }
+}
+
+@keyframes rain-fall {
+  0% { transform: translateY(-10px); opacity: 0; }
+  50% { opacity: 1; }
+  100% { transform: translateY(40px); opacity: 0; }
+}
+
+@keyframes steam-burst {
+  0% { transform: scale(0.5) translate(0, 0); opacity: 0.8; }
+  100% { transform: scale(1.5) translate(-10px, -20px); opacity: 0; }
+}
+
+@keyframes bubble-pop-in {
+  0% { transform: scale(0.8) translateY(10px); opacity: 0; }
+  70% { transform: scale(1.05) translateY(-2px); opacity: 1; }
+  100% { transform: scale(1) translateY(0); }
+}
+
+@keyframes bubble-shake-in {
+  0% { transform: translateX(-10px); opacity: 0; }
+  25% { transform: translateX(8px); }
+  50% { transform: translateX(-6px); }
+  75% { transform: translateX(3px); }
+  100% { transform: translateX(0); opacity: 1; }
+}
+
+@keyframes bubble-fade-slow {
+  0% { opacity: 0; transform: translateY(8px); }
+  100% { opacity: 1; transform: translateY(0); }
+}
+
+/* Mood-specific avatar class helpers */
+.anim-angry {
+  animation: vibration 0.25s infinite linear;
+}
+.anim-shy {
+  animation: pulse-breath 2.5s infinite ease-in-out;
+}
+.anim-excited {
+  animation: bounce-jump 0.8s infinite cubic-bezier(0.36, 0, 0.66, -0.56);
+}
+.anim-dramatic {
+  animation: swoon-tremble 1.5s infinite ease-in-out;
+}
+.anim-sleepy {
+  animation: pulse-breath 4s infinite ease-in-out;
+}
+.anim-sad {
+  animation: pulse-breath 3.5s infinite ease-in-out;
+}
+.anim-confused {
+  animation: swoon-tremble 3s infinite ease-in-out;
+}
+.anim-toddler {
+  animation: bounce-jump 1.2s infinite cubic-bezier(0.36, 0, 0.66, -0.56);
+}
+.anim-overprotective {
+  animation: pulse-breath 1.5s infinite ease-in-out;
+}
+.anim-bargainer {
+  animation: bounce-jump 2s infinite ease-in-out;
+}
+
+/* Speech bubble custom scrollbar */
+::-webkit-scrollbar {
+  width: 6px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  background: rgba(0, 0, 0, 0.15);
+  border-radius: 999px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(0, 0, 0, 0.25);
+}

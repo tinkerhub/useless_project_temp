@@ -1,1 +1,672 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Meet Mochi — The Useless Chatbot</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&family=Outfit:wght@400;500;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+    <style>
+      :root {
+        --color-bg: #FFF9F2;
+        --color-text: #1A1A2E;
+        --color-primary: #FF6B6B;
+        --color-secondary: #4ECDC4;
+        --color-accent: #FFE66D;
+        --font-heading: 'Fredoka', sans-serif;
+        --font-body: 'Outfit', sans-serif;
+      }
 
+      * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+      }
+
+      body, html {
+        font-family: var(--font-body);
+        color: var(--color-text);
+        overflow-x: hidden;
+        scroll-behavior: smooth;
+      }
+      
+      body.show-chat {
+        background-color: transparent !important;
+      }
+
+      #landing-page {
+        display: flex;
+        flex-direction: column;
+        width: 100%;
+        transition: opacity 0.4s ease;
+        background-color: var(--color-bg);
+        min-height: 100vh;
+      }
+
+      /* When hash is #chat, we hide the landing page */
+      body.show-chat #landing-page {
+        display: none;
+      }
+
+      body:not(.show-chat) #root {
+        display: none;
+      }
+
+      .container {
+        max-width: 1000px;
+        margin: 0 auto;
+        padding: 0 24px;
+      }
+
+      section {
+        padding: 100px 0;
+        position: relative;
+      }
+
+      h1, h2, h3 {
+        font-family: var(--font-heading);
+      }
+
+      h2 {
+        font-size: 3rem;
+        margin-bottom: 24px;
+      }
+
+      .btn {
+        display: inline-block;
+        padding: 16px 32px;
+        background-color: var(--color-primary);
+        color: white;
+        font-family: var(--font-heading);
+        font-size: 1.25rem;
+        font-weight: 600;
+        border-radius: 999px;
+        text-decoration: none;
+        border: none;
+        cursor: pointer;
+        transition: transform 0.2s ease, box-shadow 0.2s ease;
+        box-shadow: 0 8px 24px rgba(255, 107, 107, 0.3);
+      }
+
+      .btn:hover {
+        transform: translateY(-4px);
+        box-shadow: 0 12px 32px rgba(255, 107, 107, 0.4);
+      }
+
+      .btn-secondary {
+        background-color: transparent;
+        color: var(--color-text);
+        box-shadow: none;
+        font-size: 1.1rem;
+        padding: 12px 24px;
+      }
+
+      .btn-secondary:hover {
+        transform: translateY(2px);
+        box-shadow: none;
+        opacity: 0.8;
+      }
+
+      /* Hero Section */
+      .hero {
+        min-height: 90vh;
+        display: flex;
+        align-items: center;
+        text-align: center;
+        flex-direction: column;
+        justify-content: center;
+        position: relative;
+      }
+
+      .hero h1 {
+        font-size: 4.5rem;
+        line-height: 1.1;
+        margin-bottom: 24px;
+        max-width: 800px;
+        z-index: 2;
+      }
+
+      .hero p {
+        font-size: 1.5rem;
+        color: #4A4A68;
+        max-width: 600px;
+        margin-bottom: 40px;
+        line-height: 1.4;
+        z-index: 2;
+      }
+
+      .hero-image-placeholder {
+        width: 250px;
+        height: 250px;
+        background: linear-gradient(135deg, #BCE7FD, #FFB3C6);
+        border-radius: 40% 60% 70% 30% / 40% 50% 60% 50%;
+        margin: 0 auto 40px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-weight: bold;
+        color: rgba(26,26,46,0.6);
+        animation: morph 8s ease-in-out infinite;
+        box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+        z-index: 2;
+      }
+
+      @keyframes morph {
+        0% { border-radius: 40% 60% 70% 30% / 40% 50% 60% 50%; transform: translateY(0); }
+        50% { border-radius: 60% 40% 30% 70% / 60% 30% 70% 40%; transform: translateY(-15px); }
+        100% { border-radius: 40% 60% 70% 30% / 40% 50% 60% 50%; transform: translateY(0); }
+      }
+
+      /* Floating blobs */
+      .blob {
+        position: absolute;
+        filter: blur(40px);
+        z-index: 1;
+        opacity: 0.6;
+        animation: float 10s infinite ease-in-out alternate;
+      }
+      .blob-1 { top: 10%; left: 10%; width: 300px; height: 300px; background: #FFE66D; border-radius: 50%; }
+      .blob-2 { bottom: 10%; right: 10%; width: 400px; height: 400px; background: #4ECDC4; border-radius: 50%; animation-delay: -5s; }
+
+      @keyframes float {
+        0% { transform: translate(0, 0) scale(1); }
+        100% { transform: translate(30px, -50px) scale(1.1); }
+      }
+
+      /* What is Mochi */
+      .what-is {
+        background-color: white;
+        border-radius: 40px;
+        padding: 80px 40px;
+        margin: 40px 24px;
+        box-shadow: 0 12px 40px rgba(0,0,0,0.04);
+        display: flex;
+        gap: 60px;
+        align-items: center;
+        z-index: 2;
+        position: relative;
+      }
+
+      .what-is-text {
+        flex: 1;
+      }
+
+      .what-is-text p {
+        font-size: 1.25rem;
+        line-height: 1.6;
+        margin-bottom: 16px;
+        color: #4A4A68;
+      }
+
+      .what-is-visual {
+        flex: 1;
+        height: 350px;
+        background: #F4F4F9;
+        border-radius: 24px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border: 2px dashed #D1D1E0;
+        color: #A0A0B8;
+        font-weight: 500;
+      }
+
+      /* Journey Timeline */
+      .journey {
+        text-align: center;
+        padding: 120px 0;
+        position: relative;
+      }
+
+      .journey-path {
+        position: relative;
+        max-width: 800px;
+        margin: 60px auto 0;
+      }
+      
+      .journey-step {
+        display: flex;
+        align-items: center;
+        justify-content: flex-start;
+        margin-bottom: 100px;
+        position: relative;
+        text-align: left;
+      }
+
+      .journey-step:nth-child(even) {
+        justify-content: flex-end;
+        text-align: right;
+      }
+
+      .journey-step:nth-child(even) .step-content {
+        align-items: flex-end;
+      }
+
+      .step-content {
+        background: white;
+        padding: 32px;
+        border-radius: 24px;
+        width: 45%;
+        box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+        position: relative;
+        z-index: 2;
+        display: flex;
+        flex-direction: column;
+      }
+
+      .step-number {
+        font-family: var(--font-heading);
+        font-size: 4rem;
+        color: var(--color-accent);
+        line-height: 1;
+        margin-bottom: 16px;
+        opacity: 0.5;
+      }
+
+      .step-title {
+        font-size: 1.75rem;
+        margin-bottom: 12px;
+      }
+
+      .step-desc {
+        font-size: 1.15rem;
+        color: #666;
+        line-height: 1.5;
+      }
+
+      /* Wavy line behind timeline */
+      .journey-line {
+        position: absolute;
+        top: 50px;
+        bottom: 50px;
+        left: 50%;
+        width: 4px;
+        background: linear-gradient(180deg, var(--color-primary), var(--color-secondary));
+        transform: translateX(-50%);
+        z-index: 1;
+        border-radius: 2px;
+      }
+
+      /* Snippets */
+      .snippets {
+        background-color: #1A1A2E;
+        color: white;
+        padding: 120px 0;
+        text-align: center;
+        border-radius: 40px;
+        margin: 0 24px;
+      }
+
+      .snippets h2 {
+        color: white;
+      }
+
+      .snippets-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+        gap: 24px;
+        margin-top: 60px;
+      }
+
+      .snippet-card {
+        background: rgba(255, 255, 255, 0.05);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        border-radius: 20px;
+        padding: 24px;
+        height: 200px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        transition: transform 0.3s ease;
+      }
+
+      .snippet-card:hover {
+        transform: translateY(-8px);
+        background: rgba(255, 255, 255, 0.1);
+      }
+
+      .snippet-label {
+        font-size: 0.8rem;
+        font-weight: 700;
+        letter-spacing: 1px;
+        color: var(--color-accent);
+        margin-bottom: auto;
+      }
+
+      /* Screenshots */
+      .screenshots {
+        text-align: center;
+      }
+      
+      .screenshots-gallery {
+        display: flex;
+        justify-content: center;
+        gap: 24px;
+        flex-wrap: wrap;
+        margin-top: 40px;
+      }
+
+      .screenshot-item {
+        width: 300px;
+        height: 450px;
+        background: white;
+        border-radius: 24px;
+        box-shadow: 0 20px 40px rgba(0,0,0,0.08);
+        border: 1px solid #EAEAEA;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: #A0A0B8;
+        font-weight: 500;
+        transition: transform 0.3s ease;
+      }
+
+      .screenshot-item:hover {
+        transform: translateY(-10px) rotate(2deg);
+      }
+
+      .screenshot-item:nth-child(even):hover {
+        transform: translateY(-10px) rotate(-2deg);
+      }
+
+      /* Photo Scrapbook */
+      .photos {
+        background: #FAD2E1;
+        padding: 100px 0;
+        text-align: center;
+        overflow: hidden;
+      }
+
+      .photo-wall {
+        display: flex;
+        justify-content: center;
+        gap: 40px;
+        margin-top: 60px;
+        flex-wrap: wrap;
+      }
+
+      .photo-item {
+        width: 280px;
+        height: 280px;
+        background: white;
+        padding: 16px 16px 60px 16px; /* Polaroid style */
+        box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: #A0A0B8;
+        font-family: 'Indie Flower', cursive, var(--font-body);
+        font-size: 1.2rem;
+        position: relative;
+        transition: transform 0.3s ease;
+      }
+
+      .photo-item:nth-child(1) { transform: rotate(-5deg); }
+      .photo-item:nth-child(2) { transform: rotate(3deg); margin-top: 40px; }
+      .photo-item:nth-child(3) { transform: rotate(-2deg); }
+
+      .photo-item:hover {
+        transform: scale(1.05) rotate(0deg);
+        z-index: 10;
+      }
+
+      /* Final CTA */
+      .final-cta {
+        text-align: center;
+        padding: 150px 24px;
+      }
+
+      .final-cta h2 {
+        font-size: 3.5rem;
+      }
+
+      .final-cta p {
+        font-size: 1.5rem;
+        color: #666;
+        margin-bottom: 40px;
+      }
+
+      footer {
+        text-align: center;
+        padding: 40px;
+        color: #A0A0B8;
+        font-size: 0.9rem;
+      }
+
+      /* Responsive */
+      @media (max-width: 768px) {
+        .what-is {
+          flex-direction: column;
+          padding: 40px 24px;
+        }
+        .hero h1 { font-size: 3rem; }
+        .journey-line { left: 24px; transform: none; }
+        .step-content { width: calc(100% - 60px); margin-left: auto; }
+        .journey-step:nth-child(even) { justify-content: flex-start; text-align: left; }
+        .journey-step:nth-child(even) .step-content { align-items: flex-start; }
+      }
+    </style>
+  </head>
+  <body>
+    <!-- 
+      =========================================
+      CONFIGURATION
+      =========================================
+    -->
+    <script>
+      // CHATBOT LINK: Replace CHATBOT_URL with the deployed chatbot URL before deployment
+      // Currently set to "#chat" to trigger the internal React app
+      const CHATBOT_URL = "#chat";
+
+      function openChat() {
+        if (CHATBOT_URL.startsWith("#")) {
+          window.location.hash = CHATBOT_URL;
+        } else {
+          window.location.href = CHATBOT_URL;
+        }
+      }
+
+      function handleRouting() {
+        if (window.location.hash === "#chat") {
+          document.body.classList.add("show-chat");
+        } else {
+          document.body.classList.remove("show-chat");
+        }
+      }
+
+      window.addEventListener("hashchange", handleRouting);
+      window.addEventListener("DOMContentLoaded", handleRouting);
+    </script>
+
+    <!-- LANDING PAGE -->
+    <div id="landing-page">
+      <div class="blob blob-1"></div>
+      <div class="blob blob-2"></div>
+
+      <!-- 1. HERO SECTION -->
+      <section class="hero container">
+        <!-- HERO IMAGE: Replace the div or src below with actual Mochi photo -->
+        <div class="hero-image-placeholder" style="background: none; box-shadow: none; animation: none;">
+          <img src="/mochi_hero.jpg" alt="Mochi Hero" style="width: 100%; height: 100%; object-fit: contain; filter: drop-shadow(0 20px 40px rgba(0,0,0,0.1));" />
+        </div>
+        
+        <h1>Meet Mochi.<br>It has moods. You don't get to choose them.</h1>
+        <p>We started with one simple observation: people wake up with completely different moods every day. So naturally, we built a chatbot that decided to have moods too.</p>
+        
+        <div>
+          <button class="btn" onclick="openChat()">Talk to Mochi &rarr;</button>
+          <br><br>
+          <a href="#journey" class="btn-secondary">See how Mochi happened &darr;</a>
+        </div>
+      </section>
+
+      <!-- 2. WHAT IS MOCHI? -->
+      <section class="container">
+        <div class="what-is">
+          <div class="what-is-text">
+            <h2>So... what exactly is Mochi?</h2>
+            <p>Mochi is an intentionally useless chatbot whose personality changes and affects how it responds to you.</p>
+            <p>Sometimes it is helpful. Sometimes it is absolutely not helpful. And sometimes it just feels like being Mochi.</p>
+          </div>
+          <!-- MOCHI MOOD VISUAL: Replace the div below -->
+          <div class="what-is-visual" style="border: none; background: transparent;">
+            <img src="/mochi_moods.jpg" alt="Mochi Moods" style="width: 100%; height: 100%; object-fit: cover; border-radius: 24px;" />
+          </div>
+        </div>
+      </section>
+
+      <!-- 3. PROJECT JOURNEY -->
+      <section id="journey" class="journey container">
+        <h2>How did we end up building this?</h2>
+        
+        <div class="journey-path">
+          <div class="journey-line"></div>
+          
+          <div class="journey-step">
+            <div class="step-content">
+              <div class="step-number">01</div>
+              <h3 class="step-title">The Observation</h3>
+              <p class="step-desc">People have random moods. Some days you're energetic. Some days you're sleepy. Some days you're annoyed for absolutely no reason. That got us thinking...</p>
+            </div>
+          </div>
+          
+          <div class="journey-step">
+            <div class="step-content">
+              <div class="step-number">02</div>
+              <h3 class="step-title">The Idea</h3>
+              <p class="step-desc">What if a chatbot had moods too? Instead of making another chatbot that tries to be useful, we decided to make one that doesn't.</p>
+            </div>
+          </div>
+          
+          <div class="journey-step">
+            <div class="step-content">
+              <div class="step-number">03</div>
+              <h3 class="step-title">The Experiment</h3>
+              <p class="step-desc">Okay... but how does Mochi decide its mood? We experimented with mood selection and how different moods should affect conversations.</p>
+            </div>
+          </div>
+          
+          <div class="journey-step">
+            <div class="step-content">
+              <div class="step-number">04</div>
+              <h3 class="step-title">The Personality</h3>
+              <p class="step-desc">What should Mochi actually say? We worked on different personalities, response styles, randomness and conversational behaviour for each mood.</p>
+            </div>
+          </div>
+          
+          <div class="journey-step">
+            <div class="step-content">
+              <div class="step-number">05</div>
+              <h3 class="step-title">The Build</h3>
+              <p class="step-desc">Then we actually built the thing. Frontend. Chatbot. Mood system. Responses. And several questionable decisions.</p>
+            </div>
+          </div>
+          
+          <div class="journey-step">
+            <div class="step-content">
+              <div class="step-number">06</div>
+              <h3 class="step-title">The Result</h3>
+              <p class="step-desc">Meet Mochi. A chatbot that changes mood instead of solving your problems.</p>
+              <div style="margin-top: 24px;">
+                <p style="font-weight: 600; margin-bottom: 12px;">You made it this far.<br>You might as well talk to Mochi.</p>
+                <button class="btn" onclick="openChat()">Enter Mochi &rarr;</button>
+              </div>
+            </div>
+          </div>
+          
+        </div>
+      </section>
+
+      <!-- 4. SNIPPETS SECTION -->
+      <section class="snippets">
+        <div class="container">
+          <h2>Things Mochi has said</h2>
+          <div class="snippets-grid">
+            
+            <!-- SNIPPET 01: Replace the inner content with actual image/screenshot -->
+            <div class="snippet-card">
+              <div class="snippet-label">MOCHI &mdash; SLEEPY</div>
+              <p style="font-size: 1.2rem; font-style: italic; color: #eee; margin-top: 16px;">"I would help you, but I just remembered I need to take a nap... zzz..."</p>
+            </div>
+            
+            <!-- SNIPPET 02: Replace the inner content with actual image/screenshot -->
+            <div class="snippet-card">
+              <div class="snippet-label">MOCHI &mdash; CHAOTIC</div>
+              <p style="font-size: 1.2rem; font-style: italic; color: #eee; margin-top: 16px;">"First step: Find 1,000 eggs and a giant spoon! Pancakes are chaos! 🔥"</p>
+            </div>
+            
+            <!-- SNIPPET 03: Replace the inner content with actual image/screenshot -->
+            <div class="snippet-card">
+              <div class="snippet-label">MOCHI &mdash; HAPPY</div>
+              <p style="font-size: 1.2rem; font-style: italic; color: #eee; margin-top: 16px;">"Yay! I'd love to help you with that! Here's a super fun and awesome recipe! ✨"</p>
+            </div>
+            
+            <!-- SNIPPET 04: Replace the inner content with actual image/screenshot -->
+            <div class="snippet-card">
+              <div class="snippet-label">MOCHI &mdash; ANGRY</div>
+              <p style="font-size: 1.2rem; font-style: italic; color: #eee; margin-top: 16px;">"Why are you asking me?! Figure it out yourself! *Aggressive bunny noises* 😡"</p>
+            </div>
+            
+          </div>
+        </div>
+      </section>
+
+      <!-- 5. SCREENSHOTS -->
+      <section class="screenshots container">
+        <h2>Proof that we actually built it</h2>
+        <div class="screenshots-gallery">
+          <!-- SCREENSHOT 01: Replace the div with an actual img tag -->
+          <div class="screenshot-item" style="border: none; background: transparent; overflow: hidden;">
+            <img src="/assets/Screenshot 2026-09-12 040350.png" alt="Screenshot 1" style="width: 100%; height: 100%; object-fit: cover; border-radius: 24px;" />
+          </div>
+          <!-- SCREENSHOT 02: Replace the div with an actual img tag -->
+          <div class="screenshot-item" style="border: none; background: transparent; overflow: hidden;">
+            <img src="/assets/Screenshot 2026-09-12 040359.png" alt="Screenshot 2" style="width: 100%; height: 100%; object-fit: cover; border-radius: 24px;" />
+          </div>
+          <!-- SCREENSHOT 03: Replace the div with an actual img tag -->
+          <div class="screenshot-item" style="border: none; background: transparent; overflow: hidden;">
+            <img src="/assets/Screenshot 2026-09-12 040405.png" alt="Screenshot 3" style="width: 100%; height: 100%; object-fit: cover; border-radius: 24px;" />
+          </div>
+        </div>
+      </section>
+
+      <!-- 6. MOCHI PHOTO SECTION -->
+      <section class="photos">
+        <div class="container">
+          <h2>Meanwhile, Mochi</h2>
+          <div class="photo-wall">
+            <!-- PET PHOTO 01: Replace the div with an actual img tag or nested img -->
+            <div class="photo-item" style="padding: 0; overflow: hidden; border-radius: 12px; border: 8px solid white; border-bottom-width: 48px;">
+              <img src="/mochi_photo_1.jpg" alt="Mochi Photo 1" style="width: 100%; height: 100%; object-fit: cover;" />
+            </div>
+            <!-- PET PHOTO 02: Replace the div with an actual img tag or nested img -->
+            <div class="photo-item" style="padding: 0; overflow: hidden; border-radius: 12px; border: 8px solid white; border-bottom-width: 48px;">
+              <img src="/mochi_photo_2.jpg" alt="Mochi Photo 2" style="width: 100%; height: 100%; object-fit: cover;" />
+            </div>
+            <!-- PET PHOTO 03: Replace the div with an actual img tag or nested img -->
+            <div class="photo-item" style="padding: 0; overflow: hidden; border-radius: 12px; border: 8px solid white; border-bottom-width: 48px;">
+              <img src="/mochi_photo_3.jpg" alt="Mochi Photo 3" style="width: 100%; height: 100%; object-fit: cover;" />
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- 7. FINAL CTA -->
+      <section class="final-cta">
+        <h2>You probably have better things to do.</h2>
+        <p>Mochi doesn't.</p>
+        <button class="btn" onclick="openChat()">Talk to Mochi &rarr;</button>
+      </section>
+
+      <footer>
+        <p>Mochi &mdash; A completely unnecessary chatbot.<br>Built because we could.</p>
+      </footer>
+    </div>
+
+    <!-- REACT CHATBOT ROOT (Hidden on landing page) -->
+    <div id="root"></div>
+    <script type="module" src="/src/main.jsx"></script>
+  </body>
+</html>
