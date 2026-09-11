@@ -1,1 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🐥 Find My Duck!</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
 
+    <!-- START SCREEN -->
+    <div id="startScreen" class="screen">
+        <div class="start-card">
+            <div class="duck-big">🐥</div>
+            <h1>FIND MY DUCK!</h1>
+            <p class="subtitle">A completely unnecessary duck-finding game 🌸</p>
+            <div class="instructions">
+                <p>🐥 A tiny duck is hiding somewhere!</p>
+                <p>👀 Click around and find it!</p>
+                <p>🌸 There are 5 levels!</p>
+            </div>
+            <button onclick="startGame()" class="main-button">
+                ▶ START GAME
+            </button>
+        </div>
+    </div>
+
+    <!-- GAME SCREEN -->
+    <div id="gameScreen" class="screen hidden">
+
+        <!-- HEADER -->
+        <header class="game-header">
+            <div>
+                <span>🐥</span>
+                <strong>FIND MY DUCK!</strong>
+            </div>
+            <div class="stats">
+                <span>⭐ Score: <b id="score">0</b></span>
+                <span>🌸 Level: <b id="level">1</b>/5</span>
+                <span>⏱️ <b id="timer">30</b>s</span>
+            </div>
+        </header>
+
+        <!-- MESSAGE -->
+        <div id="message" class="message">
+            👀 Find the duck!
+        </div>
+
+        <!-- GAME AREA -->
+        <main id="gameArea">
+
+            <!-- SKY -->
+            <div class="sky">
+                <div class="cloud cloud1">☁️</div>
+                <div class="cloud cloud2">☁️</div>
+                <div class="cloud cloud3">☁️</div>
+            </div>
+
+            <!-- DECORATIONS -->
+            <div class="flower flower1">🌷</div>
+            <div class="flower flower2">🌸</div>
+            <div class="flower flower3">🌼</div>
+            <div class="flower flower4">🌷</div>
+            <div class="flower flower5">🌸</div>
+
+            <div class="rock rock1">🪨</div>
+            <div class="rock rock2">🪨</div>
+
+            <div class="bush bush1">🌿</div>
+            <div class="bush bush2">🌿</div>
+            <div class="bush bush3">🌿</div>
+
+            <!-- GRASS -->
+            <div class="grass"></div>
+
+            <!-- DUCK -->
+            <button id="duck" onclick="findDuck(event)">
+                🐥
+            </button>
+
+        </main>
+
+        <!-- NEXT LEVEL -->
+        <button id="nextButton" class="main-button hidden" onclick="nextLevel()">
+            NEXT LEVEL 🌸
+        </button>
+
+    </div>
+
+    <!-- WIN SCREEN -->
+    <div id="winScreen" class="screen hidden">
+        <div class="start-card">
+            <div class="duck-big">🐥🎉</div>
+            <h1>YOU DID IT!</h1>
+            <p class="subtitle">You found all 5 ducks! 😭🌸</p>
+            <div class="final-score">
+                ⭐ Final Score
+                <strong id="finalScore">0</strong>
+            </div>
+            <p id="finalMessage"></p>
+            <button onclick="restartGame()" class="main-button">
+                🔄 PLAY AGAIN
+            </button>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+
+</body>
+</html>
