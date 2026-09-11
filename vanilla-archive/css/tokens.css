@@ -1,0 +1,74 @@
+:root {
+  /* Outer Environment: Dusty Rose / Muted Salmon */
+  --bg-outer: #ba7977;
+  --bg-outer-darker: #a86967;
+  --bg-outer-gradient: radial-gradient(circle at 50% 20%, #c48482 0%, #ba7977 50%, #9e5f5d 100%);
+
+  /* Master Canvas / Gallery Panel: Deep Obsidian & Carbon */
+  --panel-bg: #070709;
+  --panel-bg-elevated: #0d0d12;
+  --panel-bg-subtle: #121218;
+  --panel-border: rgba(255, 255, 255, 0.07);
+  --panel-border-bright: rgba(255, 255, 255, 0.15);
+  --panel-border-accent: rgba(216, 137, 134, 0.35);
+
+  /* Primary Brand / Accent: Dusty Rose */
+  --accent-rose: #d88986;
+  --accent-rose-hover: #e59996;
+  --accent-rose-muted: rgba(216, 137, 134, 0.12);
+  --accent-rose-glow: rgba(216, 137, 134, 0.25);
+  --accent-cyan: #64d2ff;
+  --accent-green: #30d158;
+  --accent-yellow: #ffd60a;
+  --accent-red: #ff453a;
+
+  /* Typography Colors */
+  --text-primary: #f5f5f7;
+  --text-secondary: #9a9aa4;
+  --text-muted: #5e5e6a;
+  --text-inverse: #070709;
+
+  /* Font Families */
+  --font-editorial: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  --font-mono: 'JetBrains Mono', 'Geist Mono', 'SF Mono', Consolas, monospace;
+
+  /* Layout Dimensions */
+  --container-max-width: 1320px;
+  --panel-radius: 20px;
+  --panel-radius-sm: 12px;
+  --panel-shadow: 0 32px 80px -16px rgba(0, 0, 0, 0.75), 0 0 0 1px rgba(255, 255, 255, 0.06);
+
+  /* Transitions */
+  --transition-fast: 160ms cubic-bezier(0.16, 1, 0.3, 1);
+  --transition-smooth: 320ms cubic-bezier(0.16, 1, 0.3, 1);
+  --transition-slow: 600ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  scroll-behavior: smooth;
+  color-scheme: dark;
+}
+
+body {
+  background: var(--bg-outer-gradient);
+  background-attachment: fixed;
+  color: var(--text-primary);
+  font-family: var(--font-editorial);
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  padding: 32px 24px;
+  min-height: 100vh;
+}
+
+@media (max-width: 768px) {
+  body {
+    padding: 16px 8px;
+  }
+}

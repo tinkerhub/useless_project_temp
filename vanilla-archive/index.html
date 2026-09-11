@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Your Camera Knows When You're Talking | TALK.EXE</title>
+  <meta name="description" content="A completely unnecessary AI-powered computer vision experiment that detects when you're talking.">
+  
+  <!-- Open Graph -->
+  <meta property="og:title" content="Your Camera Knows When You're Talking | TALK.EXE">
+  <meta property="og:description" content="A completely unnecessary AI-powered computer vision experiment that detects when you're talking.">
+  <meta property="og:type" content="website">
+
+  <!-- Google Fonts: Plus Jakarta Sans & JetBrains Mono -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:ital,wght@0,400;0,500;0,700;1,400&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+  <!-- MediaPipe CDN (gracefully enhanced) -->
+  <script src="https://cdn.jsdelivr.net/npm/@mediapipe/camera_utils/camera_utils.js" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@mediapipe/face_mesh/face_mesh.js" crossorigin="anonymous"></script>
+
+  <!-- Stylesheets -->
+  <link rel="stylesheet" href="css/tokens.css">
+  <link rel="stylesheet" href="css/components.css">
+  <link rel="stylesheet" href="css/main.css">
+  
+  <style>
+    /* New styles for integrating camera into the hero centerpiece */
+    .hero-visual-wrapper {
+      position: relative;
+    }
+    #camera-video, #camera-canvas {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transform: scaleX(-1); /* Mirror camera feed */
+      border-radius: var(--panel-radius-sm);
+    }
+    #hero-hud-canvas {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      z-index: 2;
+      border-radius: var(--panel-radius-sm);
+    }
+    .hero-hud-overlay {
+      z-index: 3;
+    }
+    #camera-placeholder {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      background: radial-gradient(circle at center, #111119 0%, #030305 100%);
+      z-index: 5;
+      text-align: center;
+      padding: 24px;
+      border-radius: var(--panel-radius-sm);
+    }
+  </style>
+</head>
+<body>
+
+  <!-- MASTER BLACK CANVAS CONTAINER (Editorial Gallery Presentation) -->
+  <div class="main-canvas">
+
+    <!-- 2. HERO SECTION -->
+    <section class="hero-section">
+      <div class="hero-grid">
+        
+        <!-- Left Editorial Copy -->
+        <div class="hero-content">
+          <div class="eyebrow">
+            <span id="state-status-dot" class="status-dot active"></span>
+            <span id="current-state-badge">AI / COMPUTER VISION / QUESTIONABLE DECISIONS</span>
+          </div>
+
+          <h1 class="hero-title">
+            YOUR CAMERA<br>
+            KNOWS WHEN<br>
+            <span>YOU'RE TALKING.</span>
+          </h1>
+
+          <p class="hero-lead">
+            A completely unnecessary AI-powered experiment that watches your face, detects when you're talking, and reacts accordingly.
+          </p>
+
+          <div class="hero-subtext" id="current-state-quote">
+            No productivity metrics. No real-world benefit.<br>
+            Just computer vision doing something nobody asked for.
+          </div>
+
+          <div class="hero-ctas">
+            <button id="btn-start-camera-main" class="btn btn-primary btn-launch-exp">START EXPERIENCE</button>
+            <button id="btn-stop-camera" class="btn btn-secondary" style="display: none;">STOP EXPERIENCE</button>
+          </div>
+        </div>
+
+        <!-- Right Oversized Centerpiece Visual (Cybernetic HUD Scanner & Camera) -->
+        <div class="hero-visual-wrapper hud-panel">
+          <div class="hud-corner hud-corner-tl"></div>
+          <div class="hud-corner hud-corner-tr"></div>
+          <div class="hud-corner hud-corner-bl"></div>
+          <div class="hud-corner hud-corner-br"></div>
+
+          <!-- Video element for webcam (hidden by default) -->
+          <video id="camera-video" playsinline muted autoplay style="display: none;"></video>
+          
+          <!-- Canvas element for landmark mesh overlay -->
+          <canvas id="camera-canvas" style="display: none;"></canvas>
+
+          <!-- Original HUD Canvas -->
+          <canvas id="hero-hud-canvas" class="hero-hud-canvas"></canvas>
+
+          <!-- Standby Screen before Camera Permission -->
+          <div id="camera-placeholder" class="camera-placeholder">
+            <div class="placeholder-icon" style="font-size: 2.8rem; margin-bottom: 16px; color: var(--accent-rose);">📷</div>
+            <div class="placeholder-title" style="font-size: 1.25rem; font-weight: 700; margin-bottom: 8px;">Webcam Standby</div>
+            <p class="placeholder-text" style="font-size: 0.88rem; color: var(--text-secondary); max-width: 250px; margin-bottom: 24px;">
+              Your camera feed is processed locally and never leaves your device.
+            </p>
+            <button id="btn-start-camera" class="btn btn-primary btn-sm">ENABLE CAMERA</button>
+          </div>
+
+          <div class="hero-hud-overlay">
+            <div class="hud-top-meta">
+              <span>TALK.EXE // CV-HUD-01</span>
+              <span id="state-meta-notice">STATE: SCANNING</span>
+            </div>
+            <div class="hud-bottom-meta">
+              <span id="metric-fps">LATENCY: &lt;16MS</span>
+              <span id="metric-confidence">468 LANDMARKS</span>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- Bottom Hero Status Strip (3-State preview row inspired by reference image) -->
+      <div class="hero-strip">
+        <div class="strip-item">
+          <span class="strip-number">01</span>
+          <div class="strip-details">
+            <span class="strip-title">TALKING</span>
+            <span class="strip-desc">Sustained mouth movement detected</span>
+          </div>
+        </div>
+
+        <div class="strip-item">
+          <span class="strip-number">02</span>
+          <div class="strip-details">
+            <span class="strip-title">SILENT</span>
+            <span class="strip-desc">Face detected · Speech inactive</span>
+          </div>
+        </div>
+
+        <div class="strip-item">
+          <span class="strip-number">03</span>
+          <div class="strip-details">
+            <span class="strip-title">NO FACE</span>
+            <span class="strip-desc">Subject missing from frame</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <div class="hairline"></div>
+
+    <!-- 3. FOOTER -->
+    <footer class="footer">
+      <div class="footer-top">
+        <div>
+          <a href="#" class="nav-brand">
+            <div class="brand-mark"></div>
+            <span class="brand-title">TALK.EXE</span>
+          </a>
+          <p class="footer-brand-desc">
+            A completely unnecessary experiment powered by real-time computer vision. Built with ❤️ and questionable decisions.
+          </p>
+        </div>
+
+        <div class="footer-links">
+          <div class="footer-col">
+            <span class="footer-col-title">PROJECT</span>
+            <a href="https://github.com/rohith-roblelal/Talk.exe" target="_blank" rel="noopener" class="footer-link">GitHub Repository</a>
+            <a href="https://tinkerhub.org" target="_blank" rel="noopener" class="footer-link">TinkerHub Foundation</a>
+          </div>
+        </div>
+      </div>
+
+      <div class="footer-bottom">
+        <span>© 2026 TALK.EXE — Probably shouldn't have built this.</span>
+        <span>Made with ❤️ at TinkerHub Useless Projects</span>
+      </div>
+    </footer>
+
+  </div>
+
+  <!-- Main JavaScript Module -->
+  <script type="module" src="js/app.js"></script>
+</body>
+</html>

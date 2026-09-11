@@ -1,0 +1,243 @@
+/* =====================================================
+   USELESS 3.0 — Component Library
+   ===================================================== */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;700&display=swap');
+
+/* ── Reset ──────────────────────────────────────────── */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; font-size: 16px; }
+body {
+  font-family: var(--font-sans);
+  background: var(--bg);
+  color: var(--fg);
+  -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
+}
+img, video, canvas, svg { display: block; max-width: 100%; }
+a { color: inherit; text-decoration: none; }
+button { cursor: pointer; font-family: inherit; border: none; background: none; }
+ul, ol { list-style: none; }
+
+/* ── Typography Scale ────────────────────────────────── */
+.t-eyebrow {
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  font-weight: 500;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--muted);
+  display: flex;
+  align-items: center;
+  gap: var(--sp-2);
+}
+.t-section-title {
+  font-size: clamp(2rem, 5vw, 3.5rem);
+  font-weight: 900;
+  line-height: 1.05;
+  letter-spacing: -0.03em;
+  text-transform: uppercase;
+  color: var(--fg);
+}
+.t-hero-title {
+  font-size: clamp(3rem, 8.5vw, 7rem);
+  font-weight: 900;
+  line-height: 0.97;
+  letter-spacing: -0.04em;
+  text-transform: uppercase;
+  color: var(--fg);
+}
+.t-lead {
+  font-size: clamp(1rem, 1.6vw, 1.2rem);
+  font-weight: 400;
+  line-height: 1.65;
+  color: var(--muted);
+}
+.t-mono {
+  font-family: var(--font-mono);
+  font-size: 0.8rem;
+}
+
+/* ── Status Dot ─────────────────────────────────────── */
+.status-dot {
+  display: inline-block;
+  width: 7px; height: 7px;
+  border-radius: 50%;
+  background: var(--subtle);
+}
+.status-dot.online   { background: var(--success); box-shadow: 0 0 6px var(--success); animation: pulse-dot 2s infinite; }
+.status-dot.talking  { background: var(--accent); box-shadow: 0 0 8px var(--accent); animation: pulse-dot 1s infinite; }
+.status-dot.silent   { background: var(--cyan); box-shadow: 0 0 6px var(--cyan); }
+.status-dot.noface   { background: var(--warning); box-shadow: 0 0 6px var(--warning); }
+.status-dot.error    { background: var(--error); box-shadow: 0 0 6px var(--error); }
+@keyframes pulse-dot {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50% { opacity: 0.6; transform: scale(0.85); }
+}
+
+/* ── Buttons ─────────────────────────────────────────── */
+.btn {
+  display: inline-flex; align-items: center; justify-content: center;
+  gap: var(--sp-2);
+  font-family: var(--font-mono);
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  border-radius: var(--r-sm);
+  padding: 14px 28px;
+  transition: all var(--t-base);
+  white-space: nowrap;
+  position: relative;
+  overflow: hidden;
+}
+.btn::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: white;
+  opacity: 0;
+  transition: opacity var(--t-fast);
+}
+.btn:hover::after { opacity: 0.06; }
+.btn:active::after { opacity: 0.12; }
+
+.btn-primary {
+  background: var(--accent);
+  color: #0a0508;
+  box-shadow: 0 4px 20px rgba(232,150,122,0.3);
+}
+.btn-primary:hover {
+  background: var(--accent-dim);
+  box-shadow: 0 6px 28px rgba(232,150,122,0.45);
+  transform: translateY(-2px);
+}
+
+.btn-ghost {
+  background: transparent;
+  color: var(--fg);
+  border: 1px solid var(--border-bright);
+}
+.btn-ghost:hover {
+  border-color: var(--accent);
+  color: var(--accent);
+  transform: translateY(-2px);
+}
+
+.btn-sm { padding: 10px 20px; font-size: 0.72rem; }
+.btn-lg { padding: 18px 36px; font-size: 0.84rem; }
+
+/* ── Hairline ────────────────────────────────────────── */
+.hairline { border: none; border-top: 1px solid var(--border); width: 100%; }
+
+/* ── Container ───────────────────────────────────────── */
+.container {
+  width: 100%;
+  max-width: var(--container);
+  margin: 0 auto;
+  padding: 0 var(--sp-8);
+}
+.container-narrow {
+  width: 100%;
+  max-width: var(--container-narrow);
+  margin: 0 auto;
+  padding: 0 var(--sp-8);
+}
+
+/* ── Section Wrapper ─────────────────────────────────── */
+.section {
+  padding: var(--sp-32) 0;
+}
+.section-sm {
+  padding: var(--sp-20) 0;
+}
+.section-header {
+  margin-bottom: var(--sp-16);
+}
+
+/* ── Camera / HUD Panel ──────────────────────────────── */
+.hud-panel {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--r-lg);
+  overflow: hidden;
+  position: relative;
+}
+.hud-corners { position: absolute; inset: 0; pointer-events: none; z-index: 5; }
+.hud-corner {
+  position: absolute;
+  width: 20px; height: 20px;
+  border-color: var(--accent);
+  border-style: solid;
+  opacity: 0.7;
+}
+.hud-corner-tl { top: 12px; left: 12px; border-width: 1.5px 0 0 1.5px; }
+.hud-corner-tr { top: 12px; right: 12px; border-width: 1.5px 1.5px 0 0; }
+.hud-corner-bl { bottom: 12px; left: 12px; border-width: 0 0 1.5px 1.5px; }
+.hud-corner-br { bottom: 12px; right: 12px; border-width: 0 1.5px 1.5px 0; }
+
+/* ── Scan Line ───────────────────────────────────────── */
+.scan-line {
+  position: absolute; left: 0; right: 0;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--accent), transparent);
+  opacity: 0.4;
+  z-index: 4;
+  animation: scandown 4s linear infinite;
+}
+@keyframes scandown {
+  0% { top: 0%; opacity: 0; }
+  5% { opacity: 0.4; }
+  95% { opacity: 0.4; }
+  100% { top: 100%; opacity: 0; }
+}
+
+/* ── Reveal Animation ────────────────────────────────── */
+.reveal {
+  opacity: 0;
+  transform: translateY(30px);
+  transition: opacity 0.7s ease, transform 0.7s ease;
+}
+.reveal.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+.reveal-delay-1 { transition-delay: 0.1s; }
+.reveal-delay-2 { transition-delay: 0.2s; }
+.reveal-delay-3 { transition-delay: 0.3s; }
+.reveal-delay-4 { transition-delay: 0.4s; }
+
+/* ── Badge / Tag ─────────────────────────────────────── */
+.badge {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--sp-2);
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  font-weight: 500;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  background: var(--surface-el);
+  border: 1px solid var(--border);
+  border-radius: var(--r-full);
+  padding: 6px 14px;
+  color: var(--muted);
+}
+
+/* ── Progress Bar ────────────────────────────────────── */
+.progress-track {
+  height: 3px;
+  background: var(--surface-high);
+  border-radius: var(--r-full);
+  overflow: hidden;
+}
+.progress-fill {
+  height: 100%;
+  background: var(--accent);
+  border-radius: var(--r-full);
+  transition: width 0.3s ease;
+}
+
+/* ── State Colors ────────────────────────────────────── */
+.state-talking { color: var(--accent); }
+.state-silent  { color: var(--cyan); }
+.state-noface  { color: var(--warning); }

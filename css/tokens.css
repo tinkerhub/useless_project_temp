@@ -1,0 +1,61 @@
+/* =====================================================
+   USELESS 3.0 — Design Tokens
+   ===================================================== */
+
+:root {
+  /* --- Background Scale --- */
+  --bg:            #09090f;
+  --surface:       #111118;
+  --surface-el:    #1a1a24;
+  --surface-high:  #22222e;
+
+  /* --- Foreground --- */
+  --fg:            #f0eff6;
+  --muted:         #9a98ae;
+  --subtle:        #5a5870;
+
+  /* --- Accent: Coral/Salmon --- */
+  --accent:        #e8967a;
+  --accent-dim:    #c47660;
+  --accent-glow:   rgba(232, 150, 122, 0.15);
+  --accent-glow-sm:rgba(232, 150, 122, 0.08);
+
+  /* --- Semantic --- */
+  --success:       #6ee7b7;
+  --warning:       #fbbf24;
+  --error:         #f87171;
+  --cyan:          #67e8f9;
+
+  /* --- Border --- */
+  --border:        rgba(255, 255, 255, 0.07);
+  --border-bright: rgba(255, 255, 255, 0.14);
+  --border-accent: rgba(232, 150, 122, 0.35);
+
+  /* --- Typography --- */
+  --font-sans:  'Inter', 'Manrope', system-ui, sans-serif;
+  --font-mono:  'JetBrains Mono', 'IBM Plex Mono', monospace;
+
+  /* --- Spacing Scale --- */
+  --sp-1: 4px;  --sp-2: 8px;  --sp-3: 12px; --sp-4: 16px;
+  --sp-5: 20px; --sp-6: 24px; --sp-8: 32px; --sp-10: 40px;
+  --sp-12: 48px; --sp-16: 64px; --sp-20: 80px; --sp-24: 96px;
+  --sp-32: 128px;
+
+  /* --- Radius --- */
+  --r-sm: 6px;  --r-md: 12px;  --r-lg: 20px;  --r-full: 9999px;
+
+  /* --- Transitions --- */
+  --t-fast: 150ms cubic-bezier(0.4,0,0.2,1);
+  --t-base: 250ms cubic-bezier(0.4,0,0.2,1);
+  --t-slow: 450ms cubic-bezier(0.4,0,0.2,1);
+
+  /* --- Shadows --- */
+  --shadow-sm:  0 1px 3px rgba(0,0,0,0.5);
+  --shadow-md:  0 4px 20px rgba(0,0,0,0.4);
+  --shadow-lg:  0 8px 40px rgba(0,0,0,0.5);
+  --shadow-accent: 0 8px 40px rgba(232,150,122,0.2);
+
+  /* --- Container --- */
+  --container: 1320px;
+  --container-narrow: 900px;
+}

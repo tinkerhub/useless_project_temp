@@ -1,1 +1,589 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Your Camera Knows When You're Talking | TALK.EXE</title>
+  <meta name="description" content="A completely unnecessary computer-vision experiment that detects when you're talking and reacts accordingly.">
+  <meta property="og:title" content="Your Camera Knows When You're Talking | TALK.EXE">
+  <meta property="og:description" content="A completely unnecessary computer-vision experiment that detects when you're talking and reacts accordingly.">
+  <meta property="og:type" content="website">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Your Camera Knows When You're Talking | TALK.EXE">
+  <meta name="twitter:description" content="A completely unnecessary computer-vision experiment.">
 
+  <!-- MediaPipe -->
+  <script src="https://cdn.jsdelivr.net/npm/@mediapipe/camera_utils/camera_utils.js" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@mediapipe/face_mesh/face_mesh.js" crossorigin="anonymous"></script>
+
+  <!-- Styles -->
+  <link rel="stylesheet" href="css/tokens.css">
+  <link rel="stylesheet" href="css/components.css">
+  <link rel="stylesheet" href="css/main.css">
+</head>
+<body>
+
+<!-- Noise Texture -->
+<div class="noise-overlay" aria-hidden="true"></div>
+
+<!-- Scroll Progress -->
+<div class="scroll-prog" id="scroll-prog" aria-hidden="true"></div>
+
+<!-- ═══════════════════════════════════════════
+     NAVBAR
+════════════════════════════════════════════ -->
+<header class="navbar" role="banner">
+  <div class="container">
+    <a href="#" class="nav-brand" aria-label="TALK.EXE Home">
+      <div class="brand-mark" aria-hidden="true"></div>
+      <span class="brand-title">TALK.EXE</span>
+    </a>
+
+    <nav aria-label="Main navigation">
+      <ul class="nav-links">
+        <li><a href="#how-it-works">How It Works</a></li>
+        <li><a href="#live-demo">Live Demo</a></li>
+        <li><a href="#tech">Tech</a></li>
+      </ul>
+    </nav>
+
+    <div class="nav-actions">
+      <button id="btn-start-nav" class="btn btn-primary btn-sm" aria-label="Start Experience">
+        START EXPERIENCE →
+      </button>
+    </div>
+  </div>
+</header>
+
+<!-- ═══════════════════════════════════════════
+     1. HERO
+════════════════════════════════════════════ -->
+<main id="top">
+<section class="hero" aria-labelledby="hero-headline">
+  <div class="container">
+    <div class="hero-grid">
+
+      <!-- Left: Copy -->
+      <div class="hero-copy">
+        <div class="hero-eyebrow t-eyebrow reveal">
+          <span class="status-dot online" id="system-dot" role="status" aria-label="System Online"></span>
+          <span id="system-status-text">SYSTEM ONLINE · TALK.EXE</span>
+        </div>
+
+        <h1 class="t-hero-title hero-title reveal reveal-delay-1" id="hero-headline">
+          YOUR<br>
+          CAMERA<br>
+          KNOWS<br>
+          WHEN YOU'RE<br>
+          <span>TALKING.</span>
+        </h1>
+
+        <p class="t-lead hero-desc reveal reveal-delay-2">
+          A completely unnecessary AI-powered experience that watches your face, detects when you talk, and responds with the perfect amount of chaos.
+        </p>
+
+        <p class="hero-subdesc reveal reveal-delay-3">
+          No productivity.<br>
+          No real-world benefit.<br>
+          Just questionable computer vision.
+        </p>
+
+        <div class="hero-ctas reveal reveal-delay-4">
+          <button id="btn-start-main" class="btn btn-primary btn-lg" aria-controls="live-demo">
+            START EXPERIENCE →
+          </button>
+          <a href="#how-it-works" class="btn btn-ghost btn-lg">
+            SEE HOW IT WORKS
+          </a>
+        </div>
+      </div>
+
+      <!-- Right: Camera HUD Panel -->
+      <div class="hero-cam-panel hud-panel reveal reveal-delay-2" id="hero-panel" role="region" aria-label="Camera Interface">
+        <!-- HUD Corners -->
+        <div class="hud-corners" aria-hidden="true">
+          <div class="hud-corner hud-corner-tl"></div>
+          <div class="hud-corner hud-corner-tr"></div>
+          <div class="hud-corner hud-corner-bl"></div>
+          <div class="hud-corner hud-corner-br"></div>
+        </div>
+
+        <!-- Scan Line -->
+        <div class="scan-line" aria-hidden="true"></div>
+
+        <!-- Camera Viewport -->
+        <div class="cam-viewport">
+          <video id="camera-video" playsinline muted autoplay aria-label="Camera Feed"></video>
+          <canvas id="camera-canvas" aria-hidden="true"></canvas>
+
+          <!-- Placeholder -->
+          <div class="cam-placeholder" id="cam-placeholder">
+            <div class="cam-placeholder-icon" aria-hidden="true">
+              <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M14.5 4h-5L7 7H4a2 2 0 0 0-2 2v9a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2h-3l-2.5-3z"/>
+                <circle cx="12" cy="13" r="3"/>
+              </svg>
+            </div>
+            <h3>Webcam Standby</h3>
+            <p>Your camera feed is processed locally and never uploaded or stored.</p>
+            <button id="btn-start-cam" class="btn btn-primary btn-sm" aria-label="Enable Camera Access">
+              ENABLE CAMERA
+            </button>
+          </div>
+
+          <!-- HUD Meta Bar -->
+          <div class="hud-meta-bar" id="cam-meta-bar" aria-live="polite">
+            <span class="hud-meta-label t-mono">TALK.EXE // CV-01</span>
+            <span class="hud-meta-label t-mono" id="hud-state-label">STATE: STANDBY</span>
+          </div>
+        </div>
+
+        <!-- Camera Footer Stats -->
+        <div class="cam-footer" aria-label="Detection Metrics">
+          <div class="cam-stat">
+            <div class="cam-stat-label">Current State</div>
+            <div class="cam-stat-value">
+              <span class="status-dot" id="hero-state-dot" aria-hidden="true"></span>
+              <span id="hero-state-text">IDLE</span>
+            </div>
+          </div>
+          <div class="cam-stat">
+            <div class="cam-stat-label">Processing</div>
+            <div class="cam-stat-value">
+              <span id="hero-fps-text">— FPS</span>
+            </div>
+          </div>
+          <div class="cam-stat">
+            <div class="cam-stat-label">Face Confidence</div>
+            <div class="cam-stat-value" id="hero-conf-text">—</div>
+          </div>
+          <div class="cam-stat">
+            <div class="cam-stat-label" style="display:flex;justify-content:space-between;">
+              <span>Mouth Activity</span>
+              <span id="hero-activity-pct">0%</span>
+            </div>
+            <div class="progress-track" style="margin-top:6px;">
+              <div class="progress-fill" id="hero-activity-bar" style="width:0%"></div>
+            </div>
+          </div>
+        </div>
+      </div><!-- /hero-cam-panel -->
+
+    </div><!-- /hero-grid -->
+
+    <!-- 3-State Strip -->
+    <div class="hero-strip reveal" aria-label="Detection States">
+      <div class="strip-item">
+        <span class="strip-num">01</span>
+        <div>
+          <div class="strip-title state-talking">Talking</div>
+          <div class="strip-desc">Sustained mouth movement detected</div>
+        </div>
+      </div>
+      <div class="strip-item">
+        <span class="strip-num">02</span>
+        <div>
+          <div class="strip-title state-silent">Silent</div>
+          <div class="strip-desc">Face detected · Speech inactive</div>
+        </div>
+      </div>
+      <div class="strip-item">
+        <span class="strip-num">03</span>
+        <div>
+          <div class="strip-title state-noface">No Face</div>
+          <div class="strip-desc">Subject missing from frame</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<hr class="hairline">
+
+<!-- ═══════════════════════════════════════════
+     2. FEATURE CARDS
+════════════════════════════════════════════ -->
+<section class="section" id="states" aria-labelledby="states-title">
+  <div class="container">
+    <div class="section-header">
+      <div class="t-eyebrow reveal">
+        <span class="status-dot online" aria-hidden="true"></span>
+        Detection States
+      </div>
+      <h2 class="t-section-title reveal reveal-delay-1" id="states-title">
+        THREE STATES.<br>
+        INFINITE POINTLESSNESS.
+      </h2>
+    </div>
+
+    <div class="feature-cards-grid">
+      <!-- Card: Talking -->
+      <article class="feature-card card-state-talking reveal" data-state="TALKING" role="article" aria-label="Talking State">
+        <span class="card-num">01</span>
+        <div class="card-icon" aria-hidden="true">
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
+            <line x1="9" y1="10" x2="15" y2="10"/>
+            <line x1="9" y1="14" x2="13" y2="14"/>
+          </svg>
+        </div>
+        <h3 class="card-title state-talking">Talking</h3>
+        <p class="card-desc">
+          Sustained mouth movement detected over a rolling analysis window. You are apparently saying something.
+        </p>
+      </article>
+
+      <!-- Card: Silent -->
+      <article class="feature-card card-state-silent reveal reveal-delay-1" data-state="SILENT" role="article" aria-label="Silent State">
+        <span class="card-num">02</span>
+        <div class="card-icon" aria-hidden="true">
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="12" cy="12" r="10"/>
+            <path d="M8.56 2.75c4.37 6.03 6.02 9.42 8.03 17.72m2.54-15.38c-3.72 4.35-8.94 5.66-16.88 5.85m19.5 1.9c-3.5-.93-6.63-.82-8.94 0-2.58.92-5.01 2.86-7.44 6.32"/>
+          </svg>
+        </div>
+        <h3 class="card-title state-silent">Silent</h3>
+        <p class="card-desc">
+          Face detected, but speech-related mouth movement is inactive. You are being watched, but you are quiet.
+        </p>
+      </article>
+
+      <!-- Card: No Face -->
+      <article class="feature-card card-state-noface reveal reveal-delay-2" data-state="NO_FACE" role="article" aria-label="No Face State">
+        <span class="card-num">03</span>
+        <div class="card-icon" aria-hidden="true">
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="12" cy="8" r="4"/>
+            <path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/>
+            <line x1="2" y1="2" x2="22" y2="22"/>
+          </svg>
+        </div>
+        <h3 class="card-title state-noface">No Face</h3>
+        <p class="card-desc">
+          The subject has disappeared from the camera frame. We can't judge you if we can't see you. A bold choice.
+        </p>
+      </article>
+    </div>
+  </div>
+</section>
+
+<hr class="hairline">
+
+<!-- ═══════════════════════════════════════════
+     3. HOW IT WORKS
+════════════════════════════════════════════ -->
+<section class="section" id="how-it-works" aria-labelledby="how-title">
+  <div class="container">
+    <div class="section-header">
+      <div class="t-eyebrow reveal">
+        <span class="status-dot online" aria-hidden="true"></span>
+        How It Works
+      </div>
+      <h2 class="t-section-title reveal reveal-delay-1" id="how-title">
+        FOUR STEPS.<br>
+        ONE COMPLETELY<br>
+        USELESS SYSTEM.
+      </h2>
+    </div>
+
+    <div class="how-steps" role="list">
+      <div class="how-step reveal" role="listitem">
+        <div class="step-circle">
+          <span class="step-num">01</span>
+        </div>
+        <div class="step-content">
+          <h3 class="step-title">Grant Camera Access</h3>
+          <p class="step-desc">Your browser asks. You say yes. Or no.<br>We don't judge.</p>
+        </div>
+        <div class="step-connector" id="conn-1" aria-hidden="true"></div>
+      </div>
+
+      <div class="how-step reveal reveal-delay-1" role="listitem">
+        <div class="step-circle">
+          <span class="step-num">02</span>
+        </div>
+        <div class="step-content">
+          <h3 class="step-title">AI Detects Your Face</h3>
+          <p class="step-desc">Real-time facial landmark tracking using a browser-compatible computer-vision pipeline. 468 landmarks. Locally processed.</p>
+        </div>
+        <div class="step-connector" id="conn-2" aria-hidden="true"></div>
+      </div>
+
+      <div class="how-step reveal reveal-delay-2" role="listitem">
+        <div class="step-circle">
+          <span class="step-num">03</span>
+        </div>
+        <div class="step-content">
+          <h3 class="step-title">Mouth Movement Analysis</h3>
+          <p class="step-desc">We measure lip distance and movement over time using a rolling window algorithm to determine speech-like motion.</p>
+        </div>
+        <div class="step-connector" id="conn-3" aria-hidden="true"></div>
+      </div>
+
+      <div class="how-step reveal reveal-delay-3" role="listitem">
+        <div class="step-circle">
+          <span class="step-num">04</span>
+        </div>
+        <div class="step-content">
+          <h3 class="step-title">Instant Reaction</h3>
+          <p class="step-desc">The interface changes state and triggers the appropriate visual and audio response. Pointlessly.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<hr class="hairline">
+
+<!-- ═══════════════════════════════════════════
+     4. LIVE DEMO
+════════════════════════════════════════════ -->
+<section class="section" id="live-demo" aria-labelledby="demo-title">
+  <div class="container">
+    <div class="section-header">
+      <div class="t-eyebrow reveal">
+        <span class="status-dot online" id="demo-system-dot" aria-hidden="true"></span>
+        Live System
+      </div>
+      <h2 class="t-section-title reveal reveal-delay-1" id="demo-title">
+        WATCH IT<br>
+        MAKE A DECISION.
+      </h2>
+    </div>
+
+    <div class="live-demo-grid">
+
+      <!-- Main Demo Panel -->
+      <div class="demo-main-panel hud-panel reveal">
+        <div class="hud-corners" aria-hidden="true">
+          <div class="hud-corner hud-corner-tl"></div>
+          <div class="hud-corner hud-corner-tr"></div>
+          <div class="hud-corner hud-corner-bl"></div>
+          <div class="hud-corner hud-corner-br"></div>
+        </div>
+        <div class="scan-line" aria-hidden="true"></div>
+
+        <div class="demo-panel-header">
+          <span class="demo-panel-title">LIVE DETECTION FEED</span>
+          <div style="display:flex;align-items:center;gap:8px;">
+            <span class="status-dot" id="demo-dot" aria-hidden="true"></span>
+            <span class="t-mono" style="color:var(--muted);" id="demo-state-display" aria-live="polite">OFFLINE</span>
+          </div>
+        </div>
+
+        <div class="demo-cam-area" role="region" aria-label="Live Camera View">
+          <video id="demo-video" playsinline muted autoplay aria-label="Demo Camera Feed"></video>
+          <canvas id="demo-canvas" aria-hidden="true"></canvas>
+          <div class="demo-placeholder" id="demo-placeholder">
+            <h3 style="color:var(--muted);">Camera Offline</h3>
+            <p>Enable camera in the hero above, or click start below to activate the demo.</p>
+          </div>
+          <div class="hud-meta-bar" aria-hidden="true">
+            <span class="hud-meta-label t-mono">TALK.EXE // LIVE-DEMO-02</span>
+            <span class="hud-meta-label t-mono" id="demo-fps-label">0 FPS</span>
+          </div>
+        </div>
+
+        <!-- Metrics -->
+        <div class="demo-metrics" aria-label="Detection Metrics">
+          <div class="metric-row">
+            <div class="metric-label">
+              <span>Mouth Activity</span>
+              <span class="metric-pct" id="demo-activity-pct">0%</span>
+            </div>
+            <div class="progress-track">
+              <div class="progress-fill" id="demo-activity-bar" style="width:0%"></div>
+            </div>
+          </div>
+          <div class="metric-row">
+            <div class="metric-label">
+              <span>Face Confidence</span>
+              <span class="metric-pct" id="demo-conf-pct">0%</span>
+            </div>
+            <div class="progress-track">
+              <div class="progress-fill" id="demo-conf-bar" style="width:0%;background:var(--cyan)"></div>
+            </div>
+          </div>
+          <div class="cam-stat" style="background:transparent;padding:0;">
+            <div class="cam-stat-label">Landmarks Tracked</div>
+            <div class="cam-stat-value" id="demo-landmarks">—</div>
+          </div>
+          <div class="cam-stat" style="background:transparent;padding:0;">
+            <div class="cam-stat-label">Detection Latency</div>
+            <div class="cam-stat-value" id="demo-latency">—</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- State Cards Column -->
+      <div class="demo-state-col reveal reveal-delay-1" aria-label="State Machine">
+        <p class="t-eyebrow" style="margin-bottom:12px;">State Machine</p>
+
+        <div class="demo-state-card" id="state-card-talking" data-state="TALKING" role="status" aria-label="Talking State">
+          <svg class="state-card-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
+          </svg>
+          <div class="state-card-info">
+            <div class="state-card-name">Talking</div>
+            <div class="state-card-desc">Sustained mouth movement</div>
+          </div>
+          <div class="state-card-indicator"></div>
+        </div>
+
+        <div class="demo-state-card" id="state-card-silent" data-state="SILENT" role="status" aria-label="Silent State">
+          <svg class="state-card-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="12" cy="12" r="10"/>
+            <path d="M8.56 2.75c4.37 6.03 6.02 9.42 8.03 17.72m2.54-15.38c-3.72 4.35-8.94 5.66-16.88 5.85m19.5 1.9c-3.5-.93-6.63-.82-8.94 0-2.58.92-5.01 2.86-7.44 6.32"/>
+          </svg>
+          <div class="state-card-info">
+            <div class="state-card-name">Silent</div>
+            <div class="state-card-desc">Face detected · No speech</div>
+          </div>
+          <div class="state-card-indicator"></div>
+        </div>
+
+        <div class="demo-state-card" id="state-card-noface" data-state="NO_FACE" role="status" aria-label="No Face State">
+          <svg class="state-card-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="12" cy="8" r="4"/>
+            <path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/>
+            <line x1="2" y1="2" x2="22" y2="22"/>
+          </svg>
+          <div class="state-card-info">
+            <div class="state-card-name">No Face</div>
+            <div class="state-card-desc">Subject left the frame</div>
+          </div>
+          <div class="state-card-indicator"></div>
+        </div>
+
+        <!-- Privacy Notice -->
+        <div style="background:var(--surface);border:1px solid var(--border);border-radius:var(--r-md);padding:var(--sp-5);margin-top:var(--sp-4);">
+          <p class="t-eyebrow" style="margin-bottom:8px;gap:6px;">
+            <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+            Privacy
+          </p>
+          <p style="font-size:0.78rem;color:var(--muted);line-height:1.65;">
+            Your camera feed is processed entirely in your browser. No frames are uploaded, stored, or sent anywhere.
+          </p>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<hr class="hairline">
+
+<!-- ═══════════════════════════════════════════
+     5. TECH STACK
+════════════════════════════════════════════ -->
+<section class="section" id="tech" aria-labelledby="tech-title">
+  <div class="container">
+    <div class="section-header">
+      <div class="t-eyebrow reveal">
+        <span class="status-dot online" aria-hidden="true"></span>
+        Built With
+      </div>
+      <h2 class="t-section-title reveal reveal-delay-1" id="tech-title">
+        REAL TECHNOLOGY.<br>
+        QUESTIONABLE PURPOSE.
+      </h2>
+    </div>
+
+    <div class="tech-grid reveal">
+      <div>
+        <div class="tech-group-title">Web Experience</div>
+        <div class="tech-badges" role="list">
+          <span class="tech-badge" role="listitem"><span class="tech-badge-dot" aria-hidden="true"></span>MediaPipe FaceMesh</span>
+          <span class="tech-badge" role="listitem"><span class="tech-badge-dot" aria-hidden="true"></span>WebRTC Camera API</span>
+          <span class="tech-badge" role="listitem"><span class="tech-badge-dot" aria-hidden="true"></span>Canvas 2D API</span>
+          <span class="tech-badge" role="listitem"><span class="tech-badge-dot" aria-hidden="true"></span>Web Audio API</span>
+          <span class="tech-badge" role="listitem"><span class="tech-badge-dot" aria-hidden="true"></span>Vanilla JS (ES2022)</span>
+          <span class="tech-badge" role="listitem"><span class="tech-badge-dot" aria-hidden="true"></span>CSS Custom Properties</span>
+        </div>
+      </div>
+      <div>
+        <div class="tech-group-title">Prototype</div>
+        <div class="tech-badges" role="list">
+          <span class="tech-badge" role="listitem"><span class="tech-badge-dot" aria-hidden="true"></span>Python</span>
+          <span class="tech-badge" role="listitem"><span class="tech-badge-dot" aria-hidden="true"></span>OpenCV</span>
+          <span class="tech-badge" role="listitem"><span class="tech-badge-dot" aria-hidden="true"></span>MediaPipe</span>
+          <span class="tech-badge" role="listitem"><span class="tech-badge-dot" aria-hidden="true"></span>Pygame</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<hr class="hairline">
+
+<!-- ═══════════════════════════════════════════
+     6. SECONDARY CTA
+════════════════════════════════════════════ -->
+<section class="section" id="cta" aria-labelledby="cta-title">
+  <div class="container">
+    <div class="secondary-cta reveal">
+      <div class="t-eyebrow" style="justify-content:center;margin-bottom:var(--sp-6);">
+        <span class="status-dot online" aria-hidden="true"></span>
+        System Ready
+      </div>
+      <h2 class="t-section-title cta-headline" id="cta-title">
+        STILL NOT CONVINCED<br>
+        THIS IS USELESS?
+      </h2>
+      <p class="t-lead cta-desc">Try it yourself.</p>
+      <p class="cta-desc-mono">
+        No signup.<br>
+        No tracking.<br>
+        Just your camera judging your silence.
+      </p>
+      <button id="btn-start-cta" class="btn btn-primary btn-lg" aria-label="Start the Experience">
+        START EXPERIENCE →
+      </button>
+      <p class="cta-disclaimer">No practical benefit guaranteed.</p>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<hr class="hairline">
+
+<!-- ═══════════════════════════════════════════
+     7. FOOTER
+════════════════════════════════════════════ -->
+<footer class="footer" role="contentinfo">
+  <div class="container">
+    <div class="footer-top">
+      <div>
+        <a href="#top" class="nav-brand" aria-label="TALK.EXE - Back to top">
+          <div class="brand-mark" aria-hidden="true"></div>
+          <span class="brand-title">TALK.EXE</span>
+        </a>
+        <p class="footer-brand-desc">
+          A completely unnecessary experiment powered by computer vision. Built at TinkerHub Useless Projects.
+        </p>
+      </div>
+      <div class="footer-links">
+        <div class="footer-col">
+          <span class="footer-col-title">Project</span>
+          <a href="https://github.com/rohith-roblelal/Talk.exe" target="_blank" rel="noopener noreferrer" class="footer-link">GitHub</a>
+          <a href="#" class="footer-link">Project</a>
+        </div>
+        <div class="footer-col">
+          <span class="footer-col-title">About</span>
+          <a href="https://tinkerhub.org" target="_blank" rel="noopener noreferrer" class="footer-link">TinkerHub</a>
+          <a href="#how-it-works" class="footer-link">Hackathon</a>
+        </div>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>© 2026 TALK.EXE — Probably shouldn't have built this.</span>
+      <span>Made with ❤️ at TinkerHub Useless Projects</span>
+    </div>
+  </div>
+</footer>
+
+<!-- App Script -->
+<script type="module" src="js/app.js"></script>
+</body>
+</html>
