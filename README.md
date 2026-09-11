@@ -112,7 +112,7 @@ Try Another Biscuit
 
 ### Project Demo
 # Video
-[<video controls src="20260911-1038-45.3404533.mp4" title="Title"></video>]
+[https://drive.google.com/file/d/1_vqdwJhgJfhVNRx73kQcw52KtDN-hf1b/view?usp=drive_link]
 *The video demonstrates the Biscuit Survival Test, including biscuit selection, tea-dipping animation, survival analysis, survival score, final result, and the option to upload and test a custom biscuit.*
 
 ## Team Contributions
