@@ -2,96 +2,115 @@
 
 
 
-# [Project Name] 🎯
+# The needy Plant 🎯
 
 
 ## Basic Details
-### Team Name: [Name]
+### Team Name: 404Found
 
 
 ### Team Members
-- Team Lead: [Name] - [College]
-- Member 2: [Name] - [College]
-- Member 3: [Name] - [College]
+- Team Lead: EB Fathima Suhana - Sree Narayana Gurukulam College of Engineering
+- Member 2: Nimisha Roy - Sree Narayana Gurukulam College of Engineering
 
 ### Project Description
-[2-3 lines about what your project does]
+Do you think of yourself as a gardener? 
+Do you think you have what it takes to nurture a plant?
+Then let's put your confidence to test through a little survival game.
+Let's see which one of you will emerge unscathed - whether mentally or physically.
 
 ### The Problem (that doesn't exist)
-[What ridiculous problem are you solving?]
+
+People already have enough real responsibilities, so we decided to create another one. The player must care for a plant that exists only inside the browser. The plant remembers neglect, complains about care, changes its requirements, and occasionally punishes the player for doing exactly what it asked.
+
+The game is intentionally unnecessary. It turns simple plant care into a strangely serious responsibility involving unpredictable watering intervals, emotional support, sunlight management, pointless actions, and absurd plant bureaucracy
 
 ### The Solution (that nobody asked for)
-[How are you solving it? Keep it fun!]
+
+People already have enough real responsibilities, so we decided to create another one. The player must care for a plant that exists only inside the browser. The plant remembers neglect, complains about care, changes its requirements, and occasionally punishes the player for doing exactly what it asked.
+
+The game is intentionally unnecessary. It turns simple plant care into a strangely serious responsibility involving unpredictable watering intervals, emotional support, sunlight management, pointless actions, and absurd plant bureaucracy
 
 ## Technical Details
 ### Technologies/Components Used
 For Software:
-- [Languages used]
-- [Frameworks used]
-- [Libraries used]
-- [Tools used]
-
-For Hardware:
-- [List main components]
-- [List specifications]
-- [List tools required]
+- HTML5, CSS3, javascript.
+- chatgpt, claude, manusAI, freebuff.
 
 ### Implementation
 For Software:
-# Installation
-[commands]
-
-# Run
-[commands]
+git clone [github repo](https://github.com/welive22/useless_project_temp)
+cd useless project temp
 
 ### Project Documentation
 For Software:
 
-# Screenshots (Add at least 3)
-![Screenshot1](Add screenshot 1 here with proper name)
-*Add caption explaining what this shows*
+## Screenshots
 
-![Screenshot2](Add screenshot 2 here with proper name)
-*Add caption explaining what this shows*
+### Main Game Screen
 
-![Screenshot3](Add screenshot 3 here with proper name)
-*Add caption explaining what this shows*
+![Main game screen](screenshots/main-game.png)
+
+*The main screen shows the pixel-art plant, its current mood, health meters, and care actions.*
+
+### Care Actions
+
+![Care actions](screenshots/care-actions.png)
+
+*The player can water, fertilize, compliment, or otherwise inconvenience the plant.*
+
+### History and Achievements
+
+![History and achievements](screenshots/history-achievements.png)
+
+*The game records the player's unnecessary commitment through history and achievements.*
+
 
 # Diagrams
-![Workflow](Add your workflow/architecture diagram here)
-*Add caption explaining your workflow*
 
-For Hardware:
+## Game Workflow
 
-# Schematic & Circuit
-![Circuit](Add your circuit diagram here)
-*Add caption explaining connections*
+```mermaid
+flowchart TD
+    A[Open the game] --> B[Load saved plant]
+    B --> C[Calculate time away]
+    C --> D[Apply offline deterioration]
+    D --> E[Display plant condition]
 
-![Schematic](Add your schematic diagram here)
-*Add caption explaining the schematic*
+    E --> F{Choose an action}
+    F --> G[Water plant]
+    F --> H[Give sunlight]
+    F --> I[Fertilize]
+    F --> J[Adjust temperature]
+    F --> K[Compliment plant]
+    F --> L[Inspect soil]
+    F --> M[Do nothing]
 
-# Build Photos
-![Components](Add photo of your components here)
-*List out all components shown*
+    G --> N[Update plant state]
+    H --> N
+    I --> N
+    J --> N
+    K --> N
+    L --> N
+    M --> N
 
-![Build](Add photos of build process here)
-*Explain the build steps*
+    N --> O[Update mood, history, and achievements]
+    O --> P[Save to LocalStorage]
+    P --> E
+```
 
-![Final](Add photo of final product here)
-*Explain the final build*
+*The game loads the saved plant, calculates time away, applies offline deterioration, processes the player's action, and saves the updated state locally in the browser.*
 
 ### Project Demo
-# Video
-[Add your demo video link here]
-*Explain what the video demonstrates*
+## Project Demo
 
-# Additional Demos
-[Add any extra demo materials/links]
+[Watch the gameplay demo on Google Drive](https://drive.google.com/file/d/1YVwadRlpBz5FqQXL06TBVk5ZKipfl3rE/view?usp=sharing)
+This video demonstrates the plant-care actions, randomized reactions, pixel-art animation, pointless actions, and saved plant progression.
+
 
 ## Team Contributions
-- [Name 1]: [Specific contributions]
-- [Name 2]: [Specific contributions]
-- [Name 3]: [Specific contributions]
+- Nimisha Roy: Implemented the JavaScript logic, LocalStorage saving, offline progression, random events, and achievements.
+- EB Fathima Suhana:  Designed the game concept, plant personality, useless mechanics, and gameplay rules. Created the pixel-art interface, integrated the plant animation frames, styled the responsive layout, and tested the game.
 
 ---
 Made with ❤️ at TinkerHub Useless Projects 
