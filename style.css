@@ -1,0 +1,279 @@
+:root {
+    --bg-color: #000000;
+    --card-bg: #1e293b;
+    --text-primary: #f8fafc;
+    --text-secondary: #94a3b8;
+    --accent: #ef4444; /* Red color for frustration */
+    --accent-hover: #dc2626;
+    --border-color: #334155;
+    --success: #22c55e;
+}
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: 'Inter', sans-serif;
+    background-color: var(--bg-color);
+    color: var(--text-primary);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    padding: 20px;
+    overflow: hidden;
+}
+
+.container {
+    max-width: 600px;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+header {
+    text-align: center;
+    margin-bottom: 10px;
+}
+
+h1 {
+    font-size: 2.5rem;
+    margin-bottom: 5px;
+    color: var(--text-primary);
+    text-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+}
+
+.subtitle {
+    color: var(--text-secondary);
+    font-size: 1.1rem;
+}
+
+.card {
+    background-color: var(--card-bg);
+    border-radius: 16px;
+    padding: 30px;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5);
+    border: 1px solid var(--border-color);
+    display: flex;
+    flex-direction: column;
+    gap: 25px;
+    transition: transform 0.3s ease;
+}
+
+.captcha-container {
+    text-align: center;
+}
+
+.captcha-display {
+    font-family: 'Space Mono', monospace;
+    font-size: 3.5rem;
+    font-weight: 700;
+    letter-spacing: 10px;
+    background: #000;
+    color: #fff;
+    padding: 20px;
+    border: 3px dashed var(--text-secondary);
+    border-radius: 12px;
+    margin-bottom: 15px;
+    user-select: none;
+    text-shadow: 2px 2px 4px rgba(255, 255, 255, 0.3);
+    transition: transform 0.1s;
+}
+
+/* Subtle animation when CAPTCHA changes */
+.captcha-anim {
+    animation: shake 0.2s;
+}
+
+@keyframes shake {
+    0% { transform: translate(1px, 1px) rotate(0deg); }
+    20% { transform: translate(-3px, 0px) rotate(1deg); }
+    40% { transform: translate(1px, -1px) rotate(1deg); }
+    60% { transform: translate(-1px, 2px) rotate(0deg); }
+    80% { transform: translate(-1px, -1px) rotate(1deg); }
+    100% { transform: translate(1px, -2px) rotate(-1deg); }
+}
+
+.timer-warning {
+    color: var(--accent);
+    font-weight: bold;
+    font-size: 1.1rem;
+}
+
+.input-section {
+    display: flex;
+    gap: 10px;
+}
+
+input {
+    flex: 1;
+    padding: 15px;
+    font-size: 1.2rem;
+    border-radius: 8px;
+    border: 2px solid var(--border-color);
+    background-color: var(--bg-color);
+    color: var(--text-primary);
+    outline: none;
+    transition: border-color 0.2s;
+    font-family: 'Space Mono', monospace;
+}
+
+input:focus {
+    border-color: var(--accent);
+}
+
+button {
+    padding: 15px 25px;
+    font-size: 1.2rem;
+    font-weight: bold;
+    border: none;
+    border-radius: 8px;
+    background-color: var(--accent);
+    color: white;
+    cursor: pointer;
+    transition: background-color 0.2s, transform 0.1s;
+}
+
+button:hover {
+    background-color: var(--accent-hover);
+}
+
+button:active {
+    transform: scale(0.95);
+}
+
+.message-area {
+    text-align: center;
+    font-size: 1.2rem;
+    font-weight: bold;
+    min-height: 1.5em;
+    color: #fbbf24;
+}
+
+.stats-section {
+    background-color: rgba(0, 0, 0, 0.2);
+    padding: 20px;
+    border-radius: 12px;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.frustration-meter p {
+    margin-bottom: 8px;
+    font-weight: bold;
+}
+
+.progress-bar-container {
+    width: 100%;
+    height: 20px;
+    background-color: var(--bg-color);
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+.progress-bar {
+    height: 100%;
+    width: 0%;
+    background: linear-gradient(90deg, #facc15, #ef4444);
+    transition: width 0.3s ease;
+}
+
+.attempts {
+    text-align: right;
+    font-size: 0.9rem;
+    color: var(--text-secondary);
+}
+
+.achievements-section {
+    text-align: center;
+    font-weight: bold;
+    color: #a855f7;
+    background-color: rgba(168, 85, 247, 0.1);
+    padding: 15px;
+    border-radius: 8px;
+    border: 1px dashed #a855f7;
+}
+
+footer {
+    display: flex;
+    justify-content: center;
+}
+
+.why-card {
+    background-color: var(--card-bg);
+    padding: 15px 25px;
+    border-radius: 12px;
+    border: 1px solid var(--border-color);
+    text-align: center;
+}
+
+.why-card h3 {
+    font-size: 1rem;
+    color: var(--text-secondary);
+    margin-bottom: 5px;
+}
+
+/* Animations for when frustration reaches 100% */
+.max-frustration {
+    animation: maxShake 0.5s infinite;
+    box-shadow: 0 0 30px rgba(239, 68, 68, 0.6);
+    border-color: var(--accent);
+    background-color: var(--accent);
+}
+
+@keyframes maxShake {
+    0% { transform: translate(0px, 1px) rotate(0deg); }
+    10% { transform: translate(-1px, -1px) rotate(-1deg); }
+    20% { transform: translate(-1px, 0px) rotate(1deg); }
+    30% { transform: translate(1px, 1px) rotate(0deg); }
+    40% { transform: translate(1px, -1px) rotate(1deg); }
+    50% { transform: translate(-1px, 1px) rotate(-1deg); }
+    60% { transform: translate(-1px, 1px) rotate(0deg); }
+    70% { transform: translate(1px, 1px) rotate(-1deg); }
+    80% { transform: translate(-1px, -1px) rotate(1deg); }
+    90% { transform: translate(1px, 1px) rotate(0deg); }
+    100% { transform: translate(1px, -1px) rotate(-1deg); }
+}
+
+/* Make it responsive for mobile */
+@media (max-width: 500px) {
+    .captcha-display {
+        font-size: 2.5rem;
+        letter-spacing: 5px;
+    }
+    
+    h1 {
+        font-size: 2rem;
+    }
+    
+    .input-section {
+        flex-direction: column;
+    }
+}
+
+/* Background stacked CAPTCHAs */
+.bg-captcha {
+    position: absolute;
+    font-family: 'Space Mono', monospace;
+    font-size: 2rem;
+    font-weight: 700;
+    letter-spacing: 5px;
+    color: #4ade80; /* Brighter green */
+    z-index: -1;
+    pointer-events: none;
+    user-select: none;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8);
+    white-space: nowrap;
+    border: 2px solid #166534;
+    padding: 8px 16px;
+    background-color: rgba(22, 101, 52, 0.9); /* Solid enough to look like blocks */
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.5); /* Add 3D effect for blocks */
+    /* Handled by Matter.js now */
+}
+

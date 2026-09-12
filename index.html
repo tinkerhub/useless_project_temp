@@ -1,1 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CAPTCHA FRUSTRATOR</title>
+    <!-- Link to the CSS file -->
+    <link rel="stylesheet" href="style.css">
+    <!-- Import nice fonts from Google -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&family=Space+Mono:wght@700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="container">
+        <!-- Header Section -->
+        <header>
+            <h1>🤖 CAPTCHA FRUSTRATOR</h1>
+            <p class="subtitle">A CAPTCHA designed to test your patience.</p>
+        </header>
 
+        <!-- Main Card Section -->
+        <main class="card">
+            <div class="captcha-container">
+                <div id="captcha-display" class="captcha-display">LOADING...</div>
+                <p class="timer-warning">Timer gets faster with every mistake! ⏱️</p>
+            </div>
+
+            <!-- Input Area -->
+            <div class="input-section">
+                <input type="text" id="captcha-input" placeholder="Type the CAPTCHA..." autocomplete="off">
+                <button id="submit-btn">Submit 😈</button>
+            </div>
+
+            <!-- Message Area -->
+            <div id="message-area" class="message-area">
+                Good luck. You'll need it. 😂
+            </div>
+
+            <!-- Stats & Frustration Meter -->
+            <div class="stats-section">
+                <div class="frustration-meter">
+                    <p>Frustration Level: <span id="frustration-percentage">0</span>%</p>
+                    <div class="progress-bar-container">
+                        <div id="progress-bar" class="progress-bar"></div>
+                    </div>
+                </div>
+                
+                <div class="attempts">
+                    <p>Attempts: <span id="attempt-counter">0</span></p>
+                </div>
+            </div>
+            
+            <!-- Achievements -->
+            <div class="achievements-section">
+                <p id="achievement">🏆 Achievement: Still Trying</p>
+            </div>
+        </main>
+        
+        <!-- Footer -->
+        <footer>
+            <div class="why-card">
+                <h3>Why does this exist?</h3>
+                <p>Absolutely no reason.</p>
+            </div>
+        </footer>
+    </div>
+    
+    <!-- Physics Engine for Jenga Stacking -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/matter-js/0.19.0/matter.min.js"></script>
+    <!-- Link to the JavaScript file -->
+    <script src="script.js"></script>
+</body>
+</html>
