@@ -1,1 +1,365 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+	<title>LEAK//LOCK | Memory Leak Preserving Technology</title>
+	<meta name="description" content="A deliberately unnecessary control room for preserving your memory leaks." />
+	<style>
+		@import url('https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Space+Grotesk:wght@400;500;600;700&display=swap');
+
+		:root {
+			--ink: #17231d;
+			--muted: #68716a;
+			--paper: #f4f1e9;
+			--panel: #fbfaf5;
+			--line: #d7d8cd;
+			--acid: #d9fa53;
+			--coral: #ff705b;
+			--blue: #93c7f4;
+			--shadow: 0 16px 40px rgba(23, 35, 29, .08);
+		}
+
+		* { box-sizing: border-box; }
+		body {
+			margin: 0;
+			color: var(--ink);
+			background: var(--paper);
+			font-family: 'Space Grotesk', sans-serif;
+			background-image: radial-gradient(rgba(23, 35, 29, .08) .7px, transparent .7px);
+			background-size: 15px 15px;
+		}
+
+		.shell { max-width: 1440px; margin: auto; padding: 24px 36px 48px; }
+		.topbar { display: flex; align-items: center; justify-content: space-between; gap: 20px; padding-bottom: 20px; border-bottom: 1px solid var(--ink); }
+		.brand { display: flex; align-items: center; gap: 12px; font-weight: 700; letter-spacing: -.04em; }
+		.brand-mark { width: 32px; height: 32px; display: grid; place-items: center; background: var(--acid); border: 1px solid var(--ink); font-family: 'DM Mono', monospace; font-size: 12px; transform: rotate(-7deg); }
+		.top-meta { display: flex; align-items: center; gap: 18px; color: var(--muted); font: 12px 'DM Mono', monospace; text-transform: uppercase; letter-spacing: .08em; }
+		.live { color: var(--ink); display: flex; align-items: center; gap: 7px; }
+		.live::before { content: ''; width: 7px; height: 7px; border-radius: 50%; background: var(--coral); box-shadow: 0 0 0 4px rgba(255,112,91,.18); }
+
+		.hero { display: grid; grid-template-columns: minmax(0, 1.28fr) minmax(300px, .72fr); gap: 52px; padding: 68px 0 55px; align-items: end; }
+		.eyebrow { margin: 0 0 18px; color: var(--coral); font: 500 12px 'DM Mono', monospace; text-transform: uppercase; letter-spacing: .15em; }
+		h1 { max-width: 820px; margin: 0; font-size: clamp(3.8rem, 8.2vw, 8.9rem); line-height: .83; letter-spacing: -.09em; font-weight: 600; }
+		.hero-copy { max-width: 355px; padding-bottom: 6px; font-size: 17px; line-height: 1.5; }
+		.hero-copy strong { font-weight: 600; }
+		.stamp { display: inline-block; margin-top: 26px; padding: 8px 10px; border: 1px solid var(--ink); font: 11px 'DM Mono', monospace; transform: rotate(2deg); }
+
+		.dashboard { display: grid; grid-template-columns: 1.35fr .65fr; gap: 14px; }
+		.panel { border: 1px solid var(--ink); background: var(--panel); box-shadow: var(--shadow); }
+		.panel-head { display: flex; justify-content: space-between; align-items: center; padding: 14px 16px; border-bottom: 1px solid var(--line); font: 11px 'DM Mono', monospace; text-transform: uppercase; letter-spacing: .1em; }
+		.panel-head span:last-child { color: var(--muted); }
+		.reservoir { min-height: 420px; padding: 28px; display: flex; flex-direction: column; justify-content: space-between; overflow: hidden; position: relative; }
+		.reservoir::after { content: 'M.L.P.T.'; position: absolute; right: 22px; bottom: 20px; color: rgba(23,35,29,.07); font-size: 100px; letter-spacing: -.1em; font-weight: 700; pointer-events: none; }
+		.readout { display: flex; align-items: end; justify-content: space-between; position: relative; z-index: 1; }
+		.number { font: 500 clamp(4rem, 9vw, 8rem)/.8 'DM Mono', monospace; letter-spacing: -.1em; }
+		.unit { color: var(--muted); font: 12px 'DM Mono', monospace; margin: 0 0 7px 12px; }
+		.seal { border: 1px solid var(--ink); background: var(--acid); padding: 8px 11px; font: 11px 'DM Mono', monospace; text-transform: uppercase; transform: rotate(3deg); }
+		.meter-wrap { position: relative; z-index: 1; }
+		.meter { height: 34px; background: #e5e5d8; border: 1px solid var(--ink); padding: 4px; }
+		.meter-fill { width: 0%; height: 100%; background: var(--acid); border-right: 1px solid var(--ink); }
+		.meter-labels { display: flex; justify-content: space-between; margin-top: 9px; color: var(--muted); font: 10px 'DM Mono', monospace; text-transform: uppercase; }
+		.meter-labels b { color: var(--ink); font-weight: 500; }
+
+		.side-stack { display: grid; gap: 14px; }
+		.stat-grid { display: grid; grid-template-columns: 1fr 1fr; }
+		.stat { padding: 20px 16px; min-height: 140px; border-bottom: 1px solid var(--line); }
+		.stat:nth-child(odd) { border-right: 1px solid var(--line); }
+		.stat:nth-last-child(-n+2) { border-bottom: 0; }
+		.stat small { display: block; margin-bottom: 16px; color: var(--muted); font: 10px 'DM Mono', monospace; text-transform: uppercase; }
+		.stat strong { font: 500 29px 'DM Mono', monospace; letter-spacing: -.08em; }
+		.stat em { color: var(--coral); font: normal 11px 'DM Mono', monospace; }
+		.mode-panel { padding: 16px; }
+		.mode-panel p { color: var(--muted); margin: 0 0 15px; font-size: 13px; line-height: 1.4; }
+		.mode { display: flex; justify-content: space-between; align-items: center; width: 100%; padding: 12px 0; border: 0; border-top: 1px solid var(--line); background: transparent; color: var(--ink); text-align: left; font: 12px 'DM Mono', monospace; cursor: pointer; }
+		.mode::after { content: 'OFF'; color: var(--muted); }
+		.mode.active::after { content: 'ON'; color: var(--coral); }
+		.mode.active { color: var(--coral); }
+		.signal { background: var(--blue); padding: 19px 16px; min-height: 122px; }
+		.signal h2 { margin: 0 0 22px; font-size: 18px; letter-spacing: -.04em; }
+		.signal p { margin: 0; font: 11px/1.5 'DM Mono', monospace; max-width: 300px; }
+
+		.lower { display: grid; grid-template-columns: .8fr 1.2fr; gap: 14px; margin-top: 14px; }
+		.manifesto { padding: 22px; min-height: 245px; background: var(--ink); color: var(--paper); }
+		.manifesto h2 { max-width: 390px; margin: 0 0 30px; font-size: clamp(1.9rem, 3.4vw, 3.3rem); line-height: .95; letter-spacing: -.07em; font-weight: 500; }
+		.manifesto p { margin: 0; max-width: 390px; color: #b8c0b6; font: 12px/1.55 'DM Mono', monospace; }
+		.activity { min-height: 245px; }
+		.log { padding: 3px 16px 11px; }
+		.log-row { display: grid; grid-template-columns: 82px 1fr auto; gap: 14px; align-items: center; padding: 14px 0; border-bottom: 1px solid var(--line); font: 11px 'DM Mono', monospace; }
+		.log-row:last-child { border: 0; }
+		.log-row time { color: var(--muted); }
+		.log-row b { font-weight: 500; }
+		.log-row span { color: var(--coral); }
+		footer { display: flex; justify-content: space-between; gap: 20px; padding-top: 22px; color: var(--muted); font: 10px 'DM Mono', monospace; text-transform: uppercase; letter-spacing: .08em; }
+
+		@keyframes breathe { 0%, 100% { width: 72%; } 50% { width: 75%; } }
+		@media (max-width: 820px) {
+			.shell { padding: 18px 18px 34px; }
+			.top-meta span:not(.live) { display: none; }
+			.hero { grid-template-columns: 1fr; gap: 30px; padding: 54px 0 40px; }
+			.hero-copy { max-width: 480px; }
+			.dashboard, .lower { grid-template-columns: 1fr; }
+			.reservoir { min-height: 350px; }
+		}
+		@media (max-width: 460px) {
+			h1 { font-size: 4rem; }
+			.readout { display: block; }
+			.seal { display: inline-block; margin-top: 22px; }
+			.number { font-size: 5rem; }
+			.log-row { grid-template-columns: 62px 1fr; gap: 9px; }
+			.log-row span { grid-column: 2; }
+			footer { display: block; line-height: 2; }
+		}
+
+		/* Public-service-office remix */
+		:root { --ink: #2a2140; --muted: #766c83; --paper: #f6eedd; --panel: #fffaf0; --line: #ded1c5; --acid: #ffcf4a; --coral: #ef5d4f; --blue: #b8e1d3; --shadow: 6px 7px 0 rgba(42,33,64,.13); }
+		body { background-image: linear-gradient(135deg, rgba(239,93,79,.08) 25%, transparent 25%), linear-gradient(315deg, rgba(184,225,211,.16) 25%, transparent 25%); background-size: 34px 34px; }
+		.shell { max-width: 1180px; }
+		.topbar { border-bottom: 3px solid var(--ink); }
+		.brand-mark { background: var(--coral); color: var(--paper); border: 2px solid var(--ink); border-radius: 50%; transform: rotate(-10deg); }
+		.live::before { background: var(--acid); box-shadow: 0 0 0 4px rgba(255,207,74,.28); }
+		.hero { grid-template-columns: minmax(0, 1.1fr) minmax(300px, .9fr); padding: 58px 0 45px; }
+		.eyebrow { color: var(--coral); font-weight: 700; }
+		h1 { font-size: clamp(3.6rem, 7.6vw, 8rem); letter-spacing: -.1em; }
+		h1 i { color: var(--coral); }
+		.hero-copy { border: 2px solid var(--ink); padding: 20px; background: var(--acid); box-shadow: var(--shadow); transform: rotate(1.5deg); }
+		.stamp { background: var(--paper); border: 2px dashed var(--ink); transform: rotate(-3deg); }
+		.panel { border: 2px solid var(--ink); box-shadow: var(--shadow); border-radius: 4px; }
+		.panel-head { border-bottom: 2px solid var(--ink); }
+		.reservoir { min-height: 430px; background: var(--blue); }
+		.reservoir::after { content: 'NO\A REFUNDS'; white-space: pre; color: rgba(42,33,64,.1); font-size: 84px; line-height: .8; transform: rotate(-12deg); }
+		.number { color: var(--coral); }
+		.seal { background: var(--coral); color: var(--paper); border: 2px solid var(--ink); font-weight: 700; }
+		.meter { background: var(--paper); border: 2px solid var(--ink); }
+		.meter-fill { background: var(--coral); border-right: 2px solid var(--ink); }
+		.stat-grid, .mode-panel, .signal, .activity { background: var(--panel); }
+		.stat { border-color: var(--line); }
+		.stat strong { color: var(--ink); }
+		.stat em, .log-row span { color: var(--coral); font-weight: 700; }
+		.mode { border-color: var(--line); }
+		.mode.active { color: var(--coral); }
+		.mode::after { content: 'PLEASE NO'; font-size: 9px; }
+		.mode.active::after { content: 'FINE'; color: var(--coral); }
+		.signal { background: var(--acid); }
+		.signal h2 { font-size: 22px; }
+		.manifesto { background: var(--coral); border-color: var(--ink); }
+		.manifesto p { color: #ffe5d7; }
+		.log-row { border-color: var(--line); }
+		footer { border-top: 2px solid var(--ink); }
+		.panic-button { display: inline-flex; align-items: center; gap: 9px; margin-top: 20px; padding: 13px 16px; background: var(--coral); color: var(--paper); border: 2px solid var(--ink); box-shadow: 3px 3px 0 var(--ink); font: 700 12px 'DM Mono', monospace; cursor: pointer; text-transform: uppercase; }
+		.panic-button:active { box-shadow: 0 0 0 var(--ink); transform: translate(3px, 3px); }
+		.thought-box { margin-top: 14px; padding: 22px; background: var(--panel); }
+		.thought-box h2 { margin: 0 0 7px; font-size: clamp(1.7rem, 3vw, 2.7rem); letter-spacing: -.07em; }
+		.thought-box p { margin: 0 0 17px; color: var(--muted); font: 12px/1.5 'DM Mono', monospace; }
+		.thought-form { display: flex; gap: 10px; }
+		.thought-input { flex: 1; min-width: 0; padding: 15px; border: 2px solid var(--ink); background: var(--paper); color: var(--ink); outline: none; font: 14px 'DM Mono', monospace; }
+		.thought-input:focus { box-shadow: 4px 4px 0 var(--blue); }
+		.submit-thought { padding: 0 17px; border: 2px solid var(--ink); background: var(--blue); color: var(--ink); box-shadow: 3px 3px 0 var(--ink); font: 700 11px 'DM Mono', monospace; cursor: pointer; text-transform: uppercase; }
+		.submit-thought:active { box-shadow: none; transform: translate(3px, 3px); }
+		.thought-result { min-height: 18px; margin-top: 14px !important; color: var(--coral) !important; font-weight: 700 !important; }
+		.human-note { min-height: 20px; margin: 8px 0 0 !important; padding: 13px 14px; background: var(--blue); border-left: 5px solid var(--ink); color: var(--ink) !important; font: 12px/1.55 'DM Mono', monospace !important; }
+		.human-note strong { font-family: 'Space Grotesk', sans-serif; }
+		.meter-explainer { max-width: 520px; margin: 0 0 17px; color: var(--ink); font: 12px/1.5 'DM Mono', monospace; }
+		.meter-explainer strong { color: var(--coral); }
+		.load-breakdown { display: grid; grid-template-columns: repeat(4, 1fr); gap: 7px; margin-top: 13px; }
+		.load-factor { padding: 9px 8px; background: rgba(255,255,255,.45); border: 1px solid var(--ink); font: 10px/1.35 'DM Mono', monospace; }
+		.load-factor span { display: block; color: var(--muted); }
+		.load-factor strong { display: block; margin-top: 3px; font-size: 12px; }
+		.case-file { display: flex; justify-content: space-between; gap: 14px; margin-bottom: 18px; font: 10px 'DM Mono', monospace; text-transform: uppercase; }
+		.case-file strong { color: var(--coral); }
+		.complaint { margin: 0; padding: 14px; background: var(--paper); border: 2px solid var(--ink); font: 12px/1.5 'DM Mono', monospace; }
+		@media (max-width: 820px) { .hero { grid-template-columns: 1fr; } }
+		@media (max-width: 560px) { .thought-form { display: grid; } .submit-thought { min-height: 48px; } .load-breakdown { grid-template-columns: 1fr 1fr; } }
+	</style>
+</head>
+	<body>
+	<main class="shell">
+		<nav class="topbar" aria-label="Primary navigation">
+			<div class="brand"><span class="brand-mark">M.O.P.</span><span>MINISTRY OF PERSISTENCE</span></div>
+			<div class="top-meta"><span class="live">OFFICIALLY UNNECESSARY</span><span>FORM 404-B</span><span>EST. 2026</span></div>
+		</nav>
+
+		<header class="hero">
+			<div>
+				<p class="eyebrow">Department of thoughts that should have left / Public notice</p>
+				<h1>PLEASE<br />STOP<br /><i>REMEMBERING.</i></h1>
+			</div>
+			<div class="hero-copy">
+				<div class="case-file"><span>Case no. <strong>WHY-DO-I-KNOW-THIS</strong></span><span>Priority: odd</span></div>
+				<strong>We have received your complaint about remembering someone's name from 2014.</strong>
+				<p>Our clerks cannot help you forget it. They can, however, put it in a secure drawer and make the problem look official.</p>
+				<span class="stamp">APPROVED BY NOBODY / STAMPED ANYWAY</span>
+			</div>
+		</header>
+
+		<section class="dashboard" aria-label="Department of Persistence dashboard">
+			<article class="panel reservoir">
+				<div class="panel-head"><span>Thought load meter</span><span>Updates from your thought</span></div>
+				<div class="readout"><div><span class="number" id="capacity">0</span><span class="unit">% brain space used</span></div><span class="seal" id="loadSeal">Waiting for thought</span></div>
+					<div class="meter-wrap"><p class="meter-explainer"><strong>Estimated cognitive load:</strong> the score combines text length with the intensity of emotion, time pressure and uncertainty in your thought.</p><div class="meter"><div class="meter-fill" id="meterFill" style="width: 0%"></div></div><div class="meter-labels"><span>tiny thought</span><b id="meterStatus">type something below</b><span>mental traffic jam</span></div><div class="load-breakdown" aria-label="Thought load breakdown"><div class="load-factor"><span>Length</span><strong id="lengthScore">0 / 30</strong></div><div class="load-factor"><span>Emotion</span><strong id="emotionScore">0 / 30</strong></div><div class="load-factor"><span>Urgency</span><strong id="urgencyScore">0 / 20</strong></div><div class="load-factor"><span>Uncertainty</span><strong id="uncertaintyScore">0 / 20</strong></div></div></div>
+				<button class="panic-button" id="panicButton" type="button">⚠ File emergency thought</button>
+			</article>
+
+			<div class="side-stack">
+				<article class="panel stat-grid">
+					<div class="stat"><small>Unrequested facts</small><strong id="thoughts">1,284</strong><br /><em>+ 16 since breakfast</em></div>
+					<div class="stat"><small>Brain buffering</small><strong>0.04</strong><br /><em>tabs / second</em></div>
+					<div class="stat"><small>Oldest nonsense</small><strong>03:17</strong><br /><em>still no answer</em></div>
+					<div class="stat"><small>Memory accuracy</small><strong>97.8</strong><br /><em>% emotionally edited</em></div>
+				</article>
+				<article class="panel mode-panel">
+					<div class="panel-head" style="padding:0 0 14px; border:0;"><span>Government settings</span><span>Tick responsibly</span></div>
+					<p>These switches are legally meaningless but emotionally powerful.</p>
+					<button class="mode active" type="button">Pretend this is useful</button>
+					<button class="mode" type="button">Archive for future me</button>
+					<button class="mode active" type="button">Do not let go</button>
+				</article>
+				<article class="signal panel">
+					<h2>Complaint currently processing</h2>
+					<p>“Why did I walk into this room?”<br /><br />Your request has been escalated to the room. The room has no comment.</p>
+				</article>
+			</div>
+		</section>
+
+		<section class="panel thought-box" aria-label="Submit a thought">
+			<h2>Put the thought in the box.</h2>
+			<p>Type the thing currently doing laps around your brain. The Ministry will classify it with confidence and absolutely no qualifications.</p>
+			<form class="thought-form" id="thoughtForm">
+				<input class="thought-input" id="thoughtInput" type="text" maxlength="140" placeholder="I cannot stop thinking about..." autocomplete="off" required />
+				<button class="submit-thought" type="submit">Submit to the ministry</button>
+			</form>
+			<p class="thought-result" id="thoughtResult" aria-live="polite"></p>
+			<p class="human-note" id="humanNote" aria-live="polite"><strong>Human note:</strong> Your thought does not need to be perfectly explained before it deserves attention.</p>
+		</section>
+
+		<section class="lower">
+			<article class="panel manifesto"><h2>We preserve what normal brains reject.</h2><p>Forgotten passwords. Shower epiphanies. The exact tone your teacher used in 2009. Our highly questionable technology keeps every unhelpful detail safe, warm and available at 2:00 a.m.</p></article>
+			<article class="panel activity"><div class="panel-head"><span>Open cases in the filing cabinet</span><span>Clerk feed</span></div><div class="log">
+				<div class="log-row"><time>09:41:08</time><b>Forgot why you opened this tab</b><span>STAMPED</span></div>
+				<div class="log-row"><time>09:38:22</time><b>Song lyric, almost remembered</b><span>STAMPED</span></div>
+				<div class="log-row"><time>09:12:04</time><b>Brilliant idea during shower</b><span>STAMPED</span></div>
+				<div class="log-row"><time>08:55:49</time><b>Person's name from 2017</b><span>STAMPED</span></div>
+			</div></article>
+		</section>
+
+		<footer><span>Memory Leak Preserving Technology</span><span>Complaints may be submitted directly to the void</span></footer>
+	</main>
+	<script>
+		const capacity = document.querySelector('#capacity');
+		const meterFill = document.querySelector('#meterFill');
+		const meterStatus = document.querySelector('#meterStatus');
+		const loadSeal = document.querySelector('#loadSeal');
+		const lengthScore = document.querySelector('#lengthScore');
+		const emotionScore = document.querySelector('#emotionScore');
+		const urgencyScore = document.querySelector('#urgencyScore');
+		const uncertaintyScore = document.querySelector('#uncertaintyScore');
+		const thoughts = document.querySelector('#thoughts');
+		const panicButton = document.querySelector('#panicButton');
+		const modes = document.querySelectorAll('.mode');
+		const thoughtForm = document.querySelector('#thoughtForm');
+		const thoughtInput = document.querySelector('#thoughtInput');
+		const thoughtResult = document.querySelector('#thoughtResult');
+		const humanNote = document.querySelector('#humanNote');
+		const activityLog = document.querySelector('.log');
+		const signal = document.querySelector('.signal p');
+		let savedThoughts = 1284;
+		let currentCapacity = 0;
+		const emotionMildPattern = /\b(sad|upset|miss|worry|worried|stress|nervous|love|excited|happy|relieved)\b/g;
+		const emotionStrongPattern = /\b(afraid|anxious|angry|hate|panic|terrified|devastated|overwhelmed)\b/g;
+		const urgencyHighPattern = /\b(deadline|due|urgent|immediately|asap|right now)\b/g;
+		const urgencyNormalPattern = /\b(today|tonight|tomorrow|must|need|can't|cannot)\b/g;
+		const uncertaintyQuestionWordPattern = /\b(why|what|how|when)\b/g;
+		const uncertaintySoftPattern = /\b(maybe|perhaps|might|could|should|wonder|unsure|uncertain)\b/g;
+
+		function countMatches(text, pattern) {
+			return text.match(pattern)?.length || 0;
+		}
+
+		function analyzeFeeling(thought) {
+			const words = thought.match(/[A-Za-z0-9']+/g) || [];
+			const normalizedThought = thought.toLowerCase();
+			const emotion = Math.min(30,
+				countMatches(normalizedThought, emotionMildPattern) * 5 +
+				countMatches(normalizedThought, emotionStrongPattern) * 10);
+			const urgency = Math.min(20,
+				countMatches(normalizedThought, urgencyHighPattern) * 7 +
+				countMatches(normalizedThought, urgencyNormalPattern) * 4 +
+				Math.min(3, countMatches(thought, /!/g)) * 2);
+			const uncertainty = Math.min(20,
+				Math.min(2, countMatches(thought, /\?/g)) * 7 +
+				countMatches(normalizedThought, uncertaintyQuestionWordPattern) * 4 +
+				countMatches(normalizedThought, uncertaintySoftPattern) * 3);
+			const length = Math.min(30, Math.max(4, Math.round(words.length * 1.5)));
+			return { length, emotion, urgency, uncertainty };
+		}
+
+		function updateThoughtMeter(thought) {
+			const analysis = analyzeFeeling(thought);
+			const { length, emotion, urgency, uncertainty } = analysis;
+			currentCapacity = Math.min(100, length + emotion + urgency + uncertainty);
+			capacity.textContent = currentCapacity;
+			meterFill.style.width = `${currentCapacity}%`;
+			lengthScore.textContent = `${length} / 30`;
+			emotionScore.textContent = `${emotion} / 30`;
+			urgencyScore.textContent = `${urgency} / 20`;
+			uncertaintyScore.textContent = `${uncertainty} / 20`;
+			if (currentCapacity < 30) {
+				meterStatus.textContent = 'small but present';
+				loadSeal.textContent = 'Light thought';
+			} else if (currentCapacity < 65) {
+				meterStatus.textContent = 'busy brain';
+				loadSeal.textContent = 'Thought retained';
+			} else {
+				meterStatus.textContent = 'mental traffic jam';
+				loadSeal.textContent = 'Send snacks';
+			}
+		}
+
+		modes.forEach((mode) => mode.addEventListener('click', () => mode.classList.toggle('active')));
+
+		panicButton.addEventListener('click', () => {
+			const button = panicButton;
+			button.textContent = '✓ Thought filed under: OH NO';
+			button.style.background = 'var(--acid)';
+			button.style.color = 'var(--ink)';
+			thoughts.textContent = (savedThoughts += 1).toLocaleString();
+			updateThoughtMeter('OH NO!');
+		});
+
+		thoughtForm.addEventListener('submit', (event) => {
+			event.preventDefault();
+			const thought = thoughtInput.value.trim();
+			if (!thought) return;
+			const text = thought.toLowerCase();
+			const categories = text.match(/work|boss|deadline|exam|school/) ? ['WORKPLACE PANIC', 'Your thought has been forwarded to Monday.']
+				: text.match(/love|crush|date|miss|heart/) ? ['EMOTIONAL EVIDENCE', 'Your thought has been wrapped in a blanket and filed under: complicated.']
+				: text.match(/food|eat|hungry|coffee|pizza/) ? ['SNACK-ADJACENT', 'The Ministry agrees this is probably a food problem.']
+				: text.match(/worr|stress|afraid|anxious|scared/) ? ['CERTIFIED WORRY', 'We have put your worry in a tiny waiting room. It is still worrying.']
+				: ['UNIDENTIFIED BRAIN ACTIVITY', 'Excellent. Nobody knows what this means, so it is safely preserved.'];
+			const humanResponse = text.match(/worr|stress|afraid|anxious|scared|panic/) ? 'That sounds heavy. You do not have to solve all of it at once; finding the next small step is enough for now.'
+				: text.match(/work|boss|deadline|exam|school/) ? 'Pressure can make one task feel like the whole future. Bring it back to the next thing you can actually do.'
+				: text.match(/love|crush|date|miss|heart/) ? 'Missing someone or caring deeply can take up real space. It makes sense that this thought keeps returning.'
+				: text.match(/food|eat|hungry|coffee|pizza|tired|sleep/) ? 'Sometimes a thought is also a basic need asking to be noticed. A little food, water, rest, or fresh air may help.'
+				: 'That thought is allowed to be unfinished. You noticed it, and for this moment, that is enough.';
+			thoughtResult.textContent = `${categories[0]}: ${categories[1]}`;
+			humanNote.innerHTML = `<strong>Human note:</strong> ${humanResponse}`;
+			signal.innerHTML = `“${thought}”<br /><br />Captured just now. The room has been notified and is pretending to remain calm.`;
+			savedThoughts += 1;
+			thoughts.textContent = savedThoughts.toLocaleString();
+			updateThoughtMeter(thought);
+			const row = document.createElement('div');
+			row.className = 'log-row';
+			row.innerHTML = `<time>NOW</time><b>${thought.replace(/[<>]/g, '')}</b><span>STAMPED</span>`;
+			activityLog.prepend(row);
+			thoughtInput.value = '';
+		});
+
+		thoughtInput.addEventListener('input', () => {
+			const draft = thoughtInput.value.trim();
+			if (draft) updateThoughtMeter(draft);
+		});
+
+	</script>
+</body>
+</html>
 
