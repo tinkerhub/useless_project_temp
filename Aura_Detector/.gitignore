@@ -1,0 +1,16 @@
+# Android/Gradle generated files
+**/.gradle/
+**/.kotlin/
+**/build/
+**/local.properties
+
+# Python generated files
+__pycache__/
+*.py[cod]
+.pytest_cache/
+server/.venv/
+
+# Downloaded model and inference engine artifacts
+*.pt
+*.onnx
+*.engine

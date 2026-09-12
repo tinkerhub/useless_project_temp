@@ -1,0 +1,11 @@
+fastapi
+uvicorn[standard]
+websockets
+opencv-python-headless
+numpy
+ultralytics
+lap>=0.5.12
+pydantic
+pytest
+pytest-asyncio
+httpx

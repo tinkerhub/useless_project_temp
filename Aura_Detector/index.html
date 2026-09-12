@@ -1,0 +1,1192 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AUR/S — Human Aura Radiation Monitor | TinkerHub Documentation</title>
+    <!-- Modern Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;700&family=Outfit:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-dark: #060810;
+            --bg-card: rgba(15, 23, 42, 0.75);
+            --bg-card-hover: rgba(30, 41, 59, 0.85);
+            --border-color: rgba(0, 242, 254, 0.18);
+            --border-highlight: rgba(0, 255, 135, 0.4);
+            --cyan-primary: #00F2FE;
+            --cyan-glow: rgba(0, 242, 254, 0.35);
+            --green-neon: #00FF87;
+            --magenta-alarm: #FF0055;
+            --amber-warn: #FFB300;
+            --purple-void: #A855F7;
+            --text-main: #F8FAFC;
+            --text-muted: #94A3B8;
+            --text-dim: #64748B;
+            --font-head: 'Outfit', sans-serif;
+            --font-body: 'Inter', sans-serif;
+            --font-code: 'JetBrains Mono', monospace;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            background-color: var(--bg-dark);
+            color: var(--text-main);
+            font-family: var(--font-body);
+            line-height: 1.6;
+            overflow-x: hidden;
+            background-image: 
+                radial-gradient(circle at 15% 20%, rgba(0, 242, 254, 0.08) 0%, transparent 45%),
+                radial-gradient(circle at 85% 70%, rgba(255, 0, 85, 0.07) 0%, transparent 50%),
+                radial-gradient(circle at 50% 50%, rgba(0, 255, 135, 0.04) 0%, transparent 60%);
+            background-attachment: fixed;
+        }
+
+        /* Scrollbar styling */
+        ::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #060810;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: rgba(0, 242, 254, 0.3);
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: var(--cyan-primary);
+        }
+
+        /* Top Navigation Header */
+        .navbar {
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            background: rgba(6, 8, 16, 0.88);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid var(--border-color);
+            padding: 1rem 2rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        .nav-brand {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            font-family: var(--font-head);
+            font-size: 1.35rem;
+            font-weight: 800;
+            color: #fff;
+            text-decoration: none;
+            letter-spacing: 0.5px;
+        }
+        .brand-badge {
+            background: linear-gradient(135deg, var(--cyan-primary), var(--green-neon));
+            color: #000;
+            font-size: 0.75rem;
+            font-weight: 800;
+            padding: 0.2rem 0.6rem;
+            border-radius: 20px;
+            text-transform: uppercase;
+        }
+        .nav-links {
+            display: flex;
+            gap: 1.5rem;
+            align-items: center;
+        }
+        .nav-link {
+            color: var(--text-muted);
+            text-decoration: none;
+            font-weight: 500;
+            font-size: 0.95rem;
+            transition: color 0.2s ease;
+        }
+        .nav-link:hover, .nav-link.active {
+            color: var(--cyan-primary);
+        }
+        .tinkerhub-pill {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            background: rgba(255, 179, 0, 0.12);
+            border: 1px solid var(--amber-warn);
+            color: var(--amber-warn);
+            padding: 0.4rem 0.9rem;
+            border-radius: 30px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            text-decoration: none;
+        }
+
+        /* Container Layout */
+        .container {
+            max-width: 1280px;
+            margin: 0 auto;
+            padding: 2rem 1.5rem;
+        }
+
+        /* Hero Section */
+        .hero {
+            text-align: center;
+            padding: 4rem 1rem 3rem 1rem;
+            position: relative;
+        }
+        .hero-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            background: rgba(0, 242, 254, 0.1);
+            border: 1px solid rgba(0, 242, 254, 0.3);
+            color: var(--cyan-primary);
+            padding: 0.4rem 1.2rem;
+            border-radius: 30px;
+            font-family: var(--font-code);
+            font-size: 0.85rem;
+            margin-bottom: 1.5rem;
+            box-shadow: 0 0 15px rgba(0, 242, 254, 0.2);
+        }
+        .hero-title {
+            font-family: var(--font-head);
+            font-size: 3.5rem;
+            font-weight: 900;
+            line-height: 1.1;
+            margin-bottom: 1.2rem;
+            background: linear-gradient(135deg, #FFFFFF 0%, #E2E8F0 40%, var(--cyan-primary) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            letter-spacing: -1px;
+        }
+        .hero-subtitle {
+            font-size: 1.25rem;
+            color: var(--text-muted);
+            max-width: 780px;
+            margin: 0 auto 2.5rem auto;
+            font-weight: 400;
+        }
+
+        /* Hero Badges / Stats */
+        .hero-stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 1.2rem;
+            max-width: 900px;
+            margin: 0 auto 3rem auto;
+        }
+        .stat-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            padding: 1.2rem 1rem;
+            border-radius: 16px;
+            backdrop-filter: blur(12px);
+            transition: all 0.3s ease;
+        }
+        .stat-card:hover {
+            transform: translateY(-4px);
+            border-color: var(--cyan-primary);
+            box-shadow: 0 10px 25px rgba(0, 242, 254, 0.15);
+        }
+        .stat-val {
+            font-family: var(--font-code);
+            font-size: 1.6rem;
+            font-weight: 800;
+            color: var(--green-neon);
+            margin-bottom: 0.2rem;
+        }
+        .stat-val.alarm { color: var(--magenta-alarm); }
+        .stat-val.cyan { color: var(--cyan-primary); }
+        .stat-val.purple { color: var(--purple-void); }
+        .stat-lbl {
+            font-size: 0.85rem;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            font-weight: 600;
+        }
+
+        /* Interactive Simulator Section */
+        .demo-section {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 24px;
+            padding: 2rem;
+            margin-bottom: 4rem;
+            backdrop-filter: blur(16px);
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5);
+            position: relative;
+            overflow: hidden;
+        }
+        .demo-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 1.5rem;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+        .demo-title {
+            font-family: var(--font-head);
+            font-size: 1.6rem;
+            font-weight: 800;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+        .demo-controls {
+            display: flex;
+            gap: 0.75rem;
+            flex-wrap: wrap;
+        }
+        .btn {
+            background: rgba(0, 242, 254, 0.12);
+            border: 1px solid var(--cyan-primary);
+            color: var(--cyan-primary);
+            padding: 0.6rem 1.2rem;
+            border-radius: 12px;
+            font-family: var(--font-code);
+            font-size: 0.85rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        .btn:hover {
+            background: var(--cyan-primary);
+            color: #000;
+            box-shadow: 0 0 20px var(--cyan-glow);
+        }
+        .btn-magenta {
+            background: rgba(255, 0, 85, 0.15);
+            border-color: var(--magenta-alarm);
+            color: var(--magenta-alarm);
+        }
+        .btn-magenta:hover {
+            background: var(--magenta-alarm);
+            color: #fff;
+            box-shadow: 0 0 20px rgba(255, 0, 85, 0.5);
+        }
+        .btn-green {
+            background: rgba(0, 255, 135, 0.15);
+            border-color: var(--green-neon);
+            color: var(--green-neon);
+        }
+        .btn-green:hover {
+            background: var(--green-neon);
+            color: #000;
+            box-shadow: 0 0 20px rgba(0, 255, 135, 0.5);
+        }
+
+        /* Canvas & Live Overlay Grid */
+        .simulator-grid {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 1.5rem;
+        }
+        @media (max-width: 960px) {
+            .simulator-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+        .canvas-container {
+            position: relative;
+            background: #02040A;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 16px;
+            overflow: hidden;
+            min-height: 420px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        #simCanvas {
+            width: 100%;
+            height: 100%;
+            display: block;
+            cursor: crosshair;
+        }
+
+        /* Simulator Control Panel */
+        .sim-panel {
+            background: rgba(10, 14, 26, 0.9);
+            border: 1px solid var(--border-color);
+            border-radius: 16px;
+            padding: 1.25rem;
+            display: flex;
+            flex-direction: column;
+            gap: 1.25rem;
+        }
+        .panel-section-title {
+            font-family: var(--font-head);
+            font-size: 0.95rem;
+            font-weight: 700;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        /* Audio Sound Trigger Matrix */
+        .audio-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 0.5rem;
+        }
+        .sound-btn {
+            background: rgba(30, 41, 59, 0.6);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            color: var(--text-main);
+            padding: 0.5rem 0.6rem;
+            border-radius: 8px;
+            font-family: var(--font-code);
+            font-size: 0.75rem;
+            cursor: pointer;
+            text-align: left;
+            transition: all 0.2s ease;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .sound-btn:hover {
+            border-color: var(--cyan-primary);
+            background: rgba(0, 242, 254, 0.1);
+            color: var(--cyan-primary);
+        }
+
+        /* Geiger Meter Display */
+        .geiger-meter {
+            background: #000;
+            border: 1px solid rgba(0, 255, 135, 0.3);
+            border-radius: 12px;
+            padding: 1rem;
+            font-family: var(--font-code);
+        }
+        .geiger-header {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.75rem;
+            color: var(--text-muted);
+            margin-bottom: 0.5rem;
+        }
+        .geiger-bars {
+            display: flex;
+            gap: 3px;
+            height: 24px;
+            align-items: flex-end;
+        }
+        .geiger-bar {
+            flex: 1;
+            background: rgba(0, 255, 135, 0.2);
+            border-radius: 2px;
+            transition: height 0.1s ease, background 0.2s ease;
+        }
+        .geiger-bar.active {
+            background: var(--green-neon);
+            box-shadow: 0 0 8px var(--green-neon);
+        }
+        .geiger-bar.interference {
+            background: var(--magenta-alarm) !important;
+            box-shadow: 0 0 10px var(--magenta-alarm) !important;
+        }
+
+        /* Documentation Section Tabs */
+        .doc-section {
+            margin-bottom: 5rem;
+        }
+        .search-box {
+            position: relative;
+            margin-bottom: 2rem;
+        }
+        .search-input {
+            width: 100%;
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            padding: 1rem 1.25rem 1rem 3rem;
+            border-radius: 16px;
+            color: #fff;
+            font-family: var(--font-body);
+            font-size: 1rem;
+            outline: none;
+            backdrop-filter: blur(12px);
+            transition: border-color 0.2s ease;
+        }
+        .search-input:focus {
+            border-color: var(--cyan-primary);
+            box-shadow: 0 0 20px var(--cyan-glow);
+        }
+        .search-icon {
+            position: absolute;
+            left: 1.1rem;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--text-muted);
+        }
+
+        /* Tab Navigation */
+        .tabs-nav {
+            display: flex;
+            gap: 0.5rem;
+            border-bottom: 1px solid var(--border-color);
+            margin-bottom: 2rem;
+            overflow-x: auto;
+            padding-bottom: 0.5rem;
+        }
+        .tab-btn {
+            background: transparent;
+            border: none;
+            color: var(--text-muted);
+            padding: 0.75rem 1.25rem;
+            font-family: var(--font-head);
+            font-size: 1rem;
+            font-weight: 700;
+            cursor: pointer;
+            border-radius: 10px 10px 0 0;
+            transition: all 0.2s ease;
+            white-space: nowrap;
+        }
+        .tab-btn:hover {
+            color: #fff;
+            background: rgba(255, 255, 255, 0.05);
+        }
+        .tab-btn.active {
+            color: var(--cyan-primary);
+            background: rgba(0, 242, 254, 0.1);
+            border-bottom: 3px solid var(--cyan-primary);
+        }
+
+        /* Tab Content Cards */
+        .tab-content {
+            display: none;
+        }
+        .tab-content.active {
+            display: block;
+        }
+
+        .doc-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 20px;
+            padding: 2.5rem;
+            margin-bottom: 1.5rem;
+            backdrop-filter: blur(16px);
+        }
+        .doc-card h2 {
+            font-family: var(--font-head);
+            font-size: 1.8rem;
+            margin-bottom: 1rem;
+            color: #fff;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+        .doc-card h3 {
+            font-family: var(--font-head);
+            font-size: 1.3rem;
+            margin: 1.8rem 0 0.8rem 0;
+            color: var(--cyan-primary);
+        }
+        .doc-card p {
+            color: var(--text-muted);
+            margin-bottom: 1.2rem;
+            font-size: 1.02rem;
+        }
+        .doc-card ul, .doc-card ol {
+            margin-left: 1.5rem;
+            margin-bottom: 1.2rem;
+            color: var(--text-muted);
+        }
+        .doc-card li {
+            margin-bottom: 0.5rem;
+        }
+
+        /* Code & Pre Blocks */
+        pre {
+            background: #020408;
+            border: 1px solid rgba(0, 242, 254, 0.2);
+            border-radius: 12px;
+            padding: 1.25rem;
+            overflow-x: auto;
+            font-family: var(--font-code);
+            font-size: 0.88rem;
+            color: #E2E8F0;
+            margin: 1rem 0 1.5rem 0;
+            line-height: 1.5;
+        }
+        code {
+            font-family: var(--font-code);
+            background: rgba(0, 242, 254, 0.1);
+            color: var(--cyan-primary);
+            padding: 0.2rem 0.4rem;
+            border-radius: 4px;
+            font-size: 0.88rem;
+        }
+        pre code {
+            background: transparent;
+            padding: 0;
+            color: inherit;
+        }
+
+        /* Callout Banners */
+        .callout {
+            border-left: 4px solid var(--cyan-primary);
+            background: rgba(0, 242, 254, 0.06);
+            padding: 1.25rem;
+            border-radius: 0 12px 12px 0;
+            margin: 1.5rem 0;
+        }
+        .callout.warning {
+            border-left-color: var(--amber-warn);
+            background: rgba(255, 179, 0, 0.06);
+        }
+        .callout.alarm {
+            border-left-color: var(--magenta-alarm);
+            background: rgba(255, 0, 85, 0.08);
+        }
+        .callout-title {
+            font-family: var(--font-head);
+            font-weight: 700;
+            font-size: 1rem;
+            margin-bottom: 0.4rem;
+            color: #fff;
+        }
+
+        /* Architecture Flow Diagram */
+        .flow-diagram {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+            margin: 1.5rem 0;
+        }
+        .flow-step {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            background: rgba(15, 23, 42, 0.6);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            padding: 1rem;
+            border-radius: 12px;
+        }
+        .flow-num {
+            background: var(--cyan-primary);
+            color: #000;
+            font-family: var(--font-code);
+            font-weight: 800;
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+        }
+
+        /* Footer */
+        footer {
+            border-top: 1px solid var(--border-color);
+            background: rgba(4, 6, 12, 0.95);
+            padding: 3rem 1.5rem;
+            text-align: center;
+            color: var(--text-dim);
+            font-size: 0.9rem;
+        }
+        footer a {
+            color: var(--cyan-primary);
+            text-decoration: none;
+        }
+        footer a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Top Navbar -->
+    <nav class="navbar">
+        <a href="#" class="nav-brand">
+            <span style="color: var(--cyan-primary);">AUR/S</span>
+            <span class="brand-badge">Useless Project 3.0</span>
+        </a>
+        <div class="nav-links">
+            <a href="#simulator" class="nav-link">Interactive Demo</a>
+            <a href="#docs" class="nav-link">Documentation Source</a>
+            <a href="https://tinkerhub.org" target="_blank" class="tinkerhub-pill">⚡ TinkerHub Entry</a>
+        </div>
+    </nav>
+
+    <div class="container">
+
+        <!-- Hero Section -->
+        <section class="hero">
+            <div class="hero-badge">
+                🎯 INTENTIONALLY USELESS HUMAN AURA RADIATION MONITOR
+            </div>
+            <h1 class="hero-title">AUR/S — Human Aura Monitor</h1>
+            <p class="hero-subtitle">
+                An unscientific camera-powered instrument that assigns dramatic, imaginary aura radiation readings to people in a crowd using YOLO multi-person tracking, local Wi-Fi telemetry, and Geiger radiation aesthetics.
+            </p>
+
+            <!-- Hero Stats Grid -->
+            <div class="hero-stats">
+                <div class="stat-card">
+                    <div class="stat-val">0.00%</div>
+                    <div class="stat-lbl">Real Science Claimed</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-val cyan">6 MAX</div>
+                    <div class="stat-lbl">Tracked Subjects</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-val alarm">⚡ 150k L</div>
+                    <div class="stat-lbl">Interference Limit</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-val purple">8 Custom</div>
+                    <div class="stat-lbl">Audio Meme Tracks</div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Interactive Simulator Section -->
+        <section id="simulator" class="demo-section">
+            <div class="demo-header">
+                <div class="demo-title">
+                    <span>⚡ Interactive Aura Scanner Simulator</span>
+                    <span style="font-size: 0.8rem; background: rgba(0,255,135,0.15); color: var(--green-neon); padding: 0.2rem 0.6rem; border-radius: 12px; font-family: var(--font-code);">LIVE BROWSER ENGINE</span>
+                </div>
+                <div class="demo-controls">
+                    <button class="btn btn-green" onclick="triggerScanRoll()">🎲 Scan Random Bonus</button>
+                    <button class="btn btn-magenta" onclick="toggleForceInterference()">⚠ Toggle 2-Person Interference</button>
+                    <button class="btn" onclick="resetSimPositions()">🔄 Reset Positions</button>
+                </div>
+            </div>
+
+            <div class="simulator-grid">
+                <!-- Canvas Area -->
+                <div class="canvas-container">
+                    <canvas id="simCanvas" width="700" height="420"></canvas>
+                </div>
+
+                <!-- Control & Telemetry Panel -->
+                <div class="sim-panel">
+                    <div class="panel-section-title">📡 Live Readout Telemetry</div>
+                    
+                    <div style="background: #000; border: 1px solid rgba(0, 242, 254, 0.3); border-radius: 12px; padding: 1rem; font-family: var(--font-code);">
+                        <div style="color: var(--text-muted); font-size: 0.75rem;">TARGET READOUT</div>
+                        <div id="readoutVal" style="font-size: 1.4rem; font-weight: 800; color: var(--green-neon); margin: 0.3rem 0;">+18,472 AUR/s</div>
+                        <div id="readoutStatus" style="font-size: 0.75rem; color: var(--cyan-primary);">STATUS: SPECTRUM CALIBRATED</div>
+                    </div>
+
+                    <!-- Geiger Meter -->
+                    <div class="geiger-meter">
+                        <div class="geiger-header">
+                            <span>GEIGER FLUX RATE</span>
+                            <span id="cpmText">4,200 CPM</span>
+                        </div>
+                        <div class="geiger-bars" id="geigerBars">
+                            <!-- JS populated -->
+                        </div>
+                    </div>
+
+                    <!-- Audio Trigger Grid -->
+                    <div class="panel-section-title">🎵 Custom Sound Triggers</div>
+                    <div class="audio-grid">
+                        <button class="sound-btn" onclick="playAudioTrigger('minus_69')"><span>−69 AUR</span> ▶</button>
+                        <button class="sound-btn" onclick="playAudioTrigger('sound_0')"><span>0 AUR</span> ▶</button>
+                        <button class="sound-btn" onclick="playAudioTrigger('sound_1000_5000')"><span>1k/5k AUR</span> ▶</button>
+                        <button class="sound-btn" onclick="playAudioTrigger('sound_50000')"><span>50k AUR</span> ▶</button>
+                        <button class="sound-btn" onclick="playAudioTrigger('sound_100000')"><span>100k AUR</span> ▶</button>
+                        <button class="sound-btn" onclick="playAudioTrigger('sound_676767_696969')"><span>67/69 Jackpot</span> ▶</button>
+                        <button class="sound-btn" onclick="playAudioTrigger('minus_676767_696969')"><span>−67/69 Curse</span> ▶</button>
+                        <button class="sound-btn" onclick="playAudioTrigger('minus_infinity')"><span>−∞ Singularity</span> ▶</button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Documentation Tabs Section -->
+        <section id="docs" class="doc-section">
+            <div class="search-box">
+                <span class="search-icon">🔍</span>
+                <input type="text" id="searchInput" class="search-input" placeholder="Search documentation... (e.g. interference, YOLO, WebSocket, Android, build, sound)" oninput="filterDocs()">
+            </div>
+
+            <div class="tabs-nav">
+                <button class="tab-btn active" onclick="switchTab('tinkerhub')">🎯 TinkerHub Project Record</button>
+                <button class="tab-btn" onclick="switchTab('build')">🛠️ Build & Run Guide</button>
+                <button class="tab-btn" onclick="switchTab('protocol')">📡 WebSocket Protocol</button>
+                <button class="tab-btn" onclick="switchTab('audio')">⚡ Interference & Sound Matrix</button>
+                <button class="tab-btn" onclick="switchTab('privacy')">🔒 Privacy & Biometrics</button>
+            </div>
+
+            <!-- Tab 1: TinkerHub Record -->
+            <div id="tab-tinkerhub" class="tab-content active searchable">
+                <div class="doc-card">
+                    <h2>🎯 TinkerHub Submission & The Bit</h2>
+                    <p><strong>AUR/S (Human Aura Radiation Monitor)</strong> is an intentionally useless Android application designed for TinkerHub Useless Projects 3.0. Point an Android phone at a crowd; a local PC tracks temporary subjects while the phone supplies scientifically indefensible aura radiation readings, dramatic scans, electric arcs, Geiger clicks, and singularities.</p>
+                    
+                    <div class="callout">
+                        <div class="callout-title">The Non-Existent Problem</div>
+                        <p>People walk around every day without knowing whether their aura is quietly radioactive, absurdly powerful, or dangerously void-adjacent. Existing science has shown no urgency whatsoever in solving this critical void.</p>
+                    </div>
+
+                    <div class="callout warning">
+                        <div class="callout-title">The Solution (that nobody asked for)</div>
+                        <p>We built a portable pseudo-scientific detector that uses real-time YOLO person segmentation only to locate people, then makes up the important aura facts with confidence, neon particles, Geiger clicks, and wildly authoritative labels.</p>
+                    </div>
+
+                    <h3>Experience Flow</h3>
+                    <div class="flow-diagram">
+                        <div class="flow-step">
+                            <div class="flow-num">1</div>
+                            <div><strong>Open App & Stream Frames:</strong> Android CameraX streams lightweight JPEG frames over local Wi-Fi to PC.</div>
+                        </div>
+                        <div class="flow-step">
+                            <div class="flow-num">2</div>
+                            <div><strong>YOLO Segmentation:</strong> PC runs YOLO instance segmentation and returns temporary subject IDs.</div>
+                        </div>
+                        <div class="flow-step">
+                            <div class="flow-num">3</div>
+                            <div><strong>Tap to Lock & Read:</strong> Tap a subject to lock scanner and monitor live imaginary `AUR/s` radiation.</div>
+                        </div>
+                        <div class="flow-step">
+                            <div class="flow-num">4</div>
+                            <div><strong>Double-Tap Scan:</strong> Triggers theatrical aura scan yielding blessings (`+742 AUR`), curses (`−69 AUR`), or infinity events (`±∞`).</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Tab 2: Build & Run Guide -->
+            <div id="tab-build" class="tab-content searchable">
+                <div class="doc-card">
+                    <h2>🛠️ Build & Run Guide</h2>
+                    <p>Follow these instructions to set up the local Python inference server and deploy the Android client app onto a physical device.</p>
+
+                    <h3>1. PC Inference Server Setup</h3>
+                    <pre><code># Clone repository
+git clone https://github.com/ARJuice/Aura_Detector.git
+cd Aura_Detector/server
+
+# Create Python virtual environment (Python 3.11 recommended)
+python -m venv .venv
+source .venv/bin/activate  # On Windows: .venv\Scripts\activate
+
+# Install PyTorch with CUDA & requirements
+pip install torch torchvision --index-url https://download.pytorch.org/whl/cu121
+pip install -r requirements.txt
+
+# Launch FastAPI WebSocket server on port 8765
+python app.py</code></pre>
+
+                    <h3>2. Android Client Build & Installation</h3>
+                    <pre><code># Navigate to Android app directory
+cd ../android/AuraDetector
+
+# Build Debug APK using Gradle
+gradle assembleDebug
+
+# Streamed installation to physical Android device via ADB
+adb install -r app/build/outputs/apk/debug/app-debug.apk
+
+# Launch Main Activity
+adb shell am force-stop com.auradetector
+adb shell am start -n com.auradetector/.MainActivity</code></pre>
+
+                    <div class="callout">
+                        <div class="callout-title">LAN Hotspot Recommendation</div>
+                        <p>Do not use captive-portal or client-isolated public Wi-Fi. Connect both PC and Android phone to a direct 5 GHz Wi-Fi network or Windows Hotspot so the phone can reach the PC server directly without proxy redirects.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Tab 3: WebSocket Protocol -->
+            <div id="tab-protocol" class="tab-content searchable">
+                <div class="doc-card">
+                    <h2>📡 Local WebSocket Telemetry Protocol</h2>
+                    <p>The Android client and Python server communicate via a bidirectional, low-latency WebSocket endpoint at <code>ws://PC_IP:8765/ws</code>.</p>
+
+                    <h3>Phone → PC Frame Ingestion</h3>
+                    <pre><code>{
+  "type": "frame",
+  "version": 1,
+  "frameId": 1042,
+  "capturedAtMs": 1789165200100,
+  "jpegBase64": "/9j/4AAQSkZJRg..."
+}</code></pre>
+
+                    <h3>PC → Phone Vision Metadata State</h3>
+                    <pre><code>{
+  "type": "frame_state",
+  "version": 1,
+  "frameId": 1042,
+  "serverReceivedAtMs": 1789165200115,
+  "subjects": [
+    {
+      "id": 4,
+      "x": 0.25,
+      "y": 0.15,
+      "width": 0.30,
+      "height": 0.70,
+      "contour": [{"x": 0.25, "y": 0.15}, {"x": 0.55, "y": 0.85}],
+      "profile": {
+        "band": "Powerful",
+        "min": "5000",
+        "max": "100000",
+        "palette": "magenta"
+      }
+    }
+  ]
+}</code></pre>
+                </div>
+            </div>
+
+            <!-- Tab 4: Audio & Interference Matrix -->
+            <div id="tab-audio" class="tab-content searchable">
+                <div class="doc-card">
+                    <h2>⚡ Aura Interference & Sound Matrix</h2>
+                    <p>When two subjects with extremely high aura values stand close together, the system triggers the <code>⚠ AURA INTERFERENCE</code> protocol.</p>
+
+                    <div class="callout alarm">
+                        <div class="callout-title">⚠ Interference Trigger Criteria</div>
+                        <ul>
+                            <li><strong>Exact Subject Count:</strong> Exactly 2 subjects in frame (<code>subjects.size == 2</code>).</li>
+                            <li><strong>Close Proximity:</strong> Normalized distance $dist < 0.28f$ (subjects standing directly next to each other).</li>
+                            <li><strong>High Aura Threshold:</strong> Combined aura potential $totalAura \ge 150,000\text{L}$ (or containing $\infty$).</li>
+                        </ul>
+                    </div>
+
+                    <h3>Mapped Sound Library</h3>
+                    <table style="width: 100%; border-collapse: collapse; margin-top: 1rem;">
+                        <thead>
+                            <tr style="border-bottom: 1px solid var(--border-color); text-align: left;">
+                                <th style="padding: 0.75rem; color: var(--cyan-primary);">Audio File</th>
+                                <th style="padding: 0.75rem; color: var(--cyan-primary);">Trigger Condition</th>
+                                <th style="padding: 0.75rem; color: var(--cyan-primary);">Description</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr style="border-bottom: 1px solid rgba(255,255,255,0.05);">
+                                <td style="padding: 0.75rem;"><code>0.mp3</code></td>
+                                <td style="padding: 0.75rem;">Value = 0 AUR</td>
+                                <td style="padding: 0.75rem;">Zero aura null balance chime</td>
+                            </tr>
+                            <tr style="border-bottom: 1px solid rgba(255,255,255,0.05);">
+                                <td style="padding: 0.75rem;"><code>-69.mp3</code></td>
+                                <td style="padding: 0.75rem;">Value = −69 AUR</td>
+                                <td style="padding: 0.75rem;">Nice curse drain sound</td>
+                            </tr>
+                            <tr style="border-bottom: 1px solid rgba(255,255,255,0.05);">
+                                <td style="padding: 0.75rem;"><code>1000 & 5000.mp3</code></td>
+                                <td style="padding: 0.75rem;">Value = 1k / 5k AUR</td>
+                                <td style="padding: 0.75rem;">Harmonic pulse tone</td>
+                            </tr>
+                            <tr style="border-bottom: 1px solid rgba(255,255,255,0.05);">
+                                <td style="padding: 0.75rem;"><code>50000.mp3</code></td>
+                                <td style="padding: 0.75rem;">Value = 50k AUR</td>
+                                <td style="padding: 0.75rem;">High radiance pulse</td>
+                            </tr>
+                            <tr style="border-bottom: 1px solid rgba(255,255,255,0.05);">
+                                <td style="padding: 0.75rem;"><code>100000.mp3</code></td>
+                                <td style="padding: 0.75rem;">Value = 100k AUR</td>
+                                <td style="padding: 0.75rem;">Peak aura blast sound</td>
+                            </tr>
+                            <tr style="border-bottom: 1px solid rgba(255,255,255,0.05);">
+                                <td style="padding: 0.75rem;"><code>676767 & 696969.mp3</code></td>
+                                <td style="padding: 0.75rem;">+676767 / +696969 / +67</td>
+                                <td style="padding: 0.75rem;">Supreme jackpot overdrive sound</td>
+                            </tr>
+                            <tr style="border-bottom: 1px solid rgba(255,255,255,0.05);">
+                                <td style="padding: 0.75rem;"><code>-676767 & -696969.mp3</code></td>
+                                <td style="padding: 0.75rem;">−676767 / −696969</td>
+                                <td style="padding: 0.75rem;">Cataclysmic curse drain sound</td>
+                            </tr>
+                            <tr>
+                                <td style="padding: 0.75rem;"><code>minus_infinity.mp3</code></td>
+                                <td style="padding: 0.75rem;">±∞ Aura Overflow</td>
+                                <td style="padding: 0.75rem;">Void singularity sound</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Tab 5: Privacy -->
+            <div id="tab-privacy" class="tab-content searchable">
+                <div class="doc-card">
+                    <h2>🔒 Safety, Privacy & Biometric Statement</h2>
+                    <p>AUR/S is explicitly a joke instrument, not a health, biometrics, or personality assessment tool.</p>
+
+                    <div class="callout warning">
+                        <div class="callout-title">Privacy Safeguards</div>
+                        <ul>
+                            <li><strong>No Biometrics / Face Recognition:</strong> Computer vision is used strictly for 2D body bounding box segmentation.</li>
+                            <li><strong>No Permanent Identity:</strong> Subject IDs are temporary numbers assigned per session and discarded immediately when out of frame.</li>
+                            <li><strong>No Recording or Cloud Upload:</strong> All image frames are processed in-memory over local Wi-Fi and immediately dropped.</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        <p>AUR/S — Human Aura Radiation Monitor | Created for <strong>TinkerHub Useless Projects 3.0</strong></p>
+        <p style="margin-top: 0.5rem;">Made with ❤️ for makers, tinkers, and useless science enthusiasts.</p>
+    </footer>
+
+    <!-- Interactive Canvas & Audio Simulator Logic -->
+    <script>
+        // Tab switching
+        function switchTab(tabId) {
+            document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
+            document.querySelectorAll('.tab-content').forEach(content => content.classList.remove('active'));
+
+            const targetBtn = Array.from(document.querySelectorAll('.tab-btn')).find(b => b.getAttribute('onclick').includes(tabId));
+            if (targetBtn) targetBtn.classList.add('active');
+
+            const targetContent = document.getElementById('tab-' + tabId);
+            if (targetContent) targetContent.classList.add('active');
+        }
+
+        // Search Filter
+        function filterDocs() {
+            const query = document.getElementById('searchInput').value.toLowerCase();
+            const searchableCards = document.querySelectorAll('.searchable');
+
+            searchableCards.forEach(card => {
+                const text = card.textContent.toLowerCase();
+                if (text.includes(query)) {
+                    card.style.display = 'block';
+                } else {
+                    card.style.display = 'none';
+                }
+            });
+        }
+
+        // Canvas Interactive Simulator
+        const canvas = document.getElementById('simCanvas');
+        const ctx = canvas.getContext('2d');
+
+        let subjects = [
+            { id: 1, x: 220, y: 200, radius: 45, color: '#00FF87', auraVal: 85000, name: 'Subject #1' },
+            { id: 2, x: 480, y: 200, radius: 45, color: '#00F2FE', auraVal: 95000, name: 'Subject #2' }
+        ];
+
+        let forceInterference = false;
+        let isDragging = null;
+        let animPhase = 0;
+
+        function resetSimPositions() {
+            subjects[0].x = 220;
+            subjects[0].y = 200;
+            subjects[1].x = 480;
+            subjects[1].y = 200;
+            forceInterference = false;
+            updateTelemetry();
+        }
+
+        function toggleForceInterference() {
+            forceInterference = !forceInterference;
+            if (forceInterference) {
+                subjects[0].x = 320;
+                subjects[1].x = 370;
+            } else {
+                resetSimPositions();
+            }
+        }
+
+        // Drag subjects
+        canvas.addEventListener('mousedown', (e) => {
+            const rect = canvas.getBoundingClientRect();
+            const mx = e.clientX - rect.left;
+            const my = e.clientY - rect.top;
+
+            subjects.forEach((s, idx) => {
+                const dist = Math.hypot(mx - s.x, my - s.y);
+                if (dist < s.radius + 15) {
+                    isDragging = idx;
+                }
+            });
+        });
+
+        canvas.addEventListener('mousemove', (e) => {
+            if (isDragging !== null) {
+                const rect = canvas.getBoundingClientRect();
+                subjects[isDragging].x = e.clientX - rect.left;
+                subjects[isDragging].y = e.clientY - rect.top;
+            }
+        });
+
+        window.addEventListener('mouseup', () => { isDragging = null; });
+
+        function updateTelemetry() {
+            const dx = subjects[0].x - subjects[1].x;
+            const dy = subjects[0].y - subjects[1].y;
+            const dist = Math.hypot(dx, dy);
+
+            const isInterference = forceInterference || (dist < 110 && (subjects[0].auraVal + subjects[1].auraVal >= 150000));
+            const readoutEl = document.getElementById('readoutVal');
+            const statusEl = document.getElementById('readoutStatus');
+            const cpmEl = document.getElementById('cpmText');
+
+            if (isInterference) {
+                readoutEl.textContent = '⚠ AURA INTERFERENCE';
+                readoutEl.style.color = '#FF0055';
+                statusEl.textContent = 'STATUS: CRITICAL FIELD OVERLOAD';
+                cpmEl.textContent = 'OVERLOAD (99,999 CPM)';
+                updateGeigerBars(true);
+            } else {
+                const val = (subjects[0].auraVal * 0.2 + Math.random() * 500).toFixed(0);
+                readoutEl.textContent = '+' + Number(val).toLocaleString() + ' AUR/s';
+                readoutEl.style.color = '#00FF87';
+                statusEl.textContent = 'STATUS: SPECTRUM CALIBRATED';
+                cpmEl.textContent = (4200 + Math.random() * 800).toFixed(0) + ' CPM';
+                updateGeigerBars(false);
+            }
+
+            return isInterference;
+        }
+
+        function updateGeigerBars(isInterference) {
+            const barsContainer = document.getElementById('geigerBars');
+            barsContainer.innerHTML = '';
+            const barCount = 11;
+
+            for (let i = 0; i < barCount; i++) {
+                const bar = document.createElement('div');
+                bar.className = 'geiger-bar';
+                
+                let heightPct = 20 + Math.random() * 60;
+                if (isInterference) {
+                    heightPct = 80 + Math.random() * 20;
+                    bar.classList.add('interference');
+                } else if (i < 7) {
+                    bar.classList.add('active');
+                }
+
+                bar.style.height = heightPct + '%';
+                barsContainer.appendChild(bar);
+            }
+        }
+
+        function triggerScanRoll() {
+            const rolls = ['+69,6969 AUR', '+100,000 AUR', '+50,000 AUR', '−69 AUR', '0 AUR', '+∞ INFINITE OVERFLOW'];
+            const chosen = rolls[Math.floor(Math.random() * rolls.length)];
+            
+            const readoutEl = document.getElementById('readoutVal');
+            readoutEl.textContent = chosen;
+            readoutEl.style.color = chosen.includes('−') ? '#FF0055' : (chosen.includes('∞') ? '#FFF' : '#00FF87');
+
+            // Play audio chime
+            playAudioSynth(chosen.includes('−') ? 300 : 800);
+        }
+
+        // Web Audio Synthesizer Fallback for Browser Demo
+        function playAudioSynth(freq) {
+            try {
+                const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+                const osc = audioCtx.createOscillator();
+                const gain = audioCtx.createGain();
+
+                osc.type = 'triangle';
+                osc.frequency.setValueAtTime(freq, audioCtx.currentTime);
+                gain.gain.setValueAtTime(0.15, audioCtx.currentTime);
+                gain.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.35);
+
+                osc.connect(gain);
+                gain.connect(audioCtx.destination);
+                osc.start();
+                osc.stop(audioCtx.currentTime + 0.35);
+            } catch (_) {}
+        }
+
+        function playAudioTrigger(soundType) {
+            playAudioSynth(soundType.includes('minus') ? 220 : 640);
+        }
+
+        // Main Render Loop
+        function renderSim() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            animPhase += 0.04;
+
+            const isInterference = updateTelemetry();
+
+            // Draw Subjects
+            subjects.forEach((s) => {
+                // Aura Pulsing Halo
+                const auraRadius = s.radius + Math.sin(animPhase * 2) * 8 + 12;
+                const grad = ctx.createRadialGradient(s.x, s.y, s.radius * 0.5, s.x, s.y, auraRadius + 20);
+                grad.addColorStop(0, s.color);
+                grad.addColorStop(1, 'transparent');
+
+                ctx.fillStyle = grad;
+                ctx.beginPath();
+                ctx.arc(s.x, s.y, auraRadius + 20, 0, Math.PI * 2);
+                ctx.fill();
+
+                // Body Core
+                ctx.fillStyle = '#1E293B';
+                ctx.strokeStyle = s.color;
+                ctx.lineWidth = 3;
+                ctx.beginPath();
+                ctx.arc(s.x, s.y, s.radius, 0, Math.PI * 2);
+                ctx.fill();
+                ctx.stroke();
+
+                // Label
+                ctx.fillStyle = '#FFF';
+                ctx.font = '12px "JetBrains Mono"';
+                ctx.textAlign = 'center';
+                ctx.fillText(s.name, s.x, s.y + 4);
+            });
+
+            // Draw Electric Lightning Arcs if Interference!
+            if (isInterference) {
+                ctx.strokeStyle = '#FF0055';
+                ctx.lineWidth = 4;
+                ctx.shadowColor = '#FF0055';
+                ctx.shadowBlur = 15;
+
+                ctx.beginPath();
+                ctx.moveTo(subjects[0].x, subjects[0].y);
+
+                const segments = 8;
+                for (let i = 1; i < segments; i++) {
+                    const frac = i / segments;
+                    const mx = subjects[0].x + (subjects[1].x - subjects[0].x) * frac;
+                    const my = subjects[0].y + (subjects[1].y - subjects[0].y) * frac;
+                    const jitterX = (Math.random() - 0.5) * 35;
+                    const jitterY = (Math.random() - 0.5) * 35;
+                    ctx.lineTo(mx + jitterX, my + jitterY);
+                }
+                ctx.lineTo(subjects[1].x, subjects[1].y);
+                ctx.stroke();
+                ctx.shadowBlur = 0;
+
+                // Warning Banner
+                ctx.fillStyle = 'rgba(255, 0, 85, 0.85)';
+                ctx.fillRect(canvas.width / 2 - 160, 20, 320, 36);
+                ctx.fillStyle = '#FFF';
+                ctx.font = 'bold 13px "JetBrains Mono"';
+                ctx.textAlign = 'center';
+                ctx.fillText('⚠ AURA INTERFERENCE DETECTED ⚠', canvas.width / 2, 43);
+            }
+
+            requestAnimationFrame(renderSim);
+        }
+
+        // Init
+        updateGeigerBars(false);
+        renderSim();
+    </script>
+</body>
+</html>

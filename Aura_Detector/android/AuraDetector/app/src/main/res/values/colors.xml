@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="background">#0A0E1A</color>
+    <color name="surface">#131829</color>
+    <color name="primary">#00FF88</color>
+    <color name="secondary">#00E5FF</color>
+    <color name="tertiary">#FF6B35</color>
+    <color name="aura_purple">#BA68C8</color>
+    <color name="aura_magenta">#FF4081</color>
+    <color name="aura_gold">#FFD54F</color>
+    <color name="error">#FF5252</color>
+    <color name="text_primary">#E0E0E0</color>
+    <color name="text_secondary">#9E9E9E</color>
+</resources>
