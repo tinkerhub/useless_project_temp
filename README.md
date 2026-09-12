@@ -1,8 +1,8 @@
-<img width=" 1280\ height=Ơ\ alt=\git 1 \ src=\https://github.com/user-attachments/assets/8920b256-2ba8-4988-b824-5351134eb4bd\ />
+<img width="1280" height="640" alt="git (1)" src="https://github.com/user-attachments/assets/8920b256-2ba8-4988-b824-5351134eb4bd" />
 
 # 🍌 PAZHAMNESS METER 🎯
 
-### \Every Pazham Has A Story.
+### "Every Pazham Has A Story."
 ## Basic Details
 ### Team Name: Dora and Bhuji
 
