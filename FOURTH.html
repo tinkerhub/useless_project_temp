@@ -1,0 +1,977 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="color-scheme" content="dark">
+<title>BLINK CAM — blink 10 times, we do the rest</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=Rubik+Glitch&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#08070e; --panel:#100d1c; --ink:#f4f1ff; --dim:#8f89ad;
+  --pink:#ff2fd6; --purple:#9d4dff; --cyan:#2ff3ff; --yellow:#ffe14d; --red:#ff4040;
+  --glow:#2ff3ff;
+}
+*{box-sizing:border-box; margin:0; padding:0}
+[hidden]{display:none !important}
+html,body{height:100%}
+body{
+  background:var(--bg); color:var(--ink);
+  font-family:"Space Mono",monospace;
+  overflow-x:hidden;
+  -webkit-font-smoothing:antialiased;
+}
+/* CRT layer: scanlines + vignette + faint flicker, sits above everything, never blocks input */
+.crt{position:fixed; inset:0; z-index:90; pointer-events:none;
+  background:
+    radial-gradient(ellipse at center, transparent 55%, rgba(0,0,0,.38) 100%),
+    repeating-linear-gradient(0deg, transparent 0 2px, rgba(0,0,0,.09) 2px 3px);
+  animation:crtFlicker 6s infinite steps(1);
+}
+@keyframes crtFlicker{0%,100%{opacity:1} 31%{opacity:.97} 32%{opacity:1} 78%{opacity:.985} 79%{opacity:1}}
+#confetti{position:fixed; inset:0; z-index:95; pointer-events:none}
+
+.wrap{max-width:860px; margin:0 auto; padding:28px 18px 60px}
+
+/* ---------- header ---------- */
+header{text-align:center; margin-bottom:22px; position:relative}
+.logo{
+  font-family:"Rubik Glitch",cursive; font-weight:400;
+  font-size:clamp(2.6rem,8vw,4.6rem); line-height:1; color:#fff; letter-spacing:.02em;
+  text-shadow:3px 0 0 rgba(47,243,255,.75), -3px 0 0 rgba(255,47,214,.75);
+  animation:logoJit 4.2s infinite steps(1);
+}
+@keyframes logoJit{
+  0%,90%{transform:none}
+  91%{transform:translateX(3px) skewX(4deg)}
+  93%{transform:translateX(-3px) skewX(-3deg)}
+  95%{transform:translateX(1px)}
+  97%{transform:translateY(2px) skewX(2deg)}
+}
+.tagline{margin-top:10px; color:var(--dim); font-size:.85rem; letter-spacing:.14em; text-transform:uppercase}
+.tagline b{color:var(--pink)}
+
+/* sound toggle */
+.snd{
+  position:absolute; top:0; right:0; width:42px; height:42px; border-radius:12px;
+  background:var(--panel); border:1px solid rgba(157,77,255,.35); color:var(--dim);
+  display:flex; align-items:center; justify-content:center; cursor:pointer; transition:.2s;
+}
+.snd:hover{color:var(--cyan); border-color:var(--cyan); box-shadow:0 0 18px -4px var(--cyan)}
+.snd svg{width:20px;height:20px}
+
+/* ---------- buttons ---------- */
+.btn{
+  font-family:"Space Mono",monospace; font-weight:700; letter-spacing:.1em; text-transform:uppercase;
+  background:var(--pink); color:#1a0020; border:0; border-radius:14px;
+  padding:15px 30px; font-size:1rem; cursor:pointer;
+  display:inline-flex; align-items:center; gap:10px;
+  box-shadow:0 0 0 rgba(255,47,214,0); transition:transform .15s, box-shadow .25s, background .2s;
+}
+.btn svg{width:19px;height:19px}
+.btn:hover{transform:translateY(-2px); box-shadow:0 8px 34px -6px rgba(255,47,214,.65); background:#ff5ce0}
+.btn:active{transform:translateY(1px) scale(.98)}
+.btn:focus-visible{outline:2px solid var(--cyan); outline-offset:3px}
+.btn.ghost{background:transparent; color:var(--pink); border:2px solid var(--pink)}
+.btn.ghost:hover{background:rgba(255,47,214,.08)}
+
+/* ---------- camera card ---------- */
+#liveWrap{display:flex; flex-direction:column; gap:20px}
+.cam-card{
+  position:relative; width:100%; aspect-ratio:16/10; border-radius:20px; overflow:hidden;
+  background:#000; border:2px solid var(--glow);
+  box-shadow:0 0 42px -8px color-mix(in srgb, var(--glow) 55%, transparent),
+             inset 0 0 30px -14px color-mix(in srgb, var(--glow) 70%, transparent);
+  transition:border-color .5s, box-shadow .5s;
+}
+.cam-card video{width:100%; height:100%; object-fit:cover; display:block; transform:scaleX(-1); background:#000}
+#overlay{position:absolute; inset:0; width:100%; height:100%; z-index:1; pointer-events:none}
+.cam-fx{position:absolute; inset:0; z-index:2; pointer-events:none; overflow:hidden; border-radius:inherit}
+.cam-fx::before{content:''; position:absolute; inset:0;
+  background:repeating-linear-gradient(0deg, transparent 0 3px, rgba(0,0,0,.10) 3px 4px);}
+.cam-fx::after{content:''; position:absolute; left:0; right:0; height:20%; top:-25%;
+  background:linear-gradient(180deg, transparent, rgba(170,245,255,.05) 45%, rgba(170,245,255,.10) 50%, transparent);
+  animation:travel 7s linear infinite;}
+@keyframes travel{to{top:125%}}
+.corner{position:absolute; width:22px; height:22px; z-index:3; border:0 solid var(--glow); transition:border-color .5s}
+.corner.tl{top:10px;left:10px;border-top-width:3px;border-left-width:3px;border-top-left-radius:8px}
+.corner.tr{top:10px;right:10px;border-top-width:3px;border-right-width:3px;border-top-right-radius:8px}
+.corner.bl{bottom:10px;left:10px;border-bottom-width:3px;border-left-width:3px;border-bottom-left-radius:8px}
+.corner.br{bottom:10px;right:10px;border-bottom-width:3px;border-right-width:3px;border-bottom-right-radius:8px}
+.rec{
+  position:absolute; top:14px; left:16px; z-index:3; display:flex; align-items:center; gap:8px;
+  font-size:.7rem; font-weight:700; letter-spacing:.18em; color:#fff;
+  background:rgba(5,3,12,.55); border:1px solid rgba(255,255,255,.14);
+  padding:6px 12px; border-radius:999px; backdrop-filter:blur(3px);
+}
+.rec .dot{width:8px;height:8px;border-radius:50%;background:var(--red);animation:pulse 1.1s infinite}
+@keyframes pulse{0%,100%{opacity:1; transform:scale(1)} 50%{opacity:.35; transform:scale(.75)}}
+
+/* flash */
+#flash{position:absolute; inset:0; background:#fff; opacity:0; z-index:6; pointer-events:none}
+#flash.go{animation:flashA .5s ease-out}
+@keyframes flashA{0%{opacity:0} 12%{opacity:.95} 100%{opacity:0}}
+#cdFlash{position:absolute; inset:0; background:var(--pink); opacity:0; z-index:4; pointer-events:none; mix-blend-mode:screen}
+#cdFlash.go{animation:cdFlashA .4s ease-out}
+@keyframes cdFlashA{0%{opacity:0} 15%{opacity:.32} 100%{opacity:0}}
+
+/* start / error panels inside card */
+.overlay-panel{
+  position:absolute; inset:0; z-index:5; display:flex; flex-direction:column;
+  align-items:center; justify-content:center; text-align:center; gap:14px; padding:24px;
+  background:radial-gradient(circle at 50% 40%, rgba(28,14,48,.92), rgba(7,5,14,.96));
+}
+.overlay-panel h2{font-family:"Archivo Black"; font-size:clamp(1.2rem,3.6vw,1.7rem); letter-spacing:.02em}
+.overlay-panel p{color:var(--dim); font-size:.85rem; max-width:420px; line-height:1.6}
+.privacy{display:flex; align-items:center; gap:8px; font-size:.72rem !important; letter-spacing:.08em}
+.privacy svg{width:13px;height:13px;color:var(--cyan);flex:none}
+.big-eye{width:130px; height:auto; color:var(--pink); filter:drop-shadow(0 0 14px rgba(255,47,214,.5))}
+.big-eye .blinkg{transform-origin:60px 36px; animation:eyeBlink 3.4s infinite}
+@keyframes eyeBlink{0%,91%,100%{transform:scaleY(1)} 94%,96%{transform:scaleY(.06)}}
+#errIcon svg{width:64px;height:64px;color:var(--red);filter:drop-shadow(0 0 12px rgba(255,64,64,.45))}
+#errTitle{color:#fff}
+.load-lines{display:flex; flex-direction:column; gap:8px; min-height:110px; justify-content:center; font-size:.8rem; color:var(--dim)}
+.load-line{display:flex; align-items:center; gap:10px; animation:lineIn .3s ease-out}
+@keyframes lineIn{from{opacity:0; transform:translateY(6px)} to{opacity:1}}
+.spin{width:11px;height:11px;flex:none;border:2px solid var(--pink);border-top-color:transparent;border-radius:50%;animation:rot .7s linear infinite}
+@keyframes rot{to{transform:rotate(360deg)}}
+
+/* countdown */
+#countOverlay{
+  position:absolute; inset:0; z-index:4; display:flex; flex-direction:column;
+  align-items:center; justify-content:center; gap:6px;
+  background:rgba(9,5,18,.74); backdrop-filter:blur(2px);
+  opacity:0; pointer-events:none; transition:opacity .3s;
+}
+.cam-card.counting #countOverlay{opacity:1}
+#bigNum{
+  font-family:"Archivo Black"; font-size:clamp(7rem,36vw,17rem); line-height:1; color:#fff;
+  text-shadow:0 0 46px rgba(255,47,214,.8), 9px 0 0 rgba(47,243,255,.75), -9px 0 0 rgba(255,47,214,.75);
+}
+#bigNum.num-pop{animation:numZoom .9s cubic-bezier(.16,1,.3,1)}
+@keyframes numZoom{0%{transform:scale(3.1); opacity:0; filter:blur(16px)} 28%{opacity:1} 62%{transform:scale(.95); filter:blur(0)} 100%{transform:scale(1)}}
+#taunt{font-size:clamp(.72rem,2.4vw,.95rem); font-weight:700; letter-spacing:.22em; color:var(--yellow); text-transform:uppercase; text-align:center; padding:0 16px}
+#shutterGlyph{color:#fff}
+#shutterGlyph svg{width:clamp(80px,22vw,130px); height:auto; filter:drop-shadow(0 0 26px rgba(255,47,214,.9))}
+#shutterGlyph.glyph-in{animation:glyphIn .5s cubic-bezier(.2,1.6,.4,1)}
+@keyframes glyphIn{0%{transform:scale(.2) rotate(-18deg); opacity:0} 70%{transform:scale(1.18) rotate(3deg)} 100%{transform:scale(1) rotate(0)}}
+#liveWrap.shaking{animation:shakeA .45s}
+@keyframes shakeA{
+  10%{transform:translate(-7px,4px)} 25%{transform:translate(6px,-5px)}
+  40%{transform:translate(-5px,-3px)} 55%{transform:translate(4px,4px)}
+  70%{transform:translate(-3px,2px)} 85%{transform:translate(2px,-2px)} 100%{transform:none}
+}
+.cam-card.armed{animation:armedPulse .8s infinite}
+@keyframes armedPulse{0%,100%{box-shadow:0 0 42px -8px rgba(255,64,64,.6)} 50%{box-shadow:0 0 70px -4px rgba(255,64,64,.95)}}
+.cam-card.closed video{filter:saturate(.75) brightness(.9)}
+
+/* ---------- counter ---------- */
+.counter{display:flex; flex-direction:column; align-items:center; gap:10px}
+.counter-label{font-size:.75rem; font-weight:700; letter-spacing:.4em; color:var(--dim)}
+.counter-num{font-family:"Archivo Black"; font-size:clamp(2.6rem,9vw,4.6rem); line-height:1; position:relative}
+.counter-num b{color:var(--pink); text-shadow:0 0 26px rgba(255,47,214,.45)}
+.counter-num b.pop{animation:countPop .5s cubic-bezier(.2,1.5,.4,1)}
+@keyframes countPop{0%{transform:scale(1)} 35%{transform:scale(1.45); color:var(--cyan); text-shadow:0 0 30px rgba(47,243,255,.8)} 100%{transform:scale(1)}}
+.counter-num i{font-style:normal; color:var(--dim); font-size:.5em; margin-left:8px}
+.floater{position:absolute; right:-34px; top:6px; font-family:"Archivo Black"; font-size:1.1rem; color:var(--cyan); animation:floatUp .9s ease-out forwards; pointer-events:none}
+@keyframes floatUp{0%{opacity:0; transform:translateY(8px) rotate(8deg)} 25%{opacity:1} 100%{opacity:0; transform:translateY(-46px) rotate(-10deg)}}
+.pips{display:flex; gap:7px; flex-wrap:wrap; justify-content:center}
+.pips span{width:20px; height:9px; border-radius:5px; background:rgba(255,255,255,.07); border:1px solid rgba(255,255,255,.14); transition:background .3s}
+.pips span.on{background:var(--pink); border-color:var(--pink); box-shadow:0 0 12px rgba(255,47,214,.7); animation:pipIn .35s}
+@keyframes pipIn{0%{transform:scaleY(.2)} 60%{transform:scaleY(1.7)} 100%{transform:scaleY(1)}}
+
+/* ---------- message ---------- */
+#msg{
+  font-family:"Archivo Black"; text-align:center; min-height:2.6em;
+  font-size:clamp(1.2rem,3.8vw,2rem); line-height:1.3; padding:0 10px;
+  display:flex; align-items:center; justify-content:center;
+}
+#msg.glitching{animation:msgJit .45s steps(2) 3; text-shadow:3px 0 rgba(47,243,255,.8), -3px 0 rgba(255,47,214,.8)}
+@keyframes msgJit{0%{transform:translate(2px,-1px) skewX(2deg)} 50%{transform:translate(-3px,1px) skewX(-3deg)} 100%{transform:none}}
+#msg.msg-pop{animation:msgPop .5s cubic-bezier(.2,1.4,.4,1)}
+@keyframes msgPop{0%{transform:scale(.55) skewX(14deg); opacity:0; filter:blur(5px)} 60%{transform:scale(1.08) skewX(-3deg); opacity:1; filter:blur(0)} 100%{transform:scale(1)}}
+
+/* ---------- HUD ---------- */
+.hud{display:flex; align-items:center; justify-content:center; gap:16px; flex-wrap:wrap}
+.eye-box{width:26px; height:26px; color:var(--cyan)}
+.eye-box svg{width:26px; height:26px}
+.eye-box.closed{color:var(--pink)}
+.meter-wrap{display:flex; flex-direction:column; gap:4px}
+.meter{width:160px; height:9px; border-radius:6px; background:rgba(255,255,255,.08); border:1px solid rgba(255,255,255,.15); overflow:hidden}
+#earFill{height:100%; width:8%; background:var(--cyan); border-radius:6px; transition:width .1s linear, background .2s}
+.meter-label{font-size:.62rem; letter-spacing:.22em; color:var(--dim); display:flex; justify-content:space-between; gap:12px}
+#earVal{color:var(--cyan)}
+.status{display:flex; align-items:center; gap:9px; font-size:.8rem; font-weight:700; letter-spacing:.14em; color:var(--ink)}
+.status .dot{width:8px;height:8px;border-radius:50%;background:var(--pink);animation:pulse 1.4s infinite;flex:none}
+
+/* ---------- photo panel ---------- */
+#photoPanel{display:flex; flex-direction:column; align-items:center; gap:20px; text-align:center}
+.photo-card{
+  background:var(--panel); border:1px solid rgba(255,255,255,.12); border-radius:18px; padding:14px 14px 12px;
+  transform:rotate(-1.4deg); box-shadow:0 14px 50px -12px rgba(0,0,0,.8), 0 0 46px -10px rgba(255,47,214,.45);
+  animation:photoIn .65s cubic-bezier(.2,1.5,.4,1); max-width:560px; width:100%;
+}
+@keyframes photoIn{0%{transform:rotate(-9deg) scale(.5) translateY(50px); opacity:0} 60%{transform:rotate(1.5deg) scale(1.05); opacity:1} 100%{transform:rotate(-1.4deg) scale(1)}}
+.photo-frame{border-radius:12px; overflow:hidden; border:1px solid rgba(255,255,255,.1)}
+#photoCanvas{width:100%; display:block}
+.chips{display:flex; gap:8px; justify-content:center; margin-top:12px; flex-wrap:wrap}
+.chip{font-size:.66rem; font-weight:700; letter-spacing:.16em; color:var(--cyan);
+  border:1px solid rgba(47,243,255,.45); border-radius:999px; padding:5px 12px}
+.chip.pink{color:var(--pink); border-color:rgba(255,47,214,.5)}
+.final-msg{font-family:"Archivo Black"; font-size:clamp(1.25rem,4vw,2rem); line-height:1.3; max-width:640px}
+.final-msg.glitching{text-shadow:3px 0 rgba(47,243,255,.8), -3px 0 rgba(255,47,214,.8)}
+.footnote{color:var(--dim); font-size:.75rem; max-width:460px; line-height:1.7}
+
+footer{margin-top:48px; text-align:center; color:var(--dim); font-size:.68rem; letter-spacing:.1em; line-height:1.8; opacity:.75}
+
+@media (max-width:560px){
+  .snd{position:static; margin:0 auto 14px}
+  header{display:flex; flex-direction:column; gap:4px}
+  .hud{gap:10px}
+  .meter{width:120px}
+}
+@media (prefers-reduced-motion: reduce){
+  *{animation-duration:.01ms !important; animation-iteration-count:1 !important; transition-duration:.01ms !important}
+}
+</style>
+</head>
+<body>
+<div class="crt"></div>
+<canvas id="confetti"></canvas>
+
+<div class="wrap">
+  <header>
+    <button class="snd" id="sndBtn" aria-label="Toggle sound">
+      <svg id="icoSndOn" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5" fill="currentColor" stroke="none"/><path d="M15.5 8.5a5 5 0 0 1 0 7"/><path d="M18.5 5.5a9.5 9.5 0 0 1 0 13"/></svg>
+      <svg id="icoSndOff" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" hidden><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5" fill="currentColor" stroke="none"/><line x1="16" y1="9" x2="22" y2="15"/><line x1="22" y1="9" x2="16" y2="15"/></svg>
+    </button>
+    <h1 class="logo">BLINK CAM</h1>
+    <p class="tagline">Blink 10 times. <b>We promise this is a good idea.</b></p>
+  </header>
+
+  <!-- ============ LIVE EXPERIENCE ============ -->
+  <section id="liveWrap">
+    <div class="cam-card" id="camCard">
+      <video id="cam" autoplay playsinline muted></video>
+      <canvas id="overlay"></canvas>
+      <div class="cam-fx"></div>
+      <span class="corner tl"></span><span class="corner tr"></span>
+      <span class="corner bl"></span><span class="corner br"></span>
+      <div class="rec"><span class="dot"></span><span id="recText">STANDBY</span></div>
+
+      <!-- countdown layer -->
+      <div id="countOverlay">
+        <div id="bigNum" hidden>5</div>
+        <div id="shutterGlyph" hidden>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M14.5 4h-5L8 6.5H4A2 2 0 0 0 2 8.5v9a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2v-9a2 2 0 0 0-2-2h-4L14.5 4z"/>
+            <circle cx="12" cy="13" r="3.6"/>
+          </svg>
+        </div>
+        <div id="taunt"></div>
+      </div>
+
+      <div id="cdFlash"></div>
+      <div id="flash"></div>
+
+      <!-- start panel -->
+      <div id="startPanel" class="overlay-panel">
+        <svg class="big-eye" viewBox="0 0 120 72" fill="none" stroke="currentColor" stroke-width="4" stroke-linecap="round">
+          <g class="blinkg">
+            <path d="M8 36 Q60 -6 112 36 Q60 78 8 36 Z"/>
+            <g id="pupil">
+              <circle cx="60" cy="36" r="15" fill="currentColor" stroke="none"/>
+              <circle cx="66" cy="30" r="5" fill="#0b0716" stroke="none"/>
+            </g>
+          </g>
+        </svg>
+        <h2>READY TO BE PERCEIVED?</h2>
+        <p>10 blinks stand between you and a photograph you never asked for.</p>
+        <div id="startWrap"><button class="btn" id="startBtn">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14.5 4h-5L8 6.5H4A2 2 0 0 0 2 8.5v9a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2v-9a2 2 0 0 0-2-2h-4L14.5 4z"/><circle cx="12" cy="13" r="3.6"/></svg>
+          START CAMERA</button></div>
+        <div class="load-lines" id="loadLines"></div>
+        <p class="privacy">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="10" width="16" height="11" rx="2"/><path d="M8 10V7a4 4 0 0 1 8 0v3"/></svg>
+          RUNS 100% IN YOUR BROWSER — NO RECORDING, NO UPLOADS, NOTHING SAVED
+        </p>
+      </div>
+
+      <!-- error panel -->
+      <div id="errorPanel" class="overlay-panel" hidden>
+        <div id="errIcon"></div>
+        <h2 id="errTitle"></h2>
+        <p id="errBody"></p>
+        <button class="btn" id="errRetry">TRY AGAIN</button>
+      </div>
+    </div>
+
+    <div class="counter" id="counterBox" aria-live="polite">
+      <span class="counter-label">B L I N K S</span>
+      <span class="counter-num"><b id="blinkCount">0</b><i>/ 10</i></span>
+      <div class="pips" id="pips"></div>
+    </div>
+
+    <div id="msg" aria-live="polite">STANDBY. AWAITING A FACE TO JUDGE.</div>
+
+    <div class="hud">
+      <div class="eye-box" id="eyeBox">
+        <svg id="eyeOpen" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7-10-7-10-7Z"/><circle cx="12" cy="12" r="3"/></svg>
+        <svg id="eyeShut" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" hidden><path d="M3 12c2.5 4.5 6 6 9 6s6.5-1.5 9-6"/><line x1="5" y1="16.5" x2="3.5" y2="20"/><line x1="12" y1="18" x2="12" y2="21.5"/><line x1="19" y1="16.5" x2="20.5" y2="20"/></svg>
+      </div>
+      <div class="meter-wrap">
+        <div class="meter"><div id="earFill"></div></div>
+        <div class="meter-label"><span>EYE-OPENNESS</span><span id="earVal">--</span></div>
+      </div>
+      <div class="status"><span class="dot"></span><span id="statusText">WAITING FOR CAMERA...</span></div>
+    </div>
+  </section>
+
+  <!-- ============ PHOTO RESULT ============ -->
+  <section id="photoPanel" hidden>
+    <div class="photo-card">
+      <div class="photo-frame"><canvas id="photoCanvas"></canvas></div>
+      <div class="chips">
+        <span class="chip" id="chipFilter">FILTER: ?</span>
+        <span class="chip pink" id="chipBlinks">BLINKS CONSUMED: 10</span>
+      </div>
+    </div>
+    <h2 class="final-msg" id="finalMsg">PHOTO CAPTURED. YOUR BLINKING WAS NOT IN VAIN.</h2>
+    <p class="footnote">This photo exists only in this tab's memory. Refresh the page and it vanishes forever — honestly, probably for the best.</p>
+    <button class="btn" id="tryAgainBtn">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12a9 9 0 1 1-2.64-6.36"/><path d="M21 3v6h-6"/></svg>
+      TRY AGAIN</button>
+  </section>
+
+  <footer>
+    BLINK CAM — YOUR EYELIDS WERE THE PAYLOAD ALL ALONG.<br>
+    EVERYTHING HAPPENS ON THIS PAGE. NOTHING RECORDED, NOTHING UPLOADED, NOTHING SAVED.
+  </footer>
+</div>
+
+<script type="module">
+/* =========================================================
+   BLINK CAM — all local, all ridiculous
+   ========================================================= */
+const $ = id => document.getElementById(id);
+const video=$('cam'), overlay=$('overlay'), octx=overlay.getContext('2d');
+const camCard=$('camCard'), liveWrap=$('liveWrap'), recText=$('recText');
+const startPanel=$('startPanel'), startWrap=$('startWrap'), loadLines=$('loadLines');
+const errorPanel=$('errorPanel'), errIcon=$('errIcon'), errTitle=$('errTitle'), errBody=$('errBody'), errRetry=$('errRetry');
+const blinkCountEl=$('blinkCount'), pipsEl=$('pips'), msgEl=$('msg');
+const statusText=$('statusText'), earFill=$('earFill'), earVal=$('earVal'), eyeBox=$('eyeBox');
+const bigNum=$('bigNum'), tauntEl=$('taunt'), shutterGlyph=$('shutterGlyph');
+const flashEl=$('flash'), cdFlashEl=$('cdFlash');
+const photoPanel=$('photoPanel'), photoCanvas=$('photoCanvas'), finalMsg=$('finalMsg');
+
+/* ---------- constants ---------- */
+const MAX_BLINKS = 10;
+const L_EYE=[33,160,158,133,153,144], R_EYE=[362,385,387,263,373,380];
+const MESSAGES=[
+  "WHY ARE YOU BLINKING?",
+  "BLINK DETECTED. UNFORTUNATELY.",
+  "THE CAMERA IS JUDGING YOU.",
+  "ONE MORE BLINK. TRUST US.",
+  "YOUR FACE HAS BECOME DATA.",
+  "THIS IS GETTING WORSE.",
+  "YOU COULD HAVE JUST TAKEN A PHOTO.",
+  "NO TURNING BACK NOW.",
+  "THE CAMERA KNOWS.",
+  "10 BLINKS. ZERO PRODUCTIVITY.",
+];
+const TAUNTS=["ANY LAST EXPRESSIONS?","FIX YOUR HAIR. TOO LATE.","THE SHUTTER HUNGERS.","THIS IS HAPPENING.","SMILE. BECOME CONTENT."];
+const LOADLINES=["WAKING THE CAMERA...","BREWING EYE-TRACKING GOO...","MEASURING EYELID VELOCITY...","CALIBRATING JUDGMENT MODULE..."];
+const ERRORS={
+  denied:{icon:'eyeoff', title:"WE CAN'T SEE YOU. THE CAMERA IS SHY.",
+    body:"Blink Cam needs camera permission to watch you blink against your will. Click the camera / padlock icon in your address bar, allow camera access for this page, then try again. We'll act like nothing happened.", btn:"TRY AGAIN"},
+  nocam:{icon:'alert', title:"NO CAMERA IN SIGHT.",
+    body:"We couldn't find a camera we're allowed to use. Plug one in (or enable it in system settings), make sure this page is served over HTTPS, and give it another shot.", btn:"TRY AGAIN"},
+  model:{icon:'zap', title:"YOUR EYES ARE TOO POWERFUL FOR OUR TECHNOLOGY.",
+    body:"The eye-tracking engine failed to initialize. Check your connection and retry — your blinks aren't going anywhere.", btn:"RETRY INITIALIZATION"},
+};
+const ERR_SVGS={
+  eyeoff:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M2 12s3.5-7 10-7c2 0 3.8.7 5.3 1.7M22 12s-3.5 7-10 7c-2 0-3.8-.7-5.3-1.7"/><circle cx="12" cy="12" r="3"/><line x1="4" y1="20" x2="20" y2="4"/></svg>',
+  alert:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M10.3 3.9 1.8 18a2 2 0 0 0 1.7 3h17a2 2 0 0 0 1.7-3L13.7 3.9a2 2 0 0 0-3.4 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>',
+  zap:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>'
+};
+
+/* ---------- state ---------- */
+const S={phase:'idle', blinks:0, ear:0, openBase:0.30, eyesClosed:false, closedAt:0,
+         lastBlinkAt:0, lastLm:null, lastFaceAt:0, lastVideoTime:-1, muted:false, token:0,
+         filterUsed:null};
+let landmarker=null, stream=null, loopActive=false, rafId=0;
+
+/* =========================================================
+   AUDIO — everything synthesized, nothing loaded
+   ========================================================= */
+let AC=null, master=null, applauseBuf=null;
+function initAudio(){
+  if(AC){ if(AC.state==='suspended') AC.resume(); return; }
+  try{
+    AC=new (window.AudioContext||window.webkitAudioContext)();
+    master=AC.createGain(); master.gain.value=S.muted?0:0.9; master.connect(AC.destination);
+    applauseBuf=buildApplause();
+  }catch(e){ AC=null; }
+}
+function tone({f0,f1=null,type='sine',dur=.15,vol=.3,when=0}){
+  if(!AC) return;
+  const t=AC.currentTime+when, o=AC.createOscillator(), g=AC.createGain();
+  o.type=type; o.frequency.setValueAtTime(f0,t);
+  o.frequency.exponentialRampToValueAtTime(Math.max(1,f1||f0), t+dur);
+  g.gain.setValueAtTime(.0001,t);
+  g.gain.exponentialRampToValueAtTime(vol,t+.012);
+  g.gain.exponentialRampToValueAtTime(.0001,t+dur);
+  o.connect(g).connect(master); o.start(t); o.stop(t+dur+.06);
+}
+function noiseBurst({dur=.08,vol=.25,freq=2000,q=1,when=0}){
+  if(!AC) return;
+  const t=AC.currentTime+when, len=Math.max(1,(dur*AC.sampleRate)|0);
+  const buf=AC.createBuffer(1,len,AC.sampleRate), d=buf.getChannelData(0);
+  for(let i=0;i<len;i++) d[i]=(Math.random()*2-1)*Math.exp(-i/len*6);
+  const src=AC.createBufferSource(); src.buffer=buf;
+  const f=AC.createBiquadFilter(); f.type='bandpass'; f.frequency.value=freq; f.Q.value=q;
+  const g=AC.createGain(); g.gain.value=vol;
+  src.connect(f).connect(g).connect(master); src.start(t);
+}
+function buildApplause(){
+  const dur=3.0, sr=AC.sampleRate, buf=AC.createBuffer(2,(dur*sr)|0,sr);
+  for(let ch=0;ch<2;ch++){
+    const d=buf.getChannelData(ch), claps=320;
+    for(let i=0;i<claps;i++){
+      const start=((Math.random()*(dur-.3))*sr)|0;
+      const len=((sr*(.012+Math.random()*.035))|0);
+      const amp=(0.25+Math.random()*0.5)*(0.3+0.7*Math.min(1,start/(0.5*sr)));
+      for(let j=0;j<len&&start+j<d.length;j++)
+        d[start+j]+=(Math.random()*2-1)*amp*Math.exp(-j/(len*.28));
+    }
+    let peak=0; for(let i=0;i<d.length;i++) peak=Math.max(peak,Math.abs(d[i]));
+    if(peak>0){ const k=.85/peak; for(let i=0;i<d.length;i++) d[i]*=k; }
+  }
+  return buf;
+}
+const sfx={
+  blink(n){ tone({f0:420+n*46,f1:(420+n*46)*1.9,type:'square',dur:.09,vol:.15}); noiseBurst({dur:.04,vol:.07,freq:3800}); },
+  beep(n){ const f=430+n*95; tone({f0:f,type:'triangle',dur:.17,vol:.3}); tone({f0:f*2,type:'sine',dur:.1,vol:.08}); },
+  riser(){ tone({f0:180,f1:920,type:'sawtooth',dur:.9,vol:.12}); tone({f0:90,f1:460,type:'square',dur:.9,vol:.06}); },
+  shutter(){ noiseBurst({dur:.05,vol:.5,freq:2600,q:.8}); noiseBurst({dur:.07,vol:.4,freq:1400,q:.7,when:.09}); tone({f0:130,f1:55,type:'sine',dur:.15,vol:.4}); },
+  fanfare(){ [523,659,784,1047].forEach((f,i)=>tone({f0:f,type:'square',dur:.17,vol:.13,when:.45+i*.09})); },
+  applause(){ if(!AC||!applauseBuf) return;
+    const s=AC.createBufferSource(); s.buffer=applauseBuf;
+    const f=AC.createBiquadFilter(); f.type='bandpass'; f.frequency.value=1700; f.Q.value=.4;
+    const g=AC.createGain(); const t=AC.currentTime;
+    g.gain.setValueAtTime(.001,t); g.gain.exponentialRampToValueAtTime(.8,t+.15);
+    g.gain.setValueAtTime(.8,t+1.9); g.gain.exponentialRampToValueAtTime(.001,t+3);
+    s.connect(f).connect(g).connect(master); s.start();
+  },
+  error(){ tone({f0:220,f1:105,type:'sawtooth',dur:.45,vol:.18}); }
+};
+
+/* =========================================================
+   MESSAGE — scramble + glitch pop
+   ========================================================= */
+const GLYPHS="▓▒░#@%&$!?01<>/\\|=+*";
+function scrambleTo(el,text,dur=520){
+  if(el._scr) cancelAnimationFrame(el._scr);
+  el.classList.remove('msg-pop'); void el.offsetWidth; el.classList.add('msg-pop');
+  el.classList.add('glitching');
+  const start=performance.now();
+  const frame=t=>{
+    const p=Math.min(1,(t-start)/dur);
+    const n=Math.floor(p*text.length);
+    let out=text.slice(0,n);
+    for(let i=n;i<text.length;i++) out+= text[i]===' '?' ':GLYPHS[(Math.random()*GLYPHS.length)|0];
+    el.textContent=out;
+    if(p<1){ el._scr=requestAnimationFrame(frame); }
+    else{ el.textContent=text; el.classList.remove('glitching'); el._scr=null; }
+  };
+  el._scr=requestAnimationFrame(frame);
+}
+function setStatus(t){ statusText.textContent=t; }
+
+/* =========================================================
+   CAMERA + MODEL
+   ========================================================= */
+async function ensureCamera(){
+  if(stream && stream.getVideoTracks()[0]?.readyState==='live'){
+    if(!video.srcObject) video.srcObject=stream;
+    await video.play().catch(()=>{});
+    return;
+  }
+  if(!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) throw {kind:'nocam'};
+  try{
+    stream=await navigator.mediaDevices.getUserMedia({
+      video:{facingMode:'user', width:{ideal:1280}, height:{ideal:720}}, audio:false
+    });
+  }catch(e){
+    const k=e&&(e.name==='NotAllowedError'||e.name==='SecurityError'||e.name==='PermissionDeniedError');
+    throw {kind:k?'denied':'nocam'};
+  }
+  video.srcObject=stream;
+  await new Promise(r=>{ if(video.readyState>=1) r(); else video.onloadedmetadata=r; });
+  await video.play().catch(()=>{});
+  if(video.videoWidth) camCard.style.aspectRatio=`${video.videoWidth} / ${video.videoHeight}`;
+  sizeOverlay();
+}
+async function ensureModel(){
+  if(landmarker) return;
+  const base='https://cdn.jsdelivr.net/npm/@mediapipe/tasks-vision@0.10.14';
+  let vision=null;
+  for(const u of [base+'/vision_bundle.mjs', base]){
+    try{ const m=await import(u); if(m&&m.FaceLandmarker){ vision=m; break; } }catch(e){}
+  }
+  if(!vision) throw {kind:'model'};
+  try{
+    const fileset=await vision.FilesetResolver.forVisionTasks(base+'/wasm');
+    const opts=d=>({baseOptions:{modelAssetPath:'https://storage.googleapis.com/mediapipe-models/face_landmarker/face_landmarker/float16/1/face_landmarker.task',delegate:d},runningMode:'VIDEO',numFaces:1});
+    try{ landmarker=await vision.FaceLandmarker.createFromOptions(fileset,opts('GPU')); }
+    catch(e){ landmarker=await vision.FaceLandmarker.createFromOptions(fileset,opts('CPU')); }
+  }catch(e){ throw {kind:'model'}; }
+}
+
+/* =========================================================
+   DETECTION LOOP — Eye Aspect Ratio with hysteresis
+   ========================================================= */
+function earOf(lm,ix){
+  const ar=video.videoWidth/video.videoHeight;
+  const d=(a,b)=>Math.hypot((lm[b].x-lm[a].x)*ar, lm[b].y-lm[a].y);
+  return (d(ix[1],ix[5])+d(ix[2],ix[4]))/(2*d(ix[0],ix[3]));
+}
+function startLoop(){
+  if(loopActive) return; loopActive=true;
+  const tick=()=>{
+    if(!loopActive) return;
+    rafId=requestAnimationFrame(tick);
+    if(video.readyState<2 || !video.videoWidth || !landmarker) return;
+    if(liveWrap.hidden || S.phase==='photo') return;
+    if(video.currentTime===S.lastVideoTime) return;
+    S.lastVideoTime=video.currentTime;
+    let res=null; try{ res=landmarker.detectForVideo(video, performance.now()); }catch(e){}
+    const lm=res&&res.faceLandmarks&&res.faceLandmarks[0];
+    const now=performance.now();
+    if(lm){
+      S.lastLm=lm; S.lastFaceAt=now;
+      const e=(earOf(lm,L_EYE)+earOf(lm,R_EYE))/2;
+      S.ear=e;
+      if(e>0.24) S.openBase=Math.min(0.45, S.openBase+(e-S.openBase)*0.03); // adapt to narrow eyes
+      handleEar(e, now);
+    }else{
+      S.ear=0;
+      if(S.eyesClosed && now-S.lastFaceAt>400){ S.eyesClosed=false; onEyesChanged(false); } // face lost mid-closure: forget it
+    }
+    drawOverlay(lm);
+    updateMeter();
+  };
+  rafId=requestAnimationFrame(tick);
+}
+function stopLoop(){ loopActive=false; cancelAnimationFrame(rafId); octx.clearRect(0,0,overlay.width,overlay.height); }
+
+function handleEar(e, now){
+  const closeT=Math.max(0.13, S.openBase*0.64);
+  const openT =Math.max(0.18, S.openBase*0.80);
+  if(!S.eyesClosed){
+    if(e<closeT){ S.eyesClosed=true; S.closedAt=now; onEyesChanged(true); }
+  }else{
+    if(e>openT){
+      S.eyesClosed=false; onEyesChanged(false);
+      // a complete blink = a real closed→open transition lasting at least 80ms.
+      // long closures still count exactly once (hysteresis + single transition).
+      if(now-S.closedAt>=80) registerBlink();
+    }
+  }
+}
+function onEyesChanged(closed){
+  $('eyeOpen').hidden=closed; $('eyeShut').hidden=!closed;
+  eyeBox.classList.toggle('closed',closed);
+  camCard.classList.toggle('closed',closed);
+  if(S.phase==='tracking') setStatus(closed?'EYES: CLOSED. SUSPICIOUS.':'WATCHING FOR BLINKS...');
+}
+function updateMeter(){
+  const pct=Math.max(4, Math.min(100,(S.ear/S.openBase)*100||4));
+  earFill.style.width=pct+'%';
+  earFill.style.background=S.eyesClosed?'var(--pink)':'var(--cyan)';
+  earVal.textContent=S.ear>0?S.ear.toFixed(2):'--';
+}
+
+/* ---------- face overlay HUD ---------- */
+function sizeOverlay(){
+  const r=overlay.getBoundingClientRect();
+  const dpr=Math.min(2,window.devicePixelRatio||1);
+  overlay.width=Math.max(2,r.width*dpr); overlay.height=Math.max(2,r.height*dpr);
+  octx.setTransform(dpr,0,0,dpr,0,0);
+}
+window.addEventListener('resize',sizeOverlay);
+function rr(ctx,x,y,w,h,r){ ctx.beginPath(); if(ctx.roundRect) ctx.roundRect(x,y,w,h,r); else ctx.rect(x,y,w,h); }
+function drawOverlay(lm){
+  const W=overlay.clientWidth,H=overlay.clientHeight;
+  octx.clearRect(0,0,W,H);
+  if(!lm||W<4) return;
+  const X=v=>(1-v.x)*W, Y=v=>v.y*H; // mirrored to match preview
+  const xs=[X(lm[234]),X(lm[454])], top=Y(lm[10]), chin=Y(lm[152]);
+  const pad=(Math.max(...xs)-Math.min(...xs))*.18||30;
+  const bx=Math.min(...xs)-pad, bw=(Math.max(...xs)-Math.min(...xs))+pad*2;
+  const by=top-pad*.6, bh=chin-top+pad*1.7;
+  const col=S.eyesClosed?'#ff2fd6':'rgba(47,243,255,.85)';
+  octx.strokeStyle=col; octx.lineWidth=1.6; octx.setLineDash([6,6]);
+  rr(octx,bx,by,bw,bh,10); octx.stroke(); octx.setLineDash([]);
+  octx.font='700 10px "Space Mono",monospace'; octx.fillStyle=col;
+  octx.fillText(S.eyesClosed?'TARGET: EYELIDS':'SUBJECT: YOU', bx, Math.max(10,by-6));
+  const ring=(a,b,c,d2)=>{
+    const cx=(X(lm[a])+X(lm[b])+X(lm[c])+X(lm[d2]))/4, cy=(Y(lm[a])+Y(lm[b])+Y(lm[c])+Y(lm[d2]))/4;
+    const rad=Math.max(8,Math.hypot(X(lm[a])-X(lm[b]),Y(lm[a])-Y(lm[b]))*.8);
+    octx.beginPath(); octx.arc(cx,cy,rad,0,Math.PI*2); octx.stroke();
+    if(S.eyesClosed){ octx.beginPath(); octx.moveTo(cx-rad,cy); octx.lineTo(cx+rad,cy); octx.stroke(); }
+  };
+  ring(33,160,144,133); ring(362,385,380,263);
+  const nx=X(lm[1]), ny=Y(lm[1]);
+  octx.beginPath(); octx.moveTo(nx-7,ny); octx.lineTo(nx+7,ny); octx.moveTo(nx,ny-7); octx.lineTo(nx,ny+7); octx.stroke();
+}
+
+/* =========================================================
+   BLINK COUNTING
+   ========================================================= */
+function buildPips(){ pipsEl.innerHTML=''; for(let i=0;i<MAX_BLINKS;i++) pipsEl.appendChild(document.createElement('span')); }
+buildPips();
+function updateCounterUI(pop){
+  blinkCountEl.textContent=S.blinks;
+  [...pipsEl.children].forEach((p,i)=>p.classList.toggle('on',i<S.blinks));
+  if(pop){
+    blinkCountEl.classList.remove('pop'); void blinkCountEl.offsetWidth; blinkCountEl.classList.add('pop');
+    const f=document.createElement('span'); f.className='floater'; f.textContent='+1';
+    blinkCountEl.parentElement.appendChild(f); setTimeout(()=>f.remove(),950);
+  }
+}
+function frameGlow(n){
+  const stops=['#2ff3ff','#ff2fd6','#b44dff','#ffd23d','#ff9d3d','#ff4040'];
+  camCard.style.setProperty('--glow', stops[Math.min(stops.length-1, Math.round(n/MAX_BLINKS*(stops.length-1)))]);
+}
+function registerBlink(){
+  if(S.phase!=='tracking' || S.blinks>=MAX_BLINKS) return;
+  const now=performance.now();
+  if(now-S.lastBlinkAt<250) return; // refractory: one closure = one blink, ever
+  S.lastBlinkAt=now;
+  S.blinks++;
+  updateCounterUI(true);
+  sfx.blink(S.blinks);
+  scrambleTo(msgEl, MESSAGES[S.blinks-1]);
+  frameGlow(S.blinks);
+  if(S.blinks>=MAX_BLINKS) armCapture();
+}
+function armCapture(){
+  S.phase='armed';
+  setStatus('MAXIMUM BLINK DENSITY REACHED.');
+  camCard.classList.add('armed');
+  sfx.riser();
+  setTimeout(()=>{ if(S.phase==='armed') scrambleTo(msgEl,'CONGRATULATIONS. YOU BLINKED 10 TIMES FOR THIS.'); },1100);
+  const token=S.token;
+  setTimeout(()=>{ if(S.token===token && S.phase==='armed') startCountdown(); },2300);
+}
+
+/* =========================================================
+   COUNTDOWN
+   ========================================================= */
+function retrigger(el,cls){ el.classList.remove(cls); void el.offsetWidth; el.classList.add(cls); }
+function startCountdown(){
+  S.phase='countdown';
+  const token=S.token;
+  camCard.classList.add('counting'); camCard.classList.remove('armed');
+  recText.textContent='CAPTURING';
+  setStatus('HOLD STILL. THIS IS HAPPENING.');
+  let n=5;
+  const step=()=>{
+    if(S.token!==token || S.phase!=='countdown') return;
+    if(n>=1){
+      bigNum.hidden=false; shutterGlyph.hidden=true;
+      bigNum.textContent=n; retrigger(bigNum,'num-pop');
+      retrigger(cdFlashEl,'go'); retrigger(liveWrap,'shaking');
+      sfx.beep(6-n);
+      tauntEl.textContent=TAUNTS[5-n];
+      n--; setTimeout(step,1000);
+    }else{
+      bigNum.hidden=true; shutterGlyph.hidden=false;
+      retrigger(shutterGlyph,'glyph-in');
+      tauntEl.textContent='GOTCHA.';
+      sfx.shutter(); retrigger(flashEl,'go');
+      setTimeout(()=>{ if(S.token===token) capturePhoto(); },180);
+    }
+  };
+  step();
+}
+
+/* =========================================================
+   PHOTO CAPTURE + FILTERS (pure canvas pixel mischief)
+   ========================================================= */
+function remap(ctx,W,H,mapFn){
+  const src=ctx.getImageData(0,0,W,H), out=ctx.createImageData(W,H);
+  const s=src.data, o=out.data;
+  for(let y=0;y<H;y++){
+    for(let x=0;x<W;x++){
+      const p=mapFn(x,y);
+      const xi=p[0]|0, yi=p[1]|0, oi=(y*W+x)*4;
+      if(xi>=0&&xi<W&&yi>=0&&yi<H){
+        const si=(yi*W+xi)*4;
+        o[oi]=s[si]; o[oi+1]=s[si+1]; o[oi+2]=s[si+2];
+      }else{ o[oi]=4; o[oi+1]=2; o[oi+2]=10; }
+      o[oi+3]=255;
+    }
+  }
+  ctx.putImageData(out,0,0);
+}
+function bulgeFactory(s,Rmul){
+  return (ctx,W,H,f)=>{
+    const R=f.r*Rmul;
+    remap(ctx,W,H,(x,y)=>{
+      const dx=x-f.cx, dy=y-f.cy, d=Math.hypot(dx,dy);
+      if(d>=R||d<0.001) return [x,y];
+      const t=d/R, nd=d*(1-s*(1-t*t));
+      return [f.cx+dx/d*nd, f.cy+dy/d*nd];
+    });
+  };
+}
+const FILTERS=[
+  {name:'FISH MODE', fn(ctx,W,H,f){
+    const cx=f.cx, cy=f.cy, R=Math.min(W,H)*.9, k=2.3;
+    remap(ctx,W,H,(x,y)=>{
+      const dx=(x-cx)/R, dy=(y-cy)/R, r=Math.hypot(dx,dy);
+      if(r<0.001) return [x,y];
+      const nr=Math.pow(r,1/k);
+      return [cx+dx/r*nr*R, cy+dy/r*nr*R];
+    });
+    const g=ctx.createRadialGradient(cx,cy,R*.55,cx,cy,R*1.28);
+    g.addColorStop(0,'rgba(0,0,0,0)'); g.addColorStop(1,'rgba(0,0,0,.85)');
+    ctx.fillStyle=g; ctx.fillRect(0,0,W,H);
+  }},
+  {name:'GIANT HEAD', fn:bulgeFactory(0.62,2.2)},
+  {name:'PEA HEAD PROTOCOL', fn:bulgeFactory(-0.55,2.0)},
+  {name:'TAFFY FACE', fn(ctx,W,H,f){
+    const band=f.r*3.0, a=0.55;
+    remap(ctx,W,H,(x,y)=>{
+      const dy=y-f.cy;
+      let w=Math.max(0,1-Math.abs(dy)/band); w=w*w*(3-2*w);
+      return [x+Math.sin(y*.05+x*.008)*7*w, f.cy+dy/(1+a*w)];
+    });
+  }},
+  {name:'VHS CURSE', fn(ctx,W,H){
+    for(let i=0;i<10;i++){ // tracking-error bands
+      const y=(Math.random()*H)|0, h=Math.min(8+Math.random()*26,H-y), off=(Math.random()*44-22)|0;
+      if(h>1) ctx.drawImage(ctx.canvas,0,y,W,h,off,y,W,h);
+    }
+    const img=ctx.getImageData(0,0,W,H), d=img.data, copy=new Uint8ClampedArray(d);
+    for(let y=0;y<H;y++){ // RGB split + occasional row tearing
+      const rowShift=(Math.random()<.06)?((Math.random()*30-15)|0):7;
+      for(let x=0;x<W;x++){
+        const i=(y*W+x)*4;
+        const rx=Math.min(W-1,Math.max(0,x+rowShift)), bx=Math.min(W-1,Math.max(0,x-rowShift));
+        d[i]=copy[(y*W+rx)*4]; d[i+2]=copy[(y*W+bx)*4+2];
+      }
+    }
+    ctx.putImageData(img,0,0);
+    ctx.fillStyle='rgba(0,0,0,.22)';
+    for(let y=0;y<H;y+=3) ctx.fillRect(0,y,W,1);
+    for(let i=0;i<800;i++){
+      ctx.fillStyle=Math.random()<.5?'rgba(255,255,255,.10)':'rgba(255,0,110,.12)';
+      ctx.fillRect(Math.random()*W,Math.random()*H,2,1);
+    }
+    ctx.globalCompositeOperation='overlay';
+    ctx.fillStyle='rgba(130,0,150,.28)'; ctx.fillRect(0,0,W,H);
+    ctx.globalCompositeOperation='source-over';
+    // VCR OSD
+    ctx.font='bold 15px "Space Mono",monospace'; ctx.fillStyle='#efefff';
+    ctx.shadowColor='#ff2fd6'; ctx.shadowBlur=6;
+    ctx.beginPath(); ctx.moveTo(18,18); ctx.lineTo(32,26); ctx.lineTo(18,34); ctx.closePath(); ctx.fill();
+    ctx.fillText('PLAY', 40, 31);
+    const secs=String((Math.random()*60)|0).padStart(2,'0');
+    ctx.fillText('BLINKCAM  00:'+String(S.blinks).padStart(2,'0')+':'+secs, W-210, H-16);
+    ctx.shadowBlur=0;
+  }},
+  {name:'CARTOON MODE', fn(ctx,W,H){
+    const img=ctx.getImageData(0,0,W,H), d=img.data, N=d.length;
+    const gray=new Float32Array(W*H);
+    for(let i=0,p=0;i<N;i+=4,p++) gray[p]=.299*d[i]+.587*d[i+1]+.114*d[i+2];
+    const g2=new Float32Array(W*H); // cheap blur so edges aren't noise soup
+    for(let y=1;y<H-1;y++) for(let x=1;x<W-1;x++){
+      let s=0; for(let j=-1;j<=1;j++) for(let i2=-1;i2<=1;i2++) s+=gray[(y+j)*W+x+i2];
+      g2[y*W+x]=s/9;
+    }
+    const edge=new Float32Array(W*H); // sobel
+    for(let y=1;y<H-1;y++) for(let x=1;x<W-1;x++){
+      const i=y*W+x;
+      const gx=-g2[i-W-1]-2*g2[i-1]-g2[i+W-1]+g2[i-W+1]+2*g2[i+1]+g2[i+W+1];
+      const gy=-g2[i-W-1]-2*g2[i-W]-g2[i-W+1]+g2[i+W-1]+2*g2[i+W]+g2[i+W+1];
+      edge[i]=Math.hypot(gx,gy);
+    }
+    for(let i=0,p=0;i<N;i+=4,p++){
+      const avg=(d[i]+d[i+1]+d[i+2])/3;
+      for(let c=0;c<3;c++) d[i+c]=avg+(d[i+c]-avg)*1.55;              // saturation punch
+      for(let c=0;c<3;c++) d[i+c]=Math.round(d[i+c]/34)*34;           // posterize
+      if(edge[p]>140){
+        const e=Math.min(1,(edge[p]-140)/110);
+        d[i]*=1-e; d[i+1]*=1-e; d[i+2]*=1-e;
+      }
+    }
+    ctx.putImageData(img,0,0);
+  }},
+  {name:'XEROX PUNK', fn(ctx,W,H){
+    const img=ctx.getImageData(0,0,W,H), d=img.data;
+    for(let i=0;i<d.length;i+=4){
+      let l=(.299*d[i]+.587*d[i+1]+.114*d[i+2])/255;
+      l=(l-.5)*2.7+.5+(Math.random()-.5)*.16;
+      l=l<0?0:l>1?1:l;
+      d[i]=42+203*l; d[i+1]=10+245*l; d[i+2]=74+16*l; // deep purple → acid yellow
+    }
+    ctx.putImageData(img,0,0);
+    const g=ctx.createRadialGradient(W/2,H/2,Math.min(W,H)*.35,W/2,H/2,Math.max(W,H)*.72);
+    g.addColorStop(0,'rgba(0,0,0,0)'); g.addColorStop(1,'rgba(20,0,40,.7)');
+    ctx.fillStyle=g; ctx.fillRect(0,0,W,H);
+    ctx.font='bold 14px "Space Mono",monospace'; ctx.fillStyle='rgba(30,4,60,.85)';
+    ctx.fillText('XEROX PUNK No.'+(((Math.random()*900)|0)+100), 16, H-16);
+  }},
+];
+function faceMetricsPx(W,H){
+  const lm=S.lastLm;
+  if(!lm) return {cx:W/2, cy:H/2, r:Math.min(W,H)*.28};
+  const X=v=>(1-v.x)*W, Y=v=>v.y*H;
+  const cx=(X(lm[234])+X(lm[454]))/2, cy=(Y(lm[10])+Y(lm[152]))/2;
+  const r=Math.hypot(X(lm[234])-X(lm[454]), Y(lm[234])-Y(lm[454]))*.62;
+  return {cx, cy, r:Math.max(60,r)};
+}
+const cap=document.createElement('canvas');
+function capturePhoto(){
+  S.phase='photo';
+  const vw=video.videoWidth, vh=video.videoHeight;
+  if(!vw){ showError('nocam'); return; }
+  const W=Math.min(720,vw), H=Math.round(vh*W/vw);
+  cap.width=W; cap.height=H;
+  const c=cap.getContext('2d');
+  c.save(); c.translate(W,0); c.scale(-1,1); c.drawImage(video,0,0,W,H); c.restore(); // mirror to match preview
+  const f=faceMetricsPx(W,H);
+  const filt=FILTERS[(Math.random()*FILTERS.length)|0];
+  try{ filt.fn(c,W,H,f); }catch(e){}
+  S.filterUsed=filt.name;
+
+  stopLoop();
+  liveWrap.hidden=true;
+  photoPanel.hidden=false;
+  photoCanvas.width=W; photoCanvas.height=H;
+  photoCanvas.getContext('2d').drawImage(cap,0,0);
+  $('chipFilter').textContent='FILTER: '+filt.name;
+  $('chipBlinks').textContent='BLINKS CONSUMED: '+S.blinks;
+  retrigger(document.querySelector('.photo-card'),'photoIn');
+  scrambleTo(finalMsg,'PHOTO CAPTURED. YOUR BLINKING WAS NOT IN VAIN.');
+  sfx.applause(); sfx.fanfare();
+  confettiBurst();
+}
+
+/* =========================================================
+   CONFETTI
+   ========================================================= */
+const confCvs=$('confetti'), cctx=confCvs.getContext('2d');
+let parts=[], confRunning=false;
+function confettiBurst(){
+  confCvs.width=innerWidth; confCvs.height=innerHeight;
+  const colors=['#ff2fd6','#9d4dff','#2ff3ff','#ffe14d','#ffffff','#ff5c5c'];
+  const cx=innerWidth/2, cy=innerHeight*.42;
+  for(let i=0;i<230;i++){
+    const a=Math.random()*Math.PI*2, sp=4+Math.random()*11;
+    parts.push({x:cx+(Math.random()-.5)*180, y:cy+(Math.random()-.5)*90,
+      vx:Math.cos(a)*sp, vy:Math.sin(a)*sp-5,
+      w:5+Math.random()*7, h:8+Math.random()*10,
+      rot:Math.random()*Math.PI, vr:(Math.random()-.5)*.32,
+      color:colors[i%colors.length], life:170+Math.random()*90,
+      shape:Math.random()<.25?'circle':'rect'});
+  }
+  if(!confRunning){ confRunning=true; confettiLoop(); }
+}
+function confettiLoop(){
+  cctx.clearRect(0,0,confCvs.width,confCvs.height);
+  parts=parts.filter(p=>p.life>0 && p.y<confCvs.height+40);
+  for(const p of parts){
+    p.vy+=.16; p.vx*=.985; p.vy*=.99;
+    p.x+=p.vx+Math.sin(p.life*.15)*.6; p.y+=p.vy; p.rot+=p.vr; p.life--;
+    cctx.save(); cctx.globalAlpha=Math.min(1,p.life/40);
+    cctx.translate(p.x,p.y); cctx.rotate(p.rot); cctx.fillStyle=p.color;
+    if(p.shape==='circle'){ cctx.beginPath(); cctx.arc(0,0,p.w*.5,0,Math.PI*2); cctx.fill(); }
+    else cctx.fillRect(-p.w/2,-p.h/2,p.w,p.h*Math.abs(Math.sin(p.life*.09))+1);
+    cctx.restore();
+  }
+  if(parts.length){ requestAnimationFrame(confettiLoop); }
+  else{ confRunning=false; cctx.clearRect(0,0,confCvs.width,confCvs.height); }
+}
+
+/* =========================================================
+   FLOW: start / errors / reset
+   ========================================================= */
+function runLoadLines(){
+  loadLines.innerHTML=''; startWrap.hidden=true;
+  let i=0;
+  const iv=setInterval(()=>{
+    if(i>=LOADLINES.length){ clearInterval(iv); return; }
+    const div=document.createElement('div'); div.className='load-line';
+    div.innerHTML='<span class="spin"></span>'+LOADLINES[i++];
+    loadLines.appendChild(div);
+  },520);
+  return { stop(){ clearInterval(iv); loadLines.innerHTML=''; startWrap.hidden=false; } };
+}
+function showError(kind){
+  const e=ERRORS[kind]||ERRORS.nocam;
+  errIcon.innerHTML=ERR_SVGS[e.icon];
+  errTitle.textContent=e.title;
+  errBody.textContent=e.body;
+  errRetry.textContent=e.btn;
+  startPanel.hidden=true; errorPanel.hidden=false;
+  sfx.error();
+}
+async function startExperience(){
+  initAudio();
+  errorPanel.hidden=true; startPanel.hidden=false;
+  S.token++;
+  const loader=runLoadLines();
+  let camErr=null, modelErr=null;
+  try{ await ensureCamera(); }catch(e){ camErr=e; }
+  if(!camErr){ try{ await ensureModel(); }catch(e){ modelErr=e; } }
+  loader.stop();
+  if(camErr){ showError(camErr.kind); return; }
+  if(modelErr){ showError('model'); return; }
+  startPanel.hidden=true;
+  recText.textContent='TRACKING';
+  S.phase='tracking'; S.blinks=0; S.eyesClosed=false; S.openBase=.30;
+  frameGlow(0); updateCounterUI(false);
+  setStatus('WATCHING FOR BLINKS...');
+  scrambleTo(msgEl,'DETECTION ONLINE. BLINK TO BEGIN.');
+  sizeOverlay(); startLoop();
+}
+function tryAgain(){
+  S.token++; S.blinks=0; S.eyesClosed=false; S.openBase=.30;
+  photoPanel.hidden=false; // guard against flash of content
+  photoPanel.hidden=true; liveWrap.hidden=false;
+  camCard.classList.remove('counting','armed');
+  recText.textContent='TRACKING';
+  S.phase='tracking';
+  frameGlow(0); updateCounterUI(false);
+  setStatus('WATCHING FOR BLINKS...');
+  scrambleTo(msgEl,'ROUND TWO. YOUR EYELIDS HAVE COMMITTED.');
+  startLoop();
+}
+
+/* ---------- wiring ---------- */
+ $('startBtn').addEventListener('click', startExperience);
+errRetry.addEventListener('click', startExperience);
+ $('tryAgainBtn').addEventListener('click', ()=>{ initAudio(); tryAgain(); });
+ $('sndBtn').addEventListener('click', ()=>{
+  S.muted=!S.muted;
+  if(master) master.gain.value=S.muted?0:0.9;
+  $('icoSndOn').hidden=S.muted; $('icoSndOff').hidden=!S.muted;
+});
+// pupil follows cursor on the start screen — the eye is already watching
+document.addEventListener('mousemove',e=>{
+  const p=$('pupil'); if(!p||startPanel.hidden) return;
+  const r=startPanel.getBoundingClientRect();
+  const dx=Math.max(-1,Math.min(1,(e.clientX-(r.left+r.width/2))/(r.width/2)));
+  const dy=Math.max(-1,Math.min(1,(e.clientY-(r.top+r.height/2))/(r.height/2)));
+  p.setAttribute('transform',`translate(${dx*7},${dy*5})`);
+});
+document.addEventListener('visibilitychange',()=>{ if(!document.hidden && AC) AC.resume(); });
+</script>
+</body>
+</html>
