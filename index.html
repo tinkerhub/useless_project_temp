@@ -1,1 +1,1207 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="dark">
+<title>Buffering • reelo</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Ccircle cx='16' cy='16' r='11' fill='none' stroke='%23ff3b4e' stroke-width='5' stroke-linecap='round' stroke-dasharray='52 19'/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;500;600;700&display=swap" rel="stylesheet">
 
+<style>
+/* ============================================================
+   1. Tokens & base
+   ============================================================ */
+:root{
+  --bg:#0b0b0f;
+  --player:#050505;
+  --card:#141419;
+  --surface:#1b1b22;
+  --text:#f5f5f5;
+  --text-2:#9b9ba3;
+  --text-3:#6d6d76;
+  --accent:#ff3b4e;
+  --accent-soft:#ff6a76;
+  --border:rgba(255,255,255,.07);
+  --border-2:rgba(255,255,255,.14);
+  --r-md:12px; --r-lg:16px;
+  --skel-1:#17171d; --skel-2:#23232c;
+  --shadow-lg:0 24px 70px -18px rgba(0,0,0,.75);
+  --spin-dur:1.5s;
+  --font:'Sora',ui-sans-serif,-apple-system,'Segoe UI',sans-serif;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{overflow-x:hidden}
+body{
+  background:var(--bg);
+  color:var(--text);
+  font-family:var(--font);
+  -webkit-font-smoothing:antialiased;
+  -webkit-tap-highlight-color:transparent;
+}
+button{font-family:inherit;color:inherit}
+::selection{background:rgba(255,59,78,.35)}
+:focus-visible{outline:2px solid var(--accent-soft);outline-offset:2px;border-radius:6px}
+::-webkit-scrollbar{width:9px;height:9px}
+::-webkit-scrollbar-thumb{background:rgba(255,255,255,.12);border-radius:8px;border:2px solid var(--bg)}
+::-webkit-scrollbar-track{background:transparent}
+
+/* ============================================================
+   2. Utilities
+   ============================================================ */
+/* Shimmering skeleton — a slow light sweep, never a hard flash */
+.skel{
+  display:block;height:12px;border-radius:6px;width:var(--w,100%);
+  background:linear-gradient(100deg,var(--skel-1) 34%,var(--skel-2) 50%,var(--skel-1) 66%);
+  background-size:220% 100%;
+  animation:shimmer 2s linear infinite;
+}
+@keyframes shimmer{from{background-position:135% 0}to{background-position:-85% 0}}
+
+.icon-btn{
+  position:relative;width:40px;height:40px;flex:none;
+  display:grid;place-items:center;border:0;border-radius:50%;
+  background:transparent;cursor:pointer;
+  transition:background .18s,transform .12s;
+}
+.icon-btn:hover{background:rgba(255,255,255,.08)}
+.icon-btn:active{transform:scale(.9)}
+.icon-btn svg{width:21px;height:21px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+.icon-btn .solid{fill:currentColor;stroke:none}
+.icon-btn .fdot{fill:currentColor;stroke:none}
+
+.pill{
+  display:inline-flex;align-items:center;gap:8px;height:38px;padding:0 16px;
+  border-radius:999px;background:var(--surface);border:1px solid var(--border);
+  font-size:13.5px;font-weight:500;cursor:pointer;white-space:nowrap;
+  transition:background .18s,border-color .18s,transform .12s,color .18s;
+}
+.pill:hover{background:#22222b;border-color:var(--border-2)}
+.pill:active{transform:scale(.95)}
+.pill svg{width:17px;height:17px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+
+.fadable{display:inline-block;transition:opacity .19s,transform .19s}
+.fadable.fade{opacity:0;transform:translateY(4px)}
+.reveal{animation:reveal .5s cubic-bezier(.2,.7,.3,1) both}
+@keyframes reveal{from{opacity:0;transform:translateY(7px)}to{opacity:1;transform:none}}
+
+/* ============================================================
+   3. Header
+   ============================================================ */
+.topbar{
+  position:sticky;top:0;z-index:50;
+  display:grid;grid-template-columns:1fr minmax(0,560px) 1fr;align-items:center;gap:12px;
+  height:60px;padding:0 14px;
+  background:rgba(11,11,15,.8);
+  -webkit-backdrop-filter:blur(16px);backdrop-filter:blur(16px);
+  border-bottom:1px solid var(--border);
+}
+.topbar-left{display:flex;align-items:center;gap:6px;justify-self:start}
+.topbar-right{display:flex;align-items:center;gap:6px;justify-self:end}
+
+.brand{display:flex;align-items:center;gap:9px;text-decoration:none;color:var(--text);padding:4px 6px}
+.brand-mark{width:25px;height:25px}
+.brand-ring{fill:none;stroke:var(--accent);stroke-width:4.5;stroke-linecap:round;
+  stroke-dasharray:50 19.12;transform-origin:center;animation:spinrot 8s linear infinite}
+.brand-dot{fill:var(--text)}
+.brand-name{font-size:19px;font-weight:700;letter-spacing:-.03em}
+
+.search{
+  justify-self:center;width:100%;height:40px;
+  display:flex;align-items:center;gap:10px;padding:0 5px 0 16px;
+  background:var(--card);border:1px solid var(--border);border-radius:999px;
+  transition:border-color .2s,box-shadow .2s;
+}
+.search:focus-within{border-color:rgba(255,255,255,.28);box-shadow:0 0 0 3px rgba(255,255,255,.05)}
+.search>svg{width:16px;height:16px;stroke:var(--text-3);fill:none;stroke-width:2;stroke-linecap:round;flex:none}
+.search input{flex:1;min-width:0;background:none;border:0;outline:0;color:var(--text);font:400 14px var(--font)}
+.search input::placeholder{color:var(--text-3)}
+.search-go{width:34px;height:34px}
+.search-toggle{display:none}
+
+.badge-dot{
+  position:absolute;top:8px;right:9px;width:8px;height:8px;border-radius:50%;
+  background:var(--accent);box-shadow:0 0 0 2px var(--bg);
+  transition:opacity .4s,transform .4s;
+}
+.badge-dot.off{opacity:0;transform:scale(0)}
+
+.avatar{
+  width:33px;height:33px;border-radius:50%;flex:none;margin-left:4px;
+  display:grid;place-items:center;cursor:pointer;
+  background:#303039;border:1px solid var(--border-2);
+  font-size:12px;font-weight:600;color:var(--text);
+  transition:transform .12s,box-shadow .2s;
+}
+.avatar:hover{box-shadow:0 0 0 2px rgba(255,255,255,.15)}
+.avatar:active{transform:scale(.92)}
+
+/* Popovers (notifications etc.) */
+.pop-wrap{position:relative}
+.menu{
+  position:absolute;top:calc(100% + 8px);right:0;min-width:220px;z-index:60;
+  background:rgba(27,27,34,.94);
+  -webkit-backdrop-filter:blur(18px);backdrop-filter:blur(18px);
+  border:1px solid var(--border-2);border-radius:12px;padding:6px;
+  box-shadow:var(--shadow-lg);
+  opacity:0;transform:translateY(-6px) scale(.98);
+  transition:opacity .18s ease,transform .18s ease;
+}
+.menu.open{opacity:1;transform:none}
+.menu-item{
+  width:100%;display:flex;align-items:center;justify-content:space-between;gap:16px;
+  padding:10px 12px;border:0;border-radius:8px;background:none;
+  font-size:13.5px;font-weight:500;text-align:left;cursor:pointer;
+  transition:background .15s;
+}
+.menu-item:hover{background:rgba(255,255,255,.07)}
+.menu-item.disabled{opacity:.42;cursor:default}
+.menu-item.disabled small{display:block;font-weight:400;color:var(--text-3);margin-top:2px}
+.mi-val{color:var(--text-2);transition:color .3s}
+.mi-val.flash{color:var(--accent-soft)}
+.mi-check{width:15px;height:15px;stroke:var(--accent-soft);fill:none;stroke-width:2.5;stroke-linecap:round;stroke-linejoin:round;flex:none}
+
+.notif-menu{width:300px}
+.notif-head{padding:10px 12px 8px;font-size:13px;font-weight:600;border-bottom:1px solid var(--border);margin-bottom:4px}
+.notif-skel{display:flex;gap:11px;padding:10px 12px;align-items:flex-start}
+.notif-skel .skel-avatar{width:32px;height:32px;flex:none}
+.notif-skel div{flex:1;display:grid;gap:8px;padding-top:2px}
+.notif-foot{padding:9px 12px 7px;font-size:11.5px;color:var(--text-3)}
+
+/* Drawer nav (hamburger) */
+.drawer-scrim{
+  position:fixed;inset:0;z-index:69;background:rgba(0,0,0,.55);
+  opacity:0;pointer-events:none;transition:opacity .3s;
+}
+.drawer-scrim.open{opacity:1;pointer-events:auto}
+.drawer{
+  position:fixed;top:0;bottom:0;left:0;z-index:70;width:266px;
+  background:#101016;border-right:1px solid var(--border);
+  padding:18px 14px;display:flex;flex-direction:column;gap:4px;
+  transform:translateX(-103%);visibility:hidden;
+  transition:transform .32s cubic-bezier(.2,.8,.3,1),visibility 0s .32s;
+}
+.drawer.open{transform:none;visibility:visible;transition:transform .32s cubic-bezier(.2,.8,.3,1)}
+.drawer-head{display:flex;align-items:center;gap:9px;padding:2px 8px 16px;font-weight:700;font-size:17px;letter-spacing:-.02em}
+.drawer-head .brand-mark{width:22px;height:22px}
+.nav-skel{display:flex;align-items:center;gap:12px;padding:11px 10px;border-radius:10px}
+.nav-skel .skel-avatar{width:26px;height:26px}
+.drawer-note{margin-top:auto;padding:14px 10px 4px;font-size:12px;color:var(--text-3)}
+
+/* ============================================================
+   4. Page layout
+   ============================================================ */
+.layout{
+  max-width:1760px;margin:0 auto;
+  padding:20px 20px 64px;
+  display:grid;grid-template-columns:minmax(0,1fr) 400px;gap:22px;align-items:start;
+}
+.primary,.rail{animation:reveal .6s cubic-bezier(.2,.7,.3,1) both}
+.rail{animation-delay:.12s}
+
+/* ============================================================
+   5. Player
+   ============================================================ */
+.player{
+  position:relative;aspect-ratio:16/9;
+  background:var(--player);border-radius:var(--r-lg);
+  box-shadow:var(--shadow-lg);outline:none;
+  touch-action:manipulation;
+}
+.player:focus-visible{outline:2px solid rgba(255,106,118,.7);outline-offset:3px}
+.player.fs,:fullscreen .player{aspect-ratio:auto;width:100vw;height:100vh;border-radius:0}
+.stage{position:absolute;inset:0;border-radius:inherit;overflow:hidden;border:1px solid rgba(255,255,255,.06)}
+.player.fs .stage{border:0;border-radius:0}
+
+/* Cinematic void: drifting light + grain + vignette */
+.aurora{position:absolute;border-radius:50%;pointer-events:none;z-index:0}
+.a1{width:62%;aspect-ratio:1;left:-16%;top:-32%;
+  background:radial-gradient(circle,rgba(66,86,138,.17),transparent 65%);
+  animation:drift1 34s ease-in-out infinite alternate}
+.a2{width:56%;aspect-ratio:1;right:-14%;bottom:-30%;
+  background:radial-gradient(circle,rgba(148,58,78,.14),transparent 65%);
+  animation:drift2 43s ease-in-out infinite alternate}
+@keyframes drift1{to{transform:translate(13%,15%) scale(1.16)}}
+@keyframes drift2{to{transform:translate(-11%,-13%) scale(1.1)}}
+.stage::before{ /* vignette */
+  content:"";position:absolute;inset:0;z-index:1;pointer-events:none;
+  background:radial-gradient(ellipse at center,transparent 52%,rgba(0,0,0,.52));
+}
+.stage::after{ /* film grain */
+  content:"";position:absolute;inset:0;z-index:2;pointer-events:none;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='140' height='140' filter='url(%23n)' opacity='0.55'/%3E%3C/svg%3E");
+  opacity:.05;mix-blend-mode:screen;
+}
+
+/* Center buffering core */
+.buffer-core{
+  position:absolute;inset:0;z-index:3;
+  display:flex;flex-direction:column;align-items:center;justify-content:center;
+  text-align:center;padding:0 24px;user-select:none;
+}
+.spin-wrap{position:relative;width:64px;height:64px;display:grid;place-items:center}
+.spin-wrap.pulse{animation:pulse .55s cubic-bezier(.3,1.6,.4,1)}
+@keyframes pulse{35%{transform:scale(1.1)}}
+.halo{
+  position:absolute;inset:-27px;border-radius:50%;
+  border:1px solid rgba(255,255,255,.4);opacity:0;pointer-events:none;
+  animation:halo 3.8s cubic-bezier(.2,.6,.35,1) infinite;
+}
+@keyframes halo{
+  0%{transform:scale(.55);opacity:0}
+  18%{opacity:.26}
+  62%,100%{transform:scale(1.2);opacity:0}
+}
+.spinner{width:64px;height:64px;display:block}
+.spinner .spin-track{fill:none;stroke:rgba(255,255,255,.13);stroke-width:4}
+.spinner .spin-arc{
+  fill:none;stroke:#fff;stroke-width:4;stroke-linecap:round;
+  stroke-dasharray:56 107.4;transform-origin:center;
+  animation:spinrot var(--spin-dur,1.5s) linear infinite,
+            spindash calc(var(--spin-dur,1.5s)*1.1) ease-in-out infinite;
+}
+@keyframes spinrot{to{transform:rotate(360deg)}}
+@keyframes spindash{0%,100%{stroke-dasharray:14 149.4}50%{stroke-dasharray:104 59.4}}
+.spinner.mini{width:22px;height:22px;opacity:.85}
+
+.status-main{margin-top:24px;font-size:17px;font-weight:600;letter-spacing:-.01em}
+.status-sub{margin-top:7px;font-size:13px;color:var(--text-2)}
+.status-meta{
+  margin-top:9px;font-size:11.5px;color:var(--text-3);
+  font-variant-numeric:tabular-nums;letter-spacing:.02em;
+}
+.dot-sep{margin:0 7px}
+
+/* Captions (enabled via the settings menu) */
+.captions{
+  position:absolute;left:50%;bottom:78px;transform:translateX(-50%);z-index:4;
+  max-width:82%;background:rgba(0,0,0,.72);padding:7px 14px;border-radius:8px;
+  font-size:14px;font-weight:500;letter-spacing:.01em;pointer-events:none;
+}
+
+/* ============================================================
+   6. Player controls
+   ============================================================ */
+.controls{
+  position:absolute;left:0;right:0;bottom:0;z-index:5;
+  padding:30px 12px 6px;user-select:none;
+  background:linear-gradient(transparent,rgba(0,0,0,.8));
+  opacity:0;transform:translateY(8px);pointer-events:none;
+  transition:opacity .26s ease,transform .26s ease;
+}
+.player.show-ui .controls{opacity:1;transform:none;pointer-events:auto}
+
+/* Loading progress bar — the glowing "almost there" line */
+.progress{position:relative;height:18px;display:flex;align-items:center;cursor:pointer}
+.progress>div{position:absolute;left:0;height:4px;border-radius:3px;transition:height .15s}
+.progress-track{width:100%;background:rgba(255,255,255,.15)}
+.progress-buffered{width:0;background:rgba(255,255,255,.24)}
+.progress-fill{
+  width:0;overflow:visible;
+  background:linear-gradient(90deg,rgba(255,59,78,.5),var(--accent));
+  box-shadow:0 0 11px rgba(255,59,78,.5);
+}
+.progress-head{
+  position:absolute;right:-5px;top:50%;width:11px;height:11px;border-radius:50%;
+  background:#fff;box-shadow:0 0 10px 2px rgba(255,59,78,.65);
+  transform:translateY(-50%) scale(1);opacity:0;transition:transform .15s,opacity .4s;
+}
+.progress-fill.started .progress-head{opacity:1}
+.progress:hover>div{height:6px}
+.progress:hover .progress-head{transform:translateY(-50%) scale(1.3)}
+.rip{
+  position:absolute;top:50%;width:12px;height:12px;border-radius:50%;
+  background:rgba(255,255,255,.5);pointer-events:none;
+  transform:translate(-50%,-50%);animation:rip .65s ease-out forwards;
+}
+@keyframes rip{to{opacity:0;transform:translate(-50%,-50%) scale(7)}}
+
+.controls-row{display:flex;align-items:center;gap:2px;padding-top:2px}
+.controls .icon-btn{width:38px;height:38px}
+.controls-left{display:flex;align-items:center;gap:2px;min-width:0}
+.controls-right{margin-left:auto;display:flex;align-items:center;gap:2px}
+
+.play-btn{opacity:.85}
+.play-btn svg{width:23px;height:23px}
+.play-btn.nudge svg{animation:nudge .42s ease}
+@keyframes nudge{30%{transform:scale(.8)}65%{transform:scale(1.08)}}
+
+.vol{display:flex;align-items:center}
+.vol-range{
+  -webkit-appearance:none;appearance:none;
+  width:0;opacity:0;height:4px;border-radius:3px;cursor:pointer;
+  background:rgba(255,255,255,.22);outline-offset:5px;
+  transition:width .25s ease,opacity .25s ease,margin .25s ease;
+}
+.vol:hover .vol-range,.vol-range:focus-visible{width:72px;opacity:1;margin:0 10px 0 4px}
+.vol-range::-webkit-slider-thumb{-webkit-appearance:none;width:12px;height:12px;border-radius:50%;background:#f5f5f5;box-shadow:0 1px 4px rgba(0,0,0,.5)}
+.vol-range::-moz-range-thumb{width:12px;height:12px;border:0;border-radius:50%;background:#f5f5f5}
+#volOff{display:none}
+.vol-btn.muted #volOn{display:none}
+.vol-btn.muted #volOff{display:block}
+
+.time{font-size:13px;color:var(--text-2);font-variant-numeric:tabular-nums;margin:0 8px;white-space:nowrap}
+.time b{color:var(--text);font-weight:500}
+.tsep{margin:0 6px;color:var(--text-3)}
+
+#fsCompress{display:none}
+.player.fs #fsCompress{display:block}
+.player.fs #fsExpand{display:none}
+
+/* ============================================================
+   7. Patience strip
+   ============================================================ */
+.patience{
+  display:flex;align-items:center;gap:10px;margin-top:12px;
+  padding:11px 15px;border:1px solid var(--border);border-radius:12px;
+  background:rgba(255,255,255,.03);
+  font-size:13px;color:var(--text-2);
+  opacity:0;transform:translateY(5px);transition:opacity .5s,transform .5s;
+}
+.patience.show{opacity:1;transform:none}
+.patience svg{width:15px;height:15px;stroke:var(--text-3);fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;flex:none}
+
+/* ============================================================
+   8. Video information
+   ============================================================ */
+.info{margin-top:18px}
+.video-title{font-size:clamp(18px,2.1vw,22px);font-weight:600;letter-spacing:-.015em;line-height:1.35;transition:opacity .25s}
+.video-title .skel{height:22px;max-width:560px}
+
+.info-row{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:14px;margin-top:16px}
+.channel{min-width:0}
+.ch-skel{display:flex;align-items:center;gap:12px}
+.skel-avatar{width:40px;height:40px;border-radius:50%;flex:none}
+.ch-skel .skel-lines{display:grid;gap:8px}
+.ch-real{display:none;align-items:center;gap:12px}
+.ch-avatar{
+  width:40px;height:40px;border-radius:50%;flex:none;display:grid;place-items:center;
+  background:#262630;border:1px solid var(--border-2);
+  font-size:13px;font-weight:700;color:var(--accent-soft);letter-spacing:.03em;
+}
+.ch-text{display:grid;gap:3px;line-height:1.15}
+.ch-text strong{font-size:14.5px;font-weight:600}
+.ch-text small{font-size:12.5px;color:var(--text-2)}
+
+.subscribe{
+  height:38px;padding:0 19px;margin-left:8px;border:1px solid transparent;border-radius:999px;
+  background:var(--accent);color:#fff;font-size:13.5px;font-weight:600;cursor:pointer;
+  transition:background .2s,transform .12s,border-color .2s,color .2s;
+}
+.subscribe:hover{background:#ff5060}
+.subscribe:active{transform:scale(.95)}
+.subscribe.on{background:var(--surface);border-color:var(--border-2);color:var(--text)}
+.subscribe.on:hover{background:#22222b}
+
+.actions{display:flex;align-items:center;gap:8px;flex-wrap:wrap;opacity:0;transform:translateY(8px);transition:opacity .5s ease,transform .5s ease}
+#infoSec.resolved .actions{opacity:1;transform:none}
+#infoSec.resolved .ch-skel{display:none}
+#infoSec.resolved .ch-real{display:flex}
+#infoSec.resolved .ch-avatar,#infoSec.resolved .ch-text{animation:reveal .5s both}
+#infoSec.resolved .subscribe{animation:reveal .5s .08s both}
+
+.like-pill.liked{background:rgba(255,59,78,.13);border-color:rgba(255,59,78,.45);color:#ff929b}
+.like-pill.liked svg{fill:currentColor}
+.like-count{font-variant-numeric:tabular-nums}
+.like-count.pop{animation:pop .35s ease}
+@keyframes pop{40%{transform:scale(1.28)}}
+.pill.saved{background:#22222b;border-color:var(--border-2)}
+.pill.saved svg{fill:currentColor}
+.icon-only{padding:0;width:38px;justify-content:center}
+
+/* Description — it never finishes resolving */
+.desc{margin-top:18px;max-width:760px}
+.desc-lines,.desc-more-inner{display:grid;gap:9px}
+.desc-more{display:grid;grid-template-rows:0fr;transition:grid-template-rows .35s cubic-bezier(.2,.7,.3,1)}
+.desc-more.open{grid-template-rows:1fr}
+.desc-more-inner{overflow:hidden;padding-top:9px}
+.desc-toggle{margin-top:12px;background:none;border:0;padding:4px 2px;font-size:13px;font-weight:500;color:var(--text-2);cursor:pointer;transition:color .15s}
+.desc-toggle:hover{color:var(--text)}
+
+/* ============================================================
+   9. Recommended rail
+   ============================================================ */
+.rail{position:sticky;top:76px;max-height:calc(100vh - 92px);overflow-y:auto;border-radius:14px;padding-bottom:8px}
+.rail-head{display:flex;align-items:baseline;justify-content:space-between;padding:4px 8px 12px;position:sticky;top:0;background:linear-gradient(var(--bg) 70%,transparent);z-index:2}
+.rail-head h2{font-size:15px;font-weight:600;letter-spacing:-.01em}
+.rail-sub{font-size:11.5px;color:var(--text-3);display:flex;align-items:center;gap:6px}
+.rail-sub .spinner.mini{width:12px;height:12px}
+.rec-list{display:flex;flex-direction:column;gap:2px}
+.rec{
+  display:grid;grid-template-columns:168px 1fr;gap:12px;
+  padding:6px;border-radius:12px;text-decoration:none;color:inherit;cursor:pointer;
+  transition:background .18s;animation:reveal .5s both;animation-delay:calc(.16s + var(--i,0)*.05s);
+}
+.rec:hover{background:rgba(255,255,255,.045)}
+.rec-thumb{
+  position:relative;aspect-ratio:16/9;border-radius:10px;overflow:hidden;
+  display:grid;place-items:center;
+  background:radial-gradient(120% 120% at 30% 20%,#17171f 0%,#0d0d12 70%);
+  border:1px solid var(--border);
+  transition:filter .25s;
+}
+.rec:hover .rec-thumb{filter:brightness(1.18)}
+.chip{
+  position:absolute;top:7px;left:7px;font-size:9.5px;font-weight:600;letter-spacing:.06em;
+  color:var(--text-2);background:rgba(0,0,0,.55);border:1px solid var(--border);
+  padding:2px 6px;border-radius:5px;
+}
+.dur{
+  position:absolute;right:6px;bottom:6px;padding:3px 6px;border-radius:5px;
+  background:rgba(0,0,0,.8);font-size:11px;font-weight:500;color:#e8e8e8;
+  font-variant-numeric:tabular-nums;letter-spacing:.02em;
+}
+.rec-meta{display:grid;gap:9px;padding:3px 2px 0;align-content:start;min-width:0}
+
+/* ============================================================
+   10. Toasts
+   ============================================================ */
+.toast-zone{
+  position:fixed;left:50%;bottom:26px;transform:translateX(-50%);z-index:100;
+  display:flex;flex-direction:column;align-items:center;gap:8px;pointer-events:none;
+  width:max-content;max-width:92vw;
+}
+.toast{
+  background:rgba(27,27,34,.92);
+  -webkit-backdrop-filter:blur(14px);backdrop-filter:blur(14px);
+  border:1px solid var(--border-2);border-radius:999px;
+  padding:10px 18px;font-size:13px;font-weight:500;
+  box-shadow:var(--shadow-lg);max-width:100%;
+  opacity:0;transform:translateY(12px);
+  transition:opacity .28s cubic-bezier(.2,.8,.3,1),transform .28s cubic-bezier(.2,.8,.3,1);
+}
+.toast.in{opacity:1;transform:none}
+
+/* ============================================================
+   11. Responsive
+   ============================================================ */
+@media (max-width:1100px){
+  .layout{grid-template-columns:minmax(0,1fr)}
+  .rail{position:static;max-height:none;overflow:visible;margin-top:8px}
+  .rec-list{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:6px}
+}
+@media (max-width:640px){
+  .topbar{display:flex;justify-content:space-between}
+  .search{
+    display:none;position:absolute;top:100%;left:0;right:0;
+    height:54px;border-radius:0;border:0;border-bottom:1px solid var(--border);
+    background:rgba(11,11,15,.97);max-width:none;padding:0 16px;
+  }
+  .topbar.search-open .search{display:flex}
+  .search-toggle{display:grid}
+  .brand-name{display:none}
+  .layout{padding:12px 12px 56px}
+  .rec-list{display:flex;flex-direction:column}
+  .rec{grid-template-columns:150px 1fr;gap:11px}
+  .spinner{width:52px;height:52px}
+  .spin-wrap{width:52px;height:52px}
+  .status-main{font-size:15.5px}
+  .controls .icon-btn{width:42px;height:42px} /* bigger touch targets */
+  .time{font-size:12px;margin:0 4px}
+  .subscribe{margin-left:0}
+  .captions{bottom:86px;font-size:13px}
+}
+
+/* ============================================================
+   12. Reduced motion — everything calms down, nothing flashes
+   ============================================================ */
+@media (prefers-reduced-motion: reduce){
+  *,*::before,*::after{
+    animation-duration:.01ms !important;
+    animation-iteration-count:1 !important;
+    transition-duration:.01ms !important;
+    scroll-behavior:auto !important;
+  }
+  .spin-arc{stroke-dasharray:120 43.4 !important} /* static 270° arc */
+  .halo,.rip{display:none}
+  .brand-ring{animation:none !important}
+}
+</style>
+</head>
+<body>
+
+<!-- ================= HEADER ================= -->
+<header class="topbar" id="topbar">
+  <div class="topbar-left">
+    <button class="icon-btn" id="menuBtn" aria-label="Open menu">
+      <svg viewBox="0 0 24 24"><path d="M4 6h16M4 12h16M4 18h16"/></svg>
+    </button>
+    <a class="brand" href="#" aria-label="reelo home">
+      <svg class="brand-mark" viewBox="0 0 32 32" aria-hidden="true">
+        <circle class="brand-ring" cx="16" cy="16" r="11"/>
+        <circle class="brand-dot" cx="16" cy="16" r="3"/>
+      </svg>
+      <span class="brand-name">reelo</span>
+    </a>
+  </div>
+
+  <form class="search" id="searchForm" role="search">
+    <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
+    <input id="searchInput" type="text" placeholder="Search reelo" aria-label="Search reelo" autocomplete="off">
+    <button type="submit" class="icon-btn search-go" aria-label="Search">
+      <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
+    </button>
+  </form>
+
+  <div class="topbar-right">
+    <button class="icon-btn search-toggle" id="searchToggle" aria-label="Search">
+      <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
+    </button>
+    <div class="pop-wrap">
+      <button class="icon-btn menu-btn" id="notifBtn" aria-label="Notifications" aria-expanded="false">
+        <svg viewBox="0 0 24 24"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg>
+        <span class="badge-dot" id="notifDot"></span>
+      </button>
+      <div class="menu notif-menu" id="notifMenu" hidden>
+        <div class="notif-head">Notifications</div>
+        <div class="notif-skel"><span class="skel skel-avatar"></span><div><i class="skel" style="width:82%"></i><i class="skel" style="width:56%"></i></div></div>
+        <div class="notif-skel"><span class="skel skel-avatar"></span><div><i class="skel" style="width:70%"></i><i class="skel" style="width:48%"></i></div></div>
+        <div class="notif-skel"><span class="skel skel-avatar"></span><div><i class="skel" style="width:76%"></i><i class="skel" style="width:40%"></i></div></div>
+        <div class="notif-foot">Loading older notifications…</div>
+      </div>
+    </div>
+    <button class="avatar" id="avatarBtn" aria-label="Account — Casey D.">CD</button>
+  </div>
+</header>
+
+<!-- Drawer nav -->
+<div class="drawer-scrim" id="drawerScrim"></div>
+<aside class="drawer" id="drawer" aria-hidden="true">
+  <div class="drawer-head">
+    <svg class="brand-mark" viewBox="0 0 32 32" aria-hidden="true">
+      <circle class="brand-ring" cx="16" cy="16" r="11"/><circle class="brand-dot" cx="16" cy="16" r="3"/>
+    </svg>
+    reelo
+  </div>
+  <div class="nav-skel"><i class="skel skel-avatar"></i><i class="skel" style="width:62%"></i></div>
+  <div class="nav-skel"><i class="skel skel-avatar"></i><i class="skel" style="width:48%"></i></div>
+  <div class="nav-skel"><i class="skel skel-avatar"></i><i class="skel" style="width:70%"></i></div>
+  <div class="nav-skel"><i class="skel skel-avatar"></i><i class="skel" style="width:54%"></i></div>
+  <p class="drawer-note">Everything here is still loading.</p>
+</aside>
+
+<!-- ================= MAIN LAYOUT ================= -->
+<main class="layout">
+
+  <!-- Left column: player + info -->
+  <section class="primary">
+    <div class="player" id="player" tabindex="0" aria-label="Video player — buffering">
+      <div class="stage" id="stage">
+        <div class="aurora a1"></div>
+        <div class="aurora a2"></div>
+
+        <!-- The eternal buffer -->
+        <div class="buffer-core">
+          <div class="spin-wrap" id="spinWrap">
+            <div class="halo"></div>
+            <svg class="spinner" viewBox="0 0 64 64" aria-hidden="true">
+              <circle class="spin-track" cx="32" cy="32" r="26"/>
+              <circle class="spin-arc" cx="32" cy="32" r="26"/>
+            </svg>
+          </div>
+          <p class="status-main"><span class="fadable" id="statusMsg">Buffering video…</span></p>
+          <p class="status-sub"><span class="fadable" id="statusSub">Loading media • Please wait</span></p>
+          <p class="status-meta">
+            <span id="loadBytes">0 MB of 1.2 GB</span><span class="dot-sep">•</span><span id="loadSpeed">—</span>
+          </p>
+        </div>
+
+        <div class="captions" id="captions" hidden><span class="fadable" id="captionText">[ quiet buffering ]</span></div>
+
+        <!-- Controls -->
+        <div class="controls" id="controls">
+          <div class="progress" id="progress" role="progressbar" aria-label="Media loading progress"
+               aria-valuemin="0" aria-valuemax="100" aria-valuenow="0">
+            <div class="progress-track"></div>
+            <div class="progress-buffered" id="bufferedBar"></div>
+            <div class="progress-fill" id="loadBar"><span class="progress-head"></span></div>
+          </div>
+          <div class="controls-row">
+            <div class="controls-left">
+              <button class="icon-btn play-btn" id="playBtn" aria-label="Play" aria-disabled="true" title="Loading…">
+                <svg viewBox="0 0 24 24"><path class="solid" d="M8 5v14l11-7z"/></svg>
+              </button>
+              <div class="vol">
+                <button class="icon-btn vol-btn" id="volBtn" aria-label="Mute">
+                  <svg id="volOn" viewBox="0 0 24 24"><path class="solid" d="M11 5 6 9H2v6h4l5 4z"/><path d="M15.54 8.46a5 5 0 0 1 0 7.07"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14"/></svg>
+                  <svg id="volOff" viewBox="0 0 24 24"><path class="solid" d="M11 5 6 9H2v6h4l5 4z"/><path d="m23 9-6 6M17 9l6 6"/></svg>
+                </button>
+                <input class="vol-range" id="volRange" type="range" min="0" max="1" step="0.01" value="0.8" aria-label="Volume">
+              </div>
+              <span class="time"><b>0:00</b><span class="tsep">/</span><span class="fadable" id="durText">--:--</span></span>
+            </div>
+            <div class="controls-right">
+              <div class="pop-wrap">
+                <button class="icon-btn menu-btn" id="settingsBtn" aria-label="Settings" aria-expanded="false">
+                  <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09a1.65 1.65 0 0 0-1-1.51 1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09a1.65 1.65 0 0 0 1.51-1 1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33h.08a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51h.08a1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82v.08a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
+                </button>
+                <div class="menu" id="settingsMenu" hidden>
+                  <button class="menu-item" data-act="quality"><span>Quality</span><span class="mi-val" id="qualityVal">Auto</span></button>
+                  <button class="menu-item" data-act="speed"><span>Playback speed</span><span class="mi-val" id="speedVal">Normal</span></button>
+                  <button class="menu-item" data-act="captions"><span>Captions</span><span class="mi-val" id="capsVal">Off</span></button>
+                </div>
+              </div>
+              <button class="icon-btn" id="fsBtn" aria-label="Fullscreen">
+                <svg id="fsExpand" viewBox="0 0 24 24"><path d="M8 3H5a2 2 0 0 0-2 2v3M16 3h3a2 2 0 0 1 2 2v3M16 21h3a2 2 0 0 0 2-2v-3M8 21H5a2 2 0 0 1-2-2v-3"/></svg>
+                <svg id="fsCompress" viewBox="0 0 24 24"><path d="M8 3v3a2 2 0 0 1-2 2H3M21 8h-3a2 2 0 0 1-2-2V3M3 16h3a2 2 0 0 1 2 2v3M16 21v-3a2 2 0 0 1 2-2h3"/></svg>
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Gentle reassurance, never an error -->
+    <div class="patience" id="patience" hidden aria-live="polite">
+      <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>
+      <span class="fadable" id="patienceMsg">Your video is taking longer than expected.</span>
+    </div>
+
+    <!-- Video info -->
+    <section class="info" id="infoSec">
+      <h1 class="video-title" id="videoTitle"><span class="skel" style="width:62%"></span></h1>
+
+      <div class="info-row">
+        <div class="channel" id="channelBlock">
+          <div class="ch-skel">
+            <span class="skel skel-avatar"></span>
+            <span class="skel-lines"><i class="skel" style="width:132px"></i><i class="skel" style="width:92px"></i></span>
+          </div>
+          <div class="ch-real">
+            <span class="ch-avatar" aria-hidden="true">MS</span>
+            <span class="ch-text"><strong>Meridian Studios</strong><small>1.24M subscribers</small></span>
+            <button class="subscribe" id="subBtn">Subscribe</button>
+          </div>
+        </div>
+
+        <div class="actions">
+          <button class="pill like-pill" id="likeBtn" aria-label="Like">
+            <svg viewBox="0 0 24 24"><path d="M14 9V5a3 3 0 0 0-3-3l-4 9v11h11.28a2 2 0 0 0 2-1.7l1.38-9a2 2 0 0 0-2-2.3zM7 22H4a2 2 0 0 1-2-2v-7a2 2 0 0 1 2-2h3"/></svg>
+            <span class="like-count" id="likeCount">48,214</span>
+          </button>
+          <button class="pill" id="shareBtn">
+            <svg viewBox="0 0 24 24"><path d="M4 12v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8"/><path d="m16 6-4-4-4 4M12 2v13"/></svg>
+            Share
+          </button>
+          <button class="pill" id="saveBtn">
+            <svg viewBox="0 0 24 24"><path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"/></svg>
+            <span id="saveLabel">Save</span>
+          </button>
+          <div class="pop-wrap">
+            <button class="pill icon-only menu-btn" id="moreBtn" aria-label="More options" aria-expanded="false">
+              <svg viewBox="0 0 24 24"><circle class="fdot" cx="12" cy="5" r="1.7"/><circle class="fdot" cx="12" cy="12" r="1.7"/><circle class="fdot" cx="12" cy="19" r="1.7"/></svg>
+            </button>
+            <div class="menu" id="moreMenu" hidden>
+              <button class="menu-item" data-act="loop"><span>Loop</span>
+                <svg class="mi-check" id="loopCheck" viewBox="0 0 24 24" hidden><path d="M20 6 9 17l-5-5"/></svg>
+              </button>
+              <button class="menu-item disabled"><span>Download<small>Unavailable while loading</small></span></button>
+              <button class="menu-item" data-act="report"><span>Report a problem</span></button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="desc">
+        <div class="desc-lines">
+          <i class="skel" style="height:11px;width:100%"></i>
+          <i class="skel" style="height:11px;width:94%"></i>
+          <i class="skel" style="height:11px;width:87%"></i>
+        </div>
+        <div class="desc-more" id="descMore">
+          <div class="desc-more-inner">
+            <i class="skel" style="height:11px;width:97%"></i>
+            <i class="skel" style="height:11px;width:91%"></i>
+            <i class="skel" style="height:11px;width:38%"></i>
+          </div>
+        </div>
+        <button class="desc-toggle" id="descToggle">…more</button>
+      </div>
+    </section>
+  </section>
+
+  <!-- Right rail: recommended (also forever loading) -->
+  <aside class="rail" aria-label="Recommended videos">
+    <div class="rail-head">
+      <h2>Up next</h2>
+      <span class="rail-sub">
+        <svg class="spinner mini" viewBox="0 0 64 64" aria-hidden="true"><circle class="spin-track" cx="32" cy="32" r="26"/><circle class="spin-arc" cx="32" cy="32" r="26"/></svg>
+        Loading queue
+      </span>
+    </div>
+    <div class="rec-list" id="recList"></div>
+  </aside>
+</main>
+
+<div class="toast-zone" id="toastZone" aria-live="polite"></div>
+
+<script>
+(() => {
+'use strict';
+const $  = s => document.querySelector(s);
+const $$ = s => [...document.querySelectorAll(s)];
+const RM = matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+/* ============================================================
+   Toasts — quiet glass pills, never alert()
+   ============================================================ */
+const toastZone = $('#toastZone');
+function toast(msg){
+  const t = document.createElement('div');
+  t.className = 'toast'; t.textContent = msg;
+  toastZone.appendChild(t);
+  while (toastZone.children.length > 2) toastZone.firstChild.remove();
+  requestAnimationFrame(() => t.classList.add('in'));
+  setTimeout(() => {
+    t.classList.remove('in');
+    setTimeout(() => t.remove(), 400);
+  }, 2600);
+}
+
+/* ============================================================
+   Fake loading engine
+   Climbs through waypoints, hiccups, regresses a little,
+   then hovers forever between ~84% and ~94%. Never 100%.
+   ============================================================ */
+const WAYPOINTS = [12, 27, 41, 58, 72, 83, 91];
+const TOTAL_MB  = 1228.8; // fictional 1.2 GB file
+const eng = {
+  v:0, disp:0, wp:0, phase:'climb',
+  stallUntil:0, regress:0, surgeV:0,
+  hovTarget:88, hovNext:0
+};
+
+function tick(dt){
+  const t = performance.now();
+
+  if (eng.phase === 'climb'){
+    if (t >= eng.stallUntil){
+      const m = WAYPOINTS[eng.wp];
+      const remain = Math.max(0, m - eng.v);
+      let speed = (0.55 + Math.random()*1.1) * Math.min(1, remain/7 + 0.06); // decelerates near each waypoint
+      if (Math.random() < dt*0.03) speed *= 2.2;                             // occasional burst of hope
+      eng.v += speed * dt;
+      if (Math.random() < dt*0.10 && remain > 2) eng.stallUntil = t + 700 + Math.random()*2400;
+      else if (Math.random() < dt*0.045 && remain > 3) eng.regress = 0.5 + Math.random()*1.1;
+      else if (eng.wp >= 5 && Math.random() < dt*0.05) eng.stallUntil = t + 2000 + Math.random()*3000;
+      if (eng.v >= m - 0.25){
+        eng.v = m;
+        if (eng.wp >= WAYPOINTS.length - 1){
+          eng.phase = 'hover';
+          eng.hovTarget = 86.5 + Math.random()*5;
+          eng.hovNext = t + 4000 + Math.random()*4000;
+        } else eng.wp++;
+      }
+    }
+  } else { // hover: drift between 84.5% and 94%, forever
+    eng.v += (eng.hovTarget - eng.v) * Math.min(1, dt*0.4);
+    if (t > eng.hovNext){
+      eng.hovTarget = Math.random() < 0.25 ? 83.5 + Math.random()*2 : 84.5 + Math.random()*9.5;
+      eng.hovNext = t + 5000 + Math.random()*7000;
+    }
+  }
+
+  if (eng.regress > 0){                       // slight backward slide, then recovery
+    const step = Math.min(eng.regress, dt*2.2);
+    eng.v = Math.max(3, eng.v - step);
+    eng.regress -= step;
+  }
+  if (eng.surgeV > 0){                        // user poked it — a brief surge of hope
+    const s = Math.min(eng.surgeV, dt*3);
+    eng.v += s; eng.surgeV -= s;
+    if (eng.phase === 'hover') eng.v = Math.min(eng.v, 94.6);
+  }
+  eng.v = Math.min(eng.v, 94.8);              // the ceiling. it never falls.
+  eng.disp += (eng.v - eng.disp) * Math.min(1, dt*7);
+}
+
+/* DOM refs for the render loop */
+const loadBar = $('#loadBar'), bufferedBar = $('#bufferedBar');
+const loadBytes = $('#loadBytes'), loadSpeed = $('#loadSpeed');
+const progress = $('#progress');
+const fmtMB = mb => mb >= 1024 ? (mb/1024).toFixed(2)+' GB' : (mb < 10 ? mb.toFixed(1) : Math.round(mb))+' MB';
+
+let lastV = 0, ema = 0, metaClock = 0;
+function render(dt){
+  const pct = eng.disp;
+  loadBar.style.width = pct + '%';
+  if (pct > 0.6) loadBar.classList.add('started');
+  bufferedBar.style.width = Math.min(97.5, pct + 3 + Math.sin(performance.now()*0.0004)*1.6) + '%';
+
+  const inst = Math.max(0, (eng.v - lastV) / Math.max(dt,0.001)) * (TOTAL_MB/100);
+  ema += (inst - ema) * Math.min(1, dt*1.6);
+  lastV = eng.v;
+
+  metaClock += dt;
+  if (metaClock > 0.25){ // throttle text updates to ~4 Hz
+    metaClock = 0;
+    loadBytes.textContent = fmtMB(TOTAL_MB * pct/100) + ' of 1.2 GB';
+    loadSpeed.textContent = ema < 0.03 ? '—' : (ema < 1 ? Math.max(8, Math.round(ema*1024)) + ' KB/s' : ema.toFixed(1) + ' MB/s');
+    progress.setAttribute('aria-valuenow', Math.round(pct));
+  }
+}
+
+let prevT = performance.now();
+(function loop(){
+  const t = performance.now();
+  let dt = (t - prevT) / 1000; prevT = t;
+  if (dt > 0.25) dt = 0.25;
+  if (dt > 0){ tick(dt); render(dt); }
+  requestAnimationFrame(loop);
+})();
+document.addEventListener('visibilitychange', () => { prevT = performance.now(); });
+
+/* ============================================================
+   Rotating status messages
+   ============================================================ */
+const MSGS = ['Buffering video…','Loading media…','Preparing playback…','Almost ready…','Optimizing playback…','Still loading…'];
+const SUBS = ['Loading media • Please wait','Fetching stream • Almost there','Preparing playback • Thanks for waiting','Optimizing buffer • Please wait'];
+let mi = 0, si = 0, flashUntil = 0;
+
+function swap(el, text){
+  el.classList.add('fade');
+  setTimeout(() => { el.textContent = text; el.classList.remove('fade'); }, 190);
+}
+function flashStatus(text, hold = 2000){
+  flashUntil = performance.now() + hold;
+  swap($('#statusMsg'), text);
+}
+function rotateMain(){
+  if (performance.now() > flashUntil) swap($('#statusMsg'), MSGS[mi % MSGS.length]);
+  mi++;
+  setTimeout(rotateMain, 4300 + Math.random()*2800);
+}
+function rotateSub(){
+  swap($('#statusSub'), SUBS[si++ % SUBS.length]);
+  setTimeout(rotateSub, 9000 + Math.random()*5000);
+}
+setTimeout(rotateMain, 4800);
+setTimeout(rotateSub, 9500);
+
+/* Tab title dots — even the tab is buffering */
+if (!RM){
+  const D = ['','.', '..','…']; let td = 0;
+  setInterval(() => { document.title = `Buffering${D[td = (td+1)%4]} • reelo`; }, 800);
+}
+
+/* ============================================================
+   Controls: show / hide choreography
+   ============================================================ */
+const player = $('#player'), stage = $('#stage');
+let hideTimer;
+function armHide(){
+  clearTimeout(hideTimer);
+  hideTimer = setTimeout(() => {
+    if (player.querySelector('.menu.open')) return armHide();
+    player.classList.remove('show-ui');
+  }, 2800);
+}
+const showUI = () => { player.classList.add('show-ui'); armHide(); };
+stage.addEventListener('pointerenter', e => { if (e.pointerType === 'mouse') showUI(); });
+stage.addEventListener('pointermove',  e => { if (e.pointerType === 'mouse') showUI(); });
+stage.addEventListener('pointerleave', e => { if (e.pointerType === 'mouse') player.classList.remove('show-ui'); });
+stage.addEventListener('pointerup', e => {
+  if (e.target.closest('.controls')) return;
+  if (e.pointerType === 'mouse'){ attemptPlay(); }
+  else { player.classList.toggle('show-ui'); if (player.classList.contains('show-ui')) armHide(); }
+});
+showUI(); // visible briefly on load, then fades
+
+/* ============================================================
+   Play attempt — it always tries, it never succeeds
+   ============================================================ */
+const playBtn = $('#playBtn'), spinWrap = $('#spinWrap');
+function attemptPlay(){
+  if (!RM){ spinWrap.classList.remove('pulse'); void spinWrap.offsetWidth; spinWrap.classList.add('pulse'); }
+  flashStatus('Still loading…');
+  eng.surgeV += 1.1;
+  playBtn.classList.remove('nudge'); void playBtn.offsetWidth; playBtn.classList.add('nudge');
+}
+playBtn.addEventListener('click', attemptPlay);
+
+player.addEventListener('keydown', e => {
+  if (e.target.closest('button,input')) return;
+  if (e.code === 'Space' || e.code === 'Enter'){ e.preventDefault(); attemptPlay(); }
+  else if (e.key === 'f' || e.key === 'F') toggleFS();
+  else if (e.key === 'm' || e.key === 'M') toggleMute();
+  else if (e.code === 'ArrowRight') eng.surgeV += 0.7; // even "seeking" just feeds the buffer
+});
+
+/* Progress bar: a ripple + a hopeful surge; seeking stays locked */
+let seekToastShown = false;
+progress.addEventListener('pointerdown', e => {
+  const r = progress.getBoundingClientRect();
+  const rip = document.createElement('span');
+  rip.className = 'rip';
+  rip.style.left = ((e.clientX - r.left) / r.width * 100) + '%';
+  progress.appendChild(rip);
+  setTimeout(() => rip.remove(), 700);
+  eng.surgeV += 1.3;
+  if (!seekToastShown){ seekToastShown = true; toast('Seeking unlocks once the video is ready.'); }
+});
+
+/* ============================================================
+   Volume — fully visual, fully honest about being fake
+   ============================================================ */
+const volBtn = $('#volBtn'), volRange = $('#volRange');
+let volume = 0.8, muted = false;
+function paintVol(){
+  const v = muted ? 0 : volume;
+  volRange.value = v;
+  volRange.style.background = `linear-gradient(90deg,#f5f5f5 ${v*100}%,rgba(255,255,255,.22) ${v*100}%)`;
+  volBtn.classList.toggle('muted', v === 0);
+}
+volRange.addEventListener('input', () => { volume = +volRange.value; muted = volume === 0; paintVol(); });
+function toggleMute(){ muted = !muted; if (!muted && volume === 0) volume = 0.6; paintVol(); }
+volBtn.addEventListener('click', toggleMute);
+paintVol();
+
+/* ============================================================
+   Fullscreen
+   ============================================================ */
+const fsBtn = $('#fsBtn');
+function toggleFS(){
+  if (document.fullscreenElement) document.exitFullscreen();
+  else if (player.requestFullscreen) player.requestFullscreen().catch(() => toast("Fullscreen isn't available right now."));
+}
+fsBtn.addEventListener('click', toggleFS);
+document.addEventListener('fullscreenchange', () => {
+  player.classList.toggle('fs', !!document.fullscreenElement);
+  closeAllMenus();
+});
+
+/* ============================================================
+   Menus (notifications, settings, more)
+   ============================================================ */
+function closeAllMenus(){
+  $$('.menu.open').forEach(m => {
+    m.classList.remove('open');
+    setTimeout(() => { if (!m.classList.contains('open')) m.hidden = true; }, 200);
+  });
+  $$('.menu-btn').forEach(b => b.setAttribute('aria-expanded','false'));
+}
+function openMenu(btn, menu, fixed = false){
+  closeAllMenus();
+  menu.hidden = false;
+  if (fixed){ // floats above the player, opens upward like a real player menu
+    const r = btn.getBoundingClientRect();
+    menu.style.position = 'fixed';
+    menu.style.left = Math.max(10, Math.min(innerWidth - menu.offsetWidth - 10, r.right - menu.offsetWidth)) + 'px';
+    menu.style.top = 'auto'; menu.style.right = 'auto';
+    menu.style.bottom = (innerHeight - r.top + 10) + 'px';
+  }
+  requestAnimationFrame(() => requestAnimationFrame(() => menu.classList.add('open')));
+  btn.setAttribute('aria-expanded','true');
+}
+ $$('.menu-btn').forEach(btn => {
+  btn.addEventListener('click', () => {
+    const menu = btn.parentElement.querySelector('.menu');
+    const isOpen = menu && menu.classList.contains('open');
+    if (!menu) return;
+    if (btn.id === 'settingsBtn'){ isOpen ? closeAllMenus() : openMenu(btn, menu, true); }
+    else { isOpen ? closeAllMenus() : openMenu(btn, menu); }
+    if (btn.id === 'notifBtn') $('#notifDot').classList.add('off'); // marked as read
+  });
+});
+document.addEventListener('click', e => {
+  if (e.target.closest('.menu-btn')) return;
+  const item = e.target.closest('.menu-item');
+  if (item && !item.classList.contains('disabled')) handleMenuAct(item);
+  if (!e.target.closest('.menu')) closeAllMenus();
+});
+document.addEventListener('keydown', e => { if (e.key === 'Escape'){ closeAllMenus(); closeDrawer(); } });
+addEventListener('scroll', () => closeAllMenus(), { passive:true });
+
+/* Settings: values that actually "do" things */
+const CYCLES = {
+  quality: ['Auto','1080p','720p','480p','240p'],
+  speed:   ['Normal','0.5×','0.75×','1.25×','1.5×','2×']
+};
+const cycIdx = { quality:0, speed:0 };
+const DIP = { 'Auto':0.8, '1080p':4, '720p':2.5, '480p':1.5, '240p':1 };
+const SPD = { 'Normal':1, '0.5×':0.5, '0.75×':0.75, '1.25×':1.25, '1.5×':1.5, '2×':2 };
+let capsOn = false, capTimer = null, loopOn = false, loopToastShown = false;
+const CAPS = ['[ quiet buffering ]','[ media still loading ]','[ signal unreachable, staying calm ]'];
+let ci = 0;
+
+function flashVal(el){ el.classList.add('flash'); setTimeout(() => el.classList.remove('flash'), 600); }
+function startCaps(){
+  $('#captions').hidden = false;
+  clearInterval(capTimer);
+  capTimer = setInterval(() => swap($('#captionText'), CAPS[ci++ % CAPS.length]), 6500);
+}
+function stopCaps(){ clearInterval(capTimer); $('#captions').hidden = true; }
+
+function handleMenuAct(item){
+  const act = item.dataset.act;
+  if (act === 'quality' || act === 'speed'){
+    cycIdx[act] = (cycIdx[act] + 1) % CYCLES[act].length;
+    const val = CYCLES[act][cycIdx[act]];
+    const valEl = $(act === 'quality' ? '#qualityVal' : '#speedVal');
+    valEl.textContent = val; flashVal(valEl);
+    if (act === 'quality'){ // switching quality momentarily costs you buffer. of course it does.
+      eng.v = Math.max(6, eng.v - DIP[val]);
+      eng.regress = 0; eng.surgeV = 0; eng.stallUntil = performance.now() + 700;
+      flashStatus(`Adjusting stream to ${val}…`);
+    } else { // the spinner obediently obeys the playback speed
+      const m = SPD[val];
+      $('.buffer-core .spin-arc').style.animationDuration = `${1.5/m}s, ${1.65/m}s`;
+    }
+    return; // menu stays open so the change is visible
+  }
+  if (act === 'captions'){
+    capsOn = !capsOn;
+    $('#capsVal').textContent = capsOn ? 'On' : 'Off';
+    capsOn ? startCaps() : stopCaps();
+    return;
+  }
+  if (act === 'loop'){
+    loopOn = !loopOn;
+    $('#loopCheck').hidden = !loopOn;
+    if (loopOn && !loopToastShown){ loopToastShown = true; toast("Loop is on — it'll kick in the moment it plays."); }
+  }
+  if (act === 'report') toast('Report received — our engineers are on it.');
+  closeAllMenus();
+}
+
+/* ============================================================
+   Info section: skeletons resolve… mostly
+   ============================================================ */
+const infoSec = $('#infoSec');
+
+setTimeout(() => { // duration resolves
+  const d = $('#durText');
+  d.classList.add('fade');
+  setTimeout(() => { d.textContent = '12:47'; d.classList.remove('fade'); }, 190);
+}, 2600);
+
+setTimeout(() => { // title resolves to its forever-state
+  const h = $('#videoTitle');
+  h.style.opacity = '0';
+  setTimeout(() => {
+    h.innerHTML = '<span class="reveal">Preparing your video…</span>';
+    h.style.opacity = '1';
+  }, 260);
+}, 4200);
+
+setTimeout(() => { // channel + actions appear
+  infoSec.classList.add('resolved');
+}, 5800);
+
+/* Like / Save / Subscribe / Share */
+let likes = 48214, liked = false;
+const likeCount = $('#likeCount');
+ $('#likeBtn').addEventListener('click', () => {
+  liked = !liked;
+  $('#likeBtn').classList.toggle('liked', liked);
+  likes += liked ? 1 : -1;
+  likeCount.textContent = likes.toLocaleString('en-US');
+  likeCount.classList.remove('pop'); void likeCount.offsetWidth; likeCount.classList.add('pop');
+});
+
+let saved = false;
+ $('#saveBtn').addEventListener('click', () => {
+  saved = !saved;
+  $('#saveBtn').classList.toggle('saved', saved);
+  $('#saveLabel').textContent = saved ? 'Saved' : 'Save';
+  toast(saved ? 'Saved to Watch Later.' : 'Removed from Watch Later.');
+});
+
+let subbed = false;
+ $('#subBtn').addEventListener('click', () => {
+  subbed = !subbed;
+  const b = $('#subBtn');
+  b.classList.toggle('on', subbed);
+  b.textContent = subbed ? 'Subscribed' : 'Subscribe';
+  toast(subbed ? 'Subscribed to Meridian Studios.' : 'Subscription removed.');
+});
+
+ $('#shareBtn').addEventListener('click', async () => {
+  const link = 'https://reelo.tv/watch?v=still-buffering';
+  try { await navigator.clipboard.writeText(link); toast('Link copied to clipboard.'); }
+  catch { toast(link); }
+});
+
+/* Description "…more" — expanding into more beautiful nothing */
+ $('#descToggle').addEventListener('click', () => {
+  const open = $('#descMore').classList.toggle('open');
+  $('#descToggle').textContent = open ? 'Show less' : '…more';
+});
+
+/* ============================================================
+   Recommended rail — generated, varied, equally stuck
+   ============================================================ */
+const RECS = [
+  { d:'14:03', w:[88,58,40], chip:'HD' },
+  { d:'3:27',  w:[72,46,34] },
+  { d:'18:05', w:[94,66,52], chip:'4K' },
+  { d:'8:12',  w:[64,50,30] },
+  { d:'25:41', w:[84,60,44], chip:'CC' },
+  { d:'5:59',  w:[76,42,36] },
+  { d:'11:34', w:[90,55,48] },
+  { d:'7:21',  w:[68,58,32], chip:'4K' },
+  { d:'16:45', w:[82,48,40], chip:'HD' }
+];
+ $('#recList').innerHTML = RECS.map((r,i) => `
+  <a href="#" class="rec" style="--i:${i}">
+    <span class="rec-thumb">
+      <svg class="spinner mini" viewBox="0 0 64 64" aria-hidden="true"><circle class="spin-track" cx="32" cy="32" r="26"/><circle class="spin-arc" cx="32" cy="32" r="26"/></svg>
+      ${r.chip ? `<span class="chip">${r.chip}</span>` : ''}
+      <span class="dur">${r.d}</span>
+    </span>
+    <span class="rec-meta">
+      <i class="skel" style="height:13px;width:${r.w[0]}%"></i>
+      <i class="skel" style="height:11px;width:${r.w[1]}%"></i>
+      <i class="skel" style="height:11px;width:${r.w[2]}%"></i>
+    </span>
+  </a>`).join('');
+
+ $('#recList').addEventListener('click', e => {
+  const rec = e.target.closest('.rec');
+  if (!rec) return;
+  e.preventDefault();
+  toast('That video is still buffering, too.');
+  if (!RM){ spinWrap.classList.remove('pulse'); void spinWrap.offsetWidth; spinWrap.classList.add('pulse'); }
+});
+
+/* ============================================================
+   Header: search, drawer, patience schedule
+   ============================================================ */
+ $('#searchForm').addEventListener('submit', e => {
+  e.preventDefault();
+  $('#searchInput').blur();
+  $('#topbar').classList.remove('search-open');
+  toast('Search unlocks once your video finishes loading.');
+});
+ $('#searchToggle').addEventListener('click', () => {
+  const bar = $('#topbar');
+  bar.classList.toggle('search-open');
+  if (bar.classList.contains('search-open')) $('#searchInput').focus();
+});
+
+const drawer = $('#drawer'), scrim = $('#drawerScrim');
+function closeDrawer(){ drawer.classList.remove('open'); scrim.classList.remove('open'); drawer.setAttribute('aria-hidden','true'); }
+ $('#menuBtn').addEventListener('click', () => {
+  drawer.classList.add('open'); scrim.classList.add('open'); drawer.setAttribute('aria-hidden','false');
+});
+scrim.addEventListener('click', closeDrawer);
+drawer.addEventListener('click', e => { if (e.target.closest('a,button')) closeDrawer(); });
+
+/* Gentle escalations over time — calm, never an error */
+const PAT = [
+  [14000,  'Your video is taking longer than expected.'],
+  [52000,  'Still working on it — thanks for your patience.'],
+  [115000, 'Almost there. The final frames are being prepared.'],
+  [200000, 'We truly appreciate your patience. The video does too.']
+];
+PAT.forEach(([t, m]) => setTimeout(() => {
+  const p = $('#patience');
+  if (p.hidden){ p.hidden = false; requestAnimationFrame(() => p.classList.add('show')); }
+  swap($('#patienceMsg'), m);
+}, t));
+})();
+</script>
+</body>
+</html>
