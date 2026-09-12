@@ -1,0 +1,327 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>ANTRA — Strava for Ants</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;500;700;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+    <header class="navbar">
+        <div class="logo">
+            🐜 ANTRA
+        </div>
+
+        <div class="tagline">
+            STRAVA FOR ANTS
+        </div>
+    </header>
+
+
+    <!-- LANDING PAGE -->
+
+    <main id="landing" class="page">
+
+        <section class="hero">
+
+            <div class="hero-ant">
+                🐜
+            </div>
+
+            <h1>
+                Track your ant.
+                <span>For absolutely no reason.</span>
+            </h1>
+
+            <p>
+                Measure distance, speed, rest breaks and other
+                completely unnecessary athletic statistics.
+            </p>
+
+            <button id="startButton" class="primary-button">
+                Start an Expedition
+            </button>
+
+        </section>
+
+    </main>
+
+
+    <!-- UPLOAD PAGE -->
+
+    <main id="uploadPage" class="page hidden">
+
+        <section class="upload-section">
+
+            <h2>
+                Start an Expedition
+            </h2>
+
+            <p class="subtitle">
+                Upload footage of your athlete.
+            </p>
+
+            <label for="videoInput" class="drop-zone">
+
+                <div class="upload-icon">
+                    📹
+                </div>
+
+                <h3>
+                    Drop your ant video here
+                </h3>
+
+                <p>
+                    or click to browse
+                </p>
+
+                <span class="file-types">
+                    MP4 · MOV · AVI · WEBM
+                </span>
+
+            </label>
+
+            <input
+                type="file"
+                id="videoInput"
+                accept="video/*"
+                hidden
+            >
+
+            <div id="selectedFile" class="selected-file hidden">
+            </div>
+
+            <button
+                id="analyzeButton"
+                class="primary-button hidden"
+            >
+                Analyze Expedition
+            </button>
+
+        </section>
+
+    </main>
+
+
+    <!-- PROCESSING -->
+
+    <main id="processingPage" class="page hidden">
+
+        <section class="processing">
+
+            <div class="spinner">
+                🐜
+            </div>
+
+            <h2>
+                Analyzing expedition...
+            </h2>
+
+            <div id="processingText">
+                Locating athlete...
+            </div>
+
+            <div class="progress-bar">
+                <div id="progress"></div>
+            </div>
+
+        </section>
+
+    </main>
+
+
+    <!-- RESULTS -->
+
+    <main id="resultsPage" class="page hidden">
+
+        <section class="activity">
+
+            <div class="activity-header">
+
+                <div>
+                    <div class="activity-label">
+                        ANTRA ACTIVITY
+                    </div>
+
+                    <h1 id="activityTitle">
+                        THE GREAT KITCHEN EXPEDITION
+                    </h1>
+
+                    <p id="activityDescription">
+                    </p>
+                </div>
+
+                <div class="ant-avatar">
+                    🐜
+                </div>
+
+            </div>
+
+
+            <!-- MAIN STATS -->
+
+            <section class="stats-grid">
+
+                <div class="stat-card large">
+                    <span>🐜 DISTANCE</span>
+                    <strong id="distance">0</strong>
+                    <small>ANT METERS</small>
+                </div>
+
+                <div class="stat-card large">
+                    <span>⏱ ACTUALLY WORKING</span>
+                    <strong id="movingTime">0</strong>
+                    <small>SECONDS</small>
+                </div>
+
+                <div class="stat-card large">
+                    <span>💨 ANT VELOCITY</span>
+                    <strong id="averageSpeed">0</strong>
+                    <small>AM / SECOND</small>
+                </div>
+
+                <div class="stat-card large">
+                    <span>🚀 TOP SPEED</span>
+                    <strong id="maxSpeed">0</strong>
+                    <small>AM / SECOND</small>
+                </div>
+
+            </section>
+
+
+            <!-- ROUTE -->
+
+            <section class="route-card">
+
+                <div class="section-header">
+
+                    <div>
+                        <span class="section-label">
+                            EXPEDITION MAP
+                        </span>
+
+                        <h2>
+                            Where did the ant even go?
+                        </h2>
+                    </div>
+
+                </div>
+
+                <div class="route-container">
+
+                    <svg
+                        id="routeSvg"
+                        viewBox="0 0 1000 600"
+                        preserveAspectRatio="none"
+                    >
+
+                        <path
+                            id="routePath"
+                            d=""
+                        />
+
+                        <circle
+                            id="startPoint"
+                            r="10"
+                        />
+
+                        <circle
+                            id="finishPoint"
+                            r="10"
+                        />
+
+                    </svg>
+
+                    <div class="route-start">
+                        START
+                    </div>
+
+                    <div class="route-finish">
+                        FINISH
+                    </div>
+
+                </div>
+
+            </section>
+
+
+            <!-- SECONDARY STATS -->
+
+            <section class="secondary-grid">
+
+                <div class="small-stat">
+                    <span>👣 ESTIMATED STEPS</span>
+                    <strong id="steps">0</strong>
+                    <small>probably inaccurate</small>
+                </div>
+
+                <div class="small-stat">
+                    <span>🛑 REST BREAKS</span>
+                    <strong id="stops">0</strong>
+                    <small>important meetings</small>
+                </div>
+
+                <div class="small-stat">
+                    <span>🍞 CRUMBS BURNED</span>
+                    <strong id="calories">0</strong>
+                    <small>fictional units</small>
+                </div>
+
+                <div class="small-stat">
+                    <span>🏔 TERRAIN</span>
+                    <strong id="terrainScore">0</strong>
+                    <small>/ 100</small>
+                </div>
+
+                <div class="small-stat">
+                    <span>💪 ANT FITNESS™</span>
+                    <strong id="fitnessScore">0</strong>
+                    <small>/ 100</small>
+                </div>
+
+                <div class="small-stat">
+                    <span>😴 LONGEST STOP</span>
+                    <strong id="longestStop">0</strong>
+                    <small>seconds</small>
+                </div>
+
+            </section>
+
+
+            <!-- ACHIEVEMENTS -->
+
+            <section class="achievements">
+
+                <div class="section-label">
+                    ANTCHIEVEMENTS
+                </div>
+
+                <div id="achievementList">
+                </div>
+
+            </section>
+
+
+            <button
+                id="newExpedition"
+                class="secondary-button"
+            >
+                🐜 Track Another Ant
+            </button>
+
+        </section>
+
+    </main>
+
+
+    <script src="app.js"></script>
+
+</body>
+</html>

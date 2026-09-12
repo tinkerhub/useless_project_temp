@@ -1,0 +1,19 @@
+{
+    "ant": "Ant #001",
+    "distance": 11.52,
+    "time": 30.92,
+    "moving_time": 13.13,
+    "average_speed": 0.88,
+    "max_speed": 1.75,
+    "stops": 0,
+    "longest_stop": 0.1,
+    "estimated_steps": 230,
+    "calories": 9.21,
+    "terrain_score": 49,
+    "fitness_score": 66,
+    "achievements": [
+        "First Steps",
+        "10 AM Club",
+        "Speed Demon"
+    ]
+}
