@@ -1,1 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Emotion Detector</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="https://cdn.jsdelivr.net/npm/face-api.js@0.22.2/dist/face-api.min.js"></script>
+</head>
+<body>
 
+    <div class="container">
+        <h1>😊 Emotion Detector</h1>
+        <p>Upload a face photo to detect emotion</p>
+
+        <input type="file" id="imageUpload" accept="image/*">
+
+        <br><br>
+
+        <button onclick="detectEmotion()">Analyze Emotion</button>
+
+        <div id="result">
+            Your result will appear here
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
