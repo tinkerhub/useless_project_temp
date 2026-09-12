@@ -1,0 +1,188 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Procrastibot Desktop Simulation</title>
+  <style>
+    :root {
+      --ink: #17221f;
+      --muted: #68736f;
+      --paper: #f4f0e7;
+      --panel: #fffdf8;
+      --line: #d8d4c8;
+      --green: #2d6954;
+      --green-soft: #dcebe2;
+      --amber: #e7a33e;
+      --red: #d75b43;
+      --oled: #102a27;
+      --oled-ink: #d6f5dd;
+    }
+
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      min-height: 100vh;
+      color: var(--ink);
+      background: radial-gradient(circle at 10% 0%, #fff9e9 0, transparent 32%), var(--paper);
+      font-family: Georgia, 'Times New Roman', serif;
+    }
+
+    .shell { width: min(1080px, 100%); margin: 0 auto; padding: 36px 22px 48px; }
+    header { display: flex; justify-content: space-between; gap: 24px; align-items: end; margin-bottom: 26px; }
+    h1 { margin: 0; font-size: clamp(2rem, 5vw, 4rem); letter-spacing: .01em; line-height: .92; }
+    .intro { max-width: 330px; margin: 0; color: var(--muted); line-height: 1.45; }
+    .grid { display: grid; grid-template-columns: minmax(0, 1.25fr) minmax(300px, .75fr); gap: 18px; }
+    .panel { background: color-mix(in srgb, var(--panel) 90%, transparent); border: 1px solid var(--line); padding: 22px; box-shadow: 0 12px 35px rgba(23, 34, 31, .06); }
+    .panel h2 { margin: 0 0 16px; font: 700 .78rem/1.2 Arial, sans-serif; letter-spacing: .15em; text-transform: uppercase; color: var(--muted); }
+
+    .oled-wrap { background: #1c2622; padding: 18px; }
+    .oled { min-height: 300px; padding: 28px 24px; background: var(--oled); color: var(--oled-ink); border: 8px solid #87918b; box-shadow: inset 0 0 28px rgba(132, 255, 177, .1); font: 20px/1.45 'Courier New', monospace; }
+    .oled-title { font-weight: bold; margin-bottom: 24px; }
+    .oled p { margin: 0 0 4px; }
+    .oled .blank { height: 18px; }
+    .oled.warning { color: #ffe2b4; text-shadow: 0 0 7px rgba(255, 207, 120, .65); }
+    .oled-note { display: flex; justify-content: space-between; gap: 12px; margin-top: 14px; color: #a8b1ab; font: 12px Arial, sans-serif; }
+
+    .controls { display: grid; gap: 12px; }
+    button { width: 100%; border: 1px solid var(--green); padding: 13px 14px; cursor: pointer; background: var(--green); color: white; font: 700 13px Arial, sans-serif; letter-spacing: .04em; }
+    button:hover { filter: brightness(1.1); }
+    button.secondary { background: transparent; color: var(--green); }
+    button.warn { background: var(--amber); border-color: #b87918; color: #241a0d; }
+    .range-row { display: flex; align-items: center; justify-content: space-between; gap: 12px; font: 13px Arial, sans-serif; color: var(--muted); }
+    input[type="range"] { width: 58%; accent-color: var(--green); }
+    .status-list { display: grid; gap: 10px; margin-top: 20px; }
+    .status { display: flex; justify-content: space-between; border-bottom: 1px solid var(--line); padding-bottom: 9px; font: 13px Arial, sans-serif; }
+    .value { color: var(--green); font-weight: bold; }
+    .value.alert { color: var(--red); }
+    .meter { height: 9px; background: #e8e4da; margin-top: 18px; overflow: hidden; }
+    .meter span { display: block; height: 100%; width: 0; background: var(--green); transition: width .25s linear, background .25s; }
+    .meter span.alert { background: var(--red); }
+    .log { max-height: 125px; overflow: auto; margin: 18px 0 0; padding: 12px; background: #f1eee5; color: var(--muted); font: 12px/1.6 'Courier New', monospace; }
+    .log div + div { border-top: 1px solid var(--line); }
+
+    @media (max-width: 760px) {
+      header { display: block; }
+      .intro { margin-top: 16px; }
+      .grid { grid-template-columns: 1fr; }
+      .oled { min-height: 260px; font-size: 17px; }
+    }
+  </style>
+</head>
+<body>
+  <main class="shell">
+    <header>
+      <h1>Procrastibot<br>desktop test</h1>
+      <p class="intro">A browser mock of the ESP32 sketch. Trigger the same inputs and watch the OLED, LED, buzzer, and timer respond.</p>
+    </header>
+
+    <section class="grid">
+      <div class="panel">
+        <h2>SSD1306 / 128 x 64</h2>
+        <div class="oled-wrap"><div id="oled" class="oled"></div></div>
+        <div class="oled-note"><span>I2C address 0x3C</span><span id="clock">00:00</span></div>
+      </div>
+
+      <aside class="panel">
+        <h2>Test controls</h2>
+        <div class="controls">
+          <button id="movement">PIR: detect movement</button>
+          <button id="button" class="secondary">GPIO 26: press button</button>
+          <button id="reset" class="secondary">Reset simulation</button>
+          <button id="toggle" class="warn">Pause timer</button>
+          <div class="range-row"><label for="limit">Inactivity limit</label><input id="limit" type="range" min="5" max="60" value="15"><strong id="limit-label">15s</strong></div>
+        </div>
+        <div class="status-list">
+          <div class="status"><span>PIR input / GPIO 13</span><strong id="pir" class="value">LOW</strong></div>
+          <div class="status"><span>LED / GPIO 2</span><strong id="led" class="value">OFF</strong></div>
+          <div class="status"><span>Buzzer / GPIO 25</span><strong id="buzzer" class="value">OFF</strong></div>
+          <div class="status"><span>Mode</span><strong id="mode" class="value">WATCHING</strong></div>
+        </div>
+        <div class="meter"><span id="meter"></span></div>
+        <div id="log" class="log" aria-live="polite"></div>
+      </aside>
+    </section>
+  </main>
+
+  <script>
+    const state = {
+      lastMovement: Date.now(),
+      procrastinating: false,
+      pir: false,
+      paused: false,
+      limit: 15,
+      buzzerUntil: 0
+    };
+
+    const $ = (id) => document.getElementById(id);
+
+    function writeLog(message) {
+      const row = document.createElement('div');
+      row.textContent = `${new Date().toLocaleTimeString()}  ${message}`;
+      $('log').prepend(row);
+    }
+
+    function renderOled(warning = state.procrastinating) {
+      $('oled').classList.toggle('warning', warning);
+      const lines = warning
+        ? ['WARNING!', '', 'Congratulations!', 'You successfully', 'avoided work.', '', 'Maryadekk irunn', 'pani edukk makkale']
+        : ['PROCRASTIBOT', '', 'Status:', 'Pani Edukunn', '', 'Pretending to', 'be productive...'];
+      $('oled').innerHTML = `<div class="oled-title">${lines[0]}</div>` + lines.slice(1).map((line) => line ? `<p>${line}</p>` : '<div class="blank"></div>').join('');
+    }
+
+    function movementDetected() {
+      state.lastMovement = Date.now();
+      state.procrastinating = false;
+      state.pir = true;
+      state.buzzerUntil = 0;
+      renderOled(false);
+      writeLog('Movement detected. Timer reset.');
+      update();
+      clearTimeout(window.pirTimer);
+      window.pirTimer = setTimeout(() => { state.pir = false; update(); }, 900);
+    }
+
+    function triggerWarning() {
+      state.procrastinating = true;
+      state.buzzerUntil = Date.now() + 3000;
+      renderOled(true);
+      writeLog('PROCRASTINATION DETECTED! LED and buzzer activated.');
+    }
+
+    function update() {
+      const elapsed = (Date.now() - state.lastMovement) / 1000;
+      const progress = Math.min(100, elapsed / state.limit * 100);
+      if (!state.paused && elapsed >= state.limit && !state.procrastinating) triggerWarning();
+      $('pir').textContent = state.pir ? 'HIGH' : 'LOW';
+      $('led').textContent = state.procrastinating ? 'ON' : 'OFF';
+      $('buzzer').textContent = Date.now() < state.buzzerUntil ? '1000 Hz' : 'OFF';
+      $('mode').textContent = state.procrastinating ? 'PROCRASTINATING' : state.paused ? 'PAUSED' : 'WATCHING';
+      $('mode').classList.toggle('alert', state.procrastinating);
+      $('meter').style.width = `${state.procrastinating ? 100 : progress}%`;
+      $('meter').classList.toggle('alert', state.procrastinating);
+      $('clock').textContent = `${String(Math.floor(elapsed / 60)).padStart(2, '0')}:${String(Math.floor(elapsed % 60)).padStart(2, '0')}`;
+    }
+
+    $('movement').addEventListener('click', movementDetected);
+    $('button').addEventListener('click', () => writeLog('Button pressed. Absolutely nothing happened.'));
+    $('reset').addEventListener('click', () => {
+      state.lastMovement = Date.now(); state.procrastinating = false; state.pir = false; state.buzzerUntil = 0;
+      renderOled(false); writeLog('Simulation reset.'); update();
+    });
+    $('toggle').addEventListener('click', () => {
+      state.paused = !state.paused;
+      $('toggle').textContent = state.paused ? 'Resume timer' : 'Pause timer';
+      writeLog(state.paused ? 'Timer paused.' : 'Timer resumed.'); update();
+    });
+    $('limit').addEventListener('input', (event) => {
+      state.limit = Number(event.target.value);
+      $('limit-label').textContent = `${state.limit}s`;
+      update();
+    });
+
+    renderOled();
+    writeLog('Simulation ready.');
+    setInterval(update, 100);
+  </script>
+</body>
+</html>
