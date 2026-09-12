@@ -1,1 +1,2615 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
+<title>FIND ME — The Useless Challenge</title>
+
+<style>
+
+/* =========================================================
+   RESET
+========================================================= */
+
+*{
+    box-sizing:border-box;
+    margin:0;
+    padding:0;
+}
+
+html,body{
+    width:100%;
+    height:100%;
+    overflow:hidden;
+    font-family:Arial,Helvetica,sans-serif;
+    background:#050507;
+    color:white;
+}
+
+
+/* =========================================================
+   SCREEN SYSTEM
+========================================================= */
+
+.screen{
+    position:absolute;
+    inset:0;
+    display:none;
+}
+
+.screen.active{
+    display:flex;
+}
+
+
+/* =========================================================
+   START SCREEN
+========================================================= */
+
+#startScreen{
+    align-items:center;
+    justify-content:center;
+
+    background:
+        radial-gradient(
+            circle at 50% 45%,
+            #202027 0%,
+            #0b0b0f 35%,
+            #050507 75%
+        );
+}
+
+.start-box{
+    width:760px;
+    max-width:90%;
+    text-align:center;
+}
+
+.small-title{
+    font-size:13px;
+    letter-spacing:6px;
+    color:#888;
+    margin-bottom:22px;
+}
+
+.logo{
+    font-size:90px;
+    font-weight:1000;
+    letter-spacing:18px;
+    line-height:1;
+
+    text-shadow:
+        0 0 25px rgba(255,255,255,.15),
+        0 0 80px rgba(255,255,255,.08);
+}
+
+.tagline{
+    margin-top:24px;
+    color:#999;
+    font-size:15px;
+    letter-spacing:3px;
+}
+
+.warning{
+    margin:45px auto 30px;
+
+    padding:16px 25px;
+
+    border:1px solid #25252b;
+    background:#0b0b0f;
+
+    color:#777;
+
+    font-size:12px;
+    letter-spacing:2px;
+
+    width:max-content;
+    max-width:100%;
+}
+
+.start-btn{
+    border:none;
+
+    background:white;
+    color:#050507;
+
+    padding:18px 60px;
+
+    font-size:13px;
+    font-weight:900;
+    letter-spacing:4px;
+
+    cursor:pointer;
+
+    border-radius:6px;
+
+    transition:.2s;
+}
+
+.start-btn:hover{
+    transform:scale(1.06);
+
+    box-shadow:
+        0 0 40px rgba(255,255,255,.18);
+}
+
+
+/* =========================================================
+   GAME SCREEN
+========================================================= */
+
+#gameScreen{
+    flex-direction:column;
+    background:#07070a;
+}
+
+
+/* =========================================================
+   HEADER
+========================================================= */
+
+.header{
+    height:76px;
+    flex-shrink:0;
+
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+
+    padding:0 35px;
+
+    border-bottom:1px solid #1c1c21;
+    background:#09090d;
+}
+
+.brand{
+    font-size:16px;
+    font-weight:900;
+    letter-spacing:4px;
+}
+
+.stats{
+    display:flex;
+    gap:45px;
+}
+
+.stat{
+    text-align:center;
+}
+
+.stat-label{
+    font-size:9px;
+    color:#666;
+
+    letter-spacing:2px;
+
+    margin-bottom:5px;
+}
+
+.stat-value{
+    font-size:18px;
+    font-weight:900;
+}
+
+.exit-btn{
+    background:transparent;
+
+    border:1px solid #29292f;
+
+    color:#777;
+
+    padding:9px 18px;
+
+    cursor:pointer;
+
+    font-size:10px;
+    letter-spacing:2px;
+}
+
+.exit-btn:hover{
+    color:white;
+    border-color:#555;
+}
+
+
+/* =========================================================
+   GAME CONTENT
+========================================================= */
+
+.game-content{
+    flex:1;
+
+    display:flex;
+    flex-direction:column;
+
+    min-height:0;
+}
+
+.instruction-area{
+    height:100px;
+    flex-shrink:0;
+
+    display:flex;
+    align-items:center;
+    justify-content:center;
+
+    text-align:center;
+}
+
+.instruction{
+    color:#666;
+
+    font-size:11px;
+
+    letter-spacing:3px;
+}
+
+.instruction strong{
+    color:#ddd;
+}
+
+
+/* =========================================================
+   GAME AREA
+========================================================= */
+
+.game-area{
+    position:relative;
+
+    flex:1;
+
+    margin:0 35px 25px;
+
+    border:1px solid #1c1c22;
+
+    overflow:hidden;
+
+    background:
+        linear-gradient(
+            rgba(255,255,255,.018) 1px,
+            transparent 1px
+        ),
+        linear-gradient(
+            90deg,
+            rgba(255,255,255,.018) 1px,
+            transparent 1px
+        ),
+        radial-gradient(
+            circle at center,
+            #111117,
+            #07070a 70%
+        );
+
+    background-size:
+        45px 45px,
+        45px 45px,
+        100% 100%;
+}
+
+
+/* =========================================================
+   CENTER CROSS
+========================================================= */
+
+.center-cross{
+    position:absolute;
+
+    left:50%;
+    top:50%;
+
+    width:30px;
+    height:30px;
+
+    transform:translate(-50%,-50%);
+
+    opacity:.08;
+
+    pointer-events:none;
+}
+
+.center-cross:before,
+.center-cross:after{
+    content:"";
+
+    position:absolute;
+
+    background:white;
+}
+
+.center-cross:before{
+    width:30px;
+    height:1px;
+
+    top:15px;
+}
+
+.center-cross:after{
+    width:1px;
+    height:30px;
+
+    left:15px;
+}
+
+
+/* =========================================================
+   TARGET
+========================================================= */
+
+#target{
+    position:absolute;
+
+    width:130px;
+    height:55px;
+
+    border:1px solid rgba(255,255,255,.3);
+
+    border-radius:9px;
+
+    background:
+        linear-gradient(
+            135deg,
+            #ffffff,
+            #d8d8df
+        );
+
+    color:#060609;
+
+    font-size:11px;
+    font-weight:1000;
+
+    letter-spacing:3px;
+
+    cursor:pointer;
+
+    box-shadow:
+        0 0 25px rgba(255,255,255,.15),
+        0 15px 40px rgba(0,0,0,.7);
+
+    z-index:20;
+
+    user-select:none;
+
+    touch-action:manipulation;
+
+    transition:
+        left .10s linear,
+        top .10s linear,
+        transform .10s ease,
+        width .2s ease,
+        height .2s ease,
+        opacity .15s ease;
+}
+
+#target:hover{
+    transform:
+        rotate(var(--rotation,0deg))
+        scale(1.08);
+}
+
+#target:active{
+    transform:
+        rotate(var(--rotation,0deg))
+        scale(.88);
+}
+
+
+/* =========================================================
+   TARGET PULSE
+========================================================= */
+
+#target.hit{
+    animation:hitPulse .25s ease;
+}
+
+@keyframes hitPulse{
+
+    0%{
+        transform:
+            rotate(var(--rotation,0deg))
+            scale(1);
+    }
+
+    50%{
+        transform:
+            rotate(var(--rotation,0deg))
+            scale(1.25);
+    }
+
+    100%{
+        transform:
+            rotate(var(--rotation,0deg))
+            scale(1);
+    }
+
+}
+
+
+/* =========================================================
+   PROGRESS
+========================================================= */
+
+.progress-wrap{
+    position:absolute;
+
+    left:35px;
+    right:35px;
+    bottom:10px;
+
+    height:3px;
+
+    background:#15151a;
+}
+
+.progress{
+    width:10%;
+    height:100%;
+
+    background:#eee;
+
+    transition:width .4s ease;
+}
+
+
+/* =========================================================
+   POPUP
+========================================================= */
+
+.popup-overlay{
+    position:fixed;
+
+    inset:0;
+
+    display:none;
+
+    align-items:center;
+    justify-content:center;
+
+    background:rgba(0,0,0,.78);
+
+    z-index:100;
+}
+
+.popup-overlay.show{
+    display:flex;
+}
+
+.popup{
+    width:420px;
+    max-width:90%;
+
+    padding:45px;
+
+    text-align:center;
+
+    background:#0c0c10;
+
+    border:1px solid #29292f;
+
+    box-shadow:
+        0 30px 100px rgba(0,0,0,.8);
+}
+
+.popup-small{
+    color:#666;
+
+    font-size:10px;
+
+    letter-spacing:4px;
+}
+
+.popup h2{
+    font-size:38px;
+
+    margin:15px 0;
+}
+
+.popup p{
+    color:#777;
+
+    font-size:12px;
+
+    line-height:1.7;
+}
+
+.next-btn{
+    margin-top:30px;
+
+    border:0;
+
+    background:white;
+    color:black;
+
+    padding:14px 35px;
+
+    font-weight:900;
+
+    font-size:11px;
+
+    letter-spacing:3px;
+
+    cursor:pointer;
+}
+
+
+/* =========================================================
+   END SCREENS
+========================================================= */
+
+#exitScreen,
+#finalScreen{
+    align-items:center;
+    justify-content:center;
+
+    background:#050507;
+
+    text-align:center;
+}
+
+.end-box{
+    width:650px;
+    max-width:90%;
+}
+
+.end-box h1{
+    font-size:65px;
+
+    letter-spacing:8px;
+}
+
+.end-box p{
+    color:#777;
+
+    margin-top:20px;
+
+    line-height:1.8;
+}
+
+.time-wasted{
+    margin-top:30px;
+
+    padding:20px;
+
+    border:1px solid #29292f;
+
+    background:#0b0b0f;
+}
+
+.time-label{
+    color:#666;
+
+    font-size:10px;
+
+    letter-spacing:4px;
+}
+
+.time-value{
+    margin-top:8px;
+
+    font-size:38px;
+
+    font-weight:900;
+
+    letter-spacing:3px;
+}
+
+.end-stats{
+    margin-top:18px;
+
+    color:#666;
+
+    font-size:11px;
+
+    letter-spacing:2px;
+}
+
+.restart-btn{
+    margin-top:35px;
+
+    padding:15px 40px;
+
+    border:1px solid #444;
+
+    background:transparent;
+
+    color:white;
+
+    cursor:pointer;
+
+    letter-spacing:3px;
+
+    font-size:11px;
+}
+
+.restart-btn:hover{
+    background:white;
+    color:black;
+}
+
+
+/* =========================================================
+   LEVEL 10 FINAL OVERLAY
+========================================================= */
+
+#level10Overlay{
+    position:fixed;
+
+    inset:0;
+
+    display:none;
+
+    align-items:center;
+    justify-content:center;
+
+    background:rgba(0,0,0,.88);
+
+    z-index:500;
+
+    text-align:center;
+
+    backdrop-filter:blur(3px);
+}
+
+#level10Overlay.show{
+    display:flex;
+}
+
+.level10-box{
+    width:700px;
+    max-width:90%;
+
+    padding:45px 25px;
+
+    border:1px solid #29292f;
+
+    background:#09090d;
+
+    box-shadow:
+        0 30px 120px rgba(0,0,0,.9);
+
+    animation:finalAppear .4s ease;
+}
+
+@keyframes finalAppear{
+
+    from{
+        opacity:0;
+        transform:scale(.9);
+    }
+
+    to{
+        opacity:1;
+        transform:scale(1);
+    }
+
+}
+
+.level10-text{
+    font-size:55px;
+
+    font-weight:1000;
+
+    letter-spacing:7px;
+}
+
+.level10-message{
+    margin-top:25px;
+
+    color:#aaa;
+
+    font-size:15px;
+
+    line-height:1.8;
+}
+
+.wasted-final{
+    margin-top:25px;
+
+    font-size:13px;
+
+    color:#666;
+
+    letter-spacing:3px;
+}
+
+.wasted-final strong{
+    display:block;
+
+    margin-top:8px;
+
+    color:white;
+
+    font-size:35px;
+
+    letter-spacing:2px;
+}
+
+
+/* =========================================================
+   TOAST
+========================================================= */
+
+.toast{
+    position:fixed;
+
+    left:50%;
+    bottom:35px;
+
+    transform:
+        translateX(-50%)
+        translateY(20px);
+
+    background:#111116;
+
+    border:1px solid #29292f;
+
+    padding:12px 25px;
+
+    color:#aaa;
+
+    font-size:10px;
+
+    letter-spacing:2px;
+
+    opacity:0;
+
+    pointer-events:none;
+
+    transition:.3s;
+
+    z-index:600;
+}
+
+.toast.show{
+    opacity:1;
+
+    transform:
+        translateX(-50%)
+        translateY(0);
+}
+
+
+/* =========================================================
+   WRONG CLICK SHAKE
+========================================================= */
+
+.game-area.wrong{
+    animation:wrongShake .2s ease;
+}
+
+@keyframes wrongShake{
+
+    0%,100%{
+        transform:translateX(0);
+    }
+
+    25%{
+        transform:translateX(-4px);
+    }
+
+    75%{
+        transform:translateX(4px);
+    }
+
+}
+
+
+/* =========================================================
+   RESPONSIVE
+========================================================= */
+
+@media(max-width:800px){
+
+    .logo{
+        font-size:60px;
+        letter-spacing:10px;
+    }
+
+    .header{
+        padding:0 15px;
+    }
+
+    .stats{
+        gap:15px;
+    }
+
+    .game-area{
+        margin:0 15px 20px;
+    }
+
+    .progress-wrap{
+        left:15px;
+        right:15px;
+    }
+
+    .end-box h1{
+        font-size:40px;
+        letter-spacing:4px;
+    }
+
+    .level10-text{
+        font-size:38px;
+        letter-spacing:4px;
+    }
+
+}
+
+@media(max-width:500px){
+
+    .brand{
+        font-size:12px;
+        letter-spacing:2px;
+    }
+
+    .stats{
+        gap:8px;
+    }
+
+    .stat-value{
+        font-size:14px;
+    }
+
+    .exit-btn{
+        padding:7px 10px;
+    }
+
+    .instruction-area{
+        height:75px;
+    }
+
+    .warning{
+        font-size:9px;
+        letter-spacing:1px;
+    }
+
+    .start-btn{
+        padding:15px 30px;
+    }
+
+}
+
+</style>
+</head>
+
+
+<body>
+
+
+<!-- =========================================================
+     START SCREEN
+========================================================= -->
+
+<section id="startScreen" class="screen active">
+
+    <div class="start-box">
+
+        <div class="small-title">
+            THE MOST USELESS GAME EVER
+        </div>
+
+        <div class="logo">
+            FIND ME
+        </div>
+
+        <div class="tagline">
+            Build nothing. Achieve nothing. Waste time.
+        </div>
+
+        <div class="warning">
+            ⚠ WARNING: THIS GAME HAS ABSOLUTELY NO PURPOSE
+        </div>
+
+        <button class="start-btn" id="startBtn">
+            START WASTING TIME
+        </button>
+
+    </div>
+
+</section>
+
+
+<!-- =========================================================
+     GAME SCREEN
+========================================================= -->
+
+<section id="gameScreen" class="screen">
+
+    <header class="header">
+
+        <div class="brand">
+            FIND ME
+        </div>
+
+        <div class="stats">
+
+            <div class="stat">
+                <div class="stat-label">
+                    LEVEL
+                </div>
+
+                <div class="stat-value" id="levelDisplay">
+                    1
+                </div>
+            </div>
+
+
+            <div class="stat">
+                <div class="stat-label">
+                    CLICKS
+                </div>
+
+                <div class="stat-value" id="clickDisplay">
+                    0
+                </div>
+            </div>
+
+
+            <div class="stat">
+                <div class="stat-label">
+                    TIME
+                </div>
+
+                <div class="stat-value" id="timeDisplay">
+                    0.0
+                </div>
+            </div>
+
+        </div>
+
+
+        <button class="exit-btn" id="exitBtn">
+            EXIT
+        </button>
+
+    </header>
+
+
+    <div class="game-content">
+
+        <div class="instruction-area">
+
+            <div class="instruction">
+                FIND THE BUTTON.
+                <strong>CLICK IT.</strong>
+            </div>
+
+        </div>
+
+
+        <main class="game-area" id="gameArea">
+
+            <div class="center-cross"></div>
+
+            <button id="target">
+                CLICK ME
+            </button>
+
+        </main>
+
+    </div>
+
+
+    <div class="progress-wrap">
+
+        <div
+            class="progress"
+            id="progress">
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- =========================================================
+     LEVEL COMPLETE POPUP
+========================================================= -->
+
+<div
+    class="popup-overlay"
+    id="levelPopup">
+
+    <div class="popup">
+
+        <div class="popup-small">
+            LEVEL COMPLETE
+        </div>
+
+        <h2 id="popupTitle">
+            NICE.
+        </h2>
+
+        <p id="popupMessage">
+            You found it.
+        </p>
+
+        <button
+            class="next-btn"
+            id="nextBtn">
+
+            NEXT LEVEL
+
+        </button>
+
+    </div>
+
+</div>
+
+
+<!-- =========================================================
+     EXIT SCREEN
+========================================================= -->
+
+<section
+    id="exitScreen"
+    class="screen">
+
+    <div class="end-box">
+
+        <h1>
+            YOU ESCAPED.
+        </h1>
+
+        <p>
+            Congratulations.<br>
+            You successfully escaped from doing absolutely nothing.
+        </p>
+
+
+        <div class="time-wasted">
+
+            <div class="time-label">
+                TIME WASTED
+            </div>
+
+            <div
+                class="time-value"
+                id="exitTime">
+
+                00:00
+
+            </div>
+
+        </div>
+
+
+        <div class="end-stats">
+
+            LEVEL:
+            <span id="exitLevel">1</span>
+
+            &nbsp;&nbsp;•&nbsp;&nbsp;
+
+            CLICKS:
+            <span id="exitClicks">0</span>
+
+        </div>
+
+
+        <button
+            class="restart-btn"
+            id="restartExit">
+
+            PLAY AGAIN
+
+        </button>
+
+    </div>
+
+</section>
+
+
+<!-- =========================================================
+     FINAL SCREEN
+========================================================= -->
+
+<section
+    id="finalScreen"
+    class="screen">
+
+    <div class="end-box">
+
+        <div class="small-title">
+            CONGRATULATIONS
+        </div>
+
+        <h1>
+            YOU FOUND IT.
+        </h1>
+
+        <p>
+            You completed all 10 levels.<br>
+            You have officially wasted your time.
+        </p>
+
+
+        <div class="time-wasted">
+
+            <div class="time-label">
+                TOTAL TIME WASTED
+            </div>
+
+            <div
+                class="time-value"
+                id="finalTime">
+
+                00:00
+
+            </div>
+
+        </div>
+
+
+        <div class="end-stats">
+
+            TOTAL CLICKS:
+            <span id="finalClicks">0</span>
+
+        </div>
+
+
+        <button
+            class="restart-btn"
+            id="restartFinal">
+
+            PLAY AGAIN
+
+        </button>
+
+    </div>
+
+</section>
+
+
+<!-- =========================================================
+     LEVEL 10 OVERLAY
+========================================================= -->
+
+<div id="level10Overlay">
+
+    <div class="level10-box">
+
+        <div class="level10-text">
+            HEY IDIOT. 😂
+        </div>
+
+        <div class="level10-message">
+            Thank you for wasting your time.<br>
+            This time won't get back.
+        </div>
+
+        <div class="wasted-final">
+
+            TIME WASTED
+
+            <strong id="overlayTime">
+                00:00
+            </strong>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<!-- =========================================================
+     TOAST
+========================================================= -->
+
+<div
+    class="toast"
+    id="toast">
+
+    Nice try.
+
+</div>
+
+
+<script>
+
+/* =========================================================
+   ELEMENTS
+========================================================= */
+
+const startScreen =
+    document.getElementById("startScreen");
+
+const gameScreen =
+    document.getElementById("gameScreen");
+
+const exitScreen =
+    document.getElementById("exitScreen");
+
+const finalScreen =
+    document.getElementById("finalScreen");
+
+
+const startBtn =
+    document.getElementById("startBtn");
+
+const exitBtn =
+    document.getElementById("exitBtn");
+
+
+const restartExit =
+    document.getElementById("restartExit");
+
+const restartFinal =
+    document.getElementById("restartFinal");
+
+
+const gameArea =
+    document.getElementById("gameArea");
+
+const target =
+    document.getElementById("target");
+
+
+const levelDisplay =
+    document.getElementById("levelDisplay");
+
+const clickDisplay =
+    document.getElementById("clickDisplay");
+
+const timeDisplay =
+    document.getElementById("timeDisplay");
+
+
+const progress =
+    document.getElementById("progress");
+
+
+const levelPopup =
+    document.getElementById("levelPopup");
+
+const popupTitle =
+    document.getElementById("popupTitle");
+
+const popupMessage =
+    document.getElementById("popupMessage");
+
+const nextBtn =
+    document.getElementById("nextBtn");
+
+
+const toast =
+    document.getElementById("toast");
+
+
+const level10Overlay =
+    document.getElementById("level10Overlay");
+
+
+const overlayTime =
+    document.getElementById("overlayTime");
+
+
+/* =========================================================
+   GAME VARIABLES
+========================================================= */
+
+let level = 1;
+
+let clicks = 0;
+
+let gameStarted = false;
+
+let waitingForNextLevel = false;
+
+let startTime = 0;
+
+let timerInterval = null;
+
+let movementTimer = null;
+
+let disappearTimer = null;
+
+let mouseMoveHandler = null;
+
+let lastEscape = 0;
+
+
+/* =========================================================
+   LEVEL SETTINGS
+========================================================= */
+
+const levelSettings = {
+
+    1:{
+        speed:0,
+        size:130,
+        height:55
+    },
+
+    2:{
+        speed:1700,
+        size:128,
+        height:54
+    },
+
+    3:{
+        speed:1250,
+        size:125,
+        height:53
+    },
+
+    4:{
+        speed:950,
+        size:122,
+        height:52
+    },
+
+    5:{
+        speed:750,
+        size:118,
+        height:50
+    },
+
+    6:{
+        speed:600,
+        size:114,
+        height:49
+    },
+
+    7:{
+        speed:500,
+        size:110,
+        height:47
+    },
+
+    8:{
+        speed:420,
+        size:106,
+        height:45
+    },
+
+    9:{
+        speed:340,
+        size:102,
+        height:43
+    },
+
+    10:{
+        speed:260,
+        size:98,
+        height:41
+    }
+
+};
+
+
+/* =========================================================
+   LEVEL MESSAGES
+========================================================= */
+
+const levelMessages = {
+
+    1:
+        "That was easy. It will not stay easy.",
+
+    2:
+        "Okay. Now it knows you are here.",
+
+    3:
+        "It is getting slightly annoying.",
+
+    4:
+        "You are still doing this?",
+
+    5:
+        "Halfway. Your free time is disappearing.",
+
+    6:
+        "This is becoming unnecessarily difficult.",
+
+    7:
+        "The button has trust issues.",
+
+    8:
+        "You could have been doing literally anything else.",
+
+    9:
+        "One more. Unfortunately."
+
+};
+
+
+/* =========================================================
+   SCREEN CONTROL
+========================================================= */
+
+function showScreen(screen){
+
+    startScreen.classList.remove("active");
+
+    gameScreen.classList.remove("active");
+
+    exitScreen.classList.remove("active");
+
+    finalScreen.classList.remove("active");
+
+    screen.classList.add("active");
+
+}
+
+
+/* =========================================================
+   START GAME
+========================================================= */
+
+startBtn.addEventListener("click",function(){
+
+    resetGame();
+
+    gameStarted = true;
+
+    startTime = performance.now();
+
+    showScreen(gameScreen);
+
+    setupLevel();
+
+    startTimer();
+
+});
+
+
+/* =========================================================
+   RESET
+========================================================= */
+
+function resetGame(){
+
+    stopTimer();
+
+    clearMovement();
+
+    clearTimeout(disappearTimer);
+
+    levelPopup.classList.remove("show");
+
+    level10Overlay.classList.remove("show");
+
+    level = 1;
+
+    clicks = 0;
+
+    gameStarted = false;
+
+    waitingForNextLevel = false;
+
+    target.disabled = false;
+
+    target.style.opacity = "1";
+
+    target.style.transform = "rotate(0deg)";
+
+    target.style.width = "130px";
+
+    target.style.height = "55px";
+
+    target.textContent = "CLICK ME";
+
+    updateStats();
+
+}
+
+
+/* =========================================================
+   TIMER
+========================================================= */
+
+function startTimer(){
+
+    stopTimer();
+
+    timerInterval =
+        setInterval(function(){
+
+            if(!gameStarted){
+                return;
+            }
+
+            const elapsed =
+                (performance.now() - startTime) / 1000;
+
+            timeDisplay.textContent =
+                elapsed.toFixed(1);
+
+        },100);
+
+}
+
+
+function stopTimer(){
+
+    if(timerInterval){
+
+        clearInterval(timerInterval);
+
+        timerInterval = null;
+
+    }
+
+}
+
+
+/* =========================================================
+   GET ELAPSED TIME
+========================================================= */
+
+function getElapsedSeconds(){
+
+    if(!startTime){
+        return 0;
+    }
+
+    return Math.max(
+        0,
+        (performance.now() - startTime) / 1000
+    );
+
+}
+
+
+/* =========================================================
+   FORMAT TIME
+========================================================= */
+
+function formatTime(seconds){
+
+    const totalSeconds =
+        Math.floor(seconds);
+
+    const minutes =
+        Math.floor(totalSeconds / 60)
+        .toString()
+        .padStart(2,"0");
+
+    const secs =
+        (totalSeconds % 60)
+        .toString()
+        .padStart(2,"0");
+
+    return minutes + ":" + secs;
+
+}
+
+
+/* =========================================================
+   UPDATE STATS
+========================================================= */
+
+function updateStats(){
+
+    levelDisplay.textContent =
+        level;
+
+    clickDisplay.textContent =
+        clicks;
+
+    progress.style.width =
+        (level * 10) + "%";
+
+}
+
+
+/* =========================================================
+   SETUP LEVEL
+========================================================= */
+
+function setupLevel(){
+
+    waitingForNextLevel = false;
+
+    clearMovement();
+
+    clearTimeout(disappearTimer);
+
+    const settings =
+        levelSettings[level];
+
+
+    target.disabled = false;
+
+    target.style.opacity = "1";
+
+    target.style.width =
+        settings.size + "px";
+
+    target.style.height =
+        settings.height + "px";
+
+    target.textContent =
+        "CLICK ME";
+
+    target.style.setProperty(
+        "--rotation",
+        "0deg"
+    );
+
+
+    updateStats();
+
+    moveTarget();
+
+
+    /* -----------------------------------------
+       AUTOMATIC MOVEMENT
+    ----------------------------------------- */
+
+    if(level >= 2){
+
+        movementTimer =
+            setInterval(function(){
+
+                if(
+                    gameStarted &&
+                    !waitingForNextLevel
+                ){
+
+                    moveTarget();
+
+                }
+
+            },settings.speed);
+
+    }
+
+
+    /* -----------------------------------------
+       LEVEL 5+
+       OCCASIONAL DISAPPEAR
+    ----------------------------------------- */
+
+    if(level >= 5){
+
+        scheduleDisappear();
+
+    }
+
+
+    enableMouseEscape();
+
+}
+
+
+/* =========================================================
+   DISAPPEAR FEATURE
+========================================================= */
+
+function scheduleDisappear(){
+
+    clearTimeout(disappearTimer);
+
+    if(level < 5){
+        return;
+    }
+
+    const delay =
+        Math.max(
+            900,
+            1900 - level * 80
+        );
+
+
+    disappearTimer =
+        setTimeout(function(){
+
+            if(
+                gameStarted &&
+                !waitingForNextLevel
+            ){
+
+                target.style.opacity = "0";
+
+
+                setTimeout(function(){
+
+                    if(
+                        gameStarted &&
+                        !waitingForNextLevel
+                    ){
+
+                        target.style.opacity = "1";
+
+                        moveTarget();
+
+                        scheduleDisappear();
+
+                    }
+
+                },250);
+
+            }
+
+        },delay);
+
+}
+
+
+/* =========================================================
+   MOVE TARGET
+========================================================= */
+
+function moveTarget(){
+
+    if(
+        !gameStarted ||
+        waitingForNextLevel
+    ){
+        return;
+    }
+
+
+    const areaWidth =
+        gameArea.clientWidth;
+
+    const areaHeight =
+        gameArea.clientHeight;
+
+
+    const buttonWidth =
+        target.offsetWidth;
+
+    const buttonHeight =
+        target.offsetHeight;
+
+
+    const padding = 25;
+
+
+    const maxX =
+        Math.max(
+            padding,
+            areaWidth -
+            buttonWidth -
+            padding
+        );
+
+
+    const maxY =
+        Math.max(
+            padding,
+            areaHeight -
+            buttonHeight -
+            padding
+        );
+
+
+    let x;
+    let y;
+
+
+    /* -----------------------------------------
+       FIND POSITION AWAY FROM MOUSE
+    ----------------------------------------- */
+
+    let attempts = 0;
+
+    do{
+
+        x =
+            padding +
+            Math.random() *
+            Math.max(
+                1,
+                maxX - padding
+            );
+
+
+        y =
+            padding +
+            Math.random() *
+            Math.max(
+                1,
+                maxY - padding
+            );
+
+
+        attempts++;
+
+
+        if(
+            window.innerWidth <= 600 ||
+            level <= 2
+        ){
+            break;
+        }
+
+
+        const areaRect =
+            gameArea.getBoundingClientRect();
+
+
+        const centerX =
+            areaRect.left +
+            x +
+            buttonWidth / 2;
+
+
+        const centerY =
+            areaRect.top +
+            y +
+            buttonHeight / 2;
+
+
+        const mouseX =
+            window.mouseX || -9999;
+
+
+        const mouseY =
+            window.mouseY || -9999;
+
+
+        const distance =
+            Math.hypot(
+                mouseX - centerX,
+                mouseY - centerY
+            );
+
+
+        const requiredDistance =
+            80 + level * 10;
+
+
+        if(
+            distance >
+            requiredDistance
+        ){
+            break;
+        }
+
+    }
+    while(attempts < 25);
+
+
+    target.style.left =
+        x + "px";
+
+    target.style.top =
+        y + "px";
+
+
+    /* -----------------------------------------
+       ROTATION
+    ----------------------------------------- */
+
+    let maxRotation = 0;
+
+    if(level >= 4){
+        maxRotation = 8;
+    }
+
+    if(level >= 7){
+        maxRotation = 14;
+    }
+
+
+    const rotation =
+        maxRotation === 0
+            ? 0
+            : (
+                Math.random() *
+                maxRotation * 2
+            ) -
+            maxRotation;
+
+
+    target.style.setProperty(
+        "--rotation",
+        rotation + "deg"
+    );
+
+
+    /* -----------------------------------------
+       CHAOS LEVELS
+    ----------------------------------------- */
+
+    if(level >= 8){
+
+        const texts = [
+
+            "NOPE",
+            "TOO SLOW",
+            "CATCH ME",
+            "TRY",
+            "FIND ME",
+            "HAHA",
+            "MISS"
+
+        ];
+
+
+        target.textContent =
+            texts[
+                Math.floor(
+                    Math.random() *
+                    texts.length
+                )
+            ];
+
+    }
+
+
+    if(level >= 9){
+
+        gameArea.classList.remove("wrong");
+
+        void gameArea.offsetWidth;
+
+        gameArea.classList.add("wrong");
+
+    }
+
+}
+
+
+/* =========================================================
+   MOUSE TRACKING
+========================================================= */
+
+document.addEventListener(
+    "mousemove",
+    function(event){
+
+        window.mouseX =
+            event.clientX;
+
+        window.mouseY =
+            event.clientY;
+
+    }
+);
+
+
+/* =========================================================
+   MOUSE ESCAPE
+========================================================= */
+
+function enableMouseEscape(){
+
+    disableMouseEscape();
+
+
+    if(level < 2){
+        return;
+    }
+
+
+    mouseMoveHandler =
+        function(event){
+
+            if(
+                !gameStarted ||
+                waitingForNextLevel
+            ){
+                return;
+            }
+
+
+            if(window.innerWidth <= 600){
+                return;
+            }
+
+
+            const rect =
+                target.getBoundingClientRect();
+
+
+            const centerX =
+                rect.left +
+                rect.width / 2;
+
+
+            const centerY =
+                rect.top +
+                rect.height / 2;
+
+
+            const distance =
+                Math.hypot(
+                    event.clientX - centerX,
+                    event.clientY - centerY
+                );
+
+
+            const escapeDistance =
+                55 + level * 10;
+
+
+            if(
+                distance <
+                escapeDistance
+            ){
+
+                const now =
+                    performance.now();
+
+
+                const cooldown =
+                    Math.max(
+                        90,
+                        300 - level * 20
+                    );
+
+
+                if(
+                    now - lastEscape <
+                    cooldown
+                ){
+                    return;
+                }
+
+
+                lastEscape =
+                    now;
+
+
+                moveTarget();
+
+            }
+
+        };
+
+
+    document.addEventListener(
+        "mousemove",
+        mouseMoveHandler
+    );
+
+}
+
+
+/* =========================================================
+   DISABLE MOUSE ESCAPE
+========================================================= */
+
+function disableMouseEscape(){
+
+    if(mouseMoveHandler){
+
+        document.removeEventListener(
+            "mousemove",
+            mouseMoveHandler
+        );
+
+        mouseMoveHandler = null;
+
+    }
+
+}
+
+
+/* =========================================================
+   CLEAR MOVEMENT
+========================================================= */
+
+function clearMovement(){
+
+    if(movementTimer){
+
+        clearInterval(
+            movementTimer
+        );
+
+        movementTimer = null;
+
+    }
+
+    disableMouseEscape();
+
+    clearTimeout(
+        disappearTimer
+    );
+
+}
+
+
+/* =========================================================
+   TARGET CLICK
+   IMPORTANT: pointerdown instead of click
+========================================================= */
+
+target.addEventListener(
+    "pointerdown",
+    function(event){
+
+        event.preventDefault();
+        event.stopPropagation();
+
+
+        if(
+            !gameStarted ||
+            waitingForNextLevel
+        ){
+            return;
+        }
+
+
+        waitingForNextLevel = true;
+
+        clearMovement();
+
+
+        clicks++;
+
+        updateStats();
+
+
+        /* -----------------------------------------
+           HIT EFFECT
+        ----------------------------------------- */
+
+        target.classList.remove("hit");
+
+        void target.offsetWidth;
+
+        target.classList.add("hit");
+
+
+        target.style.opacity = "0";
+
+
+        /* -----------------------------------------
+           LEVEL 10
+        ----------------------------------------- */
+
+        if(level === 10){
+
+            completeGame();
+
+            return;
+
+        }
+
+
+        /* -----------------------------------------
+           NORMAL LEVEL
+        ----------------------------------------- */
+
+        setTimeout(
+            showLevelComplete,
+            180
+        );
+
+    }
+);
+
+
+/* =========================================================
+   LEVEL COMPLETE
+========================================================= */
+
+function showLevelComplete(){
+
+    popupTitle.textContent =
+        "LEVEL " +
+        level +
+        " COMPLETE";
+
+
+    popupMessage.textContent =
+        levelMessages[level] ||
+        "You actually did it.";
+
+
+    nextBtn.textContent =
+        "NEXT LEVEL";
+
+
+    levelPopup.classList.add(
+        "show"
+    );
+
+}
+
+
+/* =========================================================
+   NEXT LEVEL
+========================================================= */
+
+nextBtn.addEventListener(
+    "click",
+    function(){
+
+        levelPopup.classList.remove(
+            "show"
+        );
+
+
+        if(level >= 10){
+            return;
+        }
+
+
+        level++;
+
+        setupLevel();
+
+        showToast(
+            getLevelToast(level)
+        );
+
+    }
+);
+
+
+/* =========================================================
+   LEVEL TOAST
+========================================================= */
+
+function getLevelToast(level){
+
+    const messages = {
+
+        2:
+            "The button is starting to move.",
+
+        3:
+            "Okay... now it moves faster.",
+
+        4:
+            "It can sense your cursor.",
+
+        5:
+            "STOP CHASING IT.",
+
+        6:
+            "This is becoming personal.",
+
+        7:
+            "The button has escaped.",
+
+        8:
+            "WHAT IS HAPPENING?",
+
+        9:
+            "ABSOLUTE CHAOS.",
+
+        10:
+            "FINAL LEVEL. GOOD LUCK."
+
+    };
+
+
+    return messages[level] ||
+        "Good luck.";
+
+}
+
+
+/* =========================================================
+   COMPLETE GAME
+========================================================= */
+
+function completeGame(){
+
+    const finalSeconds =
+        getElapsedSeconds();
+
+
+    gameStarted = false;
+
+    waitingForNextLevel = true;
+
+    clearMovement();
+
+    stopTimer();
+
+
+    const finalTime =
+        formatTime(finalSeconds);
+
+
+    /* -----------------------------------------
+       PUT TIME ON OVERLAY
+    ----------------------------------------- */
+
+    overlayTime.textContent =
+        finalTime;
+
+
+    /* -----------------------------------------
+       KEEP GAME VISIBLE UNDERNEATH
+    ----------------------------------------- */
+
+    gameScreen.classList.add(
+        "active"
+    );
+
+
+    level10Overlay.classList.add(
+        "show"
+    );
+
+
+    /* -----------------------------------------
+       SHOW FINAL SCREEN AFTER MESSAGE
+    ----------------------------------------- */
+
+    setTimeout(function(){
+
+        level10Overlay.classList.remove(
+            "show"
+        );
+
+
+        document.getElementById(
+            "finalTime"
+        ).textContent =
+            finalTime;
+
+
+        document.getElementById(
+            "finalClicks"
+        ).textContent =
+            clicks;
+
+
+        showScreen(
+            finalScreen
+        );
+
+
+    },3000);
+
+}
+
+
+/* =========================================================
+   EXIT
+========================================================= */
+
+function exitGame(){
+
+    if(!gameStarted){
+        return;
+    }
+
+
+    const wastedSeconds =
+        getElapsedSeconds();
+
+
+    gameStarted = false;
+
+    waitingForNextLevel = true;
+
+    clearMovement();
+
+    stopTimer();
+
+    levelPopup.classList.remove(
+        "show"
+    );
+
+
+    document.getElementById(
+        "exitLevel"
+    ).textContent =
+        level;
+
+
+    document.getElementById(
+        "exitClicks"
+    ).textContent =
+        clicks;
+
+
+    document.getElementById(
+        "exitTime"
+    ).textContent =
+        formatTime(wastedSeconds);
+
+
+    showScreen(
+        exitScreen
+    );
+
+}
+
+
+exitBtn.addEventListener(
+    "click",
+    exitGame
+);
+
+
+/* =========================================================
+   ESCAPE KEY
+========================================================= */
+
+document.addEventListener(
+    "keydown",
+    function(event){
+
+        if(
+            event.key === "Escape" &&
+            gameStarted
+        ){
+
+            exitGame();
+
+        }
+
+    }
+);
+
+
+/* =========================================================
+   RESTART GAME
+========================================================= */
+
+function restartGame(){
+
+    resetGame();
+
+    gameStarted = true;
+
+    startTime =
+        performance.now();
+
+
+    showScreen(
+        gameScreen
+    );
+
+
+    setupLevel();
+
+    startTimer();
+
+}
+
+
+restartExit.addEventListener(
+    "click",
+    restartGame
+);
+
+
+restartFinal.addEventListener(
+    "click",
+    restartGame
+);
+
+
+/* =========================================================
+   GAME AREA WRONG CLICK
+========================================================= */
+
+gameArea.addEventListener(
+    "pointerdown",
+    function(event){
+
+        if(
+            !gameStarted ||
+            waitingForNextLevel ||
+            event.target === target
+        ){
+            return;
+        }
+
+
+        if(level < 3){
+            return;
+        }
+
+
+        const messages = [
+
+            "Wrong place.",
+
+            "Nope.",
+
+            "That's not it.",
+
+            "Look harder.",
+
+            "Skill issue.",
+
+            "The button is laughing.",
+
+            "Try again.",
+
+            "You missed.",
+
+            "Close... but no.",
+
+            "Seriously?"
+
+        ];
+
+
+        showToast(
+            messages[
+                Math.floor(
+                    Math.random() *
+                    messages.length
+                )
+            ]
+        );
+
+
+        gameArea.classList.remove(
+            "wrong"
+        );
+
+        void gameArea.offsetWidth;
+
+        gameArea.classList.add(
+            "wrong"
+        );
+
+    }
+);
+
+
+/* =========================================================
+   TOAST
+========================================================= */
+
+let toastTimer = null;
+
+function showToast(message){
+
+    toast.textContent =
+        message;
+
+    toast.classList.add(
+        "show"
+    );
+
+
+    clearTimeout(
+        toastTimer
+    );
+
+
+    toastTimer =
+        setTimeout(function(){
+
+            toast.classList.remove(
+                "show"
+            );
+
+        },1600);
+
+}
+
+
+/* =========================================================
+   RESIZE
+========================================================= */
+
+window.addEventListener(
+    "resize",
+    function(){
+
+        if(
+            gameStarted &&
+            !waitingForNextLevel
+        ){
+
+            moveTarget();
+
+        }
+
+    }
+);
+
+
+/* =========================================================
+   INITIAL STATE
+========================================================= */
+
+showScreen(
+    startScreen
+);
+
+</script>
+
+</body>
+</html>
