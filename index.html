@@ -1,1 +1,481 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Alphabet Straight Line Counter</title>
 
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        :root {
+            --bg1: #667eea;
+            --bg2: #764ba2;
+            --card: rgba(255, 255, 255, 0.95);
+            --text: #222;
+            --secondary: #666;
+            --input-bg: #fff;
+            --input-border: #764ba2;
+            --button1: #667eea;
+            --button2: #764ba2;
+            --success: #00a86b;
+            --error: #e63946;
+            --shadow: rgba(0, 0, 0, 0.25);
+        }
+
+        /* Color Theme 2 */
+        body.ocean {
+            --bg1: #00c6ff;
+            --bg2: #0072ff;
+            --input-border: #0072ff;
+            --button1: #00c6ff;
+            --button2: #0072ff;
+        }
+
+        /* Color Theme 3 */
+        body.sunset {
+            --bg1: #ff758c;
+            --bg2: #ff7eb3;
+            --input-border: #ff4f81;
+            --button1: #ff758c;
+            --button2: #ff416c;
+        }
+
+        /* Color Theme 4 */
+        body.green {
+            --bg1: #11998e;
+            --bg2: #38ef7d;
+            --input-border: #11998e;
+            --button1: #11998e;
+            --button2: #38ef7d;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background: linear-gradient(
+                135deg,
+                var(--bg1),
+                var(--bg2)
+            );
+
+            min-height: 100vh;
+            margin: 0;
+
+            display: flex;
+            justify-content: center;
+            align-items: center;
+
+            transition: background 0.5s ease;
+        }
+
+        .container {
+            width: 360px;
+            padding: 30px;
+
+            background: var(--card);
+
+            border-radius: 20px;
+
+            text-align: center;
+
+            box-shadow:
+                0 15px 40px var(--shadow);
+
+            backdrop-filter: blur(10px);
+
+            animation: appear 0.6s ease;
+        }
+
+        @keyframes appear {
+            from {
+                opacity: 0;
+                transform: translateY(25px) scale(0.95);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0) scale(1);
+            }
+        }
+
+        h1 {
+            margin: 0 0 25px;
+
+            font-size: 24px;
+            font-weight: 800;
+
+            background: linear-gradient(
+                90deg,
+                var(--button1),
+                var(--button2)
+            );
+
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        label {
+            color: var(--secondary);
+            font-size: 15px;
+        }
+
+        /* Input */
+        input {
+            width: 90px;
+            height: 70px;
+
+            margin-top: 5px;
+
+            font-size: 32px;
+            font-weight: bold;
+            text-align: center;
+            text-transform: uppercase;
+
+            color: var(--text);
+            background: var(--input-bg);
+
+            border: 3px solid var(--input-border);
+            border-radius: 15px;
+
+            outline: none;
+
+            transition: 0.3s ease;
+        }
+
+        input:focus {
+            transform: scale(1.08);
+
+            box-shadow:
+                0 0 0 5px rgba(118, 75, 162, 0.15),
+                0 0 25px rgba(118, 75, 162, 0.4);
+        }
+
+        /* Button */
+        .count-btn {
+            width: 100%;
+
+            margin: 25px 0 10px;
+
+            padding: 14px;
+
+            font-size: 17px;
+            font-weight: bold;
+
+            color: white;
+
+            background: linear-gradient(
+                90deg,
+                var(--button1),
+                var(--button2)
+            );
+
+            border: none;
+            border-radius: 12px;
+
+            cursor: pointer;
+
+            box-shadow:
+                0 7px 15px rgba(0, 0, 0, 0.2);
+
+            transition: 0.3s ease;
+        }
+
+        .count-btn:hover {
+            transform: translateY(-3px);
+
+            box-shadow:
+                0 10px 20px rgba(0, 0, 0, 0.3);
+        }
+
+        .count-btn:active {
+            transform: scale(0.97);
+        }
+
+        /* Result */
+        #result {
+            min-height: 75px;
+            margin-top: 15px;
+
+            font-size: 18px;
+        }
+
+        .success {
+            color: var(--success);
+
+            background: rgba(0, 168, 107, 0.08);
+
+            border-radius: 12px;
+
+            padding: 12px;
+
+            animation: resultPop 0.35s ease;
+        }
+
+        .error {
+            color: var(--error);
+
+            background: rgba(230, 57, 70, 0.08);
+
+            border-radius: 12px;
+
+            padding: 12px;
+        }
+
+        @keyframes resultPop {
+            from {
+                opacity: 0;
+                transform: scale(0.8);
+            }
+
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+
+        .footer {
+            margin-top: 20px;
+
+            font-size: 13px;
+            color: var(--secondary);
+        }
+
+        /* Theme Selector */
+        .theme-title {
+            margin-top: 20px;
+            margin-bottom: 10px;
+
+            font-size: 13px;
+            color: var(--secondary);
+        }
+
+        .themes {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+        }
+
+        .theme {
+            width: 32px;
+            height: 32px;
+
+            border: 3px solid white;
+            border-radius: 50%;
+
+            cursor: pointer;
+
+            box-shadow:
+                0 2px 7px rgba(0, 0, 0, 0.25);
+
+            transition: 0.25s ease;
+        }
+
+        .theme:hover {
+            transform: scale(1.2);
+        }
+
+        .theme-purple {
+            background: linear-gradient(
+                135deg,
+                #667eea,
+                #764ba2
+            );
+        }
+
+        .theme-ocean {
+            background: linear-gradient(
+                135deg,
+                #00c6ff,
+                #0072ff
+            );
+        }
+
+        .theme-sunset {
+            background: linear-gradient(
+                135deg,
+                #ff758c,
+                #ff416c
+            );
+        }
+
+        .theme-green {
+            background: linear-gradient(
+                135deg,
+                #11998e,
+                #38ef7d
+            );
+        }
+
+        @media (max-width: 450px) {
+            .container {
+                width: calc(100% - 30px);
+                padding: 25px 20px;
+            }
+
+            h1 {
+                font-size: 21px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="container">
+
+        <h1>ALPHABET STRAIGHT LINE COUNTER</h1>
+
+        <label for="alphabet">
+            Enter an alphabet (A-Z):
+        </label>
+
+        <br><br>
+
+        <input
+            type="text"
+            id="alphabet"
+            maxlength="1"
+            autocomplete="off"
+            aria-label="Enter an alphabet"
+        >
+
+        <button class="count-btn" id="countButton">
+            ✨ Count Lines
+        </button>
+
+        <div id="result"></div>
+
+        <!-- Color Themes -->
+        <div class="theme-title">
+            Choose a colour theme
+        </div>
+
+        <div class="themes">
+
+            <button
+                class="theme theme-purple"
+                onclick="changeTheme('purple')"
+                title="Purple theme">
+            </button>
+
+            <button
+                class="theme theme-ocean"
+                onclick="changeTheme('ocean')"
+                title="Ocean theme">
+            </button>
+
+            <button
+                class="theme theme-sunset"
+                onclick="changeTheme('sunset')"
+                title="Sunset theme">
+            </button>
+
+            <button
+                class="theme theme-green"
+                onclick="changeTheme('green')"
+                title="Green theme">
+            </button>
+
+        </div>
+
+        <div class="footer">
+            Thank you for using this useless program! 😄
+        </div>
+
+    </div>
+
+    <script>
+        const input = document.getElementById("alphabet");
+        const result = document.getElementById("result");
+        const button = document.getElementById("countButton");
+
+        const lines = {
+            A: 3,
+            B: 1,
+            C: 0,
+            D: 1,
+            E: 4,
+            F: 3,
+            G: 1,
+            H: 3,
+            I: 1,
+            J: 1,
+            K: 3,
+            L: 2,
+            M: 4,
+            N: 3,
+            O: 0,
+            P: 2,
+            Q: 1,
+            R: 3,
+            S: 0,
+            T: 2,
+            U: 2,
+            V: 2,
+            W: 4,
+            X: 2,
+            Y: 3,
+            Z: 3
+        };
+
+        function countLines() {
+
+            const ch = input.value.trim().toUpperCase();
+
+            if (!/^[A-Z]$/.test(ch)) {
+
+                result.innerHTML = `
+                    <p class="error">
+                        ❌ Please enter a valid alphabet (A-Z).
+                    </p>
+                `;
+
+                return;
+            }
+
+            result.innerHTML = `
+                <div class="success">
+                    <strong>Alphabet:</strong> ${ch}<br>
+                    <strong>Straight Lines:</strong> ${lines[ch]}
+                </div>
+            `;
+        }
+
+        button.addEventListener("click", countLines);
+
+        input.addEventListener("keydown", function(event) {
+
+            if (event.key === "Enter") {
+                countLines();
+            }
+
+        });
+
+        input.addEventListener("input", function() {
+
+            this.value =
+                this.value.replace(/[^a-zA-Z]/g, "");
+
+        });
+
+        /* Change colour theme */
+        function changeTheme(theme) {
+
+            document.body.classList.remove(
+                "ocean",
+                "sunset",
+                "green"
+            );
+
+            if (theme !== "purple") {
+                document.body.classList.add(theme);
+            }
+
+        }
+    </script>
+
+</body>
+</html>
+```
