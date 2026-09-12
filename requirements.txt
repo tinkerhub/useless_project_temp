@@ -1,0 +1,12 @@
+streamlit==1.63.0
+deepface==0.0.100
+opencv-python==4.14.0.94
+pandas==3.0.5
+pyarrow==25.0.1
+fastparquet==2026.5.0
+plotly==7.0.0
+pillow==12.3.0
+tensorflow==2.21.0
+tf-keras==2.21.0
+mtcnn==1.0.0
+nltk==3.10.3
