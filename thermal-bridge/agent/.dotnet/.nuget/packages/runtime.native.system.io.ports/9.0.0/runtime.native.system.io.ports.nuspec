@@ -1,0 +1,38 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2013/05/nuspec.xsd">
+  <metadata>
+    <id>runtime.native.System.IO.Ports</id>
+    <version>9.0.0</version>
+    <authors>Microsoft</authors>
+    <license type="expression">MIT</license>
+    <licenseUrl>https://licenses.nuget.org/MIT</licenseUrl>
+    <icon>Icon.png</icon>
+    <readme>PACKAGE.md</readme>
+    <projectUrl>https://dot.net/</projectUrl>
+    <description>Internal implementation package not meant for direct consumption. Please do not reference directly.</description>
+    <releaseNotes>https://go.microsoft.com/fwlink/?LinkID=799421</releaseNotes>
+    <copyright>© Microsoft Corporation. All rights reserved.</copyright>
+    <serviceable>true</serviceable>
+    <repository type="git" url="https://github.com/dotnet/runtime" commit="9d5a6a9aa463d6d10b0b0ba6d5982cc82f363dc3" />
+    <dependencies>
+      <group targetFramework=".NETStandard2.0">
+        <dependency id="runtime.android-arm.runtime.native.System.IO.Ports" version="9.0.0" exclude="Build,Analyzers" />
+        <dependency id="runtime.android-arm64.runtime.native.System.IO.Ports" version="9.0.0" exclude="Build,Analyzers" />
+        <dependency id="runtime.android-x64.runtime.native.System.IO.Ports" version="9.0.0" exclude="Build,Analyzers" />
+        <dependency id="runtime.android-x86.runtime.native.System.IO.Ports" version="9.0.0" exclude="Build,Analyzers" />
+        <dependency id="runtime.linux-arm.runtime.native.System.IO.Ports" version="9.0.0" exclude="Build,Analyzers" />
+        <dependency id="runtime.linux-arm64.runtime.native.System.IO.Ports" version="9.0.0" exclude="Build,Analyzers" />
+        <dependency id="runtime.linux-bionic-arm64.runtime.native.System.IO.Ports" version="9.0.0" exclude="Build,Analyzers" />
+        <dependency id="runtime.linux-bionic-x64.runtime.native.System.IO.Ports" version="9.0.0" exclude="Build,Analyzers" />
+        <dependency id="runtime.linux-musl-arm.runtime.native.System.IO.Ports" version="9.0.0" exclude="Build,Analyzers" />
+        <dependency id="runtime.linux-musl-arm64.runtime.native.System.IO.Ports" version="9.0.0" exclude="Build,Analyzers" />
+        <dependency id="runtime.linux-musl-x64.runtime.native.System.IO.Ports" version="9.0.0" exclude="Build,Analyzers" />
+        <dependency id="runtime.linux-x64.runtime.native.System.IO.Ports" version="9.0.0" exclude="Build,Analyzers" />
+        <dependency id="runtime.maccatalyst-arm64.runtime.native.System.IO.Ports" version="9.0.0" exclude="Build,Analyzers" />
+        <dependency id="runtime.maccatalyst-x64.runtime.native.System.IO.Ports" version="9.0.0" exclude="Build,Analyzers" />
+        <dependency id="runtime.osx-arm64.runtime.native.System.IO.Ports" version="9.0.0" exclude="Build,Analyzers" />
+        <dependency id="runtime.osx-x64.runtime.native.System.IO.Ports" version="9.0.0" exclude="Build,Analyzers" />
+      </group>
+    </dependencies>
+  </metadata>
+</package>

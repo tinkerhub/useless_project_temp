@@ -1,0 +1,48 @@
+name: Build Thermal Bridge Release
+
+on:
+  push:
+    tags:
+      - "v*"
+
+permissions:
+  contents: write
+
+jobs:
+  release:
+    runs-on: windows-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: 8.0.x
+
+      - name: Restore
+        run: dotnet restore thermal-bridge/agent/LaptopThermalBridge.csproj
+
+      - name: Publish icastfireball.exe
+        run: >-
+          dotnet publish thermal-bridge/agent/LaptopThermalBridge.csproj
+          --configuration Release
+          --runtime win-x64
+          --self-contained true
+          --output thermal-bridge/publish
+          -p:PublishSingleFile=true
+          -p:IncludeNativeLibrariesForSelfExtract=true
+
+      - name: Verify release asset
+        shell: pwsh
+        run: |
+          $asset = "thermal-bridge/publish/icastfireball.exe"
+          if (-not (Test-Path $asset)) {
+            throw "Expected release asset was not produced: $asset"
+          }
+
+      - name: Upload release asset
+        uses: softprops/action-gh-release@v2
+        with:
+          files: thermal-bridge/publish/icastfireball.exe
+          generate_release_notes: true

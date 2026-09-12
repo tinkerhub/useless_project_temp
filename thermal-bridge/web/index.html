@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Thermal Bridge — Hardware Thermal Interop Architecture</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+  <!-- Dynamic Cloud Vortex Background with Slow Drift -->
+  <div class="cloud-canvas-container" aria-hidden="true">
+    <div class="cloud-vortex-bg"></div>
+    <div class="cloud-drift-layer"></div>
+    <div class="cloud-vignette"></div>
+  </div>
+
+  <div class="shell">
+
+    <!-- ============ HEADER / BRAND ============ -->
+    <header class="topbar">
+      <div class="brand">
+        <svg class="brand-hexagon" viewBox="0 0 24 24" fill="currentColor">
+          <path d="M12 2L2 7V17L12 22L22 17V7L12 2Z" />
+        </svg>
+        <span class="brand-name">THERMAL BRIDGE</span>
+      </div>
+
+      <div id="status-badge" class="status-badge status-offline" role="status" aria-live="polite">
+        <span class="status-dot"></span>
+        <span id="status-text">OFFLINE / BRIDGE DISCONNECTED</span>
+      </div>
+    </header>
+
+    <!-- ============ HERO TITLE SECTION (Matching Cloud Vortex Reference) ============ -->
+    <section class="hero-section">
+      <div class="hero-category">PLATFORM CONCEPT</div>
+      <h1 class="hero-title">ICASTFIREBALL</h1>
+      <div class="hero-accent-line"></div>
+      <p class="hero-subtitle">Connecting Tier-2 and Tier-3 Compute Infrastructure to Deterministic Thermal Architecture</p>
+    </section>
+
+    <main class="layout">
+
+      <!-- ============ ONBOARDING CARD ============ -->
+      <section id="onboarding-card" class="card onboarding">
+        <div class="onboarding-header">
+          <h2>INITIALIZE LOCAL BRIDGE AGENT</h2>
+          <p class="muted">The web dashboard connects to the local kernel agent via loopback WebSocket to execute ring-0 SMM fan management and telemetry streaming.</p>
+        </div>
+
+        <ol class="steps">
+          <li class="step">
+            <div class="step-index">1</div>
+            <div class="step-body">
+              <h3>SELECT PLATFORM HARDWARE PROFILE</h3>
+              <select id="device-select" class="select">
+                <option value="dell">Dell Inspiron / XPS (SMM Ring-0 Control)</option>
+                <option value="lenovo">Lenovo ThinkPad (EC Hardware Path)</option>
+                <option value="asus">ASUS ROG / TUF (Super I/O Bus)</option>
+                <option value="other">Generic / Standard Motherboard</option>
+              </select>
+              <p id="device-note" class="note"></p>
+            </div>
+          </li>
+
+          <li class="step">
+            <div class="step-index">2</div>
+            <div class="step-body">
+              <h3>RETRIEVE LOCAL AGENT BINARY</h3>
+              <p class="muted">Standalone single-file Windows x64 executable. No installation required.</p>
+              <a id="download-btn"
+                 class="btn btn-primary"
+                 href="https://github.com/bone-fires/thaatha/releases/latest/download/icastfireball.exe"
+                 download>
+                DOWNLOAD ICASTFIREBALL.EXE
+              </a>
+            </div>
+          </li>
+
+          <li class="step">
+            <div class="step-index">3</div>
+            <div class="step-body">
+              <h3>EXECUTE AS ADMINISTRATOR</h3>
+              <p class="muted">
+                Run the executable with elevated administrator privileges to mount the kernel sensor driver.
+              </p>
+            </div>
+          </li>
+        </ol>
+
+        <div class="onboarding-footer">
+          <span class="pulse-dot" aria-hidden="true"></span>
+          <span class="muted small">Listening on <code>ws://127.0.0.1:9876</code>…</span>
+        </div>
+      </section>
+
+      <!-- ============ COMPACT "CONNECTED" TRAY ============ -->
+      <section id="connected-tray" class="card tray hidden">
+        <div class="tray-left">
+          <span class="tray-dot"></span>
+          <div>
+            <h3>HARDWARE BRIDGE ONLINE</h3>
+            <p class="muted small">ws://127.0.0.1:9876 (Local SMM Driver)</p>
+          </div>
+        </div>
+        <button id="reopen-onboarding" class="btn btn-ghost btn-sm">SETTINGS</button>
+      </section>
+
+      <!-- ============ PRIMARY TELEMETRY GAUGES ============ -->
+      <section class="grid-2">
+        <div class="card metric-card">
+          <div class="metric-header">
+            <div class="metric-label">CPU TEMPERATURE</div>
+            <span id="temp-badge" class="badge badge-normal">NOMINAL</span>
+          </div>
+          <div class="metric-value">
+            <span id="cpu-temp">--</span><span class="metric-unit">°C</span>
+          </div>
+          <div class="metric-bar-track">
+            <div id="cpu-temp-bar" class="metric-bar-fill temp-fill" style="width: 0%"></div>
+          </div>
+        </div>
+
+        <div class="card metric-card">
+          <div class="metric-header">
+            <div class="metric-label">FAN SPEED</div>
+            <span id="fan-source-badge" class="badge badge-est">EST</span>
+          </div>
+          <div class="metric-value">
+            <span id="fan-rpm">--</span><span class="metric-unit">RPM</span>
+          </div>
+          <div class="metric-bar-track">
+            <div id="fan-rpm-bar" class="metric-bar-fill fan-fill" style="width: 0%"></div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ============ SYSTEM VITALS ============ -->
+      <section class="grid-4">
+        <div class="card mini-card">
+          <div class="mini-label">CPU UTILIZATION</div>
+          <div class="mini-value"><span id="cpu-load">--</span>%</div>
+          <div class="mini-bar-track"><div id="cpu-load-bar" class="mini-bar-fill" style="width: 0%"></div></div>
+        </div>
+        <div class="card mini-card">
+          <div class="mini-label">PACKAGE POWER</div>
+          <div class="mini-value"><span id="cpu-power">--</span> W</div>
+        </div>
+        <div class="card mini-card">
+          <div class="mini-label">CLOCK FREQUENCY</div>
+          <div class="mini-value"><span id="cpu-clock">--</span> GHz</div>
+        </div>
+        <div class="card mini-card">
+          <div class="mini-label">MEMORY LOAD</div>
+          <div class="mini-value"><span id="ram-load">--</span>%</div>
+          <div class="mini-bar-track"><div id="ram-load-bar" class="mini-bar-fill" style="width: 0%"></div></div>
+        </div>
+      </section>
+
+      <!-- ============ CONTROLS PANEL ============ -->
+      <section id="controls-panel" class="card controls locked">
+        <div class="lock-overlay" aria-hidden="true">
+          <span class="lock-label">[ SECURITY INTERLOCK ACTIVE ]</span>
+          <span class="small muted">Establish local agent connection to release controls</span>
+        </div>
+
+        <div class="control-block">
+          <div class="control-block-header">
+            <h3>COOLING FLOOR TARGET</h3>
+            <span id="floor-value" class="value-pill">0%</span>
+          </div>
+          <p class="muted small">
+            Enforces a hardware cooling floor: <code>MAX(BIOS_CURVE, USER_FLOOR)</code>. The fans will never operate below BIOS thermal safety limits.
+          </p>
+          <input id="floor-slider" type="range" min="0" max="100" step="5" value="0"
+                 class="slider" disabled aria-label="Cooling floor percentage" />
+          <div class="slider-scale">
+            <span>0% (AUTO)</span><span>50%</span><span>100% (MAXIMUM)</span>
+          </div>
+        </div>
+
+        <div class="control-block">
+          <div class="control-block-header">
+            <h3>HEAT OVERLOAD ENGINE</h3>
+            <label class="switch">
+              <input id="heat-toggle" type="checkbox" disabled />
+              <span class="switch-track"><span class="switch-thumb"></span></span>
+            </label>
+          </div>
+          <p class="muted small">Dispatches concurrent dense matrix arithmetic worker threads across available CPU cores.</p>
+
+          <div class="thread-select-row">
+            <label class="field-label" for="thread-slider">WORKER THREADS</label>
+            <span id="thread-value" class="value-pill">1</span>
+          </div>
+          <input id="thread-slider" type="range" min="1" max="16" step="1" value="1"
+                 class="slider" disabled aria-label="Number of stress threads" />
+
+          <!-- Presets -->
+          <div class="presets-row">
+            <button type="button" class="btn btn-preset" data-threads="2" disabled>PRESET_WARMUP (2T)</button>
+            <button type="button" class="btn btn-preset" data-threads="6" disabled>PRESET_COMPILE (6T)</button>
+            <button type="button" class="btn btn-preset" data-threads="16" disabled>PRESET_OVERLOAD (16T)</button>
+          </div>
+        </div>
+
+        <button id="emergency-stop" class="btn btn-danger btn-full" disabled>
+          EMERGENCY HALT / SHUTDOWN
+        </button>
+      </section>
+
+    </main>
+
+    <footer class="page-footer">
+      <span class="muted small">Thermal Bridge — Deterministic Local Hardware Architecture. No telemetry leaves localhost.</span>
+    </footer>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>

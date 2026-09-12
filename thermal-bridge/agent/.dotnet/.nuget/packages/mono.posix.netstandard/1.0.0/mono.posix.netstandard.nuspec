@@ -1,0 +1,17 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2011/08/nuspec.xsd">
+  <metadata>
+    <id>Mono.Posix.NETStandard</id>
+    <version>1.0.0</version>
+    <authors>Microsoft</authors>
+    <owners>Microsoft</owners>
+    <requireLicenseAcceptance>true</requireLicenseAcceptance>
+    <licenseUrl>https://go.microsoft.com/fwlink/?linkid=869050</licenseUrl>
+    <projectUrl>https://go.microsoft.com/fwlink/?linkid=869051</projectUrl>
+    <description>Provides functionality to access Posix/Unix features</description>
+    <copyright>© Microsoft Corporation. All rights reserved.</copyright>
+    <frameworkAssemblies>
+      <frameworkAssembly assemblyName="Mono.Posix" targetFramework=".NETFramework4.0" />
+    </frameworkAssemblies>
+  </metadata>
+</package>
