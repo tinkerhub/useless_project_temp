@@ -122,17 +122,12 @@ The interface is styled as a fake public-service office:
 
 ### Screenshots
 
-Add screenshots after capturing the application in a browser:
-
-![Main Ministry dashboard](https://drive.google.com/file/d/1zhyDBBgh0Ymc5RaMTqjYZe0apxko81f-/view?usp=sharing)
+[Main Ministry dashboard](https://drive.google.com/file/d/1zhyDBBgh0Ymc5RaMTqjYZe0apxko81f-/view?usp=sharing)
 *The Ministry dashboard with the thought-load meter and filing controls.*
 
-![Thought analysis result](https://drive.google.com/file/d/1zhyDBBgh0Ymc5RaMTqjYZe0apxko81f-/view?usp=sharing)
-*A submitted thought with its load breakdown, classification, and human note.*
+*Thought analysis result — A submitted thought with its load breakdown, classification, and human note.*
 
-![Activity feed](https://drive.google.com/file/d/1zhyDBBgh0Ymc5RaMTqjYZe0apxko81f-/view?usp=sharing)
-*The filing cabinet showing preserved thoughts.*
-
+*Activity feed — The filing cabinet showing preserved thoughts.*
 ### Workflow
 
 ```mermaid
