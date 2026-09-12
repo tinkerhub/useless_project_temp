@@ -2,33 +2,33 @@
 
 
 
-# [Project Name] 🎯
+# [blink - QR] 🎯
 
 
 ## Basic Details
-### Team Name: [Name]
+### Team Name: [Ob.Server]
 
 
 ### Team Members
-- Team Lead: [Name] - [College]
-- Member 2: [Name] - [College]
+- Team Lead: [Sam Peter] - [NSS enginering college palakkad]
+- Member 2: [Riya rose ] - [Nss College of enginnerring]
 - Member 3: [Name] - [College]
 
 ### Project Description
-[2-3 lines about what your project does]
+[the project details about slow file transfer using the  qr codes and eye blinking security]
 
 ### The Problem (that doesn't exist)
-[What ridiculous problem are you solving?]
+[making the file harder to transfer?]
 
 ### The Solution (that nobody asked for)
-[How are you solving it? Keep it fun!]
+[making the techonogies likttle more complex and having the frequent build in team with the file transfer!]
 
 ## Technical Details
 ### Technologies/Components Used
 For Software:
-- [Languages used]
-- [Frameworks used]
-- [Libraries used]
+- [Html,java, css, python]
+- [HTML5 & CSS3:]
+- [numpy, Conda / Miniforge]
 - [Tools used]
 
 For Hardware:
@@ -48,10 +48,12 @@ For Software:
 For Software:
 
 # Screenshots (Add at least 3)
-![Screenshot1](Add screenshot 1 here with proper name)
+![Screenshot1](<img width="1407" height="624" alt="Screenshot 2026-09-12 at 7 24 01 AM" src="https://github.com/user-attachments/assets/592a7a60-dea3-4aaa-be26-74dbadae9c20" />
+)
 *Add caption explaining what this shows*
 
-![Screenshot2](Add screenshot 2 here with proper name)
+![Screenshot2](<img width="918" height="651" alt="Screenshot 2026-09-12 at 7 27 07 AM" src="https://github.com/user-attachments/assets/2ef6384d-77ec-4ac0-b097-63624a20e659" />
+)
 *Add caption explaining what this shows*
 
 ![Screenshot3](Add screenshot 3 here with proper name)
@@ -60,25 +62,6 @@ For Software:
 # Diagrams
 ![Workflow](Add your workflow/architecture diagram here)
 *Add caption explaining your workflow*
-
-For Hardware:
-
-# Schematic & Circuit
-![Circuit](Add your circuit diagram here)
-*Add caption explaining connections*
-
-![Schematic](Add your schematic diagram here)
-*Add caption explaining the schematic*
-
-# Build Photos
-![Components](Add photo of your components here)
-*List out all components shown*
-
-![Build](Add photos of build process here)
-*Explain the build steps*
-
-![Final](Add photo of final product here)
-*Explain the final build*
 
 ### Project Demo
 # Video
@@ -89,8 +72,8 @@ For Hardware:
 [Add any extra demo materials/links]
 
 ## Team Contributions
-- [Name 1]: [Specific contributions]
-- [Name 2]: [Specific contributions]
+- [Name 1]: [Sam Peter - qr code sendr - receiver]
+- [Name 2]: [Riya rose roy - eyeblinking detectin]
 - [Name 3]: [Specific contributions]
 
 ---
