@@ -1,0 +1,389 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Excuse Suggestion 🤥 — BUNKVERSE</title>
+  <meta name="description" content="BUNKVERSE Excuse Generator — Get a random hilarious excuse for missing class, certified by the stars.">
+  <link rel="stylesheet" href="style.css">
+  <style>
+    /* ── Excuse Page Specific ── */
+    .excuse-layout {
+      max-width: 780px;
+      margin: 0 auto;
+      padding: 0 24px;
+    }
+
+    /* Oracle/Crystal ball aesthetic */
+    .oracle-section {
+      text-align: center;
+      padding: 60px 24px;
+      position: relative;
+    }
+
+    .crystal-ball {
+      width: 160px;
+      height: 160px;
+      border-radius: 50%;
+      background: radial-gradient(circle at 35% 35%, rgba(167,139,250,0.4), rgba(124,58,237,0.1) 40%, rgba(6,182,212,0.05) 70%, transparent);
+      border: 2px solid rgba(124,58,237,0.3);
+      margin: 0 auto 32px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 4rem;
+      box-shadow:
+        0 0 40px rgba(124,58,237,0.3),
+        0 0 80px rgba(124,58,237,0.15),
+        inset 0 0 40px rgba(124,58,237,0.1);
+      animation: float 4s ease-in-out infinite, pulse-glow 3s ease-in-out infinite;
+      cursor: default;
+      transition: var(--transition);
+    }
+
+    .crystal-ball.generating {
+      animation: spin 1s linear infinite, pulse-glow 0.5s ease-in-out infinite;
+    }
+
+    /* Category selector */
+    .category-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 10px;
+      margin: 32px 0;
+    }
+
+    @media (max-width: 480px) { .category-grid { grid-template-columns: repeat(2, 1fr); } }
+
+    .category-btn {
+      padding: 12px 8px;
+      background: rgba(255,255,255,0.04);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
+      color: var(--text-secondary);
+      font-family: 'Outfit', sans-serif;
+      font-size: 0.8rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: var(--transition);
+      text-align: center;
+    }
+
+    .category-btn:hover {
+      background: rgba(124,58,237,0.08);
+      border-color: rgba(124,58,237,0.3);
+      color: var(--purple-light);
+      transform: translateY(-2px);
+    }
+
+    .category-btn.active {
+      background: rgba(124,58,237,0.15);
+      border-color: rgba(124,58,237,0.4);
+      color: var(--purple-light);
+    }
+
+    /* Generate button big */
+    .generate-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      padding: 20px 48px;
+      background: linear-gradient(135deg, var(--purple), #4c1d95);
+      color: #fff;
+      border: none;
+      border-radius: var(--radius);
+      font-family: 'Outfit', sans-serif;
+      font-size: 1.2rem;
+      font-weight: 800;
+      letter-spacing: 0.5px;
+      cursor: pointer;
+      transition: var(--transition);
+      box-shadow: 0 8px 32px var(--purple-glow);
+      margin: 16px 0;
+    }
+
+    .generate-btn:hover {
+      background: linear-gradient(135deg, var(--purple-light), var(--purple));
+      transform: translateY(-3px);
+      box-shadow: 0 16px 48px rgba(124,58,237,0.5);
+    }
+
+    .generate-btn:active { transform: translateY(0) scale(0.97); }
+
+    .generate-btn .btn-icon { font-size: 1.5rem; }
+
+    /* Result card */
+    .excuse-result {
+      display: none;
+      animation: fadeInUp 0.6s ease;
+    }
+
+    .excuse-result.visible { display: block; }
+
+    .excuse-text-box {
+      background: linear-gradient(135deg, rgba(124,58,237,0.1), rgba(6,182,212,0.05));
+      border: 1px solid rgba(124,58,237,0.25);
+      border-radius: var(--radius-lg);
+      padding: 40px;
+      text-align: center;
+      position: relative;
+      margin-bottom: 20px;
+    }
+
+    .excuse-text-box::before {
+      content: '🔮';
+      font-size: 2rem;
+      position: absolute;
+      top: -20px;
+      left: 50%;
+      transform: translateX(-50%);
+    }
+
+    .excuse-label {
+      font-size: 0.75rem;
+      font-weight: 700;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: var(--purple-light);
+      margin-bottom: 16px;
+    }
+
+    .excuse-text {
+      font-size: clamp(1.1rem, 3vw, 1.4rem);
+      font-weight: 600;
+      line-height: 1.5;
+      color: var(--text-primary);
+      font-style: italic;
+      margin-bottom: 24px;
+    }
+
+    /* Believability meter */
+    .believability-section {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+      margin-bottom: 24px;
+    }
+
+    @media (max-width: 480px) { .believability-section { grid-template-columns: 1fr; } }
+
+    .believability-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 20px;
+      text-align: center;
+    }
+
+    .believability-pct {
+      font-size: 2.5rem;
+      font-weight: 900;
+      margin-bottom: 4px;
+    }
+
+    .teacher-reaction-text {
+      font-size: 1rem;
+      font-weight: 700;
+      margin-bottom: 4px;
+    }
+
+    /* Excuse history */
+    .excuse-history {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      max-height: 300px;
+      overflow-y: auto;
+    }
+
+    .history-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+      padding: 12px 16px;
+      background: rgba(255,255,255,0.03);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
+      font-size: 0.85rem;
+      color: var(--text-secondary);
+      transition: var(--transition-fast);
+    }
+
+    .history-item:hover { background: rgba(255,255,255,0.05); }
+
+    .history-num {
+      width: 24px;
+      height: 24px;
+      background: rgba(124,58,237,0.2);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.7rem;
+      font-weight: 700;
+      color: var(--purple-light);
+      flex-shrink: 0;
+    }
+
+    /* Star rating */
+    .star-rating {
+      display: flex;
+      gap: 4px;
+      justify-content: center;
+      font-size: 1.2rem;
+      margin: 8px 0;
+    }
+  </style>
+</head>
+<body>
+  <div id="nav-placeholder"></div>
+
+  <div class="page-wrapper">
+    <div class="excuse-layout">
+
+      <!-- PAGE HERO -->
+      <div class="page-hero text-center">
+        <div class="page-hero-tag" style="margin:0 auto 20px;">🤥 Astro Excuse Generator</div>
+        <h1 class="page-title"><span class="gradient-text">EXCUSE SUGGESTION</span> 🤥</h1>
+        <p class="page-subtitle">"ഇന്ന് Late ആയോ? Class miss ആയോ? No problem. Stars have an explanation." 🔮</p>
+      </div>
+
+      <!-- ORACLE -->
+      <section class="oracle-section anim-fade-up-1">
+        <div class="crystal-ball" id="crystalBall">🔮</div>
+        <h2 style="font-size:1.5rem;font-weight:800;margin-bottom:8px;">WHY WERE YOU LATE TODAY?</h2>
+        <p style="color:var(--text-muted);font-size:0.9rem;">"Choose your situation and let the universe explain your irresponsibility 😌"</p>
+      </section>
+
+      <!-- CATEGORY SELECTOR -->
+      <div class="card anim-fade-up-2" style="padding:28px;">
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px;flex-wrap:wrap;gap:10px;">
+          <div>
+            <h3 style="font-weight:700;margin-bottom:4px;font-size:1rem;">📋 What's your situation today?</h3>
+            <p style="font-size:0.8rem;color:var(--text-muted);margin:0;">Multi-select enabled: Click multiple buttons to combine reasons!</p>
+          </div>
+          <div style="display:flex;gap:8px;">
+            <button type="button" class="btn btn-ghost btn-xs" onclick="selectAllCategories()">⚡ Select All</button>
+            <button type="button" class="btn btn-ghost btn-xs" onclick="resetCategories('late')">🔄 Reset</button>
+          </div>
+        </div>
+
+        <div class="category-grid">
+          <button class="category-btn active" id="catBtn-late" onclick="selectCategory('late', this)">⏰<br>Came Late</button>
+          <button class="category-btn" id="catBtn-missed" onclick="selectCategory('missed', this)">💀<br>Missed Class</button>
+          <button class="category-btn" id="catBtn-assignment" onclick="selectCategory('assignment', this)">📝<br>No Assignment</button>
+          <button class="category-btn" id="catBtn-forgot" onclick="selectCategory('forgot', this)">🧠<br>Forgot Something</button>
+          <button class="category-btn" id="catBtn-bus" onclick="selectCategory('bus', this)">🚌<br>Bus Delay</button>
+          <button class="category-btn" id="catBtn-sleep" onclick="selectCategory('sleep', this)">😴<br>Overslept</button>
+        </div>
+
+        <div style="margin-top:12px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px;">
+          <div class="selection-badge" id="excuseCategorySummary" style="color:var(--purple-light);font-size:0.8rem;">
+            🎯 Selected: <strong>⏰ Came Late</strong> (1 situation)
+          </div>
+        </div>
+
+        <div style="text-align:center;margin-top:24px;">
+          <button class="generate-btn" onclick="generateExcuse()" id="generateBtn">
+            <span class="btn-icon">🔮</span>
+            GENERATE MY EXCUSE
+          </button>
+          <p style="font-size:0.78rem;color:var(--text-muted);margin-top:8px;">"Stars are standing by. Ready when you are." ⭐</p>
+        </div>
+      </div>
+
+      <!-- RESULT -->
+      <div class="excuse-result" id="excuseResult">
+
+        <!-- Excuse text -->
+        <div class="excuse-text-box mt-32">
+          <div class="excuse-label">📜 YOUR OFFICIAL EXCUSE</div>
+          <div class="excuse-text" id="excuseTextDisplay">—</div>
+          <div class="star-rating" id="starRating">⭐⭐⭐⭐⭐</div>
+          <div style="font-size:0.82rem;color:var(--text-muted);" id="excuseCategoryDisplay">—</div>
+        </div>
+
+        <!-- Believability + Reaction -->
+        <div class="believability-section">
+          <div class="believability-card">
+            <div class="excuse-label">📊 BELIEVABILITY</div>
+            <div class="believability-pct" id="believabilityPct" style="color:var(--gold);">—</div>
+            <div class="progress-track mt-8">
+              <div class="progress-fill gold" id="believabilityBar" style="width:0%;"></div>
+            </div>
+            <p style="font-size:0.78rem;color:var(--text-muted);margin-top:8px;" id="believabilityLabel">—</p>
+          </div>
+          <div class="believability-card">
+            <div class="excuse-label">👨‍🏫 TEACHER REACTION</div>
+            <div style="font-size:2.5rem;margin-bottom:8px;" id="teacherReactionEmoji">😐</div>
+            <div class="teacher-reaction-text" id="teacherReactionText">—</div>
+            <p style="font-size:0.78rem;color:var(--text-muted);" id="teacherReactionSub">—</p>
+          </div>
+        </div>
+
+        <!-- Pro tip -->
+        <div class="card" style="background:rgba(6,182,212,0.06);border-color:rgba(6,182,212,0.2);">
+          <div style="font-size:0.75rem;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:var(--cyan);margin-bottom:8px;">💡 PRO TIP</div>
+          <div style="font-size:0.9rem;color:var(--text-secondary);" id="proTip">—</div>
+        </div>
+
+        <!-- Meme section -->
+        <div class="media-result-section mt-24" style="background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius-lg);padding:28px;">
+          <h3 style="font-size:1rem;font-weight:700;margin-bottom:20px;">🎬 Teacher's Reaction (Meme Edition)</h3>
+
+          <div class="media-tabs">
+            <button class="media-tab active" onclick="switchExcuseTab(this, 'excMemeTab')">🖼️ Meme</button>
+            <button class="media-tab" onclick="switchExcuseTab(this, 'excVideoTab')">🎬 Video</button>
+            <button class="media-tab" onclick="switchExcuseTab(this, 'excDialogueTab')">💬 Dialogue</button>
+          </div>
+
+          <div class="media-tab-content active" id="excMemeTab">
+            <div class="placeholder-box" id="excuseMemeImage">
+              <div class="placeholder-icon-lg">🖼️</div>
+              <div class="placeholder-title">[ ADD YOUR EXCUSE MEME IMAGE HERE ]</div>
+              <div class="placeholder-desc">Go to Meme Gallery to assign an image for this category</div>
+            </div>
+          </div>
+
+          <div class="media-tab-content" id="excVideoTab">
+            <div class="video-placeholder" id="excuseMemeVideo">
+              <div class="play-icon">▶</div>
+              <div class="placeholder-title">[ ADD YOUR EXCUSE VIDEO MEME HERE ]</div>
+              <div class="placeholder-desc">Click to play once video is assigned</div>
+            </div>
+          </div>
+
+          <div class="media-tab-content" id="excDialogueTab">
+            <div class="dialogue-box" id="excuseDialogue">
+              <span class="dialogue-placeholder">[ ADD YOUR MOVIE DIALOGUE HERE ]</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Generate again -->
+        <div style="text-align:center;margin:32px 0 60px;">
+          <button class="generate-btn" onclick="generateExcuse()" style="font-size:1rem;padding:14px 36px;">
+            🔄 Generate Another Excuse
+          </button>
+        </div>
+
+      </div><!-- excuse-result -->
+
+      <!-- History -->
+      <div class="card mt-32 mb-60" id="historySection" style="display:none;">
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px;">
+          <h3 style="font-size:1rem;font-weight:700;">📜 Excuse History</h3>
+          <button class="btn btn-ghost" style="padding:6px 12px;font-size:0.78rem;" onclick="clearHistory()">🗑️ Clear</button>
+        </div>
+        <div class="excuse-history" id="excuseHistoryList"></div>
+      </div>
+
+    </div><!-- excuse-layout -->
+  </div>
+
+  <div id="footer-placeholder"></div>
+
+  <script src="script.js"></script>
+  <script src="excuse.js"></script>
+</body>
+</html>

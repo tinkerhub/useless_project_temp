@@ -1,0 +1,423 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Bunking Rank 🏆 — BUNKVERSE</title>
+  <meta name="description" content="BUNKVERSE Bunking Rank — Discover your bunker identity, XP, achievements and legendary rank.">
+  <link rel="stylesheet" href="style.css">
+  <style>
+    /* ── Rank Page Specific ── */
+    .rank-layout {
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 0 24px;
+    }
+
+    /* Profile card */
+    .profile-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      overflow: hidden;
+      padding: 0;
+    }
+
+    .profile-banner {
+      height: 120px;
+      background: linear-gradient(135deg, rgba(124,58,237,0.4), rgba(6,182,212,0.2), rgba(245,158,11,0.15));
+      position: relative;
+    }
+
+    .profile-avatar-wrapper {
+      position: absolute;
+      bottom: -40px;
+      left: 32px;
+    }
+
+    .profile-avatar {
+      width: 80px;
+      height: 80px;
+      border-radius: 50%;
+      border: 3px solid var(--bg-primary);
+      background: var(--bg-secondary);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 2rem;
+      overflow: hidden;
+    }
+
+    .profile-avatar img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .profile-avatar-placeholder {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 4px;
+      cursor: pointer;
+    }
+
+    .profile-body {
+      padding: 56px 32px 32px;
+    }
+
+    .profile-title-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 6px 16px;
+      border-radius: 999px;
+      font-size: 1rem;
+      font-weight: 800;
+      letter-spacing: 0.5px;
+      margin-bottom: 8px;
+    }
+
+    .profile-name {
+      font-size: 1.5rem;
+      font-weight: 900;
+      margin-bottom: 4px;
+    }
+
+    .profile-sub {
+      font-size: 0.85rem;
+      color: var(--text-muted);
+      margin-bottom: 24px;
+    }
+
+    /* XP bar */
+    .xp-section {
+      background: rgba(255,255,255,0.03);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 20px;
+      margin-bottom: 24px;
+    }
+
+    .xp-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 12px;
+    }
+
+    .xp-value {
+      font-size: 1.8rem;
+      font-weight: 900;
+    }
+
+    .xp-label {
+      font-size: 0.75rem;
+      font-weight: 700;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      color: var(--text-muted);
+    }
+
+    .xp-bar-track {
+      height: 12px;
+      background: rgba(255,255,255,0.06);
+      border-radius: 999px;
+      overflow: hidden;
+      position: relative;
+    }
+
+    .xp-bar-fill {
+      height: 100%;
+      border-radius: 999px;
+      background: linear-gradient(90deg, var(--gold), var(--gold-light));
+      position: relative;
+      transition: width 1.5s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    .xp-bar-fill::after {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+      animation: shimmer 2s infinite;
+    }
+
+    /* Special title cards */
+    .special-titles-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 12px;
+    }
+
+    @media (max-width: 480px) { .special-titles-grid { grid-template-columns: 1fr; } }
+
+    .special-title-card {
+      padding: 16px 20px;
+      background: rgba(255,255,255,0.03);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      font-size: 0.9rem;
+      font-weight: 600;
+      transition: var(--transition-fast);
+      opacity: 0.4;
+    }
+
+    .special-title-card.unlocked {
+      opacity: 1;
+      border-color: rgba(245,158,11,0.3);
+      background: rgba(245,158,11,0.05);
+    }
+
+    .special-title-card .title-icon { font-size: 1.5rem; }
+    .special-title-card .title-text { flex: 1; }
+    .special-title-card .title-name { font-weight: 700; font-size: 0.9rem; }
+    .special-title-card .title-req { font-size: 0.75rem; color: var(--text-muted); margin-top: 2px; }
+    .special-title-card .lock { color: var(--text-muted); font-size: 0.75rem; }
+
+    /* Rank tier display */
+    .rank-tier {
+      text-align: center;
+      padding: 40px 24px;
+      border-radius: var(--radius-lg);
+      border: 1px solid transparent;
+      margin-bottom: 24px;
+    }
+
+    .rank-tier.legendary { background: rgba(239,68,68,0.07); border-color: rgba(239,68,68,0.25); }
+    .rank-tier.fugitive { background: rgba(245,158,11,0.07); border-color: rgba(245,158,11,0.25); }
+    .rank-tier.professional { background: rgba(124,58,237,0.07); border-color: rgba(124,58,237,0.25); }
+    .rank-tier.casual { background: rgba(6,182,212,0.07); border-color: rgba(6,182,212,0.25); }
+    .rank-tier.angel { background: rgba(16,185,129,0.07); border-color: rgba(16,185,129,0.25); }
+
+    .rank-tier-emoji { font-size: 4rem; display: block; margin-bottom: 12px; }
+    .rank-tier-title { font-size: 1.8rem; font-weight: 900; margin-bottom: 8px; }
+    .rank-tier-desc { font-size: 0.95rem; color: var(--text-secondary); }
+    .rank-tier-ml { font-size: 0.85rem; color: var(--text-muted); margin-top: 8px; }
+
+    /* Result hidden initially */
+    .rank-result { display: none; }
+    .rank-result.visible { display: block; animation: fadeInUp 0.6s ease; }
+
+    /* Input form */
+    .rank-form {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      padding: 40px;
+    }
+
+    /* Bunk level meter */
+    .bunk-level-meter {
+      background: rgba(255,255,255,0.03);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 24px;
+    }
+
+    .bunk-level-value {
+      font-size: 3rem;
+      font-weight: 900;
+      text-align: center;
+      margin-bottom: 12px;
+    }
+  </style>
+</head>
+<body>
+  <div id="nav-placeholder"></div>
+
+  <div class="page-wrapper">
+    <div class="rank-layout">
+
+      <!-- PAGE HERO -->
+      <div class="page-hero">
+        <div class="page-hero-tag">🏆 Bunker Identity System</div>
+        <h1 class="page-title"><span class="gradient-text-gold">BUNKING RANK</span> 🏆</h1>
+        <p class="page-subtitle">"Discover your true bunker identity. How legendary are you?" 👑</p>
+        <p class="page-subtitle" style="font-size:0.9rem;color:var(--text-muted);">"നിന്റെ bunk history ഇടൂ. BUNKVERSE ഒരു rank കൊടുക്കാം. 😂"</p>
+      </div>
+
+      <!-- INPUT FORM -->
+      <div class="rank-form anim-fade-up-1">
+        <h2 class="section-title mb-24">📊 Enter Your Stats</h2>
+        <div class="form-grid">
+          <div class="form-group">
+            <label class="form-label">📚 Total Classes Conducted</label>
+            <input type="number" class="form-control" id="rankConducted" value="100" min="1" placeholder="Total classes held">
+          </div>
+          <div class="form-group">
+            <label class="form-label">✅ Classes Attended</label>
+            <input type="number" class="form-control" id="rankAttended" value="76" min="0" placeholder="Classes you actually went to">
+          </div>
+          <div class="form-group">
+            <label class="form-label">📛 Your Name / Alias</label>
+            <input type="text" class="form-control" id="rankName" placeholder="What should we call you? 🥷" maxlength="30">
+          </div>
+          <div class="form-group">
+            <label class="form-label">🏛️ Department</label>
+            <div class="form-select-wrapper">
+              <select class="form-control" id="rankDept">
+                <option value="CSE">CSE</option>
+                <option value="ECE">ECE</option>
+                <option value="EEE">EEE</option>
+                <option value="ME">ME</option>
+                <option value="CE">CE</option>
+                <option value="IT">IT</option>
+              </select>
+            </div>
+          </div>
+        </div>
+        <div style="margin-top:32px;">
+          <button class="btn btn-gold btn-full btn-lg" onclick="calculateRank()">
+            🏆 REVEAL MY RANK
+          </button>
+        </div>
+      </div>
+
+      <!-- CALCULATING -->
+      <div class="calculating-state" id="rankCalculating" style="display:none;">
+        <div class="calc-spinner" style="border-top-color:var(--gold);"></div>
+        <div id="rankCalcMsg" style="color:var(--gold-light);font-weight:600;font-size:0.95rem;">Analyzing your bunking prowess...</div>
+      </div>
+
+      <!-- RESULT -->
+      <div class="rank-result" id="rankResult">
+
+        <!-- Profile Card -->
+        <div class="profile-card mt-32">
+          <div class="profile-banner">
+            <div class="profile-avatar-wrapper">
+              <div class="profile-avatar" id="profileAvatarDisplay">
+                <div class="profile-avatar-placeholder" onclick="document.getElementById('profileImageInput').click()">
+                  <span style="font-size:0.6rem;color:var(--text-muted);text-align:center;padding:4px;">[ ADD YOUR PROFILE IMAGE HERE ]</span>
+                </div>
+                <img id="profileAvatarImg" style="display:none;" alt="Profile">
+              </div>
+              <input type="file" id="profileImageInput" accept="image/*" style="display:none;" onchange="loadProfileImage(event)">
+            </div>
+          </div>
+          <div class="profile-body">
+            <div class="profile-title-badge" id="profileTitleBadge">—</div>
+            <div class="profile-name" id="profileName">—</div>
+            <div class="profile-sub" id="profileSub">—</div>
+
+            <!-- XP -->
+            <div class="xp-section">
+              <div class="xp-header">
+                <div>
+                  <div class="xp-label">⚡ BUNKER XP</div>
+                  <div class="xp-value gradient-text-gold" id="profileXP">0</div>
+                </div>
+                <div style="text-align:right;">
+                  <div class="xp-label">BUNK LEVEL</div>
+                  <div class="xp-value" id="profileBunkLevel" style="color:var(--purple-light);">0%</div>
+                </div>
+              </div>
+              <div class="xp-bar-track">
+                <div class="xp-bar-fill" id="xpBarFill" style="width:0%"></div>
+              </div>
+              <div style="display:flex;justify-content:space-between;margin-top:6px;font-size:0.75rem;color:var(--text-muted);">
+                <span>Rookie Bunker</span>
+                <span>Legendary ☠️</span>
+              </div>
+            </div>
+
+            <!-- Stats -->
+            <div class="stats-grid mb-24">
+              <div class="stat-item">
+                <div class="stat-value" id="rankStatConducted" style="color:var(--cyan);">—</div>
+                <div class="stat-label">Classes Conducted</div>
+              </div>
+              <div class="stat-item">
+                <div class="stat-value" id="rankStatAttended" style="color:var(--green);">—</div>
+                <div class="stat-label">Classes Attended</div>
+              </div>
+              <div class="stat-item">
+                <div class="stat-value" id="rankStatMissed" style="color:var(--red);">—</div>
+                <div class="stat-label">Classes Bunked</div>
+              </div>
+              <div class="stat-item">
+                <div class="stat-value gradient-text" id="rankStatAttendancePct">—</div>
+                <div class="stat-label">Attendance %</div>
+              </div>
+              <div class="stat-item">
+                <div class="stat-value gradient-text-gold" id="rankStatBunkPct">—</div>
+                <div class="stat-label">Bunk %</div>
+              </div>
+              <div class="stat-item">
+                <div class="stat-value" id="rankStatXP" style="color:var(--gold);">—</div>
+                <div class="stat-label">Bunker XP</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Rank Tier -->
+        <div class="rank-tier mt-24" id="rankTierCard">
+          <span class="rank-tier-emoji" id="rankTierEmoji">—</span>
+          <div class="rank-tier-title" id="rankTierTitle">—</div>
+          <div class="rank-tier-desc" id="rankTierDesc">—</div>
+          <div class="rank-tier-ml" id="rankTierML">—</div>
+        </div>
+
+        <!-- Achievements -->
+        <div class="card mt-16">
+          <h3 style="font-size:1rem;font-weight:700;margin-bottom:20px;">🏆 Achievements</h3>
+          <div class="achievement-badges" id="achievementBadges"></div>
+        </div>
+
+        <!-- Special Titles -->
+        <div class="card mt-16">
+          <h3 style="font-size:1rem;font-weight:700;margin-bottom:20px;">👑 Special Titles</h3>
+          <div class="special-titles-grid" id="specialTitlesGrid"></div>
+        </div>
+
+        <!-- Meme section -->
+        <div class="card mt-24" style="padding:28px;">
+          <h3 style="font-size:1rem;font-weight:700;margin-bottom:20px;">🎬 YOUR RANK REACTION</h3>
+          <div class="media-tabs">
+            <button class="media-tab active" onclick="switchRankTab(this, 'rankMemeTab')">🖼️ Meme</button>
+            <button class="media-tab" onclick="switchRankTab(this, 'rankVideoTab')">🎬 Video</button>
+            <button class="media-tab" onclick="switchRankTab(this, 'rankDialogueTab')">💬 Dialogue</button>
+          </div>
+          <div class="media-tab-content active" id="rankMemeTab">
+            <div class="placeholder-box" id="rankMemeImage">
+              <div class="placeholder-icon-lg">🖼️</div>
+              <div class="placeholder-title">[ ADD YOUR RANK MEME IMAGE HERE ]</div>
+              <div class="placeholder-desc" id="rankMemeCategory">Based on your bunker rank</div>
+            </div>
+          </div>
+          <div class="media-tab-content" id="rankVideoTab">
+            <div class="video-placeholder" id="rankMemeVideo">
+              <div class="play-icon">▶</div>
+              <div class="placeholder-title">[ ADD YOUR RANK VIDEO MEME HERE ]</div>
+              <div class="placeholder-desc">Click to play once assigned</div>
+            </div>
+          </div>
+          <div class="media-tab-content" id="rankDialogueTab">
+            <div class="dialogue-box" id="rankDialogue">
+              <span class="dialogue-placeholder">[ ADD YOUR RANK DIALOGUE HERE ]</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Recalculate -->
+        <div style="text-align:center;margin:32px 0 60px;">
+          <button class="btn btn-ghost" onclick="resetRank()">🔄 Recalculate</button>
+          <a href="bunk.html" class="btn btn-primary" style="margin-left:12px;">📊 Check If I Can Bunk</a>
+        </div>
+
+      </div><!-- rank-result -->
+
+    </div><!-- rank-layout -->
+  </div>
+
+  <div id="footer-placeholder"></div>
+
+  <script src="script.js"></script>
+  <script src="rank.js"></script>
+</body>
+</html>

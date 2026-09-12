@@ -1,0 +1,840 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Bunk Aakano? 📊 — BUNKVERSE</title>
+  <meta name="description"
+    content="BUNKVERSE Attendance Calculator — Calculate if you can bunk based on KTU academic calendar.">
+  <link rel="stylesheet" href="style.css">
+  <style>
+    /* ── Bunk Page Specific ── */
+    .bunk-layout {
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 0 24px;
+    }
+
+    .form-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      padding: 40px;
+      backdrop-filter: blur(12px);
+    }
+
+    /* Pill button selectors (Semester & Branch) */
+    .pill-group {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      margin-top: 8px;
+    }
+
+    .pill-btn {
+      padding: 5px 12px;
+      background: rgba(255, 255, 255, 0.04);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
+      font-family: 'Outfit', sans-serif;
+      font-size: 0.78rem;
+      font-weight: 600;
+      color: var(--text-secondary);
+      cursor: pointer;
+      transition: var(--transition-fast);
+    }
+
+    .pill-btn:hover {
+      border-color: var(--purple);
+      color: var(--purple-light);
+    }
+
+    .pill-btn.active {
+      background: rgba(124, 58, 237, 0.25);
+      border-color: var(--purple);
+      color: #fff;
+      box-shadow: 0 0 10px rgba(124, 58, 237, 0.3);
+    }
+
+    /* Subject tags */
+    .subject-tags-container {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-top: 10px;
+    }
+
+    .subject-tag {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 6px 14px;
+      background: rgba(124, 58, 237, 0.08);
+      border: 1px solid rgba(124, 58, 237, 0.25);
+      border-radius: 999px;
+      font-size: 0.78rem;
+      font-weight: 600;
+      color: var(--purple-light);
+      cursor: pointer;
+      transition: var(--transition-fast);
+      user-select: none;
+    }
+
+    .subject-tag:hover {
+      background: rgba(124, 58, 237, 0.2);
+      border-color: var(--purple);
+      transform: translateY(-1px);
+    }
+
+    .subject-tag.selected {
+      background: linear-gradient(135deg, rgba(124, 58, 237, 0.35), rgba(6, 182, 212, 0.25));
+      border-color: var(--cyan);
+      color: #fff;
+      box-shadow: 0 0 12px rgba(6, 182, 212, 0.35);
+    }
+
+    /* Period Multi-Select Grid */
+    .period-selector-wrapper {
+      background: rgba(255, 255, 255, 0.02);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 16px;
+      margin-top: 8px;
+    }
+
+    .period-preset-bar {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+      margin-bottom: 12px;
+      align-items: center;
+    }
+
+    .period-preset-btn {
+      padding: 5px 12px;
+      font-size: 0.75rem;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid var(--border);
+      color: var(--text-secondary);
+      font-weight: 600;
+      cursor: pointer;
+      transition: var(--transition-fast);
+      font-family: 'Outfit', sans-serif;
+    }
+
+    .period-preset-btn:hover {
+      background: rgba(124, 58, 237, 0.15);
+      border-color: var(--purple);
+      color: var(--purple-light);
+    }
+
+    .period-grid {
+      display: grid;
+      grid-template-columns: repeat(6, 1fr);
+      gap: 8px;
+    }
+
+    @media (max-width: 768px) {
+      .period-grid {
+        grid-template-columns: repeat(3, 1fr);
+      }
+    }
+
+    @media (max-width: 440px) {
+      .period-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+
+    .period-card-btn {
+      background: rgba(255, 255, 255, 0.03);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
+      padding: 10px 8px;
+      text-align: center;
+      cursor: pointer;
+      transition: var(--transition-fast);
+      position: relative;
+      user-select: none;
+      font-family: 'Outfit', sans-serif;
+    }
+
+    .period-card-btn:hover {
+      border-color: var(--purple);
+      background: rgba(124, 58, 237, 0.08);
+      transform: translateY(-2px);
+    }
+
+    .period-card-btn.selected {
+      background: linear-gradient(135deg, rgba(124, 58, 237, 0.28), rgba(6, 182, 212, 0.18));
+      border-color: var(--purple);
+      box-shadow: 0 0 14px rgba(124, 58, 237, 0.35);
+    }
+
+    .period-card-btn .period-title {
+      font-size: 0.82rem;
+      font-weight: 700;
+      color: var(--text-primary);
+      display: block;
+    }
+
+    .period-card-btn.selected .period-title {
+      color: var(--purple-light);
+    }
+
+    .period-card-btn .period-time {
+      font-size: 0.68rem;
+      color: var(--text-muted);
+      margin-top: 3px;
+      display: block;
+    }
+
+    .period-card-btn .period-check {
+      font-size: 0.72rem;
+      position: absolute;
+      top: 4px;
+      right: 6px;
+      opacity: 0;
+      transition: var(--transition-fast);
+    }
+
+    .period-card-btn.selected .period-check {
+      opacity: 1;
+    }
+
+    .selection-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 0.78rem;
+      color: var(--cyan);
+      margin-top: 8px;
+      font-weight: 600;
+    }
+
+    /* Reaction button active state */
+    .reaction-btn {
+      padding: 6px 12px;
+      font-size: 0.75rem;
+      border-radius: var(--radius-sm);
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid var(--border);
+      color: var(--text-secondary);
+      cursor: pointer;
+      transition: var(--transition-fast);
+      font-family: 'Outfit', sans-serif;
+    }
+
+    .reaction-btn:hover {
+      border-color: var(--purple);
+      color: var(--purple-light);
+    }
+
+    .reaction-btn.selected-reaction {
+      background: rgba(124, 58, 237, 0.25);
+      border-color: var(--cyan);
+      color: #fff;
+      box-shadow: 0 0 12px rgba(6, 182, 212, 0.4);
+      font-weight: 700;
+    }
+
+    /* Result section */
+    .result-section {
+      display: none;
+    }
+
+    .result-section.visible {
+      display: block;
+      animation: fadeInUp 0.6s ease;
+    }
+
+    /* Big percentage display */
+    .attendance-big {
+      text-align: center;
+      padding: 40px 24px;
+      position: relative;
+    }
+
+    .attendance-circle {
+      width: 180px;
+      height: 180px;
+      border-radius: 50%;
+      margin: 0 auto 24px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+      border: 3px solid transparent;
+      transition: var(--transition);
+    }
+
+    .attendance-circle.safe {
+      border-color: var(--green);
+      box-shadow: 0 0 40px var(--green-glow), inset 0 0 40px rgba(16, 185, 129, 0.05);
+    }
+
+    .attendance-circle.warning {
+      border-color: var(--gold);
+      box-shadow: 0 0 40px var(--gold-glow), inset 0 0 40px rgba(245, 158, 11, 0.05);
+    }
+
+    .attendance-circle.danger {
+      border-color: var(--red);
+      box-shadow: 0 0 40px var(--red-glow), inset 0 0 40px rgba(239, 68, 68, 0.05);
+      animation: pulse-glow-red 2s ease-in-out infinite;
+    }
+
+    @keyframes pulse-glow-red {
+
+      0%,
+      100% {
+        box-shadow: 0 0 40px var(--red-glow);
+      }
+
+      50% {
+        box-shadow: 0 0 70px rgba(239, 68, 68, 0.6);
+      }
+    }
+
+    .attendance-pct {
+      font-size: 3rem;
+      font-weight: 900;
+      line-height: 1;
+    }
+
+    .attendance-pct-label {
+      font-size: 0.75rem;
+      font-weight: 600;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      color: var(--text-muted);
+      margin-top: 4px;
+    }
+
+    .attendance-change {
+      font-size: 0.9rem;
+      font-weight: 600;
+      margin-top: 8px;
+    }
+
+    /* Verdict card */
+    .verdict-big {
+      padding: 32px;
+      text-align: center;
+      border-radius: var(--radius-lg);
+      border: 1px solid transparent;
+    }
+
+    .verdict-big.safe {
+      background: rgba(16, 185, 129, 0.07);
+      border-color: rgba(16, 185, 129, 0.2);
+    }
+
+    .verdict-big.warning {
+      background: rgba(245, 158, 11, 0.07);
+      border-color: rgba(245, 158, 11, 0.2);
+    }
+
+    .verdict-big.danger {
+      background: rgba(239, 68, 68, 0.07);
+      border-color: rgba(239, 68, 68, 0.2);
+    }
+
+    .verdict-big-emoji {
+      font-size: 4rem;
+      display: block;
+      margin-bottom: 12px;
+    }
+
+    .verdict-big-text {
+      font-size: 1.5rem;
+      font-weight: 900;
+      margin-bottom: 8px;
+    }
+
+    .verdict-big-sub {
+      font-size: 0.95rem;
+      color: var(--text-secondary);
+    }
+
+    /* Reaction media section */
+    .media-result-section {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      padding: 32px;
+    }
+
+    .media-tabs {
+      display: flex;
+      gap: 8px;
+      margin-bottom: 20px;
+    }
+
+    .media-tab {
+      padding: 7px 16px;
+      background: rgba(255, 255, 255, 0.04);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
+      font-family: 'Outfit', sans-serif;
+      font-size: 0.82rem;
+      font-weight: 600;
+      color: var(--text-secondary);
+      cursor: pointer;
+      transition: var(--transition-fast);
+    }
+
+    .media-tab.active {
+      background: rgba(124, 58, 237, 0.15);
+      border-color: rgba(124, 58, 237, 0.4);
+      color: var(--purple-light);
+    }
+
+    .media-tab-content {
+      display: none;
+    }
+
+    .media-tab-content.active {
+      display: block;
+      animation: fadeIn 0.3s ease;
+    }
+
+    /* Calendar info */
+    .calendar-info {
+      background: rgba(6, 182, 212, 0.06);
+      border: 1px solid rgba(6, 182, 212, 0.2);
+      border-radius: var(--radius);
+      padding: 16px 20px;
+      font-size: 0.85rem;
+      color: var(--cyan-light);
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    /* Loading state */
+    .calculating-state {
+      display: none;
+      text-align: center;
+      padding: 60px 24px;
+    }
+
+    .calculating-state.active {
+      display: block;
+      animation: fadeIn 0.3s ease;
+    }
+
+    .calc-spinner {
+      width: 56px;
+      height: 56px;
+      border: 3px solid rgba(124, 58, 237, 0.2);
+      border-top-color: var(--purple);
+      border-radius: 50%;
+      animation: spin 1s linear infinite;
+      margin: 0 auto 24px;
+    }
+
+    .calc-messages {
+      color: var(--purple-light);
+      font-weight: 600;
+      font-size: 0.95rem;
+    }
+  </style>
+</head>
+
+<body>
+  <div id="nav-placeholder"></div>
+
+  <div class="page-wrapper">
+    <div class="bunk-layout">
+
+      <!-- ── PAGE HERO ── -->
+      <div class="page-hero">
+        <div class="page-hero-tag">📊 KTU Attendance Calculator</div>
+        <h1 class="page-title">
+          <span class="gradient-text">INNU CLASSIL POKANO?</span> 💀
+        </h1>
+        <p class="page-subtitle">"Let BUNKVERSE calculate your fate." — "KTU Calendar + Timetable ഉപയോഗിച്ച് exact
+          calculation!"</p>
+      </div>
+
+      <!-- ── KTU INFO BANNER ── -->
+      <div class="calendar-info mb-32 anim-fade-up-1">
+        📅 <span>Using <strong>KTU Academic Calendar 2025–26 & 2026–27</strong>. Holidays &amp; working days calculated
+          automatically. Subject frequency based on standard KTU credit system.</span>
+      </div>
+
+      <!-- ── INPUT FORM ── -->
+      <div class="form-card anim-fade-up-2">
+        <h2 class="section-title mb-24">📝 Enter Your Details</h2>
+
+        <div class="form-grid" style="gap:20px;">
+
+          <!-- Academic Year -->
+          <div class="form-group">
+            <label class="form-label">📅 Academic Year</label>
+            <div class="form-select-wrapper">
+              <select class="form-control" id="academicYear" onchange="updateSemesters()">
+                <option value="2024-25">2024 – 2025</option>
+                <option value="2025-26" selected>2025 – 2026</option>
+                <option value="2026-27">2026 – 2027</option>
+              </select>
+            </div>
+          </div>
+
+          <!-- Semester -->
+          <div class="form-group">
+            <div style="display:flex;justify-content:space-between;align-items:center;">
+              <label class="form-label">📚 Semester</label>
+              <span style="font-size:0.75rem;color:var(--text-muted);">Click pill or dropdown</span>
+            </div>
+            <div class="form-select-wrapper">
+              <select class="form-control" id="semester" onchange="syncSemesterFromDropdown()">
+                <option value="S1">S1 — First Semester</option>
+                <option value="S2">S2 — Second Semester</option>
+                <option value="S3">S3 — Third Semester</option>
+                <option value="S4">S4 — Fourth Semester</option>
+                <option value="S5" selected>S5 — Fifth Semester</option>
+                <option value="S6">S6 — Sixth Semester</option>
+                <option value="S7">S7 — Seventh Semester</option>
+                <option value="S8">S8 — Eighth Semester</option>
+              </select>
+            </div>
+            <div class="pill-group" id="semesterPills">
+              <button type="button" class="pill-btn" onclick="setSemester('S1')">S1</button>
+              <button type="button" class="pill-btn" onclick="setSemester('S2')">S2</button>
+              <button type="button" class="pill-btn" onclick="setSemester('S3')">S3</button>
+              <button type="button" class="pill-btn" onclick="setSemester('S4')">S4</button>
+              <button type="button" class="pill-btn active" onclick="setSemester('S5')">S5</button>
+              <button type="button" class="pill-btn" onclick="setSemester('S6')">S6</button>
+              <button type="button" class="pill-btn" onclick="setSemester('S7')">S7</button>
+              <button type="button" class="pill-btn" onclick="setSemester('S8')">S8</button>
+            </div>
+          </div>
+
+          <!-- Branch -->
+          <div class="form-group">
+            <div style="display:flex;justify-content:space-between;align-items:center;">
+              <label class="form-label">🏛️ Branch</label>
+              <span style="font-size:0.75rem;color:var(--text-muted);">Quick select</span>
+            </div>
+            <div class="form-select-wrapper">
+              <select class="form-control" id="branch" onchange="syncBranchFromDropdown()">
+                <option value="CSE" selected>CSE — Computer Science &amp; Engineering</option>
+                <option value="ECE">ECE — Electronics &amp; Communication</option>
+                <option value="EEE">EEE — Electrical &amp; Electronics</option>
+                <option value="ME">ME — Mechanical Engineering</option>
+                <option value="CE">CE — Civil Engineering</option>
+                <option value="IT">IT — Information Technology</option>
+              </select>
+            </div>
+            <div class="pill-group" id="branchPills">
+              <button type="button" class="pill-btn active" onclick="setBranch('CSE')">CSE</button>
+              <button type="button" class="pill-btn" onclick="setBranch('ECE')">ECE</button>
+              <button type="button" class="pill-btn" onclick="setBranch('EEE')">EEE</button>
+              <button type="button" class="pill-btn" onclick="setBranch('ME')">ME</button>
+              <button type="button" class="pill-btn" onclick="setBranch('CE')">CE</button>
+              <button type="button" class="pill-btn" onclick="setBranch('IT')">IT</button>
+            </div>
+          </div>
+
+          <!-- Subject -->
+          <div class="form-group" style="grid-column: 1 / -1;">
+            <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px;flex-wrap:wrap;gap:8px;">
+              <label class="form-label" style="margin-bottom:0;">📖 Select Subject(s) to Bunk</label>
+              <button type="button" class="btn btn-ghost btn-xs" id="multiSubjectModeBtn" onclick="toggleMultiSubjectMode()">
+                ✨ Toggle Multi-Subject Mode
+              </button>
+            </div>
+            <div class="form-select-wrapper">
+              <select class="form-control" id="subject" onchange="syncSubjectFromDropdown()">
+                <!-- Populated by JS -->
+              </select>
+            </div>
+            <div class="subject-tags-container" id="subjectTags">
+              <!-- Populated by JS as clickable subject tags -->
+            </div>
+            <div class="selection-badge" id="subjectSelectionBadge">
+              📌 Mode: Single Subject (or click tags above to multi-select)
+            </div>
+          </div>
+
+          <!-- Bunk Date -->
+          <div class="form-group">
+            <label class="form-label">📆 Bunk Date</label>
+            <input type="date" class="form-control" id="bunkDate">
+          </div>
+
+          <!-- Classes to Bunk (Interactive Multi-Select Periods) -->
+          <div class="form-group" style="grid-column: 1 / -1;">
+            <label class="form-label">💀 Select Periods to Bunk (Multi-Select: click multiple buttons)</label>
+            
+            <div class="period-selector-wrapper">
+              <div class="period-preset-bar">
+                <span style="font-size:0.75rem;color:var(--text-muted);font-weight:600;">⚡ Quick Select:</span>
+                <button type="button" class="period-preset-btn" onclick="selectPeriodsPreset('all')">⚡ Full Day (6 Periods)</button>
+                <button type="button" class="period-preset-btn" onclick="selectPeriodsPreset('morning')">🌅 Morning Half (P1–P3)</button>
+                <button type="button" class="period-preset-btn" onclick="selectPeriodsPreset('afternoon')">🌇 Afternoon Half (P4–P6)</button>
+                <button type="button" class="period-preset-btn" onclick="selectPeriodsPreset('p1')">1 Period</button>
+                <button type="button" class="period-preset-btn" onclick="selectPeriodsPreset('none')">🔄 Clear All</button>
+              </div>
+
+              <div class="period-grid" id="periodGrid">
+                <button type="button" class="period-card-btn selected" id="periodBtn_1" onclick="togglePeriod(1)">
+                  <span class="period-check">✅</span>
+                  <span class="period-title">Period 1</span>
+                  <span class="period-time">09:00 – 10:00</span>
+                </button>
+                <button type="button" class="period-card-btn" id="periodBtn_2" onclick="togglePeriod(2)">
+                  <span class="period-check">✅</span>
+                  <span class="period-title">Period 2</span>
+                  <span class="period-time">10:00 – 11:00</span>
+                </button>
+                <button type="button" class="period-card-btn" id="periodBtn_3" onclick="togglePeriod(3)">
+                  <span class="period-check">✅</span>
+                  <span class="period-title">Period 3</span>
+                  <span class="period-time">11:00 – 12:00</span>
+                </button>
+                <button type="button" class="period-card-btn" id="periodBtn_4" onclick="togglePeriod(4)">
+                  <span class="period-check">✅</span>
+                  <span class="period-title">Period 4</span>
+                  <span class="period-time">01:00 – 02:00</span>
+                </button>
+                <button type="button" class="period-card-btn" id="periodBtn_5" onclick="togglePeriod(5)">
+                  <span class="period-check">✅</span>
+                  <span class="period-title">Period 5</span>
+                  <span class="period-time">02:00 – 03:00</span>
+                </button>
+                <button type="button" class="period-card-btn" id="periodBtn_6" onclick="togglePeriod(6)">
+                  <span class="period-check">✅</span>
+                  <span class="period-title">Period 6</span>
+                  <span class="period-time">03:00 – 04:00</span>
+                </button>
+              </div>
+
+              <div style="display:flex;justify-content:space-between;align-items:center;margin-top:14px;flex-wrap:wrap;gap:10px;">
+                <div class="selection-badge" id="periodSelectionSummary">
+                  🎯 Selected: <strong>Period 1 (1 class)</strong>
+                </div>
+                <div style="display:flex;align-items:center;gap:8px;">
+                  <label for="bunkCount" style="font-size:0.78rem;color:var(--text-muted);">Total Classes to Bunk:</label>
+                  <input type="number" class="form-control" id="bunkCount" value="1" min="1" max="20"
+                    style="width:80px;padding:4px 8px;height:32px;font-size:0.85rem;" oninput="syncBunkCountToPeriods()">
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Current Bunked (optional) -->
+          <div class="form-group">
+            <label class="form-label">📉 Classes Already Bunked</label>
+            <input type="number" class="form-control" id="alreadyBunked" value="0" min="0"
+              placeholder="Classes bunked so far">
+          </div>
+
+          <!-- Extra Attended -->
+          <div class="form-group">
+            <label class="form-label">✅ Extra Classes Attended</label>
+            <input type="number" class="form-control" id="extraAttended" value="0" min="0"
+              placeholder="Additional classes attended">
+          </div>
+
+        </div>
+
+        <!-- Quick Reaction Preview Bar -->
+        <div style="margin-top:24px;padding:14px 18px;background:rgba(255,255,255,0.02);border:1px solid var(--border);border-radius:var(--radius);display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:10px;">
+          <div>
+            <span style="font-size:0.85rem;font-weight:700;color:var(--purple-light);">🎬 Reaction Memes &amp; Video Clips</span>
+            <p style="font-size:0.75rem;color:var(--text-muted);margin:2px 0 0 0;">Test, select, and play any of your 27 memes and video reactions</p>
+          </div>
+          <button type="button" class="btn btn-ghost btn-xs" id="toggleReactionPreviewBtn" onclick="toggleReactionPreview()">
+            👀 Preview / Test Reactions
+          </button>
+        </div>
+
+        <div style="margin-top:24px;">
+          <button class="btn btn-primary btn-full btn-lg" id="calculateBtn" onclick="calculateBunk()">
+            🧮 CALCULATE MY FATE
+          </button>
+        </div>
+      </div>
+
+      <!-- ── CALCULATING STATE ── -->
+      <div class="calculating-state" id="calculatingState">
+        <div class="calc-spinner"></div>
+        <div class="calc-messages" id="calcMessages">Consulting the KTU Calendar...</div>
+        <p style="color:var(--text-muted);font-size:0.85rem;margin-top:12px;">"AI ചിന്തിക്കുന്നു... ഫലം awaiting 🤖"</p>
+      </div>
+
+      <!-- ── RESULT SECTION ── -->
+      <div class="result-section" id="resultSection">
+
+        <!-- Meme / Media Section -->
+        <div class="media-result-section mt-32">
+          <h3 style="font-size:1.1rem;font-weight:700;margin-bottom:20px;">🎬 YOUR REACTION</h3>
+
+          <div class="media-tabs">
+            <button class="media-tab active" onclick="switchMediaTab(this, 'memeTab')">🖼️ Meme</button>
+            <button class="media-tab" onclick="switchMediaTab(this, 'videoTab')">🎬 Video</button>
+            <button class="media-tab" onclick="switchMediaTab(this, 'dialogueTab')">💬 Dialogue</button>
+          </div>
+
+          <div class="media-tab-content active" id="memeTab">
+            <div id="bunkMemeImage" style="text-align:center;padding:16px;background:rgba(0,0,0,0.2);border-radius:var(--radius);border:1px solid var(--border);">
+              <img id="activeMemeImg" src="krishnaa/sureshgopi pfp.jpg" alt="Meme Reaction" style="width:100%;max-height:360px;object-fit:contain;border-radius:var(--radius);background:#000;box-shadow:0 8px 24px rgba(0,0,0,0.4);">
+              <div style="margin-top:10px;font-size:0.85rem;color:var(--purple-light);font-weight:600;" id="bunkMemeCategory">Reaction: Suresh Gopi Thumbs Up (90%+ Safe)</div>
+              <div style="display:flex;gap:6px;justify-content:center;margin-top:12px;flex-wrap:wrap;">
+                <button type="button" class="reaction-btn selected-reaction" onclick="setBunkMediaImage('krishnaa/sureshgopi pfp.jpg', '90%+ Safe (Suresh Gopi)', this)">👍 Suresh Gopi</button>
+                <button type="button" class="reaction-btn" onclick="setBunkMediaImage('krishnaa/download (2).jpg', '80-89% (Vaalthukal Nanba)', this)">😎 Santhanam</button>
+                <button type="button" class="reaction-btn" onclick="setBunkMediaImage('krishnaa/download (1).jpg', 'Borderline (Rajini Bye)', this)">🙏 Rajinikanth</button>
+                <button type="button" class="reaction-btn" onclick="setBunkMediaImage('krishnaa/dotted_face.jpg', 'Teacher Angry (Vijay)', this)">🫥 Thalapathy</button>
+                <button type="button" class="reaction-btn" onclick="setBunkMediaImage('krishnaa/download.jpg', 'Below 75% Danger (Mammootty)', this)">💀 Mammootty</button>
+              </div>
+            </div>
+          </div>
+
+          <div class="media-tab-content" id="videoTab">
+            <div id="bunkMemeVideo" style="text-align:center;padding:16px;background:rgba(0,0,0,0.2);border-radius:var(--radius);border:1px solid var(--border);">
+              <video id="bunkVideoPlayer" src="krishnaa/pulimurugan_mohanlal.mp4" controls preload="auto" playsinline style="width:100%;max-height:360px;border-radius:var(--radius);background:#000;box-shadow:0 8px 24px rgba(0,0,0,0.4);"></video>
+              <div style="margin-top:10px;font-size:0.85rem;color:var(--cyan);font-weight:600;" id="bunkVideoCaption">
+                🎬 Reaction Video: Mohanlal Pulimurugan Mass Entry
+              </div>
+              <div style="display:flex;gap:6px;justify-content:center;margin-top:12px;flex-wrap:wrap;">
+                <button type="button" class="reaction-btn selected-reaction" onclick="setBunkMediaVideo('krishnaa/pulimurugan_mohanlal.mp4', '🔥 Mohanlal Pulimurugan Mass Entry (Safe Zone)', this)">
+                  🦁 Pulimurugan
+                </button>
+                <button type="button" class="reaction-btn" onclick="setBunkMediaVideo('krishnaa/soubin_kumbalangi_nights.mp4', '😢 Soubin Kumbalangi Nights (75% Tension)', this)">
+                  🎭 Soubin Kumbalangi
+                </button>
+                <button type="button" class="reaction-btn" onclick="setBunkMediaVideo('krishnaa/thalapathy_vijay_meme.mp4', '😎 Thalapathy Vijay Reel Meme', this)">
+                  🕶️ Thalapathy Vijay
+                </button>
+                <button type="button" class="reaction-btn" onclick="setBunkMediaVideo('krishnaa/jujutsu_kaisen_higuruma.mp4', '⚖️ JJK Higuruma Courtroom Rampage (KTU Trial)', this)">
+                  ⚖️ Higuruma Rampage
+                </button>
+                <button type="button" class="reaction-btn" onclick="setBunkMediaVideo('krishnaa/jon-snow-game-of-thrones.960x540.mp4', '⚔️ Jon Snow Facing The Attendance Army', this)">
+                  ⚔️ Jon Snow
+                </button>
+                <button type="button" class="reaction-btn" onclick="setBunkMediaVideo('krishnaa/warrior-adventure-in-battlefield.960x540.mp4', '🏃 Warrior Rushing to Class', this)">
+                  🏹 Battlefield Rush
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <div class="media-tab-content" id="dialogueTab">
+            <div class="dialogue-box" id="bunkDialogue" style="padding:20px 24px;background:rgba(124,58,237,0.08);border-left:4px solid var(--purple);border-radius:var(--radius);text-align:left;">
+              <div style="font-size:1.4rem;margin-bottom:8px;">💬</div>
+              <em id="activeDialogueText" style="font-size:1.15rem;line-height:1.6;color:var(--text-primary);display:block;font-weight:500;">"താങ്കൾ പൊളിയാണ് ബ്രോ! 90% attendance... അമ്മയുടെ സ്വന്തം കുട്ടി! 🌟"</em>
+              <div style="margin-top:10px;font-size:0.75rem;color:var(--text-muted);" id="dialogueCaption">Movie Dialogue Reaction</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Verdict -->
+        <div class="verdict-big mt-24" id="verdictCard">
+          <span class="verdict-big-emoji" id="verdictEmoji">💀</span>
+          <div class="verdict-big-text" id="verdictTitle">—</div>
+          <div class="verdict-big-sub" id="verdictSub">—</div>
+          <div style="margin-top:16px;font-size:0.85rem;color:var(--text-muted);" id="verdictMalayalam">—</div>
+        </div>
+
+        <h3 class="section-title mt-32" style="text-align:center;">📊 The Math Behind Your Fate</h3>
+
+        <!-- Attendance Display -->
+        <div class="card card-lg mt-16" style="text-align:center;">
+          <div class="attendance-big">
+            <div class="attendance-circle" id="attendanceCircle">
+              <div class="attendance-pct" id="currentPct">—</div>
+              <div class="attendance-pct-label">Current</div>
+            </div>
+            <p style="color:var(--text-secondary);font-size:0.9rem;">→ After bunking <span
+                id="bunkCountDisplay">0</span> class(es):</p>
+            <div style="font-size:2.5rem;font-weight:900;margin-top:8px;" id="afterBunkPct">—</div>
+            <div class="attendance-change" id="attendanceChange"></div>
+          </div>
+        </div>
+
+        <!-- Stats Grid -->
+        <div class="stats-grid mt-16" id="statsGrid">
+          <div class="stat-item">
+            <div class="stat-value gradient-text" id="statConducted">—</div>
+            <div class="stat-label">Classes Conducted</div>
+          </div>
+          <div class="stat-item">
+            <div class="stat-value" id="statAttended" style="color:var(--green);">—</div>
+            <div class="stat-label">Classes Attended</div>
+          </div>
+          <div class="stat-item">
+            <div class="stat-value" id="statMissed" style="color:var(--red);">—</div>
+            <div class="stat-label">Already Missed</div>
+          </div>
+          <div class="stat-item">
+            <div class="stat-value gradient-text-gold" id="statPlannedBunk">—</div>
+            <div class="stat-label">Planned Bunk</div>
+          </div>
+          <div class="stat-item">
+            <div class="stat-value" id="statUpcoming">—</div>
+            <div class="stat-label">Upcoming Classes</div>
+          </div>
+          <div class="stat-item">
+            <div class="stat-value" id="statSafeBunks">—</div>
+            <div class="stat-label">Safe Bunks Left</div>
+          </div>
+        </div>
+
+        <!-- Progress bars -->
+        <div class="card mt-16">
+          <h3 style="font-size:1rem;font-weight:700;margin-bottom:20px;">📊 Attendance Breakdown</h3>
+          <div style="display:flex;flex-direction:column;gap:16px;">
+            <div class="progress-bar-wrapper">
+              <div class="progress-bar-label">
+                <span>Current Attendance</span>
+                <span id="progressCurrentPct">—</span>
+              </div>
+              <div class="progress-track">
+                <div class="progress-fill" id="progressCurrent" style="width:0%"></div>
+              </div>
+            </div>
+            <div class="progress-bar-wrapper">
+              <div class="progress-bar-label">
+                <span>Attendance After Bunk</span>
+                <span id="progressAfterPct">—</span>
+              </div>
+              <div class="progress-track">
+                <div class="progress-fill" id="progressAfter" style="width:0%"></div>
+              </div>
+            </div>
+            <div class="progress-bar-wrapper">
+              <div class="progress-bar-label">
+                <span>75% Threshold</span>
+                <span>75%</span>
+              </div>
+              <div class="progress-track">
+                <div class="progress-fill red" style="width:75%;opacity:0.5;"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Recalculate -->
+        <div style="text-align:center;margin-top:32px;margin-bottom:60px;">
+          <button class="btn btn-ghost" onclick="resetForm()">🔄 Calculate Again</button>
+          <a href="excuse.html" class="btn btn-cyan" style="margin-left:12px;">🤥 Need an Excuse?</a>
+        </div>
+
+      </div><!-- result-section -->
+
+    </div><!-- bunk-layout -->
+  </div><!-- page-wrapper -->
+
+  <div id="footer-placeholder"></div>
+
+  <script src="script.js"></script>
+  <script src="bunk.js"></script>
+</body>
+
+</html>

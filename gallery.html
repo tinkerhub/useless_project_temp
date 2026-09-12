@@ -1,0 +1,543 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Meme Gallery 🎬 — BUNKVERSE</title>
+  <meta name="description" content="BUNKVERSE Meme Gallery — Manage your meme collection. Assign images, videos and dialogues to each category.">
+  <link rel="stylesheet" href="style.css">
+  <style>
+    /* ── Gallery Page Specific ── */
+    .gallery-layout {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 0 24px;
+    }
+
+    /* Owner note */
+    .owner-banner {
+      background: rgba(124,58,237,0.08);
+      border: 1px solid rgba(124,58,237,0.25);
+      border-radius: var(--radius);
+      padding: 16px 20px;
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+      margin-bottom: 32px;
+    }
+
+    .owner-banner .owner-icon { font-size: 1.5rem; flex-shrink: 0; }
+    .owner-banner .owner-text { font-size: 0.85rem; color: var(--purple-light); line-height: 1.6; }
+
+    /* Media assignment panel */
+    .media-panel {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      overflow: hidden;
+    }
+
+    .media-panel-header {
+      padding: 20px 28px;
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .media-panel-title { font-size: 1rem; font-weight: 700; }
+
+    .media-panel-body { padding: 28px; }
+
+    /* Category info */
+    .category-info-bar {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      padding: 16px 20px;
+      background: rgba(255,255,255,0.03);
+      border-radius: var(--radius);
+      margin-bottom: 24px;
+    }
+
+    .category-info-icon { font-size: 1.8rem; }
+    .category-info-text { flex: 1; }
+    .category-info-name { font-weight: 700; font-size: 0.95rem; }
+    .category-info-desc { font-size: 0.8rem; color: var(--text-muted); margin-top: 2px; }
+
+    /* Upload sections */
+    .upload-sections {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 20px;
+    }
+
+    @media (max-width: 900px) { .upload-sections { grid-template-columns: 1fr; } }
+    @media (min-width: 600px) and (max-width: 900px) { .upload-sections { grid-template-columns: repeat(2, 1fr); } }
+
+    .upload-section-box {
+      background: rgba(255,255,255,0.02);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 20px;
+    }
+
+    .upload-section-label {
+      font-size: 0.75rem;
+      font-weight: 700;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      color: var(--text-muted);
+      margin-bottom: 14px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    /* Mini upload zone */
+    .mini-upload-zone {
+      background: rgba(255,255,255,0.02);
+      border: 2px dashed rgba(255,255,255,0.1);
+      border-radius: var(--radius-sm);
+      padding: 20px 12px;
+      text-align: center;
+      cursor: pointer;
+      transition: var(--transition);
+      font-size: 0.8rem;
+      color: var(--text-muted);
+    }
+
+    .mini-upload-zone:hover {
+      border-color: rgba(124,58,237,0.4);
+      background: rgba(124,58,237,0.04);
+      color: var(--purple-light);
+    }
+
+    .mini-upload-icon { font-size: 1.5rem; margin-bottom: 6px; display: block; }
+
+    /* Preview box */
+    .media-preview {
+      margin-top: 12px;
+      border-radius: var(--radius-sm);
+      overflow: hidden;
+    }
+
+    .media-preview img {
+      width: 100%;
+      max-height: 150px;
+      object-fit: cover;
+      border-radius: var(--radius-sm);
+    }
+
+    .media-preview video {
+      width: 100%;
+      max-height: 150px;
+      border-radius: var(--radius-sm);
+    }
+
+    /* Dialogue textarea */
+    .dialogue-textarea {
+      width: 100%;
+      background: rgba(255,255,255,0.04);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
+      padding: 12px;
+      color: var(--text-primary);
+      font-family: 'Outfit', sans-serif;
+      font-size: 0.88rem;
+      resize: vertical;
+      min-height: 80px;
+      transition: var(--transition-fast);
+      outline: none;
+    }
+
+    .dialogue-textarea:focus {
+      border-color: var(--purple);
+      box-shadow: 0 0 0 3px rgba(124,58,237,0.15);
+    }
+
+    .dialogue-textarea::placeholder { color: var(--text-muted); }
+
+    /* Assigned indicator */
+    .assigned-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: var(--text-muted);
+      display: inline-block;
+      margin-left: 8px;
+    }
+
+    .assigned-dot.has-image { background: var(--green); }
+    .assigned-dot.has-video { background: var(--cyan); }
+    .assigned-dot.has-dialogue { background: var(--gold); }
+
+    /* Tab bar scrollable */
+    .tab-bar {
+      overflow-x: auto;
+      flex-wrap: nowrap;
+      padding-bottom: 4px;
+    }
+
+    .tab-bar::-webkit-scrollbar { height: 4px; }
+
+    /* Save success animation */
+    .save-flash {
+      animation: anim-shake 0.3s ease;
+    }
+
+    /* Gallery overview */
+    .gallery-overview {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+      gap: 12px;
+    }
+
+    .gallery-overview-item {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 16px 12px;
+      text-align: center;
+      cursor: pointer;
+      transition: var(--transition);
+    }
+
+    .gallery-overview-item:hover {
+      border-color: var(--border-hover);
+      background: var(--bg-card-hover);
+      transform: translateY(-2px);
+    }
+
+    .gallery-overview-item.active-cat {
+      border-color: var(--purple);
+      background: rgba(124,58,237,0.1);
+    }
+
+    .overview-icon { font-size: 1.8rem; margin-bottom: 8px; display: block; }
+    .overview-name { font-size: 0.78rem; font-weight: 700; color: var(--text-secondary); }
+    .overview-status { display: flex; gap: 4px; justify-content: center; margin-top: 6px; }
+
+    /* Clear all button */
+    .clear-all-btn {
+      background: transparent;
+      border: 1px solid rgba(239,68,68,0.3);
+      color: var(--red-light);
+      padding: 7px 14px;
+      border-radius: var(--radius-sm);
+      font-family: 'Outfit', sans-serif;
+      font-size: 0.78rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: var(--transition-fast);
+    }
+
+    .clear-all-btn:hover {
+      background: rgba(239,68,68,0.08);
+      border-color: var(--red);
+    }
+
+    .preset-btn {
+      background: rgba(124,58,237,0.15);
+      border: 1px solid rgba(124,58,237,0.4);
+      color: var(--purple-light);
+      padding: 7px 14px;
+      border-radius: var(--radius-sm);
+      font-family: 'Outfit', sans-serif;
+      font-size: 0.78rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: var(--transition-fast);
+    }
+    .preset-btn:hover {
+      background: var(--purple);
+      color: #fff;
+    }
+
+    .btn.active-filter {
+      background: rgba(124, 58, 237, 0.25) !important;
+      border-color: var(--purple) !important;
+      color: #fff !important;
+      box-shadow: 0 0 10px rgba(124, 58, 237, 0.3) !important;
+    }
+
+    .source-tag {
+      position: absolute;
+      top: 8px;
+      right: 8px;
+      background: rgba(0,0,0,0.75);
+      backdrop-filter: blur(4px);
+      border: 1px solid rgba(255,255,255,0.15);
+      font-size: 0.68rem;
+      font-weight: 600;
+      padding: 2px 8px;
+      border-radius: 999px;
+      color: var(--cyan);
+    }
+
+    /* Library Grid */
+    .library-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+      gap: 16px;
+      margin-top: 16px;
+    }
+
+    .library-card {
+      background: rgba(255,255,255,0.03);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      transition: var(--transition);
+    }
+
+    .library-card:hover {
+      border-color: var(--purple);
+      transform: translateY(-3px);
+      box-shadow: 0 8px 24px var(--purple-glow);
+    }
+
+    .library-media-wrap {
+      position: relative;
+      cursor: pointer;
+      overflow: hidden;
+      height: 140px;
+      background: rgba(0,0,0,0.2);
+    }
+
+    .library-media-wrap img,
+    .library-media-wrap video {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform 0.3s ease;
+    }
+
+    .library-card:hover .library-media-wrap img {
+      transform: scale(1.05);
+    }
+
+    .library-type-badge {
+      position: absolute;
+      bottom: 8px;
+      left: 8px;
+      background: rgba(0,0,0,0.8);
+      font-size: 0.65rem;
+      font-weight: 700;
+      letter-spacing: 0.5px;
+      padding: 2px 6px;
+      border-radius: 4px;
+      color: #fff;
+    }
+
+    .library-card-info {
+      padding: 12px;
+      display: flex;
+      flex-direction: column;
+      flex: 1;
+      justify-content: space-between;
+    }
+
+    .library-card-title {
+      font-size: 0.85rem;
+      font-weight: 700;
+      color: var(--text-primary);
+      margin-bottom: 4px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .library-card-tag {
+      font-size: 0.72rem;
+      color: var(--purple-light);
+      margin-bottom: 12px;
+    }
+
+    .library-card-actions {
+      display: flex;
+      gap: 6px;
+    }
+
+    .btn-xs {
+      font-size: 0.72rem !important;
+      padding: 5px 10px !important;
+      width: 100%;
+      justify-content: center;
+    }
+  </style>
+</head>
+<body>
+  <div id="nav-placeholder"></div>
+
+  <div class="page-wrapper">
+    <div class="gallery-layout">
+
+      <!-- PAGE HERO -->
+      <div class="page-hero">
+        <div class="page-hero-tag">🎬 Media Management Console</div>
+        <h1 class="page-title"><span class="gradient-text">MEME GALLERY</span> 🎬</h1>
+        <p class="page-subtitle">"Project owner's control panel for meme assignment. Assign your best reactions here." 😂</p>
+      </div>
+
+      <!-- OWNER BANNER -->
+      <div class="owner-banner anim-fade-up-1">
+        <div class="owner-icon">🎛️</div>
+        <div class="owner-text">
+          <strong>Project Owner Control Panel</strong><br>
+          This page lets you assign memes, videos, and movie dialogues to each category.
+          All media is stored in your browser's local storage. Changes take effect immediately across all pages.
+          Images and videos are stored as base64 data — for best performance, use optimized/compressed files.
+        </div>
+      </div>
+
+      <!-- CATEGORY OVERVIEW -->
+      <div class="card mb-32 anim-fade-up-2">
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:20px;flex-wrap:wrap;gap:10px;">
+          <h3 style="font-size:1rem;font-weight:700;">📋 All Categories</h3>
+          <div style="display:flex;gap:10px;">
+            <button class="preset-btn" onclick="resetToDefaultPresets()">✨ Load Presets from Files</button>
+            <button class="clear-all-btn" onclick="clearAllMedia()">🗑️ Clear All</button>
+          </div>
+        </div>
+        <div class="gallery-overview" id="galleryOverview">
+          <!-- Populated by JS -->
+        </div>
+      </div>
+
+      <!-- MEDIA ASSIGNMENT PANEL -->
+      <div class="media-panel anim-fade-up-3">
+        <div class="media-panel-header">
+          <div>
+            <div class="media-panel-title" id="panelTitle">Select a category above to begin</div>
+            <div style="font-size:0.8rem;color:var(--text-muted);margin-top:2px;" id="panelDesc">Click any category card to manage its media</div>
+          </div>
+          <div style="display:flex;gap:10px;">
+            <button class="btn btn-primary" id="saveBtn" onclick="saveCurrentCategory()" style="display:none;">
+              💾 Save Changes
+            </button>
+          </div>
+        </div>
+
+        <div class="media-panel-body">
+          <!-- No category selected -->
+          <div id="noCategoryMsg" style="text-align:center;padding:60px 24px;color:var(--text-muted);">
+            <div style="font-size:3rem;margin-bottom:16px;">👆</div>
+            <div style="font-weight:600;">Select a category from above</div>
+            <div style="font-size:0.85rem;margin-top:8px;">"Oru category select cheyyoo, enthenkilum assign cheyyam" 🎬</div>
+          </div>
+
+          <!-- Assignment area (hidden until category selected) -->
+          <div id="assignmentArea" style="display:none;">
+
+            <div class="category-info-bar">
+              <div class="category-info-icon" id="catInfoIcon">—</div>
+              <div class="category-info-text">
+                <div class="category-info-name" id="catInfoName">—</div>
+                <div class="category-info-desc" id="catInfoDesc">—</div>
+              </div>
+            </div>
+
+            <div class="upload-sections">
+
+              <!-- Image -->
+              <div class="upload-section-box">
+                <div class="upload-section-label">🖼️ Image Meme <span class="assigned-dot" id="imageDot"></span></div>
+                <div class="mini-upload-zone" onclick="document.getElementById('catImageInput').click()">
+                  <span class="mini-upload-icon">🖼️</span>
+                  Click to add custom image<br>
+                  <span style="font-size:0.72rem;">Or pick from library below</span>
+                </div>
+                <input type="file" id="catImageInput" accept="image/*" style="display:none;" onchange="handleImageUpload(event)">
+                <div class="media-preview" id="imagePreview"></div>
+                <div style="display:flex;gap:8px;margin-top:10px;" id="imageActions" style="display:none;">
+                  <button class="btn btn-ghost" style="font-size:0.75rem;padding:6px 12px;flex:1;" onclick="clearImage()">🗑️ Remove</button>
+                </div>
+              </div>
+
+              <!-- Video -->
+              <div class="upload-section-box">
+                <div class="upload-section-label">🎬 Video Meme <span class="assigned-dot" id="videoDot"></span></div>
+                <div class="mini-upload-zone" onclick="document.getElementById('catVideoInput').click()">
+                  <span class="mini-upload-icon">🎬</span>
+                  Click to add custom video<br>
+                  <span style="font-size:0.72rem;">Or pick from library below</span>
+                </div>
+                <input type="file" id="catVideoInput" accept="video/*" style="display:none;" onchange="handleVideoUpload(event)">
+                <div class="media-preview" id="videoPreview"></div>
+                <div style="margin-top:10px;" id="videoActions" style="display:none;">
+                  <button class="btn btn-ghost" style="font-size:0.75rem;padding:6px 12px;width:100%;" onclick="clearVideo()">🗑️ Remove</button>
+                </div>
+              </div>
+
+              <!-- Dialogue -->
+              <div class="upload-section-box">
+                <div class="upload-section-label">💬 Movie Dialogue <span class="assigned-dot" id="dialogueDot"></span></div>
+                <textarea class="dialogue-textarea" id="catDialogueInput" placeholder="Enter a Malayalam movie dialogue here...&#10;&#10;Example: &quot;Ente praanam ninakku veendi...&quot;" oninput="handleDialogueInput()"></textarea>
+                <p style="font-size:0.72rem;color:var(--text-muted);margin-top:6px;">Tip: Use quotes for dramatic effect! "..."</p>
+              </div>
+
+            </div>
+
+            <!-- Save button -->
+            <div style="margin-top:24px;display:flex;gap:12px;justify-content:flex-end;align-items:center;">
+              <span style="font-size:0.8rem;color:var(--text-muted);" id="saveStatus"></span>
+              <button class="btn btn-primary" onclick="saveCurrentCategory()">
+                💾 Save Changes
+              </button>
+              <button class="btn btn-ghost" onclick="clearCategoryMedia()">
+                🗑️ Clear Category
+              </button>
+            </div>
+
+          </div>
+        </div>
+      </div>
+
+      <!-- ── MEDIA LIBRARY FROM FILES ── -->
+      <div class="card mt-32 mb-32 anim-fade-up-3" id="librarySection">
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px;flex-wrap:wrap;gap:12px;">
+          <div>
+            <h3 style="font-size:1.1rem;font-weight:700;display:flex;align-items:center;gap:8px;">
+              <span>📁</span> Your Media Library <span class="badge" id="libraryCountBadge" style="background:var(--purple);color:#fff;font-size:0.75rem;padding:2px 8px;border-radius:999px;">27 items</span>
+            </h3>
+            <p style="font-size:0.82rem;color:var(--text-secondary);margin-top:4px;">
+              All memes, photos, and video clips gathered from your files (<code>krishnaa/</code> and <code>Downloads/memes</code>). Click any item to preview or assign it!
+            </p>
+          </div>
+          <div style="display:flex;gap:8px;" id="libraryFilterButtons">
+            <button class="btn btn-ghost active-filter" id="filterBtn_all" style="font-size:0.78rem;padding:6px 12px;" onclick="filterLibrary('all', this)">All</button>
+            <button class="btn btn-ghost" id="filterBtn_image" style="font-size:0.78rem;padding:6px 12px;" onclick="filterLibrary('image', this)">🖼️ Memes/Photos</button>
+            <button class="btn btn-ghost" id="filterBtn_video" style="font-size:0.78rem;padding:6px 12px;" onclick="filterLibrary('video', this)">🎬 Videos</button>
+          </div>
+        </div>
+
+        <div class="library-grid" id="userMediaLibraryGrid">
+          <!-- Populated by JS -->
+        </div>
+      </div>
+
+      <!-- TIPS -->
+      <div class="card mt-24 mb-60" style="background:rgba(6,182,212,0.04);border-color:rgba(6,182,212,0.15);">
+        <h3 style="font-size:0.9rem;font-weight:700;color:var(--cyan);margin-bottom:12px;">💡 Tips for Best Results</h3>
+        <ul style="color:var(--text-secondary);font-size:0.85rem;line-height:1.8;padding-left:16px;">
+          <li>Compress images to under 500KB for fast loading. Use <a href="https://squoosh.app" target="_blank" style="color:var(--cyan);">squoosh.app</a> or TinyPNG.</li>
+          <li>Videos should be under 10MB for smooth performance. Use 360p or 480p resolution.</li>
+          <li>Movie dialogues work best as short, punchy quotes (1-2 lines max).</li>
+          <li>Media is stored locally — clearing browser data will remove assignments.</li>
+          <li>You can assign different media for each of the 10 categories.</li>
+          <li>Changes save automatically when you click "Save Changes".</li>
+        </ul>
+      </div>
+
+    </div><!-- gallery-layout -->
+  </div>
+
+  <div id="footer-placeholder"></div>
+
+  <script src="script.js"></script>
+  <script src="gallery.js"></script>
+</body>
+</html>
