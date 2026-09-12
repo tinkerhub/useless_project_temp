@@ -2,96 +2,54 @@
 
 
 
-# [Project Name] 🎯
+# [Smile Score] 🎯
 
 
 ## Basic Details
-### Team Name: [Name]
+Smile Power is a fun web application that analyzes a user’s uploaded face image and generates a fictional Smile Power™ score with entertaining smile statistics. It uses HTML, CSS, and JavaScript to provide a futuristic, interactive experience while processing images locally without storing or uploading
+### Team Name: [Evoric]
 
 
 ### Team Members
-- Team Lead: [Name] - [College]
-- Member 2: [Name] - [College]
+- Team Lead: [Anshif k] - [Duxford College Advanced Studies]
+- Member 2: [Muhammed sabith ek] - [Duxford College for Advanced studies]
 - Member 3: [Name] - [College]
 
 ### Project Description
-[2-3 lines about what your project does]
+Smile Power is a fun website that analyzes a user’s uploaded photo and generates a fictional Smile Power™ score. It also shows funny stats like Smile Strength, Happiness Radiation, Tooth Visibility, Social Damage, and Planetary Impact.
 
 ### The Problem (that doesn't exist)
-[What ridiculous problem are you solving?]
+People have no scientific way to know how powerful their smile is We’re fixing that completely unnecessary problem.
 
 ### The Solution (that nobody asked for)
-[How are you solving it? Keep it fun!]
+Users upload their smile, our totally questionable AI scans it, runs some imaginary calculations, and gives them a ridiculous Smile Power score
 
 ## Technical Details
 ### Technologies/Components Used
 For Software:
-- [Languages used]
-- [Frameworks used]
-- [Libraries used]
-- [Tools used]
+- HTML
+- CSS
 
-For Hardware:
-- [List main components]
-- [List specifications]
-- [List tools required]
 
 ### Implementation
-For Software:
-# Installation
-[commands]
+For Software:VS code
 
 # Run
-[commands]
+start index.html
 
 ### Project Documentation
 For Software:
 
 # Screenshots (Add at least 3)
-![Screenshot1](Add screenshot 1 here with proper name)
-*Add caption explaining what this shows*
 
-![Screenshot2](Add screenshot 2 here with proper name)
-*Add caption explaining what this shows*
+<img width="1896" height="1021" alt="Screenshot 2026-09-12 045109" src="https://github.com/user-attachments/assets/065d677c-91ff-4d9b-a60e-880686919b4f" />
+<img width="1882" height="1017" alt="Screenshot 2026-09-12 045119" src="https://github.com/user-attachments/assets/27d0bce2-5566-453c-8e84-e50446e868ab" />
 
-![Screenshot3](Add screenshot 3 here with proper name)
-*Add caption explaining what this shows*
 
-# Diagrams
-![Workflow](Add your workflow/architecture diagram here)
-*Add caption explaining your workflow*
+<img width="1892" height="1022" alt="Screenshot 2026-09-12 045059" src="https://github.com/user-attachments/assets/1c266398-cfff-459a-b708-dd32645e8563" />
 
-For Hardware:
 
-# Schematic & Circuit
-![Circuit](Add your circuit diagram here)
-*Add caption explaining connections*
 
-![Schematic](Add your schematic diagram here)
-*Add caption explaining the schematic*
-
-# Build Photos
-![Components](Add photo of your components here)
-*List out all components shown*
-
-![Build](Add photos of build process here)
-*Explain the build steps*
-
-![Final](Add photo of final product here)
-*Explain the final build*
-
-### Project Demo
-# Video
-[Add your demo video link here]
-*Explain what the video demonstrates*
-
-# Additional Demos
-[Add any extra demo materials/links]
-
-## Team Contributions
-- [Name 1]: [Specific contributions]
-- [Name 2]: [Specific contributions]
-- [Name 3]: [Specific contributions]
 
 ---
 Made with ❤️ at TinkerHub Useless Projects 

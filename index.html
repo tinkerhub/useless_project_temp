@@ -1,1 +1,819 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Smile Power™ Scanner</title>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>😁</text></svg>">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&family=Instrument+Serif:ital@1&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#0d0c09;
+    --panel:rgba(255,255,255,.028);
+    --line:rgba(255,255,255,.09);
+    --line-strong:rgba(255,255,255,.17);
+    --text:#f3efe5;
+    --muted:#98917e;
+    --accent:#ffc24b;
+    --accent-hot:#ffdd8f;
+    --accent-glow:rgba(255,194,75,.3);
+    --ok:#79e08c;
+    --mono:'IBM Plex Mono',monospace;
+    --sans:'Space Grotesk',sans-serif;
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{
+    background:var(--bg);color:var(--text);font-family:var(--sans);
+    min-height:100vh;overflow-x:hidden;-webkit-font-smoothing:antialiased;
+  }
+  ::selection{background:rgba(255,194,75,.3)}
+  :focus-visible{outline:2px solid var(--accent);outline-offset:3px;border-radius:8px}
 
+  /* ---------- ambient background ---------- */
+  .bg-grid{position:fixed;inset:0;pointer-events:none;z-index:0;
+    background-image:linear-gradient(rgba(255,255,255,.032) 1px,transparent 1px),
+                     linear-gradient(90deg,rgba(255,255,255,.032) 1px,transparent 1px);
+    background-size:44px 44px;
+    -webkit-mask-image:radial-gradient(ellipse 95% 72% at 50% 0%,#000 25%,transparent 78%);
+            mask-image:radial-gradient(ellipse 95% 72% at 50% 0%,#000 25%,transparent 78%);
+  }
+  .bg-glow{position:fixed;inset:0;pointer-events:none;z-index:0;
+    background:radial-gradient(640px 420px at 50% -8%,rgba(255,194,75,.075),transparent 70%)}
+  .noise{position:fixed;inset:0;pointer-events:none;z-index:1;opacity:.035;
+    background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='140' height='140'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/></filter><rect width='140' height='140' filter='url(%23n)'/></svg>")}
+
+  .mono{font-family:var(--mono)}
+  .dim{color:var(--muted)}
+  .hidden{display:none!important}
+
+  /* ---------- header / footer ---------- */
+  .top{position:sticky;top:0;z-index:50;display:flex;justify-content:space-between;align-items:center;
+    padding:15px 28px;border-bottom:1px solid rgba(255,255,255,.06);
+    background:rgba(13,12,9,.72);backdrop-filter:blur(14px)}
+  .brand{display:flex;align-items:center;gap:11px;font:700 15px var(--sans);letter-spacing:.06em}
+  .brand svg{display:block}
+  .brand-sub{font:500 9.5px var(--mono);letter-spacing:.3em;color:var(--muted);
+    border:1px solid var(--line);padding:4px 8px;border-radius:6px}
+  .net{font:500 10px var(--mono);letter-spacing:.18em;color:var(--muted);display:flex;align-items:center;gap:8px}
+  .dot{width:6px;height:6px;border-radius:50%;background:var(--ok);box-shadow:0 0 8px var(--ok);
+    animation:pulse 2.2s ease-in-out infinite;flex:none}
+  .dot.amber{background:var(--accent);box-shadow:0 0 8px var(--accent-glow);animation-duration:1s}
+  @keyframes pulse{0%,100%{opacity:1}50%{opacity:.35}}
+
+  footer{text-align:center;padding:30px 20px 44px;font:500 9.5px var(--mono);
+    letter-spacing:.22em;color:rgba(255,255,255,.28);border-top:1px solid rgba(255,255,255,.05)}
+
+  /* ---------- screens ---------- */
+  main{position:relative;z-index:2}
+  .screen{display:none}
+  .screen.active{display:block;animation:screenIn .55s cubic-bezier(.22,1,.36,1)}
+  @keyframes screenIn{from{opacity:0;transform:translateY(18px)}to{opacity:1;transform:none}}
+
+  /* entrance system */
+  .rv{opacity:0}
+  .live .rv{animation:rise .8s cubic-bezier(.22,1,.36,1) var(--d,0s) both}
+  @keyframes rise{from{opacity:0;transform:translateY(18px)}to{opacity:1;transform:none}}
+  .pop{opacity:0}
+  .live .pop{animation:popIn .7s cubic-bezier(.34,1.56,.64,1) var(--d,0s) both}
+  @keyframes popIn{from{opacity:0;transform:scale(.7)}to{opacity:1;transform:scale(1)}}
+
+  /* ---------- buttons ---------- */
+  .btn{display:inline-flex;align-items:center;justify-content:center;gap:10px;cursor:pointer;
+    font:600 12.5px var(--mono);letter-spacing:.16em;border-radius:12px;padding:16px 28px;
+    min-height:50px;transition:background .25s,box-shadow .25s,border-color .25s,color .25s;user-select:none}
+  .btn svg{width:15px;height:15px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+  .btn-primary{background:var(--accent);color:#181305;border:1px solid transparent;
+    box-shadow:0 6px 26px rgba(255,194,75,.22)}
+  .btn-primary:hover{background:var(--accent-hot);box-shadow:0 10px 34px rgba(255,194,75,.32)}
+  .btn-primary:active{transform:translateY(1px)}
+  .btn-ghost{background:transparent;color:var(--text);border:1px solid var(--line-strong)}
+  .btn-ghost:hover{border-color:rgba(255,194,75,.5);color:var(--accent)}
+
+  /* ================= UPLOAD SCREEN ================= */
+  #s-upload{max-width:760px;margin:0 auto;padding:62px 24px 70px;text-align:center;
+    display:flex;flex-direction:column;align-items:center}
+  .kicker{font:600 10.5px var(--mono);letter-spacing:.28em;color:var(--accent);
+    border:1px solid rgba(255,194,75,.32);background:rgba(255,194,75,.06);
+    padding:9px 18px;border-radius:99px}
+  h1{font:600 clamp(40px,7.2vw,66px)/1.06 var(--sans);letter-spacing:-.03em;margin:28px 0 18px}
+  h1 em{font:italic 400 1.1em 'Instrument Serif',serif;color:var(--accent)}
+  .lede{color:var(--muted);font-size:16.5px;line-height:1.65;max-width:530px;margin-bottom:42px}
+
+  .dz{position:relative;width:100%;max-width:620px;cursor:pointer;
+    border:1.5px dashed rgba(255,255,255,.18);border-radius:24px;
+    background:rgba(255,255,255,.02);backdrop-filter:blur(8px);
+    padding:54px 36px;transition:border-color .3s,background .3s,box-shadow .3s}
+  .dz.drag{border-color:rgba(255,194,75,.8);background:rgba(255,194,75,.045);
+    box-shadow:0 0 0 1px rgba(255,194,75,.25),0 0 50px rgba(255,194,75,.1)}
+  .corner{position:absolute;width:20px;height:20px;border:2px solid var(--accent);opacity:.85;
+    transition:transform .3s cubic-bezier(.34,1.56,.64,1);pointer-events:none;z-index:3}
+  .c-tl{top:-4px;left:-4px;border-right:0;border-bottom:0;border-top-left-radius:12px}
+  .c-tr{top:-4px;right:-4px;border-left:0;border-bottom:0;border-top-right-radius:12px}
+  .c-bl{bottom:-4px;left:-4px;border-right:0;border-top:0;border-bottom-left-radius:12px}
+  .c-br{bottom:-4px;right:-4px;border-left:0;border-top:0;border-bottom-right-radius:12px}
+  .dz:hover .corner,.dz.drag .corner{transform:translate(var(--tx,0),var(--ty,0))}
+  .dz:hover .c-tl,.dz.drag .c-tl{--tx:-4px;--ty:-4px}
+  .dz:hover .c-tr,.dz.drag .c-tr{--tx:4px;--ty:-4px}
+  .dz:hover .c-bl,.dz.drag .c-bl{--tx:-4px;--ty:4px}
+  .dz:hover .c-br,.dz.drag .c-br{--tx:4px;--ty:4px}
+
+  .dz-empty,.dz-loaded{display:flex;flex-direction:column;align-items:center}
+  .dz-emoji{font-size:54px;animation:float 3.4s ease-in-out infinite}
+  @keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-7px)}}
+  .dz-title{font:600 21px var(--sans);letter-spacing:.02em;margin-top:16px}
+  .dz-or{color:var(--muted);font-size:10.5px;letter-spacing:.34em;margin:16px 0}
+  .dz-hint{margin-top:22px;font-size:10px;color:var(--muted);letter-spacing:.14em;
+    display:flex;align-items:center;gap:7px}
+  .dz-hint svg{width:12px;height:12px;fill:none;stroke:var(--muted);stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+
+  .check-ring{width:56px;height:56px;border-radius:50%;display:grid;place-items:center;
+    border:1px solid rgba(121,224,140,.5);background:rgba(121,224,140,.08);
+    box-shadow:0 0 26px rgba(121,224,140,.15)}
+  .check-ring svg{width:26px;height:26px;fill:none;stroke:var(--ok);stroke-width:2.4;stroke-linecap:round;stroke-linejoin:round}
+  .dz-file{display:flex;align-items:center;gap:14px;margin:20px 0 24px;max-width:100%}
+  .dz-file img{width:60px;height:60px;object-fit:cover;border-radius:12px;border:1px solid var(--line-strong)}
+  .dz-file .fi{text-align:left;min-width:0}
+  .fname{font-size:13px;font-weight:500;max-width:190px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+  .fdims{font-size:9.5px;letter-spacing:.16em;color:var(--muted);margin-top:5px}
+  .linkbtn{background:none;border:none;cursor:pointer;color:var(--accent);font:600 10px var(--mono);
+    letter-spacing:.2em;margin-left:6px;padding:8px;border-bottom:1px solid rgba(255,194,75,.4)}
+  .linkbtn:hover{color:var(--accent-hot)}
+  .btn-lg{padding:18px 42px;font-size:13px}
+
+  .fineprint{margin-top:36px;font-size:9.5px;color:rgba(255,255,255,.3);letter-spacing:.18em}
+
+  /* ================= IMAGE FRAME ================= */
+  .img-frame{position:relative;border-radius:20px;padding:10px;
+    border:1px solid rgba(255,194,75,.35);background:rgba(255,255,255,.02);
+    box-shadow:0 0 0 1px rgba(0,0,0,.4),0 0 44px rgba(255,194,75,.11),inset 0 0 34px rgba(0,0,0,.45)}
+  .img-frame.is-scanning{box-shadow:0 0 0 1px rgba(0,0,0,.4),0 0 70px rgba(255,194,75,.2),inset 0 0 34px rgba(0,0,0,.45)}
+  .img-frame img{display:block;width:100%;aspect-ratio:4/5;object-fit:contain;border-radius:12px;
+    background:
+      linear-gradient(rgba(255,255,255,.03) 1px,transparent 1px) 0 0/100% 25.5%,
+      linear-gradient(90deg,rgba(255,255,255,.03) 1px,transparent 1px) 0 0/25.5% 100%,
+      #12110d}
+  .chip{position:absolute;display:flex;align-items:center;gap:7px;padding:6px 11px;z-index:3;
+    border-radius:8px;background:rgba(13,12,9,.8);border:1px solid var(--line);
+    backdrop-filter:blur(6px);font:500 9.5px var(--mono);letter-spacing:.16em;white-space:nowrap}
+  .chip .i{width:11px;height:11px;fill:none;stroke:currentColor;stroke-width:2.4;stroke-linecap:round;stroke-linejoin:round}
+  .chip-tl{top:22px;left:22px}
+  .chip-tr{top:22px;right:22px}
+  .chip-bl{bottom:22px;left:22px;color:var(--muted)}
+  .chip-br{bottom:22px;right:22px;color:var(--muted)}
+  .chip.ok{color:var(--ok);border-color:rgba(121,224,140,.45);background:rgba(13,20,13,.85)}
+  .chip.amber-chip{color:var(--accent);border-color:rgba(255,194,75,.45)}
+
+  .scanline{position:absolute;inset:10px;overflow:hidden;border-radius:12px;pointer-events:none;z-index:2}
+  .beam{position:absolute;left:0;right:0;height:70px;top:-72px;border-radius:8px;
+    background:linear-gradient(180deg,rgba(255,194,75,0) 0%,rgba(255,194,75,.09) 60%,rgba(255,214,130,.32) 96%,rgba(255,236,190,.85) 100%);
+    box-shadow:0 0 26px rgba(255,194,75,.22);
+    animation:sweep 2.5s cubic-bezier(.45,.05,.55,.95) infinite}
+  .scanline.slow .beam{animation-duration:5.5s;opacity:.55}
+  @keyframes sweep{0%{top:-72px}100%{top:101%}}
+
+  /* ================= SCAN SCREEN ================= */
+  .scan-wrap{max-width:1080px;margin:0 auto;padding:52px 28px 90px}
+  .scan-kicker{display:flex;align-items:center;justify-content:center;gap:10px;
+    font:600 10.5px var(--mono);letter-spacing:.26em;color:var(--muted);margin-bottom:34px}
+  .scan-grid{display:grid;grid-template-columns:minmax(300px,420px) 1fr;gap:48px;align-items:start}
+  .privacy{display:flex;gap:14px;align-items:flex-start;margin-top:20px;padding:16px 18px;
+    border:1px solid var(--line);border-radius:14px;background:rgba(255,255,255,.02)}
+  .privacy svg{width:18px;height:18px;flex:none;fill:none;stroke:var(--accent);stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round;margin-top:1px}
+  .privacy strong{display:block;font:600 11.5px var(--mono);letter-spacing:.22em}
+  .privacy span{color:var(--muted);font-size:12.5px;margin-top:5px;display:block;line-height:1.5}
+
+  .console{background:var(--panel);border:1px solid var(--line);border-radius:18px;
+    backdrop-filter:blur(10px);overflow:hidden;display:flex;flex-direction:column;min-height:420px}
+  .console-head{display:flex;align-items:center;gap:10px;padding:15px 18px;
+    border-bottom:1px solid var(--line);font:600 10px var(--mono);letter-spacing:.24em;color:var(--muted)}
+  .console-head #scanPct{margin-left:auto;color:var(--accent);font-size:14px;font-weight:600;letter-spacing:.06em}
+  .console-body{flex:1;padding:20px 20px 14px;font:400 12.5px/2.15 var(--mono);
+    color:var(--muted);overflow:auto;min-height:280px}
+  .console-body::-webkit-scrollbar{width:6px}
+  .console-body::-webkit-scrollbar-thumb{background:rgba(255,255,255,.12);border-radius:99px}
+  .log-line .lb{color:var(--accent);margin-right:9px}
+  .log-line.done{color:var(--text)}
+  .log-line.done .lb{color:var(--ok)}
+  .caret{color:var(--accent);animation:blink 1s steps(1) infinite;margin-left:4px}
+  @keyframes blink{50%{opacity:0}}
+  .console-bar{height:4px;background:rgba(255,255,255,.06);flex:none}
+  .console-bar i{display:block;height:100%;width:0;background:var(--accent);
+    box-shadow:0 0 10px var(--accent-glow);transition:width .2s linear}
+
+  /* ================= RESULTS SCREEN ================= */
+  .res-grid{max-width:1160px;margin:0 auto;padding:48px 28px 90px;
+    display:grid;grid-template-columns:minmax(320px,430px) 1fr;gap:56px;align-items:start}
+  .res-left{position:sticky;top:90px}
+  .sec-label{font:600 10.5px var(--mono);letter-spacing:.3em}
+  .res-left .sec-label{display:block;margin-bottom:14px;color:var(--muted)}
+
+  .detected{margin-top:20px}
+  .det-title{font:700 18px var(--sans);letter-spacing:.04em;display:flex;align-items:center;gap:10px}
+  .det-sub{color:var(--muted);font-size:13.5px;margin-top:5px}
+  .det-ok{font:600 9.5px var(--mono);letter-spacing:.2em;color:var(--ok);margin-top:11px;
+    display:inline-flex;align-items:center;gap:7px;border:1px solid rgba(121,224,140,.35);
+    background:rgba(121,224,140,.06);padding:7px 12px;border-radius:8px}
+  .det-ok svg{width:11px;height:11px;fill:none;stroke:var(--ok);stroke-width:2.6;stroke-linecap:round;stroke-linejoin:round}
+
+  .res-right{display:flex;flex-direction:column;align-items:center;text-align:center}
+  .score-head{display:flex;gap:18px;align-items:baseline;flex-wrap:wrap;justify-content:center}
+  .score-head .sh-main{font:600 12px var(--mono);letter-spacing:.32em;color:var(--accent)}
+  .score-head .sh-id{font-size:10px;letter-spacing:.14em;color:var(--muted)}
+
+  .gauge-wrap{position:relative;margin-top:22px}
+  .gauge{width:min(320px,80vw);height:auto;display:block}
+  .tick{stroke:rgba(255,194,75,.22);stroke-width:1.5}
+  .tick.long{stroke:rgba(255,194,75,.5);stroke-width:2}
+  .g-track{fill:none;stroke:rgba(255,255,255,.08);stroke-width:10}
+  .g-orn{fill:none;stroke:rgba(255,255,255,.07);stroke-width:1;stroke-dasharray:2 10;
+    transform-origin:center;animation:spin 90s linear infinite}
+  @keyframes spin{to{transform:rotate(360deg)}}
+  .g-fill{fill:none;stroke:var(--accent);stroke-width:10;stroke-linecap:round;
+    filter:drop-shadow(0 0 7px rgba(255,194,75,.45))}
+  .gauge-center{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center}
+  .score-num{font:700 clamp(54px,8vw,76px)/1 var(--sans);letter-spacing:-.02em;
+    font-variant-numeric:tabular-nums;text-shadow:0 0 34px rgba(255,194,75,.28)}
+  .score-den{font:500 13px var(--mono);color:var(--muted);letter-spacing:.24em;margin-top:6px}
+  .score-lbl{font:600 9.5px var(--mono);color:var(--accent);letter-spacing:.4em;margin-top:12px}
+  .burst{position:absolute;inset:-4px;border:1px solid rgba(255,194,75,.6);border-radius:50%;opacity:0;pointer-events:none}
+  .live .burst{animation:burst 1.1s ease-out .75s both}
+  @keyframes burst{0%{opacity:.55;transform:scale(.7)}100%{opacity:0;transform:scale(1.2)}}
+
+  .conf{font-size:10px;letter-spacing:.14em;color:var(--muted);margin-top:16px}
+  .class-badge{display:inline-flex;align-items:center;gap:10px;margin-top:24px;padding:14px 26px;
+    border-radius:999px;border:1px solid rgba(255,194,75,.5);background:rgba(255,194,75,.08);
+    box-shadow:0 0 30px rgba(255,194,75,.14),inset 0 0 20px rgba(255,194,75,.05);
+    font:700 16px var(--sans);letter-spacing:.06em;text-transform:uppercase}
+  .desc{max-width:520px;color:var(--muted);font-size:15px;line-height:1.68;margin-top:20px}
+
+  .metrics-head{width:100%;max-width:660px;display:flex;justify-content:space-between;align-items:center;
+    gap:12px;margin:40px 0 14px;padding-top:28px;border-top:1px solid var(--line)}
+  .metrics-head .sec-label{color:var(--text)}
+  .metrics-head .mh-note{font-size:9.5px;letter-spacing:.14em;color:var(--muted)}
+
+  .metric{display:grid;grid-template-columns:auto auto 1fr auto;gap:6px 16px;align-items:center;
+    width:100%;max-width:660px;padding:16px 20px 18px;margin-bottom:10px;text-align:left;
+    border-radius:16px;background:rgba(255,255,255,.025);border:1px solid rgba(255,255,255,.08);
+    backdrop-filter:blur(8px);
+    transition:border-color .3s,background .3s,box-shadow .3s}
+  .metric:hover{border-color:rgba(255,194,75,.45);background:rgba(255,255,255,.045);
+    box-shadow:0 12px 34px rgba(0,0,0,.4),0 0 24px rgba(255,194,75,.07)}
+  .m-idx{font:500 10px var(--mono);color:rgba(255,255,255,.32);letter-spacing:.1em}
+  .m-chip{width:40px;height:40px;border-radius:11px;background:rgba(255,255,255,.045);
+    border:1px solid var(--line);display:grid;place-items:center;font-size:19px;
+    transition:transform .3s cubic-bezier(.34,1.56,.64,1)}
+  .metric:hover .m-chip{transform:scale(1.1) rotate(-4deg)}
+  .m-name{font:600 14px var(--sans);letter-spacing:.08em}
+  .m-desc{color:var(--muted);font-size:12px;margin-top:3px;line-height:1.4}
+  .m-pct{font:600 25px var(--mono);color:var(--accent);font-variant-numeric:tabular-nums;white-space:nowrap}
+  .m-pct .sym{font-size:14px;margin-left:1px}
+  .bar{grid-column:1/-1;position:relative;height:6px;margin-top:8px;border-radius:99px;
+    background:rgba(255,255,255,.06)}
+  .bar i{position:absolute;left:0;top:0;bottom:0;width:0;border-radius:inherit;z-index:1;
+    background:var(--accent);box-shadow:0 0 12px rgba(255,194,75,.55);
+    transition:width 1.15s cubic-bezier(.22,1,.36,1)}
+  .bar i::after{content:"";position:absolute;right:-3px;top:50%;z-index:3;
+    width:11px;height:11px;border-radius:50%;background:#ffecbe;
+    box-shadow:0 0 12px var(--accent);transform:translateY(-50%) scale(0);
+    transition:transform .35s cubic-bezier(.34,1.56,.64,1) .85s}
+  .bar.filled i::after{transform:translateY(-50%) scale(1)}
+  .bar::before{content:"";position:absolute;inset:0;z-index:2;border-radius:inherit;pointer-events:none;
+    background:repeating-linear-gradient(90deg,transparent 0 calc(10% - 1px),rgba(13,12,9,.85) calc(10% - 1px) 10%)}
+
+  .actions{display:flex;gap:14px;justify-content:center;margin-top:36px;flex-wrap:wrap}
+  #toasts{position:fixed;bottom:26px;left:50%;transform:translateX(-50%);z-index:99;
+    display:flex;flex-direction:column;gap:8px;align-items:center;pointer-events:none}
+  .toast{background:rgba(22,21,16,.94);border:1px solid var(--line-strong);color:var(--text);
+    font:500 12.5px var(--mono);letter-spacing:.04em;padding:13px 20px;border-radius:99px;
+    box-shadow:0 12px 34px rgba(0,0,0,.55);opacity:0;transform:translateY(10px);transition:.35s}
+  .toast.show{opacity:1;transform:none}
+
+  /* ================= RESPONSIVE ================= */
+  @media(max-width:920px){
+    .res-grid{grid-template-columns:1fr;gap:40px;padding-top:36px}
+    .res-left{position:static}
+    .scan-grid{grid-template-columns:1fr;gap:36px}
+    .console{min-height:0}
+    .console-body{min-height:240px}
+  }
+  @media(max-width:640px){
+    .top{padding:13px 18px}
+    .net spanTxt{display:none}
+    .net .net-long{display:none}
+    #s-upload{padding-top:44px}
+    .dz{padding:42px 22px}
+    .res-grid,.scan-wrap{padding-left:18px;padding-right:18px}
+    .actions{flex-direction:column;width:100%;max-width:660px}
+    .actions .btn{width:100%}
+    .metrics-head{flex-direction:column;align-items:flex-start;gap:6px}
+    .m-chip{width:36px;height:36px;font-size:17px}
+    .m-pct{font-size:21px}
+    .metric{padding:14px 16px 16px}
+    .class-badge{font-size:14px;padding:12px 20px}
+    .chip-br{display:none}
+  }
+  @media(max-width:400px){ .chip-tr{top:16px;right:16px} .chip-tl{top:16px;left:16px} }
+  @media(prefers-reduced-motion:reduce){
+    *,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important}
+  }
+</style>
+</head>
+<body>
+<div class="bg-grid"></div>
+<div class="bg-glow"></div>
+<div class="noise"></div>
+
+<header class="top">
+  <div class="brand">
+    <svg width="28" height="28" viewBox="0 0 32 32" fill="none" aria-hidden="true">
+      <rect x="2" y="2" width="28" height="28" rx="9" stroke="#ffc24b" stroke-width="1.6"/>
+      <circle cx="11.5" cy="13" r="1.7" fill="#ffc24b"/>
+      <circle cx="20.5" cy="13" r="1.7" fill="#ffc24b"/>
+      <path d="M9.5 18.6c2.2 3.6 10.8 3.6 13 0" stroke="#ffc24b" stroke-width="2" stroke-linecap="round"/>
+    </svg>
+    <span>SMILE POWER<sup style="font-size:.55em">™</sup></span>
+    <span class="brand-sub">SCANNER</span>
+  </div>
+  <div class="net mono"><span class="dot"></span><span class="net-long">ALL LOCAL&nbsp;·&nbsp;0 BYTES UPLOADED</span><span class="net-short">LOCAL</span></div>
+</header>
+
+<main>
+  <!-- ============ UPLOAD ============ -->
+  <section id="s-upload" class="screen active">
+    <div class="kicker mono">SMILE POWER™ SCANNER · BUILD 2.4.1 · OFFLINE AI</div>
+    <h1>How powerful is<br><em>your smile?</em></h1>
+    <p class="lede">Our patented, completely imaginary AI measures the raw energy of your grin — 100% on this device, 0% serious.</p>
+
+    <div class="dz" id="dz">
+      <span class="corner c-tl"></span><span class="corner c-tr"></span>
+      <span class="corner c-bl"></span><span class="corner c-br"></span>
+
+      <div class="dz-empty" id="dzEmpty" tabindex="0" role="button" aria-label="Upload a photo of your smile">
+        <div class="dz-emoji">😁</div>
+        <div class="dz-title">DROP YOUR SMILE HERE</div>
+        <div class="dz-or mono">— OR —</div>
+        <button class="btn btn-primary" id="btnChoose" type="button">
+          <svg viewBox="0 0 24 24"><path d="M12 15V4"/><path d="m7 8 5-5 5 5"/><path d="M4 16v2a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-2"/></svg>
+          CHOOSE PHOTO
+        </button>
+        <div class="dz-hint mono">PNG · JPG · WEBP — THE PHOTO NEVER LEAVES YOUR DEVICE&nbsp;&nbsp;·&nbsp;&nbsp;YOU CAN ALSO PASTE IT</div>
+      </div>
+
+      <div class="dz-loaded hidden" id="dzLoaded">
+        <div class="check-ring">
+          <svg viewBox="0 0 24 24"><path d="m4 12.5 5 5L20 6.5"/></svg>
+        </div>
+        <div class="dz-title">✓ SMILE LOADED</div>
+        <div class="dz-file">
+          <img id="thumb" alt="Selected photo preview">
+          <div class="fi">
+            <div class="fname" id="fname">photo.jpg</div>
+            <div class="fdims mono" id="fdims">— × —</div>
+          </div>
+          <button class="linkbtn" id="btnChange" type="button">CHANGE</button>
+        </div>
+        <button class="btn btn-primary btn-lg" id="btnAnalyze" type="button">
+          ANALYZE MY SMILE
+          <svg viewBox="0 0 24 24"><path d="M4 12h15"/><path d="m13 5 7 7-7 7"/></svg>
+        </button>
+        <div class="dz-hint mono">
+          <svg viewBox="0 0 24 24"><rect x="5" y="11" width="14" height="9" rx="2.5"/><path d="M8 11V8a4 4 0 0 1 8 0v3"/></svg>
+          PROCESSED LOCALLY — NOTHING IS UPLOADED
+        </div>
+      </div>
+    </div>
+    <input type="file" id="file" accept="image/*" hidden>
+
+    <p class="fineprint mono">FOR ENTERTAINMENT ONLY — SMILE POWER™ IS NOT SCIENCE. IT'S SOMETHING BETTER: IT'S FUN.</p>
+  </section>
+
+  <!-- ============ SCANNING ============ -->
+  <section id="s-scan" class="screen">
+    <div class="scan-wrap">
+      <div class="scan-kicker"><span class="dot amber"></span>ANALYZING — HOLD STILL AND LOOK HAPPY</div>
+      <div class="scan-grid">
+        <div>
+          <div class="img-frame is-scanning">
+            <span class="corner c-tl"></span><span class="corner c-tr"></span>
+            <span class="corner c-bl"></span><span class="corner c-br"></span>
+            <div class="scanline"><i class="beam"></i></div>
+            <img id="scanImg" alt="Your photo being analyzed">
+            <div class="chip chip-tl"><span class="dot"></span>LOCAL IMAGE</div>
+            <div class="chip chip-tr amber-chip"><span class="dot amber"></span>SCANNING</div>
+          </div>
+          <div class="privacy">
+            <svg viewBox="0 0 24 24"><rect x="5" y="11" width="14" height="9" rx="2.5"/><path d="M8 11V8a4 4 0 0 1 8 0v3"/></svg>
+            <div>
+              <strong>🔒 LOCAL PROCESSING</strong>
+              <span>Your photo is being processed in your browser. Nothing is uploaded.</span>
+            </div>
+          </div>
+        </div>
+        <div class="console">
+          <div class="console-head"><span class="dot"></span>ANALYSIS FEED<span id="scanPct">0%</span></div>
+          <div class="console-body" id="log"></div>
+          <div class="console-bar"><i id="scanBar"></i></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ RESULTS ============ -->
+  <section id="s-results" class="screen">
+    <div class="res-grid">
+      <!-- LEFT : user image -->
+      <div class="res-left rv" style="--d:.05s">
+        <span class="sec-label mono">SUBJECT IMAGE</span>
+        <div class="img-frame">
+          <span class="corner c-tl"></span><span class="corner c-tr"></span>
+          <span class="corner c-bl"></span><span class="corner c-br"></span>
+          <div class="scanline slow"><i class="beam"></i></div>
+          <img id="resImg" alt="The exact photo you uploaded">
+          <div class="chip chip-tl"><span class="dot"></span>LOCAL IMAGE</div>
+          <div class="chip chip-tr ok pop" style="--d:1.35s">
+            <svg class="i" viewBox="0 0 24 24"><path d="m4 12.5 5 5L20 6.5"/></svg>
+            ANALYSIS COMPLETE
+          </div>
+          <div class="chip chip-bl" id="resDims">— × —</div>
+          <div class="chip chip-br" id="resName">IMAGE</div>
+        </div>
+        <div class="detected">
+          <div class="det-title">SMILE DETECTED 😁</div>
+          <div class="det-sub">Your image never left this device.</div>
+          <div class="det-ok">
+            <svg viewBox="0 0 24 24"><path d="m4 12.5 5 5L20 6.5"/></svg>
+            NO IMAGE WAS UPLOADED OR STORED
+          </div>
+        </div>
+      </div>
+
+      <!-- RIGHT : power report -->
+      <div class="res-right">
+        <div class="score-head rv" style="--d:.15s">
+          <span class="sh-main mono">YOUR SMILE POWER™</span>
+          <span class="sh-id mono" id="reportId">REPORT Nº SP-0000</span>
+        </div>
+
+        <div class="gauge-wrap rv" style="--d:.2s">
+          <svg class="gauge" viewBox="0 0 260 260" aria-hidden="true">
+            <g id="ticks"></g>
+            <circle class="g-orn" cx="130" cy="130" r="90"/>
+            <circle class="g-track" cx="130" cy="130" r="108"/>
+            <circle class="g-fill" id="gaugeFill" cx="130" cy="130" r="108" transform="rotate(-90 130 130)"/>
+          </svg>
+          <div class="burst"></div>
+          <div class="gauge-center">
+            <div class="score-num" id="scoreNum">0.0</div>
+            <div class="score-den mono">/ 100</div>
+            <div class="score-lbl mono">POWER LEVEL</div>
+          </div>
+        </div>
+
+        <div class="conf mono rv" style="--d:.55s" id="confLine">CONFIDENCE —</div>
+
+        <div class="class-badge pop" style="--d:.8s" id="classBadge">…</div>
+        <p class="desc rv" style="--d:1s" id="classDesc"></p>
+
+        <div class="metrics-head rv" style="--d:1.15s">
+          <span class="sec-label mono">POWER METRICS</span>
+          <span class="mh-note mono">FICTIONAL DATA · ENTERTAINMENT ONLY</span>
+        </div>
+        <div id="metrics" style="width:100%;display:flex;flex-direction:column;align-items:center"></div>
+
+        <div class="actions rv" style="--d:1.7s">
+          <button class="btn btn-primary" id="btnShare" type="button">
+            <svg viewBox="0 0 24 24"><path d="M12 15V4"/><path d="m8 7 4-4 4 4"/><path d="M5 12v7a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2v-7"/></svg>
+            SHARE RESULT
+          </button>
+          <button class="btn btn-ghost" id="btnAgain" type="button">
+            <svg viewBox="0 0 24 24"><path d="M3 12a9 9 0 1 0 2.64-6.36L3 8"/><path d="M3 3v5h5"/></svg>
+            SCAN AGAIN
+          </button>
+        </div>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer>SMILE POWER™ SCANNER — RUNS 100% IN YOUR BROWSER · NO UPLOADS · NO STORAGE · NO MERCY FOR GRUMPY FACES</footer>
+<div id="toasts" aria-live="polite"></div>
+
+<script>
+(function(){
+  'use strict';
+  const $ = s => document.querySelector(s);
+  const screens = { upload:$('#s-upload'), scan:$('#s-scan'), results:$('#s-results') };
+  let current = 'upload';
+  let objUrl = null, fileInfo = null, report = null;
+
+  function setScreen(n){
+    Object.values(screens).forEach(s => s.classList.remove('active','live'));
+    screens[n].classList.add('active');
+    current = n;
+    window.scrollTo(0,0);
+  }
+
+  /* ---------- toast ---------- */
+  function toast(msg){
+    const t = document.createElement('div');
+    t.className = 'toast'; t.textContent = msg;
+    $('#toasts').appendChild(t);
+    requestAnimationFrame(()=> t.classList.add('show'));
+    setTimeout(()=>{ t.classList.remove('show'); setTimeout(()=>t.remove(), 400); }, 3200);
+  }
+
+  /* ---------- gauge ticks (built once) ---------- */
+  (function buildTicks(){
+    const g = $('#ticks'), cx = 130, cy = 130, NS = 'http://www.w3.org/2000/svg';
+    for(let i = 0; i < 36; i++){
+      const a = i * 10 * Math.PI / 180;
+      const long = i % 3 === 0;
+      const r1 = 118, r2 = long ? 126 : 122;
+      const l = document.createElementNS(NS,'line');
+      l.setAttribute('x1', (cx + r1*Math.sin(a)).toFixed(2));
+      l.setAttribute('y1', (cy - r1*Math.cos(a)).toFixed(2));
+      l.setAttribute('x2', (cx + r2*Math.sin(a)).toFixed(2));
+      l.setAttribute('y2', (cy - r2*Math.cos(a)).toFixed(2));
+      l.setAttribute('class', long ? 'tick long' : 'tick');
+      g.appendChild(l);
+    }
+    const C = 2 * Math.PI * 108;
+    $('#gaugeFill').style.strokeDasharray = C;
+    $('#gaugeFill').style.strokeDashoffset = C;
+  })();
+
+  /* ---------- file intake ---------- */
+  const fileInput = $('#file'), dz = $('#dz'), dzEmpty = $('#dzEmpty');
+
+  function handleFile(f){
+    if(!f) return;
+    if(!f.type || !f.type.startsWith('image/')){
+      toast('Even imaginary AI needs an actual image — try a photo.'); return;
+    }
+    if(objUrl) URL.revokeObjectURL(objUrl);
+    objUrl = URL.createObjectURL(f);
+    const img = new Image();
+    img.onload = () => {
+      fileInfo = { name: f.name || 'camera-photo.jpg', w: img.naturalWidth, h: img.naturalHeight };
+      $('#thumb').src = objUrl;
+      $('#fname').textContent = fileInfo.name;
+      $('#fdims').textContent = fileInfo.w + ' × ' + fileInfo.h + ' PX · READY';
+      dzEmpty.classList.add('hidden');
+      $('#dzLoaded').classList.remove('hidden');
+      toast('Smile loaded. Looking good already.');
+    };
+    img.onerror = () => toast("Couldn't read that image format — try a JPG or PNG.");
+    img.src = objUrl;
+  }
+
+  fileInput.addEventListener('change', () => handleFile(fileInput.files[0]));
+  $('#btnChoose').addEventListener('click', e => { e.stopPropagation(); fileInput.click(); });
+  $('#btnChange').addEventListener('click', e => { e.stopPropagation(); fileInput.click(); });
+  dzEmpty.addEventListener('click', () => fileInput.click());
+  dzEmpty.addEventListener('keydown', e => {
+    if(e.key === 'Enter' || e.key === ' '){ e.preventDefault(); fileInput.click(); }
+  });
+
+  ['dragenter','dragover'].forEach(ev => dz.addEventListener(ev, e => {
+    e.preventDefault(); dz.classList.add('drag');
+  }));
+  dz.addEventListener('dragleave', e => { if(!dz.contains(e.relatedTarget)) dz.classList.remove('drag'); });
+  dz.addEventListener('drop', e => {
+    e.preventDefault(); dz.classList.remove('drag');
+    handleFile(e.dataTransfer.files && e.dataTransfer.files[0]);
+  });
+  window.addEventListener('dragover', e => e.preventDefault());
+  window.addEventListener('drop', e => e.preventDefault());
+
+  document.addEventListener('paste', e => {
+    if(current !== 'upload') return;
+    const item = [...(e.clipboardData ? e.clipboardData.items : [])].find(i => i.type.startsWith('image/'));
+    if(item) handleFile(item.getAsFile());
+  });
+
+  /* ---------- scan sequence ---------- */
+  const LOG = [
+    ['Booting imaginary neural engine…',              620],
+    ["Locating face… located. It's a good one.",      680],
+    ['Counting individual joy photons…',              640],
+    ['Measuring tooth visibility field…',             600],
+    ['Consulting the Int. Bureau of Smiles…',         720],
+    ['Cross-referencing global happiness index…',     600],
+    ['Compiling your Smile Power Report™…',           780]
+  ];
+
+  $('#btnAnalyze').addEventListener('click', () => {
+    if(!objUrl) return;
+    $('#scanImg').src = objUrl;
+    setScreen('scan');
+    startScan();
+  });
+
+  function startScan(){
+    const log = $('#log');
+    log.innerHTML = '';
+    const total = LOG.reduce((a, l) => a + l[1], 0);
+    let acc = 0;
+    const starts = LOG.map(l => { const s = acc; acc += l[1]; return s; });
+
+    const els = LOG.map(() => {
+      const el = document.createElement('div');
+      el.className = 'log-line';
+      log.appendChild(el);
+      return el;
+    });
+
+    let t0 = null;
+    function frame(now){
+      if(t0 === null) t0 = now;
+      const t = now - t0;
+      const p = Math.min(1, t / total);
+      const eased = p < .5 ? 2*p*p : 1 - Math.pow(-2*p + 2, 2) / 2;
+      const pct = Math.floor(eased * 100);
+      $('#scanPct').textContent = pct + '%';
+      $('#scanBar').style.width = pct + '%';
+
+      LOG.forEach((l, i) => {
+        const el = els[i];
+        if(t >= starts[i] && !el.dataset.on){
+          el.dataset.on = '1';
+          el.innerHTML = '<span class="lb">▸</span>' + l[0] + '<span class="caret">▌</span>';
+          log.scrollTop = log.scrollHeight;
+        }
+        if(el.dataset.on && !el.dataset.done && t >= starts[i] + l[1] * 0.92){
+          el.dataset.done = '1';
+          el.classList.add('done');
+          el.innerHTML = '<span class="lb">✓</span>' + l[0];
+        }
+      });
+
+      if(p < 1){ requestAnimationFrame(frame); }
+      else {
+        els.forEach((el, i) => {
+          if(!el.dataset.done){
+            el.dataset.done = '1'; el.classList.add('done');
+            el.innerHTML = '<span class="lb">✓</span>' + LOG[i][0];
+          }
+        });
+        $('#scanPct').textContent = '100%';
+        $('#scanBar').style.width = '100%';
+        setTimeout(showResults, 560);
+      }
+    }
+    requestAnimationFrame(frame);
+  }
+
+  /* ---------- report generation ---------- */
+  const CLASSES = [
+    { min: 93, opts: [
+      ['🌟 SMILE SUPERNOVA', 'Your smile has achieved an energy level previously considered impossible by completely imaginary scientists.'],
+      ['⚡ CERTIFIED SMILE WEAPON', 'Warning: your smile may cause spontaneous happiness in nearby civilians.']
+    ]},
+    { min: 80, opts: [
+      ['😎 PROFESSIONAL SMILER', 'A highly polished smile with enough power to improve the mood of an entire group chat.'],
+      ['☀️ SUNSHINE GENERATOR', 'Your smile produces suspicious quantities of positive vibes.']
+    ]},
+    { min: 68, opts: [
+      ['💚 DANGEROUSLY WHOLESOME', 'Scientists have officially classified your smile as unnecessarily adorable.'],
+      ['😁 PRETTY POWERFUL', 'Officially stronger than a double espresso — and considerably better looking.']
+    ]},
+    { min: 0, opts: [
+      ['😭 SMILE LOADING...', 'Your smile is still buffering at 47%. Think about something wholesome and rescan for better results.']
+    ]}
+  ];
+  function pickClass(s){
+    const tier = CLASSES.find(c => s >= c.min);
+    const o = tier.opts[Math.floor(Math.random() * tier.opts.length)];
+    return { name: o[0], desc: o[1] };
+  }
+
+  const METRICS = [
+    { n:'01', name:'SMILE STRENGTH',     e:'😁', d:'Raw smile energy detected.' },
+    { n:'02', name:'HAPPINESS RADIATION',e:'☀️', d:'Positive vibes emitted per imaginary second.' },
+    { n:'03', name:'TOOTH VISIBILITY',   e:'🦷', d:'Estimated amount of toothy chaos.' },
+    { n:'04', name:'SOCIAL DAMAGE',      e:'⚡', d:'Potential mood improvement inflicted on nearby civilians.' },
+    { n:'05', name:'PLANETARY IMPACT',   e:'🌍', d:'Estimated effect on global happiness levels.' }
+  ];
+  function genMetrics(score){
+    const vals = []; let guard = 0;
+    while(vals.length < 5 && guard < 250){
+      guard++;
+      const v = Math.round(Math.max(34, Math.min(99, score + (Math.random() * 30 - 15))));
+      if(!vals.includes(v)) vals.push(v);
+    }
+    while(vals.length < 5) vals.push(Math.round(score));
+    return vals;
+  }
+
+  function buildMetrics(vals){
+    const wrap = $('#metrics');
+    wrap.innerHTML = '';
+    METRICS.forEach((m, i) => {
+      const el = document.createElement('div');
+      el.className = 'metric rv';
+      el.style.setProperty('--d', (1.2 + i * .12) + 's');
+      el.innerHTML =
+        '<div class="m-idx mono">' + m.n + '</div>' +
+        '<div class="m-chip">' + m.e + '</div>' +
+        '<div class="m-info"><div class="m-name">' + m.name + '</div><div class="m-desc">' + m.d + '</div></div>' +
+        '<div class="m-pct"><span class="pct">0</span><span class="sym">%</span></div>' +
+        '<div class="bar"><i></i></div>';
+      wrap.appendChild(el);
+    });
+  }
+
+  function countUp(el, to, dur, dec, delay){
+    const t0 = performance.now() + (delay || 0);
+    function f(now){
+      const t = (now - t0) / dur;
+      if(t < 0){ el.textContent = (0).toFixed(dec); requestAnimationFrame(f); return; }
+      const p = Math.min(1, t);
+      const e = 1 - Math.pow(1 - p, 3);
+      el.textContent = (to * e).toFixed(dec);
+      if(p < 1) requestAnimationFrame(f);
+    }
+    requestAnimationFrame(f);
+  }
+
+  function showResults(){
+    const score = +(50 + Math.random() * 50).toFixed(1);
+    const cls = pickClass(score);
+    const vals = genMetrics(score);
+    const id = 'SP-' + Array.from({length:4}, () =>
+      '23456789ABCDEFGHJKMNPQRSTUVWXYZ'[Math.floor(Math.random() * 31)]).join('');
+    const conf = (97 + Math.random() * 2.9).toFixed(1);
+    report = { score: score, cls: cls };
+
+    $('#resImg').src = objUrl;
+    $('#resDims').textContent = fileInfo ? (fileInfo.w + ' × ' + fileInfo.h) : '— × —';
+    $('#resName').textContent = (fileInfo && fileInfo.name ? fileInfo.name : 'IMAGE').toUpperCase().slice(0, 20);
+    $('#reportId').textContent = 'REPORT Nº ' + id;
+    $('#confLine').textContent = 'CONFIDENCE ' + conf + '% · GENERATED ON-DEVICE · ' + new Date().toLocaleTimeString();
+    $('#classBadge').textContent = cls.name;
+    $('#classDesc').textContent = cls.desc;
+    buildMetrics(vals);
+
+    setScreen('results');
+    const R = screens.results;
+    requestAnimationFrame(() => requestAnimationFrame(() => {
+      R.classList.add('live');
+
+      // radial gauge draws in sync with the number
+      const C = 2 * Math.PI * 108;
+      const g = $('#gaugeFill');
+      g.style.transition = 'none';
+      g.style.strokeDashoffset = C;
+      void g.getBoundingClientRect();
+      g.style.transition = 'stroke-dashoffset 1.7s cubic-bezier(.3,1.08,.36,1) .35s';
+      g.style.strokeDashoffset = C * (1 - score / 100);
+      countUp($('#scoreNum'), score, 1750, 1, 350);
+
+      // metric bars + percentages, staggered
+      document.querySelectorAll('#metrics .metric').forEach((m, i) => {
+        const bar = m.querySelector('.bar i');
+        const fillAt = 1000 + i * 140;
+        setTimeout(() => {
+          bar.style.width = vals[i] + '%';
+          m.querySelector('.bar').classList.add('filled');
+        }, fillAt);
+        countUp(m.querySelector('.pct'), vals[i], 1100, 0, fillAt - 60);
+      });
+    }));
+  }
+
+  /* ---------- share / reset ---------- */
+  $('#btnShare').addEventListener('click', async () => {
+    if(!report) return;
+    const txt = 'My Smile Power™ is ' + report.score.toFixed(1) + '/100 — ' + report.cls.name + ' Think you can beat that? 😁';
+    if(navigator.share){
+      try { await navigator.share({ text: txt }); return; }
+      catch(err){ if(err && err.name === 'AbortError') return; }
+    }
+    try {
+      await navigator.clipboard.writeText(txt);
+      toast('Report copied — go make someone jealous.');
+    } catch(err){
+      const ta = document.createElement('textarea');
+      ta.value = txt; ta.style.position = 'fixed'; ta.style.opacity = '0';
+      document.body.appendChild(ta); ta.select();
+      try { document.execCommand('copy'); toast('Report copied — go make someone jealous.'); }
+      catch(e2){ toast('Copy failed — but your smile remains powerful.'); }
+      ta.remove();
+    }
+  });
+
+  $('#btnAgain').addEventListener('click', () => {
+    if(objUrl){ URL.revokeObjectURL(objUrl); objUrl = null; }
+    fileInfo = null; report = null;
+    fileInput.value = '';
+    $('#dzLoaded').classList.add('hidden');
+    dzEmpty.classList.remove('hidden');
+    setScreen('upload');
+  });
+})();
+</script>
+</body>
+</html>
