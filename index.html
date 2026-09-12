@@ -1,1 +1,170 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0"
+    />
+    <title>Random Access Memories</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
 
+  <body>
+    <main class="app">
+      <header class="app-header">
+        <div>
+          <p class="eyebrow">Useless Projects</p>
+          <h1>Random Access Memories</h1>
+          <p class="subtitle">
+            A memory app that cannot be trusted with your memories.
+          </p>
+        </div>
+
+        <div class="status-panel">
+          <span id="memory-status">Memory status: unstable</span>
+          <span id="simulated-date"></span>
+        </div>
+      </header>
+
+      <section class="controls panel">
+        <h2>Simulation controls</h2>
+
+        <div class="control-row">
+          <button id="advance-day" type="button">
+            Advance one day
+          </button>
+
+          <button id="advance-week" type="button">
+            Advance seven days
+          </button>
+
+          <button id="force-forgetting" type="button">
+            Force forgetting
+          </button>
+
+          <button id="reset-app" type="button" class="danger">
+            Reset app
+          </button>
+        </div>
+      </section>
+
+      <section class="workspace">
+        <section class="panel">
+          <div class="section-heading">
+            <div>
+              <p class="eyebrow">01</p>
+              <h2>Reminders</h2>
+            </div>
+            <span class="section-note">Probably unreliable</span>
+          </div>
+
+          <form id="reminder-form">
+            <label for="reminder-text">Reminder</label>
+            <input
+              id="reminder-text"
+              type="text"
+              placeholder="Remember to do something"
+              required
+            />
+
+            <label for="reminder-time">When</label>
+            <input
+              id="reminder-time"
+              type="datetime-local"
+              required
+            />
+
+            <button type="submit">Set reminder</button>
+          </form>
+
+          <div id="reminders-container" class="entries">
+            <p class="empty-state">No reminders yet.</p>
+          </div>
+        </section>
+
+        <section class="panel">
+          <div class="section-heading">
+            <div>
+              <p class="eyebrow">02</p>
+              <h2>Notes</h2>
+            </div>
+            <span class="section-note">Subject to deterioration</span>
+          </div>
+
+          <form id="note-form">
+            <label for="note-title">Title</label>
+            <input
+              id="note-title"
+              type="text"
+              placeholder="A note you may forget"
+              required
+            />
+
+            <label for="note-topic">Topic</label>
+            <input
+              id="note-topic"
+              type="text"
+              placeholder="Optional topic"
+            />
+
+            <label for="note-content">Content</label>
+            <textarea
+              id="note-content"
+              rows="5"
+              placeholder="Write something worth forgetting"
+              required
+            ></textarea>
+
+            <label for="note-priority">Priority</label>
+            <select id="note-priority">
+              <option value="low">Low</option>
+              <option value="medium" selected>Medium</option>
+              <option value="high">High</option>
+            </select>
+
+            <button type="submit">Save note</button>
+          </form>
+
+          <div id="notes-container" class="entries">
+            <p class="empty-state">No notes yet.</p>
+          </div>
+        </section>
+
+        <section class="panel">
+          <div class="section-heading">
+            <div>
+              <p class="eyebrow">03</p>
+              <h2>Lists and tasks</h2>
+            </div>
+            <span class="section-note">Approximately half remembered</span>
+          </div>
+
+          <form id="list-form">
+            <label for="list-title">List name</label>
+            <input
+              id="list-title"
+              type="text"
+              placeholder="Things to forget"
+              required
+            />
+
+            <button type="submit">Create list</button>
+          </form>
+
+          <div id="lists-container" class="entries">
+            <p class="empty-state">No lists yet.</p>
+          </div>
+        </section>
+      </section>
+
+      <footer class="app-footer">
+        <p id="event-log">
+          Nothing has happened yet. This is suspicious.
+        </p>
+      </footer>
+    </main>
+
+    <script src="script.js"></script>
+  </body>
+</html>

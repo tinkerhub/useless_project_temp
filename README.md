@@ -2,44 +2,76 @@
 
 
 
-# [Project Name] 🎯
+# Random Access Memories🎯
 
 
 ## Basic Details
-### Team Name: [Name]
+### Team Name: We_tried
 
 
 ### Team Members
-- Team Lead: [Name] - [College]
-- Member 2: [Name] - [College]
-- Member 3: [Name] - [College]
+- Team Lead: Joel Joseph - SNM Insstitute of Management & Technology.
+- Member 2: Abhinavkrishna Prakash - SNM Insstitute of Management & Technology.
 
 ### Project Description
-[2-3 lines about what your project does]
+A notes application where you can add notes, to-do lists/tasks and reminders that are very important. If you think you'll forget something add that to the app it will also forget. "The design is very human".
 
 ### The Problem (that doesn't exist)
-[What ridiculous problem are you solving?]
+Have you ever regreted the choice of setting a reminder that made you remember stuff you didnt wanted? All because you made a reminder for it?
 
 ### The Solution (that nobody asked for)
-[How are you solving it? Keep it fun!]
+Since you are the one who made the reminder/note to not forget, The problem is not yours its because of a certain app that did its job perfectly. If the app also forgets stuff there is no need for any regrets.
 
 ## Technical Details
 ### Technologies/Components Used
+
 For Software:
-- [Languages used]
+  VScodium
+    HTML5 
+    CSS3 
+    JavaScript
+    
 - [Frameworks used]
+    none
+    
 - [Libraries used]
+    none
+  
 - [Tools used]
+    Git
+    GitHub
+    Web browser
+    Python HTTP server
+    Browser Local Storage API
+    Browser Notifications API
 
 For Hardware:
 - [List main components]
+    Laptop or desktop computer
+    Keyboard
+    Mouse or touchpad
+    Display monitor
+
 - [List specifications]
+    Any computer capable of running a modern web browser
+  Minimum 4 GB RAM recommended
+  Internet connection required for downloading the project and pushing changes to GitHub
+
 - [List tools required]
+    VSCodium
+  Git
+  A modern web browser
+  Python 3, for running the local development server
 
 ### Implementation
 For Software:
+
 # Installation
+
 [commands]
+Clone the repository:
+bash
+git clone https://github.com/ALIENdudeCOD/useless_project_we_tried.git
 
 # Run
 [commands]
@@ -48,50 +80,15 @@ For Software:
 For Software:
 
 # Screenshots (Add at least 3)
-![Screenshot1](Add screenshot 1 here with proper name)
-*Add caption explaining what this shows*
-
-![Screenshot2](Add screenshot 2 here with proper name)
-*Add caption explaining what this shows*
-
-![Screenshot3](Add screenshot 3 here with proper name)
-*Add caption explaining what this shows*
-
-# Diagrams
-![Workflow](Add your workflow/architecture diagram here)
-*Add caption explaining your workflow*
-
-For Hardware:
-
-# Schematic & Circuit
-![Circuit](Add your circuit diagram here)
-*Add caption explaining connections*
-
-![Schematic](Add your schematic diagram here)
-*Add caption explaining the schematic*
-
-# Build Photos
-![Components](Add photo of your components here)
-*List out all components shown*
-
-![Build](Add photos of build process here)
-*Explain the build steps*
-
-![Final](Add photo of final product here)
-*Explain the final build*
+https://drive.google.com/drive/folders/1auD1gsv-Ysqy2ctBSBWY6cPEhqxYX9qL?usp=sharing
 
 ### Project Demo
 # Video
-[Add your demo video link here]
-*Explain what the video demonstrates*
-
-# Additional Demos
-[Add any extra demo materials/links]
+https://drive.google.com/drive/folders/1dpj1jimM-iDCuGnG9J2t0970hAixtOus?usp=sharing
 
 ## Team Contributions
-- [Name 1]: [Specific contributions]
-- [Name 2]: [Specific contributions]
-- [Name 3]: [Specific contributions]
+- Joel Joseph: coding, UI
+- Abhinavkrishna Prakash: subscription to AI models, Laptop, UI
 
 ---
 Made with ❤️ at TinkerHub Useless Projects 
