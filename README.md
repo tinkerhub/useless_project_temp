@@ -2,96 +2,115 @@
 
 
 
-# [Project Name] 🎯
+# [grain scan] 🎯
 
 
 ## Basic Details
-### Team Name: [Name]
+### Team Name: [meh]
 
 
 ### Team Members
-- Team Lead: [Name] - [College]
-- Member 2: [Name] - [College]
-- Member 3: [Name] - [College]
+- Team Lead: [shifa fathima] - [mace]
+- Member 2: [karthika vinod] - [mace]
+- Member 3: [shifa fathima] - [mace]
 
 ### Project Description
-[2-3 lines about what your project does]
+GrainScan is a browser-based rice grain analysis tool. Users upload a photograph of rice grains and the application uses OpenCV.js to identify individual grains, count them, and classify them as full or broken. It also displays the broken-grain ratio and marks detected grains on the processed image for quick visual verification.
 
 ### The Problem (that doesn't exist)
-[What ridiculous problem are you solving?]
+Manually counting rice grains is the kind of task that feels easy until the pile gets large, the grains overlap, and somebody asks for the broken-grain percentage. At that point, patience becomes the rarest ingredient in the kitchen.
 
 ### The Solution (that nobody asked for)
-[How are you solving it? Keep it fun!]
+GrainScan turns a rice photo into a quick quality report. OpenCV.js converts the image to grayscale, reduces glare and noise, separates grain-shaped objects from the background, and measures their dimensions. The app then labels longer grains as full and noticeably shorter grains as broken, while showing the total count and broken ratio in the browser.
 
 ## Technical Details
 ### Technologies/Components Used
 For Software:
-- [Languages used]
-- [Frameworks used]
-- [Libraries used]
-- [Tools used]
+- HTML5
+- CSS3
+- JavaScript (ES6)
+- OpenCV.js 4.x for image processing and contour detection
+- FileReader API and HTML Canvas API
+- Any modern web browser with JavaScript and internet access
 
 For Hardware:
-- [List main components]
-- [List specifications]
-- [List tools required]
+- No dedicated hardware is required.
+- A computer or phone with a camera can be used to capture the rice-grain image.
+- A reasonably clear image with separated grains gives the best results.
 
 ### Implementation
 For Software:
 # Installation
-[commands]
+No package installation or build step is required. Clone or download this repository and open `index.html` in a modern web browser. OpenCV.js is loaded from the official OpenCV CDN when the page starts.
 
 # Run
-[commands]
+1. Open `index.html` in a modern web browser.
+2. Wait for the status message to show `OpenCV.js Ready!`.
+3. Select an image containing rice grains.
+4. Review the annotated image and the total, full, broken, and broken-ratio results.
+
+The page needs an internet connection to load OpenCV.js from `docs.opencv.org`. For local development, a simple static server can also be used, for example:
+
+```bash
+python -m http.server 8000
+```
+
+Then open `http://localhost:8000` in the browser.
 
 ### Project Documentation
 For Software:
 
-# Screenshots (Add at least 3)
-![Screenshot1](Add screenshot 1 here with proper name)
-*Add caption explaining what this shows*
+# Screenshots
+![Screenshot1](https://github.com/user-attachments/assets/8920b256-2ba8-4988-b824-5351134eb4bd)
+*Project banner for GrainScan.*
 
-![Screenshot2](Add screenshot 2 here with proper name)
-*Add caption explaining what this shows*
+![Screenshot2](https://placehold.co/1280x720/png?text=GrainScan+upload+screen)
+*The browser interface with the image upload control and analysis canvas.*
 
-![Screenshot3](Add screenshot 3 here with proper name)
-*Add caption explaining what this shows*
+![Screenshot3](https://placehold.co/1280x720/png?text=GrainScan+analysis+results)
+*The analysis view showing annotated grains and the calculated counts.*
 
 # Diagrams
-![Workflow](Add your workflow/architecture diagram here)
-*Add caption explaining your workflow*
+```mermaid
+flowchart LR
+	A[Upload rice image] --> B[Read image with OpenCV.js]
+	B --> C[Grayscale and Gaussian blur]
+	C --> D[Otsu thresholding]
+	D --> E[Morphological noise removal]
+	E --> F[Detect external contours]
+	F --> G[Filter by area and aspect ratio]
+	G --> H[Compare grain length with median]
+	H --> I[Classify full or broken]
+	I --> J[Draw annotations and show results]
+```
+*Workflow from image upload to annotated grain classification and broken-ratio calculation.*
 
 For Hardware:
 
 # Schematic & Circuit
-![Circuit](Add your circuit diagram here)
-*Add caption explaining connections*
+No circuit is required because GrainScan is implemented as a browser application.
 
-![Schematic](Add your schematic diagram here)
-*Add caption explaining the schematic*
+No hardware schematic is applicable. The only input is a user-selected image file.
 
 # Build Photos
-![Components](Add photo of your components here)
-*List out all components shown*
+No physical components are used in this project.
 
-![Build](Add photos of build process here)
-*Explain the build steps*
+There is no hardware build process. The software is made up of `index.html` for the interface and `script.js` for the image-processing workflow.
 
-![Final](Add photo of final product here)
-*Explain the final build*
+The final product is the browser-based GrainScan interface, which accepts an image and presents the annotated analysis results.
 
 ### Project Demo
 # Video
-[Add your demo video link here]
-*Explain what the video demonstrates*
+No demo video link has been added yet.
+*A future demo can show image upload, OpenCV.js loading, grain annotation, and the calculated broken ratio.*
 
 # Additional Demos
-[Add any extra demo materials/links]
+No additional demo materials are available yet.
 
 ## Team Contributions
-- [Name 1]: [Specific contributions]
-- [Name 2]: [Specific contributions]
-- [Name 3]: [Specific contributions]
+- Shifa Fathima: Project concept, interface structure, and image-processing implementation.
+- Karthika Vinod: Project research, testing with rice-grain images, and documentation support.
+- Shifa Fathima: Result presentation, classification workflow, and README preparation.
 
 ---
 Made with ❤️ at TinkerHub Useless Projects 

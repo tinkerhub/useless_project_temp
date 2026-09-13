@@ -1,1 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rice Grain Broken-Ratio Scanner</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 20px; background-color: #f4f4f9; }
+        h2 { color: #333; }
+        .container { display: flex; flex-direction: column; gap: 15px; max-width: 600px; }
+        canvas { border: 2px solid #ccc; max-width: 100%; border-radius: 8px; }
+        .results { background: #fff; padding: 15px; border-radius: 8px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
+    </style>
+    <!-- Load OpenCV.js for Computer Vision -->
+    <script async src="https://docs.opencv.org/4.x/opencv.js" onload="onOpenCvReady();"></script>
+</head>
+<body>
+
+    <h2>Rice Grain Broken-Ratio Scanner</h2>
+    <div class="container">
+        <!-- File input without disabled attribute -->
+        <input type="file" id="imageInput" accept="image/*">
+        <p id="status">Loading OpenCV.js library...</p>
+
+        <canvas id="canvasOutput"></canvas>
+
+        <div class="results">
+            <h3>Analysis Results:</h3>
+            <p><strong>Total Grains:</strong> <span id="totalGrains">0</span></p>
+            <p><strong>Full Grains:</strong> <span id="fullGrains">0</span></p>
+            <p><strong>Broken Grains:</strong> <span id="brokenGrains">0</span></p>
+            <p><strong>Broken Ratio:</strong> <span id="brokenRatio">0%</span></p>
+        </div>
+    </div>
+
+    <!-- Hidden image element to load upload -->
+    <img id="imageSrc" style="display:none;" />
+
+    <script src="script.js"></script>
+</body>
+</html>
+
 
