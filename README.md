@@ -2,97 +2,62 @@
 
 
 
-# [Project Name] 🎯
+# Why tho? 🎯
 
 
 ## Basic Details
-### Team Name: [Name]
+### Team Name:Pandas
 
 
 ### Team Members
-- Team Lead: [Name] - [College]
-- Member 2: [Name] - [College]
-- Member 3: [Name] - [College]
+- Team Lead: Anjala Parveen N [ICET]
+- Member 2: Afeefa Mol A.M [ICET]
 
 ### Project Description
-[2-3 lines about what your project does]
+Useless website for useless people
 
 ### The Problem (that doesn't exist)
-[What ridiculous problem are you solving?]
+Killing productivity
 
 ### The Solution (that nobody asked for)
-[How are you solving it? Keep it fun!]
+By gaining absolutely nothing from a website
 
 ## Technical Details
 ### Technologies/Components Used
 For Software:
-- [Languages used]
-- [Frameworks used]
-- [Libraries used]
-- [Tools used]
-
-For Hardware:
-- [List main components]
-- [List specifications]
-- [List tools required]
-
+- html,javascript,css
+- VSCode
+  
 ### Implementation
 For Software:
 # Installation
-[commands]
-
-# Run
-[commands]
+No installation required
 
 ### Project Documentation
 For Software:
 
-# Screenshots (Add at least 3)
-![Screenshot1](Add screenshot 1 here with proper name)
-*Add caption explaining what this shows*
+V S Code of website
 
-![Screenshot2](Add screenshot 2 here with proper name)
-*Add caption explaining what this shows*
+<img width="1598" height="854" alt="image" src="https://github.com/user-attachments/assets/ae86c2d6-82aa-43ad-9ab5-bd2089a6296e" />
 
-![Screenshot3](Add screenshot 3 here with proper name)
-*Add caption explaining what this shows*
+Home page of website
 
-# Diagrams
-![Workflow](Add your workflow/architecture diagram here)
-*Add caption explaining your workflow*
+<img width="580" height="758" alt="image" src="https://github.com/user-attachments/assets/cdd1e3a8-42b4-43ab-8324-18dbc4ddc5f9" />
 
-For Hardware:
+Leaderboard of website
 
-# Schematic & Circuit
-![Circuit](Add your circuit diagram here)
-*Add caption explaining connections*
-
-![Schematic](Add your schematic diagram here)
-*Add caption explaining the schematic*
-
-# Build Photos
-![Components](Add photo of your components here)
-*List out all components shown*
-
-![Build](Add photos of build process here)
-*Explain the build steps*
-
-![Final](Add photo of final product here)
-*Explain the final build*
+<img width="553" height="767" alt="Screenshot 2026-09-13 103633" src="https://github.com/user-attachments/assets/7c743665-d02b-4f63-93a3-d1cca0d686f5" />
 
 ### Project Demo
 # Video
-[Add your demo video link here]
-*Explain what the video demonstrates*
-
-# Additional Demos
-[Add any extra demo materials/links]
+https://github.com/user-attachments/assets/2bcfed6f-7c59-4ec8-afa9-b30c428afc3e
 
 ## Team Contributions
-- [Name 1]: [Specific contributions]
-- [Name 2]: [Specific contributions]
-- [Name 3]: [Specific contributions]
 
+- [Anjala Parveen .N ]: [html code and css ]
+- [Afeefa Mol A.M ]: [javascript and workflow]
+
+Thank you!!!!!
 ---
 Made with ❤️ at TinkerHub Useless Projects 
 

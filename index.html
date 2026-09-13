@@ -1,1 +1,763 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>why tho?— Nothing Gets Done Here</title>
+<style>
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    font-family: 'Comic Sans MS', 'Comic Sans', cursive, sans-serif;
+    background: linear-gradient(135deg, #ffe6f0, #e6f7ff, #fff9e6);
+    background-size: 600% 600%;
+    animation: bgshift 12s ease infinite;
+    color: #333;
+    text-align: center;
+    padding: 20px;
+  }
+  @keyframes bgshift {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+  }
+  h1 {
+    font-size: 2.6em;
+    text-shadow: 2px 2px 0 #ffb3d9, 4px 4px 0 #b3e0ff;
+    margin-bottom: 4px;
+  }
+  .tagline { font-style: italic; color: #666; margin-bottom: 6px; }
+  .subtag { font-size: 0.85em; color: #999; margin-bottom: 10px; }
+  .card {
+    background: rgba(255,255,255,0.85);
+    border-radius: 20px;
+    padding: 25px;
+    max-width: 480px;
+    margin: 20px auto;
+    box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+  }
+  select, button, textarea {
+    font-family: inherit;
+    font-size: 1em;
+    padding: 10px 16px;
+    border-radius: 12px;
+    border: 2px solid #ff99c8;
+    background: #fff0f6;
+    cursor: pointer;
+    margin: 8px;
+  }
+  button:hover { background: #ffd6e8; transform: scale(1.05); }
+  button:disabled { opacity: 0.4; cursor: not-allowed; transform: none; }
+  textarea { width: 80%; resize: none; cursor: text; font-family: inherit; }
+  #solution, #oracleOutput, #undoOutput, #excuseOutput, #procrastinateOutput {
+    margin-top: 15px;
+    font-size: 1.15em;
+    font-weight: bold;
+    min-height: 50px;
+  }
+  .meter-wrap {
+    background: #eee;
+    border-radius: 10px;
+    overflow: hidden;
+    height: 24px;
+    margin-top: 10px;
+    border: 2px solid #333;
+  }
+  #meterFill {
+    height: 100%;
+    width: 0%;
+    background: repeating-linear-gradient(45deg, #ff6b6b, #ff6b6b 10px, #ffb3b3 10px, #ffb3b3 20px);
+    transition: width 0.4s ease;
+  }
+  #loadFill {
+    height: 100%;
+    width: 0%;
+    background: repeating-linear-gradient(45deg, #74c0fc, #74c0fc 10px, #a5d8ff 10px, #a5d8ff 20px);
+    transition: width 1.5s linear;
+  }
+  #toDoFill {
+    height: 100%;
+    width: 100%;
+    background: repeating-linear-gradient(45deg, #ffa94d, #ffa94d 10px, #ffd8a8 10px, #ffd8a8 20px);
+    transition: width 1s ease;
+  }
+  #panicOverlay {
+    display: none;
+    position: fixed;
+    inset: 0;
+    color: white;
+    font-size: 2.6em;
+    font-weight: bold;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    z-index: 999;
+    text-align: center;
+    padding: 20px;
+  }
+  #counter { font-size: 1.5em; color: #d6336c; }
+  .consent-note { background: #fff3cd; border: 2px dashed #d6a400; }
+  .badges { display: flex; flex-wrap: wrap; gap: 10px; justify-content: center; margin-top: 12px; }
+  .badge { background: #e0e0ff; border-radius: 12px; padding: 6px 12px; font-size: 0.85em; opacity: 0.3; transition: opacity 0.3s, transform 0.3s; }
+  .badge.unlocked { opacity: 1; background: #ffe066; transform: scale(1.05); }
+  footer { margin-top: 40px; font-size: 0.8em; color: #999; }
+  .muteBtn { position: fixed; top: 12px; right: 12px; z-index: 5; font-size: 0.8em; padding: 6px 10px; }
+  #reportOverlay {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: linear-gradient(135deg, #2b0a3d, #0a1a3d, #3d0a1a);
+    background-size: 400% 400%;
+    animation: bgshift 8s ease infinite;
+    z-index: 1000;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    overflow-y: auto;
+  }
+  #reportCard {
+    background: rgba(255,255,255,0.97);
+    border-radius: 28px;
+    padding: 40px 30px;
+    max-width: 560px;
+    width: 100%;
+    text-align: center;
+    box-shadow: 0 20px 60px rgba(0,0,0,0.4);
+    margin: 30px auto;
+  }
+  #reportCard h2 {
+    font-size: 2em;
+    margin-top: 0;
+    text-shadow: 2px 2px 0 #ffb3d9, 4px 4px 0 #b3e0ff;
+  }
+  #reportBig {
+    font-size: 1.6em;
+    font-weight: bold;
+    color: #d6336c;
+    margin: 20px 0;
+    line-height: 1.4;
+  }
+  #reportStats {
+    font-size: 1em;
+    color: #555;
+    text-align: left;
+    background: #fff0f6;
+    border-radius: 14px;
+    padding: 16px 20px;
+    margin-top: 10px;
+  }
+  #reportStats div { margin: 6px 0; }
+  #reportBadges .badge { opacity: 1; }
+  #reportBadges .badge.locked { opacity: 0.3; background: #e0e0ff; }
+@keyframes shakeScreen {
+  0% { transform: translate(0, 0) rotate(0deg); }
+  10% { transform: translate(-8px, 4px) rotate(-1deg); }
+  20% { transform: translate(9px, -5px) rotate(1deg); }
+  30% { transform: translate(-7px, 6px) rotate(-1.5deg); }
+  40% { transform: translate(8px, -4px) rotate(1.5deg); }
+  50% { transform: translate(-6px, 5px) rotate(-1deg); }
+  60% { transform: translate(7px, -6px) rotate(1deg); }
+  70% { transform: translate(-5px, 3px) rotate(-0.5deg); }
+  80% { transform: translate(4px, -3px) rotate(0.5deg); }
+  90% { transform: translate(-2px, 2px) rotate(0deg); }
+  100% { transform: translate(0, 0) rotate(0deg); }
+}
+body.shaking { animation: shakeScreen 0.5s ease; }
+  #trophyBox {
+    display: none;
+    margin: 20px 0;
+    padding: 20px;
+    border-radius: 20px;
+    background: linear-gradient(135deg, #fff3b0, #ffd166);
+    border: 3px dashed #d6a400;
+  }
+  #trophyBox .trophyIcon { font-size: 3.5em; }
+  #trophyBox .trophyTitle { font-size: 1.3em; font-weight: bold; color: #8a5a00; margin: 8px 0 4px; }
+  #trophyBox .trophyTag { font-style: italic; color: #a06a00; }
+</style>
+</head>
+<body>
 
+<button class="muteBtn" id="muteBtn" onclick="toggleMute()">🔊 Sound On</button>
+
+<h1>💀 why tho?</h1>
+<p class="tagline">Useless website for useless people</p>
+<p class="subtag">Zero features. Maximum confidence.</p>
+
+<div class="card consent-note">
+  <h3>📜 Terms of Uselessness</h3>
+  <p>By checking this box you agree to gain nothing from this website, forever, or at least until you close the tab.</p>
+  <label><input type="checkbox" id="consent" onchange="checkConsent()"> I agree to gain absolutely nothing from this site</label>
+  <div id="consentStatus">Status: not agreed. Nothing is unlocked.</div>
+</div>
+
+<div class="card">
+  <h3>Step 1: Pick a problem you have</h3>
+  <select id="problem">
+    <option value="">-- choose your suffering --</option>
+    <option value="stress">I'm stressed</option>
+    <option value="lazy">I'm too lazy to work</option>
+    <option value="exam">Exam tomorrow, haven't studied</option>
+    <option value="boss">My boss is annoying</option>
+    <option value="broke">I'm broke</option>
+    <option value="sleep">I can't sleep</option>
+    <option value="motivation">I have no motivation</option>
+    <option value="inbox">My inbox has 4,000 unread emails</option>
+    <option value="diet">I keep breaking my diet</option>
+    <option value="relationship">My relationship is complicated</option>
+    <option value="procrastination">I procrastinate everything</option>
+    <option value="social">I said something awkward in public</option>
+    <option value="deadline">I missed a deadline</option>
+    <option value="gym">I paid for a gym membership I never use</option>
+    <option value="overthinking">I overthink every text I send</option>
+    <option value="career">I don't know what I'm doing with my career</option>
+    <option value="tired">I'm tired all the time</option>
+    <option value="comparison">I keep comparing myself to others online</option>
+  </select>
+  <br>
+  <button class="gated" onclick="giveSolution()" disabled>✨ Get Solution ✨</button>
+  <div id="solution"></div>
+</div>
+
+<div class="card">
+  <h3>Overthink-o-Meter™</h3>
+  <p>Click to reduce stress. (It will not reduce stress.)</p>
+  <button class="gated" onclick="pump()" disabled>😮‍💨 Take a Deep Breath</button>
+  <div class="meter-wrap"><div id="meterFill"></div></div>
+  <p id="meterLabel">Stress Level: 0% (lies)</p>
+</div>
+
+<div class="card">
+  <h3>Emergency Panic Button</h3>
+  <p>For when things are Very Fine and you want to feel otherwise.</p>
+  <button class="gated" onclick="panic()" disabled>🚨 DO NOT PRESS</button>
+</div>
+
+<div class="card">
+  <h3>Feel-Better Click Counter</h3>
+  <p>Every click makes you feel exactly 0% better. Peer-reviewed.</p>
+  <button class="gated" onclick="clickCounter()" disabled>🖱️ Click to feel better</button>
+  <div id="counter">Feelings improved: 0</div>
+</div>
+
+<div class="card">
+  <h3>Emotional Processing Bar</h3>
+  <p>Tracks how close you are to feeling better. Never finishes. Never will.</p>
+  <button class="gated" onclick="startLoad()" disabled>🌀 Begin Processing</button>
+  <div class="meter-wrap"><div id="loadFill"></div></div>
+  <p id="loadLabel">Progress: 0% (this bar has never reached 100%)</p>
+</div>
+
+<div class="card">
+  <h3>Ask the Oracle</h3>
+  <p>Type your deepest problem. Receive profound, backwards nonsense.</p>
+  <textarea id="oracleInput" rows="2" placeholder="e.g. I don't know what to do with my life"></textarea>
+  <br>
+  <button class="gated" onclick="askOracle()" disabled>🔮 Consult the Oracle</button>
+  <div id="oracleOutput"></div>
+</div>
+
+<div class="card">
+  <h3>Undo My Day</h3>
+  <p>One click to reverse everything that's gone wrong today.</p>
+  <button class="gated" onclick="undoDay()" disabled>⏪ Undo</button>
+  <div id="undoOutput"></div>
+</div>
+
+<div class="card">
+  <h3>Infinite Excuse Generator</h3>
+  <p>For meetings, deadlines, gym memberships, and existence in general.</p>
+  <button class="gated" onclick="giveExcuse()" disabled>🎭 Generate Excuse</button>
+  <div id="excuseOutput"></div>
+</div>
+
+<div class="card">
+  <h3>Procrastination Assistant</h3>
+  <p>Tells you exactly what to do instead of the thing you should be doing.</p>
+  <button class="gated" onclick="procrastinate()" disabled>🛋️ What Should I Avoid Doing?</button>
+  <div id="procrastinateOutput"></div>
+</div>
+
+<div class="card">
+  <h3>To-Do List Deleter</h3>
+  <p>The only productivity tool that actually reduces your workload: to zero.</p>
+  <div class="meter-wrap"><div id="toDoFill"></div></div>
+  <p id="toDoLabel">Tasks remaining: 100%</p>
+  <button class="gated" onclick="deleteToDo()" disabled>🗑️ Delete My To-Do List</button>
+</div>
+
+<div class="card">
+  <h3>Motivational Insult Generator</h3>
+  <p>Combines encouragement and personal attack into one confusing sentence.</p>
+  <button class="gated" onclick="insultivate()" disabled>💥 Insultivate Me</button>
+  <div id="insultOutput" style="min-height:40px; font-weight:bold;"></div>
+</div>
+
+<div class="card">
+  <h3>Fortune Cookie of Doom</h3>
+  <p>Crack it open. Regret it slightly.</p>
+  <button class="gated" onclick="fortuneCookie()" disabled>🥠 Crack Cookie</button>
+  <div id="fortuneOutput" style="min-height:40px; font-weight:bold;"></div>
+</div>
+
+<div class="card">
+  <h3>Uselessness Achievements</h3>
+  <p>Unlocked automatically. Change nothing about your life.</p>
+  <div class="badges">
+    <div class="badge" id="b-agree">📜 Agreed to Nothing</div>
+    <div class="badge" id="b-first">🥉 First Wasted Click</div>
+    <div class="badge" id="b-five">🥈 5 Wasted Clicks</div>
+    <div class="badge" id="b-ten">🥇 10 Wasted Clicks</div>
+    <div class="badge" id="b-twentyfive">🏆 25 Wasted Clicks</div>
+    <div class="badge" id="b-fifty">💎 50 Wasted Clicks (get help)</div>
+    <div class="badge" id="b-oracle">🔮 Consulted the Void</div>
+    <div class="badge" id="b-panic">🚨 Panicked for No Reason</div>
+    <div class="badge" id="b-excuse">🎭 Professional Excuse-Maker</div>
+    <div class="badge" id="b-todo">🗑️ Achieved Nothing On Purpose</div>
+    <div class="badge" id="b-cookie">🥠 Cracked Under Pressure</div>
+    <div class="badge" id="b-panicvariant">🌈 Survived All Panic Modes</div>
+  </div>
+</div>
+
+<div class="card" id="submitBox">
+  <h3>🏁 Ready to Stop?</h3>
+  <p>Submit your session to receive your Official Uselessness Report.</p>
+  <button onclick="submitReport()" style="font-size:1.2em; padding:14px 28px; background:#ffd6e8;">📝 Submit My Progress</button>
+</div>
+
+<footer>Made with ❤️ and zero utility · ProductivityKiller.exe Comfort Technologies Inc. (not a real company) · previously U-Zone</footer>
+
+<div id="reportOverlay">
+  <div id="reportCard">
+    <h2>🏁 Official Uselessness Report</h2>
+    <div id="reportBig">You have gained absolutely nothing from this site.</div>
+    <div id="trophyBox">
+      <div class="trophyIcon">🏆</div>
+      <div class="trophyTitle">Grand Trophy of Total Uselessness</div>
+      <div class="trophyTag">"You gained absolutely nothing."</div>
+    </div>
+    <div id="reportStats"></div>
+    <h3 style="margin-top:24px;">Achievements Earned</h3>
+    <div class="badges" id="reportBadges"></div>
+    <button onclick="closeReport()" style="margin-top:24px; font-size:1em; padding:12px 24px;">back to gaining nothing</button>
+  </div>
+</div>
+
+<div id="panicOverlay">
+  <div id="panicText">🚨 EVERYTHING IS FINE 🚨</div>
+  <button onclick="closePanic()" style="margin-top:20px; font-size:0.4em;">okay stop</button>
+</div>
+
+<script>
+const solutions = {
+  stress: "Solution: Simply stop being stressed. Have you tried that?",
+  lazy: "Solution: Become a different, more productive person.",
+  exam: "Solution: Time travel back to a month ago and study then.",
+  boss: "Solution: Politely ask them to be a different, nicer boss.",
+  broke: "Solution: Acquire more money. Any amount will do.",
+  sleep: "Solution: Just fall asleep. It's literally free.",
+  motivation: "Solution: Want things more. That's the whole trick.",
+  inbox: "Solution: Achieve inbox zero by deleting your email account.",
+  diet: "Solution: Only break the diet on days ending in 'y'.",
+  relationship: "Solution: Communicate less. It always simplifies things.",
+  procrastination: "Solution: Procrastinate on procrastinating. Do it later.",
+  social: "Solution: Move to a different town. Change your name if needed.",
+  deadline: "Solution: Redefine the deadline as more of a 'suggestion-line'.",
+  gym: "Solution: Think really hard about the workout. Same effect, less sweat.",
+  overthinking: "Solution: Send the text, then throw your phone into the sea.",
+  career: "Solution: Nobody knows. Act natural.",
+  tired: "Solution: Sleep more, by sleeping through the thing making you tired.",
+  comparison: "Solution: Get off the app. Immediately followed by getting back on."
+};
+
+const oracleExtras = [
+  "The void has read your message and is choosing to say nothing.",
+  "This is either very important or not important at all.",
+  "The answer was inside you the whole time. It has since left.",
+  "Consult a mirror. It knows exactly as much as I do.",
+  "The stars have aligned to say literally nothing about this.",
+  "The Oracle has left this on read.",
+  "Ask again after consulting absolutely no one else either.",
+  "This message will self-forget in three seconds.",
+  "The universe shrugs in your general direction.",
+  "The Oracle is also confused, honestly.",
+  "Somewhere, a fortune teller just felt a disturbance and ignored it.",
+  "This wisdom was assembled from spare parts. Use with caution."
+];
+
+const excuses = [
+  "I would, but Mercury is in retrograde and also I don't want to.",
+  "My cat unplugged the concept of effort.",
+  "I was busy rehearsing how I'd explain being busy.",
+  "A wizard cursed my calendar app.",
+  "I'm currently observing a personal day for no specific reason.",
+  "I have a doctor's appointment with my couch.",
+  "My Wi-Fi and my motivation went out at the same time.",
+  "I already used today's energy thinking about doing it.",
+  "The funding for this task fell through at the last minute.",
+  "We're currently waiting on a grant to cover the cost of trying.",
+  "My budget for effort this quarter has already been spent.",
+  "I pitched the idea to my inner board of directors and it was rejected.",
+  "The investors (my brain) pulled out right before the deadline.",
+  "I'm between funding rounds for this particular task.",
+  "There was a printer issue and printers are involved somehow.",
+  "I was struck by a sudden and convenient wave of déjà vu.",
+  "My horoscope specifically warned against productivity today.",
+  "I'm technically still recovering from a nap."
+];
+
+const procrastinationTasks = [
+  "Reorganize a drawer you haven't opened in two years.",
+  "Watch a 45-minute video essay about a cereal mascot.",
+  "Deep clean one (1) spoon.",
+  "Research flights to a country you're not visiting.",
+  "Rename all your phone apps into a different language.",
+  "Alphabetize your snacks by emotional significance.",
+  "Practice a speech for an award you have not been nominated for.",
+  "Learn the first 4 seconds of a TikTok dance and stop.",
+  "Write a strongly worded review for a product you haven't bought.",
+  "Google your own name and judge the results.",
+  "Reorganize your desktop icons into a shape.",
+  "Compose a strongly-worded email you will never send.",
+  "Design a logo for a business you'll never start.",
+  "Investigate whether your plants are judging you.",
+  "Practice your signature for when you're famous.",
+  "Read the terms and conditions. All of them. For fun."
+];
+
+const insults = [
+  "You're doing amazing, and also that was a weird decision.",
+  "I believe in you, which honestly says more about me than you.",
+  "You've got this! 'This' being undefined, but you've got it.",
+  "You're built different. Possibly with the wrong instructions.",
+  "Champion energy, rookie execution. Love that for you.",
+  "You're a 10 out of 10. The scale just goes to 3.",
+  "You're one in a million. Statistically that's still a lot of you.",
+  "Never give up! On second thought, this one's giveable-uppable.",
+  "You're not lazy, you're just extremely well-rested at all times.",
+  "You're a work in progress, and the progress part is theoretical.",
+  "Believe in yourself. Someone has to, and it's not going to be me.",
+  "You're unstoppable, mostly because no one's tried to stop you."
+];
+
+const fortunes = [
+  "A wasted click is still a click. Somehow that's worse.",
+  "Confucius did not say this, and would be embarrassed if he had.",
+  "Great things await you. Not today though.",
+  "You will click this again. We both know it.",
+  "The cookie is stale. So is this advice.",
+  "Your lucky numbers are 4, 0, 4, and Not Found.",
+  "A stranger will compliment you. It will be this cookie.",
+  "Fortune favors the bold. You clicked a cookie button. Bold enough.",
+  "Good things come to those who wait. You're not waiting, you're clicking.",
+  "This cookie contains no nutritional or spiritual value.",
+  "Your future is uncertain, much like this cookie's expiration date.",
+  "Beware of decisions made after reading fortune cookies."
+];
+
+const panicVariants = [
+  { text: "🚨 EVERYTHING IS FINE 🚨", color: "rgba(255,0,0,0.85)" },
+  { text: "🌊 THIS IS ALSO FINE 🌊", color: "rgba(0,120,255,0.85)" },
+  { text: "🔥 STILL FINE, SOMEHOW 🔥", color: "rgba(255,140,0,0.85)" },
+  { text: "🐸 FINE. VERY FINE. 🐸", color: "rgba(0,170,90,0.85)" },
+  { text: "🎉 SURPRISE, IT'S FINE 🎉", color: "rgba(180,0,220,0.85)" },
+  { text: "🛸 FINE, ACCORDING TO ALIENS 🛸", color: "rgba(0,200,200,0.85)" },
+  { text: "⚡ ALARMINGLY FINE ⚡", color: "rgba(255,220,0,0.85)" },
+  { text: "🕳️ FINE, PROBABLY 🕳️", color: "rgba(60,60,60,0.9)" },
+  { text: "🎪 A CIRCUS OF FINE 🎪", color: "rgba(255,0,150,0.85)" },
+  { text: "🧊 COLDLY, CALMLY FINE 🧊", color: "rgba(0,150,255,0.85)" }
+];
+let panicIndex = 0;
+let panicSeen = new Set();
+
+let wastedClicks = 0;
+let soundOn = true;
+
+function unlock(id) {
+  const el = document.getElementById(id);
+  if (el) el.classList.add('unlocked');
+}
+
+// --- lightweight sound effects via WebAudio, no external files needed ---
+let audioCtx = null;
+function getCtx() {
+  if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+  return audioCtx;
+}
+function blip(freq = 440, dur = 0.12, type = 'sine', vol = 0.15) {
+  if (!soundOn) return;
+  try {
+    const ctx = getCtx();
+    const osc = ctx.createOscillator();
+    const gain = ctx.createGain();
+    osc.type = type;
+    osc.frequency.value = freq;
+    gain.gain.setValueAtTime(vol, ctx.currentTime);
+    gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + dur);
+    osc.connect(gain);
+    gain.connect(ctx.destination);
+    osc.start();
+    osc.stop(ctx.currentTime + dur);
+  } catch (e) { /* audio not available, fail silently */ }
+}
+function getCtx() {
+  if (!audioCtx) {
+    audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+  }
+
+  if (audioCtx.state === "suspended") {
+    audioCtx.resume();
+  }
+
+  return audioCtx;
+}
+function soundWaste() { blip(300, 0.1, 'square', 0.08); }
+function soundUnlock() { blip(600, 0.08, 'triangle', 0.12); setTimeout(() => blip(900, 0.1, 'triangle', 0.1), 90); }
+function soundPanic() { blip(150, 0.3, 'sawtooth', 0.15); }
+function soundSiren() {
+  if (!soundOn) return
+ try {
+    const ctx = getCtx();
+    const osc = ctx.createOscillator();
+    const gain = ctx.createGain();
+    osc.type = type;
+    osc.frequency.value = freq;
+    gain.gain.setValueAtTime(vol, ctx.currentTime);
+    gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + dur);
+    osc.connect(gain);
+    gain.connect(ctx.destination);
+    osc.start();
+    osc.stop(ctx.currentTime + dur);
+  } catch (e) { /* audio not available, fail silently */ }
+}
+function soundWaste() { blip(300, 0.1, 'square', 0.08); }
+function soundUnlock() { blip(600, 0.08, 'triangle', 0.12); setTimeout(() => blip(900, 0.1, 'triangle', 0.1), 90); }
+function soundPanic() { blip(150, 0.3, 'sawtooth', 0.15); }
+function soundSiren() {
+  if (!soundOn) return;
+  blip(500, 0.15, 'sawtooth', 0.13);
+  setTimeout(() => blip(300, 0.15, 'sawtooth', 0.13), 160);
+  setTimeout(() => blip(500, 0.15, 'sawtooth', 0.13), 320);
+  setTimeout(() => blip(300, 0.2, 'sawtooth', 0.13), 480);
+}
+function soundOracle() { blip(220, 0.15, 'sine', 0.1); setTimeout(() => blip(180, 0.2, 'sine', 0.08), 120); }
+
+function toggleMute() {
+  soundOn = !soundOn;
+  document.getElementById('muteBtn').textContent = soundOn ? '🔊 Sound On' : '🔇 Sound Off';
+}
+
+function trackWaste() {
+  wastedClicks++;
+  soundWaste();
+  if (wastedClicks === 1) { unlock('b-first'); soundUnlock(); }
+  if (wastedClicks === 5) { unlock('b-five'); soundUnlock(); }
+  if (wastedClicks === 10) { unlock('b-ten'); soundUnlock(); }
+  if (wastedClicks === 25) { unlock('b-twentyfive'); soundUnlock(); }
+  if (wastedClicks === 50) { unlock('b-fifty'); soundUnlock(); }
+}
+
+function checkConsent() {
+  const consented = document.getElementById('consent').checked;
+  const gated = document.querySelectorAll('.gated');
+  gated.forEach(b => b.disabled = !consented);
+  document.getElementById('consentStatus').textContent = consented
+    ? "Status: agreed. Everything is unlocked. Permanently. No further agreeing required."
+    : "Status: not agreed. Nothing is unlocked.";
+  if (consented) { unlock('b-agree'); soundUnlock(); }
+}
+
+function giveSolution() {
+  trackWaste();
+  const val = document.getElementById('problem').value;
+  const box = document.getElementById('solution');
+  box.textContent = val ? solutions[val] : "Please select a problem to receive no real help with it.";
+}
+
+let stress = 0;
+function pump() {
+  trackWaste();
+  stress = Math.min(100, stress + Math.floor(Math.random()*15)+10);
+  document.getElementById('meterFill').style.width = stress + "%";
+  document.getElementById('meterLabel').textContent = "Stress Level: " + stress + "% (breathing didn't help, did it)";
+}
+
+function closePanic() {
+  document.getElementById('panicOverlay').style.display = 'none';
+  if (panicSeen.size >= panicVariants.length) { unlock('b-panicvariant'); soundUnlock(); }
+}
+function shakeScreen() {
+  document.body.classList.remove('shaking');
+  void document.body.offsetWidth; // restart animation if triggered again quickly
+  document.body.classList.add('shaking');
+  setTimeout(() => document.body.classList.remove('shaking'), 500);
+}
+
+function panic() {
+  trackWaste();
+  soundSiren();
+  shakeScreen();
+  const variant = panicVariants[panicIndex % panicVariants.length];
+  panicSeen.add(panicIndex % panicVariants.length);
+  panicIndex++;
+  const overlay = document.getElementById('panicOverlay');
+  overlay.style.background = variant.color;
+  document.getElementById('panicText').textContent = variant.text;
+  overlay.style.display = 'flex';
+  unlock('b-panic');
+}
+
+let clicks = 0;
+function clickCounter() {
+  trackWaste();
+  clicks++;
+  document.getElementById('counter').textContent = "Feelings improved: 0 (attempts: " + clicks + ")";
+}
+
+function startLoad() {
+  trackWaste();
+  const fill = document.getElementById('loadFill');
+  const label = document.getElementById('loadLabel');
+  let pct = 0;
+  fill.style.width = '0%';
+  const timer = setInterval(() => {
+    pct += Math.floor(Math.random()*30)+10;
+    if (pct >= 99) {
+      fill.style.width = '99%';
+      label.textContent = "Progress: 99% (resetting in 3... 2... 1...)";
+      clearInterval(timer);
+      setTimeout(() => {
+        fill.style.width = '0%';
+        label.textContent = "Progress: 0% (back to the start, as always)";
+      }, 1500);
+    } else {
+      fill.style.width = pct + '%';
+      label.textContent = "Progress: " + pct + "%";
+    }
+  }, 500);
+}
+
+function askOracle() {
+  trackWaste();
+  soundOracle();
+  const input = document.getElementById('oracleInput').value.trim();
+  const out = document.getElementById('oracleOutput');
+  if (!input) {
+    out.textContent = "The Oracle requires a problem to ignore. Type something first.";
+    return;
+  }
+  const reversed = input.split('').reverse().join('');
+  const extra = oracleExtras[Math.floor(Math.random() * oracleExtras.length)];
+  out.textContent = "The Oracle speaks: \"" + reversed + "\" — " + extra;
+  unlock('b-oracle');
+  soundUnlock();
+}
+
+function undoDay() {
+  trackWaste();
+  const out = document.getElementById('undoOutput');
+  out.textContent = "Rewinding...";
+  setTimeout(() => { out.textContent = "Redoing..."; }, 800);
+  setTimeout(() => { out.textContent = "Done! It is still today, and nothing has changed."; }, 1800);
+}
+
+function giveExcuse() {
+  trackWaste();
+  const out = document.getElementById('excuseOutput');
+  out.textContent = excuses[Math.floor(Math.random() * excuses.length)];
+  unlock('b-excuse');
+  soundUnlock();
+}
+
+function procrastinate() {
+  trackWaste();
+  const out = document.getElementById('procrastinateOutput');
+  out.textContent = "Instead, try: " + procrastinationTasks[Math.floor(Math.random() * procrastinationTasks.length)];
+}
+
+let toDoPct = 100;
+function deleteToDo() {
+  trackWaste();
+  toDoPct = Math.max(0, toDoPct - (Math.floor(Math.random()*20)+15));
+  document.getElementById('toDoFill').style.width = toDoPct + '%';
+  document.getElementById('toDoLabel').textContent = "Tasks remaining: " + toDoPct + "% (still exist, just no longer written down)";
+  if (toDoPct === 0) { unlock('b-todo'); soundUnlock(); }
+}
+
+function insultivate() {
+  trackWaste();
+  document.getElementById('insultOutput').textContent = insults[Math.floor(Math.random() * insults.length)];
+}
+
+function fortuneCookie() {
+  trackWaste();
+  document.getElementById('fortuneOutput').textContent = fortunes[Math.floor(Math.random() * fortunes.length)];
+  unlock('b-cookie');
+  soundUnlock();
+}
+
+const badgeMeta = [
+  { id: 'b-agree', label: '📜 Agreed to Nothing' },
+  { id: 'b-first', label: '🥉 First Wasted Click' },
+  { id: 'b-five', label: '🥈 5 Wasted Clicks' },
+  { id: 'b-ten', label: '🥇 10 Wasted Clicks' },
+  { id: 'b-twentyfive', label: '🏆 25 Wasted Clicks' },
+  { id: 'b-fifty', label: '💎 50 Wasted Clicks (get help)' },
+  { id: 'b-oracle', label: '🔮 Consulted the Void' },
+  { id: 'b-panic', label: '🚨 Panicked for No Reason' },
+  { id: 'b-excuse', label: '🎭 Professional Excuse-Maker' },
+  { id: 'b-todo', label: '🗑️ Achieved Nothing On Purpose' },
+  { id: 'b-cookie', label: '🥠 Cracked Under Pressure' },
+  { id: 'b-panicvariant', label: '🌈 Survived All Panic Modes' }
+];
+
+const closingLines = [
+  "You have gained absolutely nothing from this site.",
+  "Net productivity change: 0. Net entertainment: debatable.",
+  "Nothing was solved. Nothing was meant to be.",
+  "Congratulations on achieving exactly what you started with."
+];
+
+function submitReport() {
+  soundUnlock();
+  const earned = badgeMeta.filter(b => document.getElementById(b.id).classList.contains('unlocked'));
+  const total = badgeMeta.length;
+  const allUnlocked = earned.length === total;
+
+  const trophyBox = document.getElementById('trophyBox');
+  if (allUnlocked) {
+    trophyBox.style.display = 'block';
+    document.getElementById('reportBig').textContent = "You gained absolutely nothing.";
+    soundUnlock();
+    setTimeout(soundUnlock, 200);
+  } else {
+    trophyBox.style.display = 'none';
+    document.getElementById('reportBig').textContent = closingLines[Math.floor(Math.random() * closingLines.length)];
+  }
+
+  const statsBox = document.getElementById('reportStats');
+  statsBox.innerHTML =
+    '<div>🖱️ Total wasted clicks: ' + wastedClicks + '</div>' +
+    '<div>🏅 Achievements unlocked: ' + earned.length + ' / ' + total + '</div>' +
+    '<div>📈 Productivity gained: 0%</div>' +
+    '<div>😌 Feelings improved: 0 (attempts: ' + clicks + ')</div>';
+
+  const badgeBox = document.getElementById('reportBadges');
+  badgeBox.innerHTML = '';
+  badgeMeta.forEach(b => {
+    const div = document.createElement('div');
+    const unlocked = document.getElementById(b.id).classList.contains('unlocked');
+    div.className = 'badge' + (unlocked ? '' : ' locked');
+    div.textContent = b.label;
+    badgeBox.appendChild(div);
+  });
+
+  document.getElementById('reportOverlay').style.display = 'flex';
+}
+
+function closeReport() {
+  document.getElementById('reportOverlay').style.display = 'none';
+}
+</script>
+
+</body>
+</html> 
