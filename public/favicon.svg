@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" fill="none">
+  <circle cx="32" cy="32" r="28" fill="#070a0f" stroke="#38bdf8" stroke-width="2"/>
+  <!-- Earth sphere -->
+  <circle cx="32" cy="32" r="16" fill="#111827" stroke="#64748b" stroke-width="1.5"/>
+  <!-- Long way orbit arc -->
+  <ellipse cx="32" cy="32" rx="24" ry="10" transform="rotate(-30 32 32)" stroke="#38bdf8" stroke-width="2.5" stroke-dasharray="100 20" stroke-linecap="round"/>
+  <!-- Satellite pulse dot -->
+  <circle cx="48" cy="22" r="3.5" fill="#38bdf8"/>
+  <circle cx="48" cy="22" r="6" stroke="#38bdf8" stroke-width="1" opacity="0.6"/>
+</svg>
