@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <base href="/">
+  <meta charset="UTF-8">
+  <meta content="IE=Edge" id="IE_edge" name="IE-edge">
+  <meta name="description" id="meta-desc" content="The camera that can't handle attention.">
+  <title>SHYCAM</title>
+  <link rel="manifest" href="manifest.json">
+
+  <script>
+    window.manualFaceCount = -1;
+    window.lastDetectedFaceCount = 0;
+
+    let nativeDetector = null;
+    if ('FaceDetector' in window) {
+      try {
+        nativeDetector = new window.FaceDetector({ fastMode: true, maxFaces: 5 });
+      } catch (e) {}
+    }
+
+    const canvas = document.createElement('canvas');
+    const ctx = canvas.getContext('2d', { willReadFrequently: true });
+
+    // Cute & Sweet Kids Voice Setup
+    let voices = [];
+    function loadVoices() {
+      if ('speechSynthesis' in window) {
+        voices = window.speechSynthesis.getVoices();
+      }
+    }
+    loadVoices();
+    if ('speechSynthesis' in window && window.speechSynthesis.onvoiceschanged !== undefined) {
+      window.speechSynthesis.onvoiceschanged = loadVoices;
+    }
+
+    window.unlockAudioJS = function() {
+      if ('speechSynthesis' in window) {
+        window.speechSynthesis.resume();
+        const u = new SpeechSynthesisUtterance(' ');
+        window.speechSynthesis.speak(u);
+      }
+    };
+
+    window.speakTextJS = function(text) {
+      if (!('speechSynthesis' in window) || !text) return;
+      try {
+        window.speechSynthesis.cancel();
+        const utterance = new SpeechSynthesisUtterance(text);
+        
+        // Super Cute Kid Voice Settings:
+        utterance.pitch = 2.0;  // Maximum pitch for adorable sweet kid voice!
+        utterance.rate = 1.05;  // Natural cute speed
+        utterance.volume = 1.0;
+
+        // Pick the sweetest female / English voice available in Chrome
+        if (voices.length > 0) {
+          const sweetVoice = voices.find(v => 
+            v.lang.startsWith('en') && (
+              v.name.includes('Female') || 
+              v.name.includes('Zira') || 
+              v.name.includes('Samantha') || 
+              v.name.includes('Google') || 
+              v.name.includes('Karen') ||
+              v.name.includes('Natural')
+            )
+          ) || voices.find(v => v.lang.startsWith('en')) || voices[0];
+          
+          if (sweetVoice) utterance.voice = sweetVoice;
+        }
+
+        window.speechSynthesis.speak(utterance);
+      } catch (e) {
+        console.warn("Speech error:", e);
+      }
+    };
+
+    async function detectLoop() {
+      if (window.manualFaceCount >= 0) {
+        window.lastDetectedFaceCount = window.manualFaceCount;
+        return;
+      }
+
+      const video = document.querySelector('video');
+      if (!video) {
+        window.lastDetectedFaceCount = 0;
+        return;
+      }
+
+      if (video.paused) {
+        try { await video.play(); } catch (e) {}
+      }
+
+      if (video.readyState < 2) return;
+
+      if (nativeDetector) {
+        try {
+          const faces = await nativeDetector.detect(video);
+          window.lastDetectedFaceCount = faces.length;
+          return;
+        } catch (e) {}
+      }
+
+      try {
+        const w = 160;
+        const h = 120;
+        canvas.width = w;
+        canvas.height = h;
+        ctx.drawImage(video, 0, 0, w, h);
+        const imgData = ctx.getImageData(0, 0, w, h);
+        const data = imgData.data;
+
+        let leftSkin = 0;
+        let rightSkin = 0;
+        let centerSkin = 0;
+
+        for (let i = 0; i < data.length; i += 16) {
+          const r = data[i];
+          const g = data[i + 1];
+          const b = data[i + 2];
+
+          if (r > 60 && g > 35 && b > 20 && r > g && r > b && (Math.max(r, g, b) - Math.min(r, g, b) > 12)) {
+            const pixelIdx = i / 4;
+            const x = pixelIdx % w;
+            if (x < w * 0.4) leftSkin++;
+            else if (x > w * 0.6) rightSkin++;
+            else centerSkin++;
+          }
+        }
+
+        let detected = 0;
+        if (leftSkin > 80) detected++;
+        if (rightSkin > 80) detected++;
+        if (centerSkin > 100 && detected === 0) detected = 1;
+
+        window.lastDetectedFaceCount = detected;
+      } catch (e) {
+        window.lastDetectedFaceCount = 0;
+      }
+    }
+
+    setInterval(detectLoop, 100);
+
+    window.detectFacesJS = function() {
+      if (window.manualFaceCount >= 0) return window.manualFaceCount;
+      return window.lastDetectedFaceCount || 0;
+    };
+  </script>
+</head>
+<body style="overflow: hidden; background-color: #F8F9FA;">
+  <script src="flutter_bootstrap.js" async></script>
+  <p></p>
+</body>
+</html>

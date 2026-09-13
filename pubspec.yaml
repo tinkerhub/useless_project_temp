@@ -1,0 +1,24 @@
+name: shycam
+description: The camera that can't handle attention.
+publish_to: 'none'
+version: 1.0.0+1
+
+environment:
+  sdk: '>=3.0.0 <4.0.0'
+
+dependencies:
+  flutter:
+    sdk: flutter
+  camera: ^0.11.0
+  camera_web: ^0.3.5
+  google_fonts: ^6.1.0
+  flutter_animate: ^4.5.0
+  web: ^0.5.1
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^3.0.0
+
+flutter:
+  uses-material-design: true

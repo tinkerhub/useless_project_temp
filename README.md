@@ -2,96 +2,60 @@
 
 
 
-# [Project Name] 🎯
+# [SHYCAM] 🎯
 
 
 ## Basic Details
-### Team Name: [Name]
+### Team Name: [BADSIGNAL]
 
 
 ### Team Members
-- Team Lead: [Name] - [College]
-- Member 2: [Name] - [College]
-- Member 3: [Name] - [College]
+- Member 1: [Aksa Jaison] - [MACE]
+- Member 2: [Devika B S] - [MACE]
 
 ### Project Description
-[2-3 lines about what your project does]
+[SHYCAM is an intentionally useless, humorous web application where your laptop's built-in webcam develops severe social anxiety whenever humans look into it. Instead of remaining a passive camera, it blushes, trembles, panics, speaks out loud in a cute robotic voice, and eventually hides behind a curtain when people stare for too long or crowd around it.]
 
 ### The Problem (that doesn't exist)
-[What ridiculous problem are you solving?]
+[Standard webcameras suffer from a severe lack of emotional vulnerability. They stare back at users with unyielding, cold confidence, completely ignoring how awkward constant eye contact can be. No camera has ever stopped to ask: "What if I'm just not camera-ready today?"]
 
 ### The Solution (that nobody asked for)
-[How are you solving it? Keep it fun!]
+[We created SHYCAM — the world's first camera hardware with crippling stage fright! Powered by real-time webcam face detection and a dynamic 5-stage emotion engine (CALM → NERVOUS → SHY → PANIC → EXTREME PANIC), the camera blushes, sweats, trembles, speaks flustered quotes out loud via Web Speech synthesis, and physically drops a curtain to hide when too many people look at it!]
 
 ## Technical Details
 ### Technologies/Components Used
 For Software:
-- [Languages used]
-- [Frameworks used]
-- [Libraries used]
-- [Tools used]
-
-For Hardware:
-- [List main components]
-- [List specifications]
-- [List tools required]
+- [Dart, JavaScript (ES6+), HTML5, CSS3]
+- [Flutter Web (v3.47+)]
+- [camera_web, flutter_animate, google_fonts, web, Web Speech Synthesis API, Chromium Shape Detection API (window.FaceDetector)]
+- [Visual Studio Code, Git, GitHub, Google Chrome Browser]
 
 ### Implementation
 For Software:
 # Installation
-[commands]
+[git clone https://github.com/Devikabs-prog/shycam.git
+cd shycam
+flutter pub get]
 
 # Run
-[commands]
+[flutter run -d chrome]
 
 ### Project Documentation
 For Software:
 
 # Screenshots (Add at least 3)
-![Screenshot1](Add screenshot 1 here with proper name)
-*Add caption explaining what this shows*
+![Screenshot1](screenshots/ss1.png)
+*camera is shut while detecting the face*
 
-![Screenshot2](Add screenshot 2 here with proper name)
-*Add caption explaining what this shows*
+![Screenshot2](screenshots/ss2.png)
+*camera detection stopped*
 
-![Screenshot3](Add screenshot 3 here with proper name)
-*Add caption explaining what this shows*
+![Screenshot3](screenshots/ss3.png)
+*detecting face*
 
 # Diagrams
-![Workflow](Add your workflow/architecture diagram here)
-*Add caption explaining your workflow*
-
-For Hardware:
-
-# Schematic & Circuit
-![Circuit](Add your circuit diagram here)
-*Add caption explaining connections*
-
-![Schematic](Add your schematic diagram here)
-*Add caption explaining the schematic*
-
-# Build Photos
-![Components](Add photo of your components here)
-*List out all components shown*
-
-![Build](Add photos of build process here)
-*Explain the build steps*
-
-![Final](Add photo of final product here)
-*Explain the final build*
-
-### Project Demo
-# Video
-[Add your demo video link here]
-*Explain what the video demonstrates*
-
-# Additional Demos
-[Add any extra demo materials/links]
-
-## Team Contributions
-- [Name 1]: [Specific contributions]
-- [Name 2]: [Specific contributions]
-- [Name 3]: [Specific contributions]
+![Workflow](screenshots/workflow.png)
+*SHYCAM Workflow: How webcam video turns into real-time camera shyness and voice reactions*
 
 ---
 Made with ❤️ at TinkerHub Useless Projects 
