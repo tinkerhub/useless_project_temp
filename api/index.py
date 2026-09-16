@@ -160,7 +160,8 @@ class handler(BaseHTTPRequestHandler):
                 else:
                     raise ValueError("Unsupported time action")
             elif path == "/api/llm/connect":
-                result = setup_brains(world, body.get("model"), body.get("base_url"))
+                result = setup_brains(world, body.get("model"), body.get("base_url"),
+                                      body.get("provider"), body.get("api_key"))
             else:
                 return self.reply(404, {"error": "Not found"})
 

@@ -6,7 +6,7 @@ import os
 import urllib.error
 import urllib.request
 from dataclasses import dataclass
-from typing import Any, Dict, List, Mapping
+from typing import Any, Dict, List, Mapping, Optional
 from urllib.parse import urlsplit
 
 
@@ -21,6 +21,8 @@ class LMStudioConfig:
     max_tokens: int = 512
     max_context_tokens: int = 4096
     native_reasoning_off: bool = False
+    provider: str = "local"
+    api_key: str = ""
 
     @classmethod
     def from_env(cls) -> "LMStudioConfig":
@@ -110,7 +112,7 @@ class LMStudioBrain:
             ],
             "temperature": self.config.temperature,
             "max_tokens": self.config.max_tokens,
-            "response_format": {"type": "json_schema", "json_schema": {
+            "response_format": {"type": "json_object"} if self.config.provider == "openai" else {"type": "json_schema", "json_schema": {
                 "name": "citizen_decision", "strict": True,
                 "schema": {
                     "type": "object", "additionalProperties": False,
@@ -130,6 +132,9 @@ class LMStudioBrain:
                 },
             }}
         }
+        if self.config.provider == "openai":
+            payload.pop("temperature", None)
+            payload["max_completion_tokens"] = payload.pop("max_tokens")
 
         data = json.dumps(payload).encode("utf-8")
         endpoint = f"{self.config.base_url}/chat/completions"
@@ -148,7 +153,10 @@ class LMStudioBrain:
             endpoint,
             data=data,
             method="POST",
-            headers={"Content-Type": "application/json"}
+            headers={"Content-Type": "application/json", **(
+                {"Authorization": f"Bearer {self.config.api_key}"}
+                if self.config.api_key else {}
+            )}
         )
 
         retries = 0
@@ -185,8 +193,28 @@ class LMStudioBrain:
         return {"decision": "none"}
 
 
+class OpenAIBrain(LMStudioBrain):
+    """OpenAI API brain using a user-provided key held only in process memory."""
+
+    def __init__(self, config: LMStudioConfig, citizen_id: str):
+        config.provider = "openai"
+        super().__init__(config, citizen_id)
+
+
 def create_brains_from_env(citizen_ids: List[str]) -> Dict[str, LMStudioBrain]:
     """Create AI brains for the given citizens if configured."""
+    api_key = os.environ.get("OPENAI_API_KEY") or os.environ.get("WILLOW_OPENAI_API_KEY")
+    if api_key:
+        config = LMStudioConfig(
+            model=os.environ.get("WILLOW_OPENAI_MODEL", "gpt-5-mini"),
+            base_url="https://api.openai.com/v1",
+            timeout=float(os.environ.get("WILLOW_AI_TIMEOUT", "30.0")),
+            max_retries=int(os.environ.get("WILLOW_AI_MAX_RETRIES", "1")),
+            max_tokens=int(os.environ.get("WILLOW_AI_MAX_TOKENS", "512")),
+            max_context_tokens=int(os.environ.get("WILLOW_AI_MAX_CONTEXT_TOKENS", "4096")),
+            provider="openai", api_key=api_key,
+        )
+        return {cid: OpenAIBrain(config, cid) for cid in citizen_ids}
     if "WILLOW_AI_MODEL" not in os.environ:
         return {}
     try:
@@ -230,8 +258,24 @@ def detect_local_llm(base_url: Optional[str] = None) -> Optional[Dict[str, str]]
     return None
 
 
-def setup_brains(world, model_name: Optional[str] = None, base_url: Optional[str] = None) -> Dict[str, Any]:
+def setup_brains(world, model_name: Optional[str] = None, base_url: Optional[str] = None,
+                 provider: Optional[str] = None, api_key: Optional[str] = None) -> Dict[str, Any]:
     """Detect and configure brains on the world instance."""
+    provider = (provider or ("openai" if api_key or os.environ.get("OPENAI_API_KEY") else "local")).lower()
+    if provider == "openai":
+        key = api_key or os.environ.get("OPENAI_API_KEY") or os.environ.get("WILLOW_OPENAI_API_KEY")
+        if not key:
+            raise ValueError("An OpenAI API key is required")
+        model = model_name or os.environ.get("WILLOW_OPENAI_MODEL", "gpt-5-mini")
+        config = LMStudioConfig(model=model, base_url="https://api.openai.com/v1", timeout=30.0,
+                                max_retries=1, max_tokens=512, provider="openai", api_key=key)
+        brains = {cid: OpenAIBrain(config, cid) for cid, c in world._state["citizens"].items()
+                  if c.get("control") != "human"}
+        world._ai_brains = brains
+        world._ai_gateway.brains = dict(brains)
+        world._ai_info = {"connected": True, "provider": "openai", "model": model,
+                          "base_url": config.base_url}
+        return world._ai_info
     info = None
     if model_name:
         info = {"model": model_name, "base_url": base_url or os.environ.get("WILLOW_AI_BASE_URL", "http://127.0.0.1:1234/v1")}
@@ -253,10 +297,10 @@ def setup_brains(world, model_name: Optional[str] = None, base_url: Optional[str
         brains = {cid: LMStudioBrain(config, cid) for cid, c in world._state["citizens"].items() if c.get("control") != "human"}
         world._ai_brains = brains
         world._ai_gateway.brains = dict(brains)
-        world._ai_info = {"connected": True, "model": m, "base_url": url}
+        world._ai_info = {"connected": True, "provider": "local", "model": m, "base_url": url}
         return world._ai_info
     else:
         world._ai_brains = {}
         world._ai_gateway.brains = {}
-        world._ai_info = {"connected": False, "model": None, "base_url": None}
+        world._ai_info = {"connected": False, "provider": None, "model": None, "base_url": None}
         return world._ai_info

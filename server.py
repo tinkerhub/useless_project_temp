@@ -124,7 +124,8 @@ def make_server(world, host="127.0.0.1", port=8000):
                         raise ValueError("Unsupported time action")
                 elif self.path == "/api/llm/connect":
                     from lm_studio import setup_brains
-                    result = setup_brains(world, body.get("model"), body.get("base_url"))
+                    result = setup_brains(world, body.get("model"), body.get("base_url"),
+                                          body.get("provider"), body.get("api_key"))
                 else:
                     self.close_connection = True
                     return self.reply(404,{"error":"Not found"})
@@ -175,9 +176,9 @@ def main():
         from lm_studio import setup_brains
         llm_info = setup_brains(world, args.ai_model or None)
         if llm_info["connected"]:
-            print(f"✓ Local LLM detected: {llm_info['model']} ({llm_info['base_url']}) — Full AI reasoning enabled", flush=True)
+            print(f"✓ {llm_info.get('provider', 'AI').title()} connected: {llm_info['model']} ({llm_info['base_url']}) — Full AI reasoning enabled", flush=True)
         else:
-            print(f"○ No local LLM detected on http://127.0.0.1:1234 — Citizen AI replies disabled until local LLM starts", flush=True)
+            print(f"○ No AI provider connected — Citizen AI replies disabled until OpenAI is configured or a local LLM starts", flush=True)
 
     world.start()
     current_tick = world._state["clock"]["tick"]

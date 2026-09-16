@@ -24,8 +24,8 @@
           id="map-button" class="paper-button" aria-label="Open town map"><svg viewBox="0 0 24 24" aria-hidden="true">
             <path d="m3 5 6-2 6 2 6-2v16l-6 2-6-2-6 2V5Zm6-2v16m6-14v16" />
           </svg>Town map <kbd>M</kbd></button><button id="llm-button" class="paper-button llm-btn"
-          aria-label="Local LLM status"><span id="llm-dot" class="llm-dot offline">○</span><span id="llm-label">No Local
-            LLM</span></button></div>
+          aria-label="AI status"><span id="llm-dot" class="llm-dot offline">○</span><span id="llm-label">No AI
+            Connected</span></button></div>
     </header>
     <div id="connection" role="status" hidden></div>
     <div id="destination" class="destination" hidden><span id="direction">↑</span><span><strong
@@ -105,28 +105,37 @@
   <dialog id="llm-dialog" class="llm-dialog">
     <header class="dialog-header">
       <div><span class="eyebrow">INTELLIGENCE</span>
-        <h2>Local LLM Brain</h2>
+        <h2>AI Brain</h2>
       </div><button id="close-llm" class="icon-button" aria-label="Close LLM status">×</button>
     </header>
     <div class="llm-content">
-      <p>Willow citizens think, converse, and carry individual memories using a local LLM. If a local LLM is detected,
-        all 50 citizens come alive with AI; if none is running, town life proceeds quietly without AI dialogue.</p>
+      <p>Connect a local model or use OpenAI with your own API key. Your key is used only by this running server and is
+        never saved or shown in the town status.</p>
       <div class="llm-status-card">
         <div class="llm-status-row">
           <span id="llm-dialog-dot" class="llm-dot offline">○</span>
-          <strong id="llm-dialog-title">No Local LLM Detected</strong>
+          <strong id="llm-dialog-title">No AI Connected</strong>
         </div>
-        <p id="llm-dialog-model" class="llm-detail">LM Studio is currently offline or unreachable.</p>
+        <p id="llm-dialog-model" class="llm-detail">Connect a local model or OpenAI below.</p>
         <p id="llm-dialog-url" class="llm-subdetail">Probing: <code>http://127.0.0.1:1234/v1</code></p>
       </div>
       <form id="llm-connect-form" class="llm-form">
-        <label for="llm-url-input"><strong>Custom LLM Endpoint</strong></label>
+        <label for="llm-provider-input"><strong>Provider</strong></label>
+        <select id="llm-provider-input" class="llm-select">
+          <option value="openai">OpenAI (bring your own key)</option>
+          <option value="local">Local OpenAI-compatible server</option>
+        </select>
+        <label for="llm-model-input"><strong>Model</strong></label>
+        <input type="text" id="llm-model-input" value="gpt-5-mini" placeholder="gpt-5-mini">
+        <label for="llm-key-input" id="llm-key-label"><strong>OpenAI API key</strong></label>
+        <input type="password" id="llm-key-input" autocomplete="off" placeholder="sk-...">
+        <label for="llm-url-input" id="llm-url-label"><strong>Custom LLM Endpoint</strong></label>
         <div class="llm-input-group">
           <input type="url" id="llm-url-input" value="http://127.0.0.1:1234/v1" placeholder="http://127.0.0.1:1234/v1"
             required>
           <button type="submit" class="primary" id="llm-connect-btn">Connect</button>
         </div>
-        <small>Works with LM Studio, Ollama, or any OpenAI-compatible local server.</small>
+        <small id="llm-form-help">Your key is kept in memory for this run and is not persisted.</small>
       </form>
     </div>
   </dialog>

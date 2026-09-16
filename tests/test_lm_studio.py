@@ -6,6 +6,7 @@ from unittest.mock import MagicMock, patch
 from urllib.error import HTTPError
 
 from lm_studio import LMStudioBrain, LMStudioConfig
+from lm_studio import OpenAIBrain
 
 
 class LMStudioTransportTests(unittest.TestCase):
@@ -64,6 +65,22 @@ class LMStudioTransportTests(unittest.TestCase):
             self.assertTrue(config.native_reasoning_off)
             self.assertEqual(config.timeout, 60.0)
             self.assertEqual(config.max_tokens, 160)
+
+    @patch("lm_studio.urllib.request.urlopen")
+    def test_openai_provider_uses_bearer_key_and_current_token_parameter(self, open_url):
+        brain = OpenAIBrain(LMStudioConfig(
+            model="gpt-5-mini", base_url="https://api.openai.com/v1", api_key="sk-test"
+        ), "citizen-1")
+        response = MagicMock()
+        response.read.return_value = json.dumps({"choices": [{"message": {
+            "content": '{"decision":"wait"}'
+        }}]}).encode()
+        open_url.return_value.__enter__.return_value = response
+        self.assertEqual(brain.decide(self.request), {"decision": "wait"})
+        request = open_url.call_args.args[0]
+        self.assertEqual(request.headers["Authorization"], "Bearer sk-test")
+        self.assertEqual(json.loads(request.data)["response_format"], {"type": "json_object"})
+        self.assertIn("max_completion_tokens", json.loads(request.data))
 
 
 if __name__ == "__main__":

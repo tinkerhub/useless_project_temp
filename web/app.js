@@ -53,17 +53,17 @@ function updateLLMStatus(info){
     label.textContent=`LLM: ${formatModel(llmState.model)}`;
     if(dDot){
       dDot.textContent='●';dDot.className='llm-dot online';
-      dTitle.textContent='Local LLM Active';
+      dTitle.textContent=llmState.provider==='openai'?'OpenAI Connected':'Local LLM Active';
       dModel.textContent=`Model: ${llmState.model}`;
       dUrl.innerHTML=`Endpoint: <code>${llmState.base_url||'http://127.0.0.1:1234/v1'}</code>`;
     }
   }else{
     dot.textContent='○';dot.className='llm-dot offline';
-    label.textContent='No Local LLM';
+    label.textContent='No AI Connected';
     if(dDot){
       dDot.textContent='○';dDot.className='llm-dot offline';
-      dTitle.textContent='No Local LLM Detected';
-      dModel.textContent='LM Studio is currently offline or unreachable.';
+      dTitle.textContent='No AI Connected';
+      dModel.textContent='Connect a local model or OpenAI below.';
       dUrl.innerHTML=`Endpoint: <code>${llmState.base_url||'http://127.0.0.1:1234/v1'}</code>`;
     }
   }
@@ -255,18 +255,27 @@ $('town-map').addEventListener('close',()=>canvas.focus());
 $('close-place').onclick=()=>$('place-dialog').close();$('place-dialog').addEventListener('close',()=>canvas.focus());
 $('llm-button').onclick=openLLMDialog;$('close-llm').onclick=()=>$('llm-dialog').close();
 $('llm-dialog').addEventListener('close',()=>canvas.focus());
+function updateLLMForm(){
+  const openai=$('llm-provider-input').value==='openai';
+  $('llm-key-label').hidden=!openai;$('llm-key-input').hidden=!openai;
+  $('llm-url-label').hidden=openai;$('llm-url-input').hidden=openai;
+  $('llm-key-input').required=openai;$('llm-url-input').required=!openai;
+  $('llm-form-help').textContent=openai?'Your key is kept in memory for this run and is not persisted.':'Works with LM Studio, Ollama, or any OpenAI-compatible local server.';
+}
+$('llm-provider-input').onchange=updateLLMForm;updateLLMForm();
 $('llm-connect-form').onsubmit=async event=>{
   event.preventDefault();
-  const url=$('llm-url-input').value.trim(),btn=$('llm-connect-btn');
+  const provider=$('llm-provider-input').value, url=$('llm-url-input').value.trim();
+  const model=$('llm-model-input').value.trim(), api_key=$('llm-key-input').value.trim(), btn=$('llm-connect-btn');
   btn.disabled=true;btn.textContent='Connecting…';
   try{
-    const res=await api('/api/llm/connect',{base_url:url});
+    const res=await api('/api/llm/connect',{provider,model,base_url:url,api_key});
     updateLLMStatus(res.result);
     if(res.result?.connected){
       toast(`Connected to ${res.result.model}! Citizens now think and converse with AI.`);
       $('llm-dialog').close();
     }else{
-      toast('Could not find chat model at this endpoint. Check that LM Studio is running.');
+      toast('Could not connect to the selected AI provider.');
     }
   }catch(err){toast(`Connection failed: ${err.message}`);}
   finally{btn.disabled=false;btn.textContent='Connect';}

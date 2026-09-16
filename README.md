@@ -119,6 +119,10 @@ python3 server.py
 ```
 *(If LM Studio is offline, It seamlessly falls back to the deterministic `FastCitizenBrain`, ensuring the town never freezes).*
 
+**Optional OpenAI BYOK:** set `OPENAI_API_KEY` (or use the **AI Brain** dialog and choose **OpenAI**) and optionally set
+`WILLOW_OPENAI_MODEL` (defaults to `gpt-5-mini`). The key is held in server memory only and is never included in status
+responses or saved world state.
+
 ---
 
 ### Project Documentation
