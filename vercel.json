@@ -1,29 +1,14 @@
 {
   "version": 2,
-  "rewrites": [
-    {
-      "source": "/api/(.*)",
-      "destination": "/api/index.py"
-    },
-    {
-      "source": "/app.js",
-      "destination": "/web/app.js"
-    },
-    {
-      "source": "/renderer.js",
-      "destination": "/web/renderer.js"
-    },
-    {
-      "source": "/physics.js",
-      "destination": "/web/physics.js"
-    },
-    {
-      "source": "/style.css",
-      "destination": "/web/style.css"
-    },
-    {
-      "source": "/favicon.svg",
-      "destination": "/web/favicon.svg"
-    }
-  ]
+  "framework": null,
+  "buildCommand": "npm run build",
+  "outputDirectory": "dist",
+  "headers": [{
+    "source": "/(.*)",
+    "headers": [
+      {"key": "X-Content-Type-Options", "value": "nosniff"},
+      {"key": "Referrer-Policy", "value": "no-referrer"},
+      {"key": "Content-Security-Policy", "value": "default-src 'self'; script-src 'self' 'wasm-unsafe-eval'; worker-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; connect-src 'self' https: http://localhost:* http://127.0.0.1:*; frame-ancestors 'none'; object-src 'none'; base-uri 'self'"}
+    ]
+  }]
 }

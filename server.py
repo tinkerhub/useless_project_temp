@@ -21,7 +21,7 @@ from spatial import HOUR_SECONDS
 ROOT = Path(__file__).resolve().parent
 PUBLIC_FILES = {"/": "index.html", "/index.html": "index.html", "/app.js": "web/app.js",
                 "/renderer.js": "web/renderer.js", "/physics.js": "web/physics.js",
-                "/style.css": "web/style.css", "/favicon.svg": "web/favicon.svg"}
+                "/runtime-mode.js": "web/runtime-mode.js", "/style.css": "web/style.css", "/favicon.svg": "web/favicon.svg"}
 MIME = {".html": "text/html; charset=utf-8", ".js": "text/javascript; charset=utf-8",
         ".css": "text/css; charset=utf-8", ".svg": "image/svg+xml"}
 

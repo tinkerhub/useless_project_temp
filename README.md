@@ -5,6 +5,28 @@
 
 ---
 
+## Play online
+
+**[Enter Willow](https://hello-world-useless.vercel.app/)**
+
+Hello World is a web game. Open the live site, press Play, and your town begins in your browser. Each browser profile gets its own saved world; there is no common world, account, database, or owner-funded AI key.
+
+AI stays player-owned. From **Set up AI**, a player can connect an LLM running on their own computer through LM Studio or Ollama, or use their own OpenAI API key. The key stays in the browser tab, goes directly to the selected provider, and is never sent to this site or included in a saved world.
+
+For setup details, including local-model CORS requirements and exporting a world backup, see [deployment and local model setup](docs/deployment.md).
+
+### Run the website yourself
+
+The live website is the normal way to play. Developers who want to change or self-host it can build the static site locally:
+
+```sh
+npm ci
+npm run build
+npm run preview
+```
+
+---
+
 ## Basic Details
 ### Team Name: Individual
 
@@ -12,11 +34,10 @@
 ### Team Members
 - Solo Maker: Labeeb Hameed
 
-[![Project Journal](https://img.shields.io/badge/📖_Project_Journal-Read_The_Story-ea34df?style=for-the-badge)](https://labeebhameed.github.io/hello-world-useless/)
-[![GitHub Pages](https://img.shields.io/badge/GitHub_Pages-Deployed-2ecc71?style=for-the-badge)](https://labeebhameed.github.io/hello-world-useless/)
+[![Play Hello World](https://img.shields.io/badge/Play_Hello_World-Live-315d4e?style=for-the-badge)](https://hello-world-useless.vercel.app/)
 
 ### Project Description
-Hello World is an authoritative, multi-agent living town simulation built entirely from scratch with **zero external pip or npm dependencies**. Instead of trivially dumping `"Hello, World!"` to `stdout`, it simulates 50 persistent autonomous citizens across 7 districts with continuous circadian schedules, presence-based municipal institutions, 20 Hz continuous spatial clearance physics, and local LLM cognitive reasoning. To receive a greeting, a human player must physically navigate an expansive 12,288 × 9,216 coordinate world, locate an active citizen, and initiate a social dialogue where their private neural cognitive brain dynamically decides to greet you.
+Hello World is an authoritative, multi-agent living town simulation built from scratch with a **standard-library Python engine and vanilla browser UI**. Instead of trivially dumping `"Hello, World!"` to `stdout`, it simulates 50 persistent autonomous citizens across 7 districts with continuous circadian schedules, presence-based municipal institutions, 20 Hz continuous spatial clearance physics, and local LLM cognitive reasoning. To receive a greeting, a human player must physically navigate an expansive 12,288 × 9,216 coordinate world, locate an active citizen, and initiate a social dialogue where their private neural cognitive brain dynamically decides to greet you.
 
 ### The Problem (that doesn't exist)
 In 1974, Brian Kernighan introduced `main() { printf("hello, world\n"); }` to programming literature. For over fifty years, humanity has blindly accepted this shortcut without questioning its utter lack of existential, biological, or municipal reality:
@@ -33,7 +54,7 @@ We completely eradicated the one-liner `print("Hello, World!")` and replaced it 
 - **Presence-Based Institutions:** Real-world consequences powered by physical attendance. Willow Hospital only heals patients if Dr. Jonah Reed or Nurse Mira Shah are physically on-site. The Police precinct only files witnessed incident reports if an officer is on duty.
 - **Authoritative 20 Hz Spatial Physics Engine:** Continuous raycast clearance, collision avoidance, and A* navigation across a 12,288 × 9,216 coordinate town canvas running at a blistering **1.13 ms median step time** (>87% CPU frame budget headroom).
 - **Dual-Brain AI Cognitive Architecture:** A dedicated asynchronous inference scheduler (`CitizenScheduler`) connected to local LLM models (e.g. Bonsai-27B on LM Studio) with strict JSON schema validation, bounded social dynamics ([-5, +5]), and strict multi-tenant memory isolation—backed by an instant heuristic fallback (`FastCitizenBrain`) for sub-millisecond offline gameplay.
-- **Pure Zero-Dependency Stack:** Built without any heavy game engines, without `pygame`, without `pip install`, and without `npm install`. Pure Python 3 standard library and vanilla HTML5 Canvas.
+- **Small Core Stack:** Python 3 standard library and vanilla HTML5 Canvas. Local Python mode needs no packages; hosted mode bundles Pyodide to run that same engine on the player’s device.
 
 To hear "Hello World", you must now lace up your virtual shoes, step out onto Willow Avenue, check the town clock, locate an on-duty resident, press <kbd>E</kbd>, and converse with their mind.
 
@@ -48,7 +69,7 @@ To hear "Hello World", you must now lace up your virtual shoes, step out onto Wi
   - Python 3.10+ (Server, Authoritative Simulation Engine, Spatial Math, AI Scheduling Gateway)
   - Modern JavaScript (ES2022 / HTML5 Canvas 2D / Web Audio / Vanilla CSS)
 - **Frameworks Used:** 
-  - *None.* Pure Zero-Dependency Architecture — built without third-party frameworks to achieve maximum determinism, auditability, and speed.
+  - *None.* Vanilla UI and standard-library simulation; Pyodide supplies the hosted WebAssembly Python runtime.
 - **Libraries Used:**
   - Python Standard Library (`http.server`, `urllib.request`, `socket`, `threading`, `json`, `math`, `heapq`, `unittest`, `dataclasses`)
   - Browser Standard API (Canvas 2D Context, ResizeObserver, Web Cryptography, Dialog API)
@@ -59,7 +80,7 @@ To hear "Hello World", you must now lace up your virtual shoes, step out onto Wi
 
 #### For Hardware:
 - **Target Hardware:** Any standard modern PC, Mac, or Linux workstation (tested on Apple Silicon & x86_64).
-- **Zero Cloud Costs:** 100% offline, privacy-first local silicon execution. No OpenAI API keys, no external telemetry, zero recurring bills.
+- **Player-owned AI:** local model inference runs on the player’s computer; optional OpenAI usage is billed to their own API account. Hosting plan limits apply.
 - **Physical Specifications:** 
   - Memory footprint: < 45 MB RAM (Server + Simulation)
   - Simulation frame budget: 50 ms (20 Hz); Actual median frame consumption: **1.13 ms** (leaving 97.7% CPU headroom).
@@ -68,8 +89,9 @@ To hear "Hello World", you must now lace up your virtual shoes, step out onto Wi
 
 ### Implementation
 
-#### Installation
-Because Willow is engineered entirely with standard library dependencies, installation requires **zero package downloads**:
+#### Developer local mode
+
+The website above is the primary way to play. The original Python server remains available for engine development and offline testing:
 
 ```sh
 # 1. Clone the repository
@@ -81,7 +103,7 @@ python3 --version
 # Zero pip installs required! Everything is pure standard library.
 ```
 
-#### Run
+#### Run the development server
 
 ```sh
 # Start the authoritative living town server

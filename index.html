@@ -6,20 +6,35 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="description" content="Walk through Willow, meet its citizens, and take part in a town that keeps living.">
   <title>Hello World · A living World</title>
-  <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml" sizes="any">
   <link rel="stylesheet" href="/style.css">
   <script type="module" src="/app.js"></script>
 </head>
 
 <body>
-  <main id="world" aria-label="Willow town">
+  <section id="welcome" class="welcome" aria-labelledby="welcome-title">
+    <canvas id="welcome-scene" aria-hidden="true"></canvas>
+    <div class="welcome-paper">
+      <div class="welcome-brand"><img src="/favicon.svg" alt="" width="30" height="30"> HELLO WORLD</div>
+      <span class="eyebrow">A SMALL TOWN. A LIFE OF YOUR OWN.</span>
+      <h1 id="welcome-title">Somewhere<br>to <em>belong.</em></h1>
+      <p class="welcome-description">A quiet morning in Willow.<br>Fifty neighbors, a thousand little stories.<br>And a place for you.</p>
+      <button id="play-button" class="primary play-button">Play · Enter Willow <span aria-hidden="true">→</span></button>
+      <button id="setup-button" class="setup-button">Set up AI <span id="welcome-ai">Optional · give your neighbors a voice</span></button>
+      <p id="welcome-save" class="welcome-note">Your own town, saved on this device.</p>
+      <p id="welcome-error" role="status"></p>
+      <button id="export-world" class="text-button" hidden>Export world backup</button>
+    </div>
+    <div class="welcome-caption"><span>WILLOW, EST. TODAY</span><span>Take your time. Stay a while.</span></div>
+  </section>
+  <main id="world" aria-label="Willow town" inert>
     <canvas id="town" tabindex="0"
       aria-label="Playable town. Use WASD or arrow keys to walk, E to speak, and M for the town map."></canvas>
     <header class="topbar">
       <div class="brand"><svg viewBox="0 0 36 36" aria-hidden="true">
           <path d="M18 5 5 19h7L7 25h9v7h4v-7h9l-5-6h7Z" fill="currentColor" />
         </svg><span>Hello World<span class="brand-caption">A LIVING WORLD</span></span></div>
-      <div class="top-actions"><span id="clock" class="clock">A new morning</span><button id="morning-button"
+      <div class="top-actions"><button id="menu-button" class="paper-button" aria-label="Return to title screen">Menu</button><span id="clock" class="clock">A new morning</span><button id="morning-button"
           class="paper-button" title="Skip to 08:00 AM morning" aria-label="Skip to morning">☀ Morning</button><button
           id="map-button" class="paper-button" aria-label="Open town map"><svg viewBox="0 0 24 24" aria-hidden="true">
             <path d="m3 5 6-2 6 2 6-2v16l-6 2-6-2-6 2V5Zm6-2v16m6-14v16" />
@@ -105,19 +120,18 @@
   <dialog id="llm-dialog" class="llm-dialog">
     <header class="dialog-header">
       <div><span class="eyebrow">INTELLIGENCE</span>
-        <h2>AI Brain</h2>
+        <h2>A voice for the town</h2>
       </div><button id="close-llm" class="icon-button" aria-label="Close LLM status">×</button>
     </header>
     <div class="llm-content">
-      <p>Connect a local model or use OpenAI with your own API key. Your key is used only by this running server and is
-        never saved or shown in the town status.</p>
+      <p id="ai-privacy">Connect a model to bring conversations to life. You can also explore without AI.</p>
       <div class="llm-status-card">
         <div class="llm-status-row">
           <span id="llm-dialog-dot" class="llm-dot offline">○</span>
           <strong id="llm-dialog-title">No AI Connected</strong>
         </div>
         <p id="llm-dialog-model" class="llm-detail">Connect a local model or OpenAI below.</p>
-        <p id="llm-dialog-url" class="llm-subdetail">Probing: <code>http://127.0.0.1:1234/v1</code></p>
+        <p id="llm-dialog-url" class="llm-subdetail">Choose how your neighbors think.</p>
       </div>
       <form id="llm-connect-form" class="llm-form">
         <label for="llm-provider-input"><strong>Provider</strong></label>
@@ -126,7 +140,7 @@
           <option value="local">Local OpenAI-compatible server</option>
         </select>
         <label for="llm-model-input"><strong>Model</strong></label>
-        <input type="text" id="llm-model-input" value="gpt-5-mini" placeholder="gpt-5-mini">
+        <input type="text" id="llm-model-input" value="gpt-5-mini" placeholder="gpt-5-mini" autocomplete="off">
         <label for="llm-key-input" id="llm-key-label"><strong>OpenAI API key</strong></label>
         <input type="password" id="llm-key-input" autocomplete="off" placeholder="sk-...">
         <label for="llm-url-input" id="llm-url-label"><strong>Custom LLM Endpoint</strong></label>
@@ -136,7 +150,17 @@
           <button type="submit" class="primary" id="llm-connect-btn">Connect</button>
         </div>
         <small id="llm-form-help">Your key is kept in memory for this run and is not persisted.</small>
+        <label id="autonomous-label"><input type="checkbox" id="llm-autonomous"> Let neighbors think on their own</label>
+        <small id="autonomous-help">Optional: up to four extra AI requests per minute while playing. Uses your provider’s quota.</small>
+        <p id="llm-feedback" role="status" aria-live="polite"></p>
+        <button id="llm-disconnect" type="button" class="text-button" hidden>Disconnect AI</button>
       </form>
+      <details id="local-help" hidden>
+        <summary>Connecting a model on this computer</summary>
+        <p><strong>LM Studio:</strong> load a chat model, start the server in Developer, and enable CORS in Server Settings. Use <code>http://127.0.0.1:1234/v1</code>.</p>
+        <p><strong>Ollama:</strong> set <code>OLLAMA_ORIGINS</code> to this site's origin (<code id="site-origin"></code>), restart Ollama, and use <code>http://127.0.0.1:11434/v1</code>.</p>
+        <p>Leave Model blank to detect a loaded model. Allow local network access if your browser asks. Browser restrictions vary; if blocked, try a current Chromium browser or run Willow locally.</p>
+      </details>
     </div>
   </dialog>
   <noscript>This town needs JavaScript enabled for movement and conversations.</noscript>
