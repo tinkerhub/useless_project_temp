@@ -1,1 +1,169 @@
+<!doctype html>
+<html lang="en">
 
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Walk through Willow, meet its citizens, and take part in a town that keeps living.">
+  <title>Hello World · A living World</title>
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml" sizes="any">
+  <link rel="stylesheet" href="/style.css">
+  <script type="module" src="/app.js"></script>
+</head>
+
+<body>
+  <section id="welcome" class="welcome" aria-labelledby="welcome-title">
+    <canvas id="welcome-scene" aria-hidden="true"></canvas>
+    <div class="welcome-paper">
+      <div class="welcome-brand"><img src="/favicon.svg" alt="" width="30" height="30"> HELLO WORLD</div>
+      <span class="eyebrow">A SMALL TOWN. A LIFE OF YOUR OWN.</span>
+      <h1 id="welcome-title">Somewhere<br>to <em>belong.</em></h1>
+      <p class="welcome-description">A quiet morning in Willow.<br>Fifty neighbors, a thousand little stories.<br>And a place for you.</p>
+      <button id="play-button" class="primary play-button">Play · Enter Willow <span aria-hidden="true">→</span></button>
+      <button id="setup-button" class="setup-button">Set up AI <span id="welcome-ai">Optional · give your neighbors a voice</span></button>
+      <p id="welcome-save" class="welcome-note">Your own town, saved on this device.</p>
+      <p id="welcome-error" role="status"></p>
+      <button id="export-world" class="text-button" hidden>Export world backup</button>
+    </div>
+    <div class="welcome-caption"><span>WILLOW, EST. TODAY</span><span>Take your time. Stay a while.</span></div>
+  </section>
+  <main id="world" aria-label="Willow town" inert>
+    <canvas id="town" tabindex="0"
+      aria-label="Playable town. Use WASD or arrow keys to walk, E to speak, and M for the town map."></canvas>
+    <header class="topbar">
+      <div class="brand"><svg viewBox="0 0 36 36" aria-hidden="true">
+          <path d="M18 5 5 19h7L7 25h9v7h4v-7h9l-5-6h7Z" fill="currentColor" />
+        </svg><span>Hello World<span class="brand-caption">A LIVING WORLD</span></span></div>
+      <div class="top-actions"><button id="menu-button" class="paper-button" aria-label="Return to title screen">Menu</button><span id="clock" class="clock">A new morning</span><button id="morning-button"
+          class="paper-button" title="Skip to 08:00 AM morning" aria-label="Skip to morning">☀ Morning</button><button
+          id="map-button" class="paper-button" aria-label="Open town map"><svg viewBox="0 0 24 24" aria-hidden="true">
+            <path d="m3 5 6-2 6 2 6-2v16l-6 2-6-2-6 2V5Zm6-2v16m6-14v16" />
+          </svg>Town map <kbd>M</kbd></button><button id="llm-button" class="paper-button llm-btn"
+          aria-label="AI status"><span id="llm-dot" class="llm-dot offline">○</span><span id="llm-label">No AI
+            Connected</span></button></div>
+    </header>
+    <div id="connection" role="status" hidden></div>
+    <div id="destination" class="destination" hidden><span id="direction">↑</span><span><strong
+          id="destination-name"></strong><small id="destination-distance"></small></span><button id="clear-destination"
+        aria-label="Clear destination">×</button></div>
+    <div id="arrival" class="arrival" aria-live="polite"></div>
+    <div id="prompt" class="interaction" hidden><button id="interact-button"><kbd>E</kbd><span
+          id="prompt-text"></span></button><button id="help-button" hidden><kbd>F</kbd>Offer help</button></div>
+    <footer class="bottom-ui">
+      <div class="location"><span class="eyebrow">YOU ARE IN</span>
+        <h1 id="district">Old Town</h1>
+        <p id="place-name">Willow Avenue</p>
+        <div class="controls"><span><kbd>W</kbd><kbd>A</kbd><kbd>S</kbd><kbd>D</kbd> walk</span><span><kbd>E</kbd>
+            interact</span><span><kbd>Esc</kbd> return</span></div>
+      </div>
+      <div class="map-corner">
+        <div class="zoom-controls"><button id="zoom-out" aria-label="Zoom out">−</button><span
+            id="zoom-label">100%</span><button id="zoom-in" aria-label="Zoom in">+</button></div><button
+          id="minimap-button" aria-label="Open town map"><canvas id="minimap" width="220"
+            height="165"></canvas><span>WILLOW TOWN <span>↗</span></span></button>
+      </div>
+    </footer>
+    <div id="touch-controls" aria-label="Movement controls"><button data-dir="up" aria-label="Walk north">↑</button>
+      <div><button data-dir="left" aria-label="Walk west">←</button><button data-dir="down"
+          aria-label="Walk south">↓</button><button data-dir="right" aria-label="Walk east">→</button></div>
+    </div>
+    <div id="loading" role="status"><span class="loading-tree">W</span>
+      <h2>Arriving in Willow</h2>
+      <p>Opening the town…</p><button id="retry" class="primary" hidden>Try again</button>
+    </div>
+    <div id="toast" role="status" hidden></div>
+  </main>
+  <dialog id="conversation" class="conversation">
+    <header class="dialog-header">
+      <div class="portrait" id="portrait">A</div>
+      <div><span class="eyebrow">IN CONVERSATION</span>
+        <h2 id="citizen-name"></h2>
+      </div><button id="close-conversation" class="icon-button" aria-label="Close conversation">×</button>
+    </header>
+    <div id="messages" class="messages" aria-live="polite" aria-relevant="additions"></div>
+    <p id="reply-status" class="reply-status"></p>
+    <form id="talk-form"><label class="sr-only" for="message">Your message</label>
+      <div class="compose"><textarea id="message" rows="2" maxlength="500" placeholder="Say something…"
+          required></textarea><button id="send" class="primary" type="submit" aria-label="Send message">Send</button>
+      </div><small>Enter to send · Shift + Enter for a new line</small>
+    </form>
+  </dialog>
+  <dialog id="town-map" class="town-map">
+    <header class="dialog-header">
+      <div><span class="eyebrow">FIND YOUR WAY</span>
+        <h2>The town of Willow</h2>
+      </div><button id="close-map" class="icon-button" aria-label="Close town map">×</button>
+    </header>
+    <div class="map-layout">
+      <div class="map-paper"><canvas id="overview" width="1000" height="750"
+          aria-label="Town map with neighborhoods, buildings, citizens, and your position"></canvas>
+        <p><i class="map-key player-key"></i>You <i class="map-key citizen-key"></i>Citizens <span>Select a place to get
+            your bearings.</span></p>
+      </div>
+      <aside>
+        <h3>Places in town</h3>
+        <div id="places"></div>
+      </aside>
+    </div>
+  </dialog>
+  <dialog id="place-dialog" class="place-dialog">
+    <header class="dialog-header">
+      <div><span class="eyebrow">AT THE ENTRANCE</span>
+        <h2 id="service-name"></h2>
+      </div><button id="close-place" class="icon-button" aria-label="Close place details">×</button>
+    </header>
+    <div id="service-status" class="service-status" hidden></div>
+    <p id="service-description"></p><button id="report-button" class="primary" hidden>File witnessed incident
+      report</button>
+    <p id="service-result" role="status"></p>
+  </dialog>
+  <dialog id="llm-dialog" class="llm-dialog">
+    <header class="dialog-header">
+      <div><span class="eyebrow">INTELLIGENCE</span>
+        <h2>A voice for the town</h2>
+      </div><button id="close-llm" class="icon-button" aria-label="Close LLM status">×</button>
+    </header>
+    <div class="llm-content">
+      <p id="ai-privacy">Connect a model to bring conversations to life. You can also explore without AI.</p>
+      <div class="llm-status-card">
+        <div class="llm-status-row">
+          <span id="llm-dialog-dot" class="llm-dot offline">○</span>
+          <strong id="llm-dialog-title">No AI Connected</strong>
+        </div>
+        <p id="llm-dialog-model" class="llm-detail">Connect a local model or OpenAI below.</p>
+        <p id="llm-dialog-url" class="llm-subdetail">Choose how your neighbors think.</p>
+      </div>
+      <form id="llm-connect-form" class="llm-form">
+        <label for="llm-provider-input"><strong>Provider</strong></label>
+        <select id="llm-provider-input" class="llm-select">
+          <option value="openai">OpenAI (bring your own key)</option>
+          <option value="local">Local OpenAI-compatible server</option>
+        </select>
+        <label for="llm-model-input"><strong>Model</strong></label>
+        <input type="text" id="llm-model-input" value="gpt-5-mini" placeholder="gpt-5-mini" autocomplete="off">
+        <label for="llm-key-input" id="llm-key-label"><strong>OpenAI API key</strong></label>
+        <input type="password" id="llm-key-input" autocomplete="off" placeholder="sk-...">
+        <label for="llm-url-input" id="llm-url-label"><strong>Custom LLM Endpoint</strong></label>
+        <div class="llm-input-group">
+          <input type="url" id="llm-url-input" value="http://127.0.0.1:1234/v1" placeholder="http://127.0.0.1:1234/v1"
+            required>
+          <button type="submit" class="primary" id="llm-connect-btn">Connect</button>
+        </div>
+        <small id="llm-form-help">Your key is kept in memory for this run and is not persisted.</small>
+        <label id="autonomous-label"><input type="checkbox" id="llm-autonomous"> Let neighbors think on their own</label>
+        <small id="autonomous-help">Optional: up to four extra AI requests per minute while playing. Uses your provider’s quota.</small>
+        <p id="llm-feedback" role="status" aria-live="polite"></p>
+        <button id="llm-disconnect" type="button" class="text-button" hidden>Disconnect AI</button>
+      </form>
+      <details id="local-help" hidden>
+        <summary>Connecting a model on this computer</summary>
+        <p><strong>LM Studio:</strong> load a chat model, start the server in Developer, and enable CORS in Server Settings. Use <code>http://127.0.0.1:1234/v1</code>.</p>
+        <p><strong>Ollama:</strong> set <code>OLLAMA_ORIGINS</code> to this site's origin (<code id="site-origin"></code>), restart Ollama, and use <code>http://127.0.0.1:11434/v1</code>.</p>
+        <p>Leave Model blank to detect a loaded model. Allow local network access if your browser asks. Browser restrictions vary; if blocked, try a current Chromium browser or run Willow locally.</p>
+      </details>
+    </div>
+  </dialog>
+  <noscript>This town needs JavaScript enabled for movement and conversations.</noscript>
+</body>
+
+</html>
