@@ -1,1 +1,397 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Spillup — Live Dual P2P & Gossip Leaderboard</title>
+  <meta name="description" content="Simultaneous dual-client P2P messaging platform with funny gossip popups and a live Gossip Leaderboard." />
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🕵️</text></svg>" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+</head>
+<body>
 
+  <!-- ══════════════════════════════════════════════════════
+       LOGIN SCREEN — Shown on first load
+  ══════════════════════════════════════════════════════ -->
+  <div id="login-screen" class="login-screen">
+
+    <!-- Animated background orbs -->
+    <div class="login-bg">
+      <div class="login-bg__orb login-bg__orb--1"></div>
+      <div class="login-bg__orb login-bg__orb--2"></div>
+      <div class="login-bg__orb login-bg__orb--3"></div>
+    </div>
+
+    <div class="login-card">
+
+      <!-- Branding -->
+      <div class="login-brand">
+        <div class="login-brand__logo">🕵️</div>
+        <h1 class="login-brand__name">Spillup</h1>
+        <p class="login-brand__tagline">Secure Messaging · Real-Time Gossip Intelligence</p>
+      </div>
+
+      <!-- Avatar Selector -->
+      <div class="login-avatar-selector" id="login-avatar-selector">
+        <p class="login-label">Choose your identity</p>
+        <div class="login-avatars" id="login-avatars">
+          <!-- Injected by JS -->
+        </div>
+      </div>
+
+      <!-- Selected account display -->
+      <div class="login-selected" id="login-selected" style="display:none;">
+        <div class="login-selected__avatar" id="login-sel-avatar"></div>
+        <div class="login-selected__info">
+          <div class="login-selected__name" id="login-sel-name">—</div>
+          <div class="login-selected__about" id="login-sel-about">—</div>
+        </div>
+        <button class="login-selected__change" id="login-change-btn">Change</button>
+      </div>
+
+      <!-- Password field -->
+      <div class="login-field" id="login-field" style="display:none;">
+        <label class="login-label" for="login-password">Password</label>
+        <div class="login-input-wrap">
+          <span class="login-input-icon">🔒</span>
+          <input
+            type="password"
+            id="login-password"
+            class="login-input"
+            placeholder="Enter any password to continue"
+            autocomplete="current-password"
+            maxlength="64"
+          />
+          <button class="login-eye-btn" id="login-eye-btn" type="button" aria-label="Show password">👁️</button>
+        </div>
+        <p class="login-hint">This is a demo — any password works!</p>
+      </div>
+
+      <!-- Error message -->
+      <p class="login-error" id="login-error" style="display:none;"></p>
+
+      <!-- Login Button -->
+      <button class="login-btn" id="login-btn" disabled>
+        <span class="login-btn__text">Select an account to continue</span>
+        <span class="login-btn__icon">→</span>
+      </button>
+
+      <!-- Divider -->
+      <div class="login-divider">
+        <span>or continue as guest</span>
+      </div>
+
+      <!-- Guest login -->
+      <button class="login-guest-btn" id="login-guest-btn">
+        👤 Join as Guest (View Only)
+      </button>
+
+      <!-- Footer -->
+      <p class="login-footer">
+        🛡️ All messages are monitored by <strong>Spillup AI</strong> in real-time
+      </p>
+
+    </div>
+  </div>
+
+  <div id="app-root" style="display:none;">
+
+    <!-- ══════════════════════════════════════════════════════
+         TOP BAR — App Controls, Leaderboard & Swap
+    ══════════════════════════════════════════════════════ -->
+    <header class="app-topbar">
+      <div class="app-topbar__brand">
+        <div class="app-topbar__logo">🕵️</div>
+        <span class="app-topbar__title">Spillup</span>
+        <span class="app-topbar__badge">Live Dual Windows</span>
+      </div>
+
+      <!-- 👑 Live Leader Crown Widget -->
+      <div class="leader-crown-widget" id="leader-crown-widget" style="display:none;">
+        <div class="leader-crown-widget__crown">👑</div>
+        <div class="leader-crown-widget__avatar" id="leader-crown-avatar"></div>
+        <div class="leader-crown-widget__info">
+          <div class="leader-crown-widget__label">GOSSIP KING</div>
+          <div class="leader-crown-widget__name" id="leader-crown-name">—</div>
+        </div>
+        <div class="leader-crown-widget__pts" id="leader-crown-pts">0 pts</div>
+      </div>
+
+      <!-- Mode & Action Controls -->
+      <div class="app-topbar__actions">
+        <div class="app-topbar__modes">
+          <button class="mode-btn" id="mode-single-btn">📱 Single View</button>
+          <button class="mode-btn active" id="mode-dual-btn">👥 Dual View</button>
+        </div>
+
+        <button class="action-btn action-btn--swap" id="swap-windows-btn" title="Swap Left and Right Clients">
+          ⇆ Swap Windows
+        </button>
+
+        <button class="action-btn action-btn--leaderboard" id="leaderboard-btn" title="View Gossip Leaderboard">
+          🏆 Gossip Leaderboard
+        </button>
+      </div>
+
+      <!-- Dual Presets -->
+      <div class="app-topbar__presets" id="dual-presets">
+        <span class="preset-label">Pair:</span>
+        <button class="preset-btn" data-c1="alice" data-c2="bob">Alice ↔ Bob</button>
+        <button class="preset-btn" data-c1="carol" data-c2="david">Carol ↔ David</button>
+        <button class="preset-btn" data-c1="alice" data-c2="group_workteam">Alice ↔ Work Team</button>
+      </div>
+    </header>
+
+    <!-- ══════════════════════════════════════════════════════
+         MESSENGER PANELS WORKSPACE (DUAL DEFAULT)
+    ══════════════════════════════════════════════════════ -->
+    <div id="app-workspace" class="workspace workspace--dual">
+
+      <!-- ── PANEL 1 (Window A / Left Client) ── -->
+      <div class="messenger-instance" id="instance-1">
+        <aside class="sidebar">
+          <div class="sidebar__header">
+            <div class="client-switcher">
+              <span class="client-switcher__label">👤 Window 1:</span>
+              <select class="client-switcher__select c1-select" aria-label="Select Client 1"></select>
+            </div>
+          </div>
+          <div class="search-box">
+            <div class="search-box__inner">
+              <span class="search-box__icon">🔍</span>
+              <input type="search" class="c1-search" placeholder="Search contacts" />
+            </div>
+          </div>
+          <div class="contact-list c1-contact-list"></div>
+        </aside>
+
+        <main class="chat-main">
+          <div class="empty-state c1-empty">
+            <div class="empty-state__icon">🕵️</div>
+            <h2 class="empty-state__title">Window 1 Workspace</h2>
+            <p class="empty-state__subtitle">Select a contact to start messaging.</p>
+          </div>
+
+          <div class="chat-panel c1-chat-panel" style="display:none;">
+            <header class="chat-header">
+              <button class="icon-btn c1-back" style="display:none;">←</button>
+              <div class="c1-avatar-container"></div>
+              <div class="chat-header__info">
+                <div class="chat-header__name c1-target-name">—</div>
+                <div class="chat-header__sub c1-target-sub">—</div>
+              </div>
+              <div class="chat-header__actions">
+                <button class="icon-btn icon-btn--accent c1-report-btn" title="View Audit Report">🔍</button>
+              </div>
+            </header>
+
+            <div class="gossip-banner c1-gossip-banner" style="display:none;">
+              <span class="gossip-banner__icon">🚨</span>
+              <div class="gossip-banner__text"><strong>Gossip Flagged</strong> in this thread</div>
+              <span class="gossip-banner__badge c1-banner-score">—</span>
+              <button class="gossip-banner__cta c1-banner-report">View Report</button>
+            </div>
+
+            <!-- 🔥 Gossip Streak Badge -->
+            <div class="streak-badge c1-streak" style="display:none;">🔥 0 Gossip Streak</div>
+
+            <section class="messages-area c1-messages-area"></section>
+
+            <div class="message-input-area">
+              <button class="icon-btn c1-emoji-btn">😊</button>
+              <div class="message-input-wrap">
+                <textarea class="c1-input" placeholder="Type a message..." rows="1" maxlength="2000"></textarea>
+              </div>
+              <button class="send-btn c1-send-btn">➤</button>
+            </div>
+
+            <div class="emoji-picker c1-emoji-picker" style="display:none;">
+              <button class="emoji-btn" data-emoji="❤️">❤️</button>
+              <button class="emoji-btn" data-emoji="😂">😂</button>
+              <button class="emoji-btn" data-emoji="😮">😮</button>
+              <button class="emoji-btn" data-emoji="😢">😢</button>
+              <button class="emoji-btn" data-emoji="👍">👍</button>
+              <button class="emoji-btn" data-emoji="🔥">🔥</button>
+              <button class="emoji-btn" data-emoji="🤫">🤫</button>
+              <button class="emoji-btn" data-emoji="👀">👀</button>
+            </div>
+          </div>
+        </main>
+      </div>
+
+      <!-- ── PANEL 2 (Window B / Right Client) ── -->
+      <div class="messenger-instance" id="instance-2">
+        <aside class="sidebar">
+          <div class="sidebar__header">
+            <div class="client-switcher">
+              <span class="client-switcher__label">👤 Window 2:</span>
+              <select class="client-switcher__select c2-select" aria-label="Select Client 2"></select>
+            </div>
+          </div>
+          <div class="search-box">
+            <div class="search-box__inner">
+              <span class="search-box__icon">🔍</span>
+              <input type="search" class="c2-search" placeholder="Search contacts" />
+            </div>
+          </div>
+          <div class="contact-list c2-contact-list"></div>
+        </aside>
+
+        <main class="chat-main">
+          <div class="empty-state c2-empty">
+            <div class="empty-state__icon">🕵️</div>
+            <h2 class="empty-state__title">Window 2 Workspace</h2>
+            <p class="empty-state__subtitle">Select a contact to view real-time messages.</p>
+          </div>
+
+          <div class="chat-panel c2-chat-panel" style="display:none;">
+            <header class="chat-header">
+              <button class="icon-btn c2-back" style="display:none;">←</button>
+              <div class="c2-avatar-container"></div>
+              <div class="chat-header__info">
+                <div class="chat-header__name c2-target-name">—</div>
+                <div class="chat-header__sub c2-target-sub">—</div>
+              </div>
+              <div class="chat-header__actions">
+                <button class="icon-btn icon-btn--accent c2-report-btn" title="View Audit Report">🔍</button>
+              </div>
+            </header>
+
+            <div class="gossip-banner c2-gossip-banner" style="display:none;">
+              <span class="gossip-banner__icon">🚨</span>
+              <div class="gossip-banner__text"><strong>Gossip Flagged</strong> in this thread</div>
+              <span class="gossip-banner__badge c2-banner-score">—</span>
+              <button class="gossip-banner__cta c2-banner-report">View Report</button>
+            </div>
+
+            <!-- 🔥 Gossip Streak Badge -->
+            <div class="streak-badge c2-streak" style="display:none;">🔥 0 Gossip Streak</div>
+
+            <section class="messages-area c2-messages-area"></section>
+
+            <div class="message-input-area">
+              <button class="icon-btn c2-emoji-btn">😊</button>
+              <div class="message-input-wrap">
+                <textarea class="c2-input" placeholder="Type a message..." rows="1" maxlength="2000"></textarea>
+              </div>
+              <button class="send-btn c2-send-btn">➤</button>
+            </div>
+
+            <div class="emoji-picker c2-emoji-picker" style="display:none;">
+              <button class="emoji-btn" data-emoji="❤️">❤️</button>
+              <button class="emoji-btn" data-emoji="😂">😂</button>
+              <button class="emoji-btn" data-emoji="😮">😮</button>
+              <button class="emoji-btn" data-emoji="😢">😢</button>
+              <button class="emoji-btn" data-emoji="👍">👍</button>
+              <button class="emoji-btn" data-emoji="🔥">🔥</button>
+              <button class="emoji-btn" data-emoji="🤫">🤫</button>
+              <button class="emoji-btn" data-emoji="👀">👀</button>
+            </div>
+          </div>
+        </main>
+      </div>
+
+    </div><!-- /#app-workspace -->
+
+  </div><!-- /#app-root -->
+
+  <!-- ══════════════════════════════════════════════════════
+       MODAL 1: GOSSIP INTELLIGENCE REPORT
+  ══════════════════════════════════════════════════════ -->
+  <div id="gossip-modal-backdrop" class="modal-backdrop" role="dialog" aria-modal="true" aria-label="Gossip Intelligence Report">
+    <div class="modal" id="gossip-modal">
+      <div class="modal__header">
+        <div class="modal__title">🕵️ Gossip Intelligence Audit</div>
+        <button class="icon-btn" id="close-gossip-modal">✕</button>
+      </div>
+      <div class="modal__body" id="gossip-modal-body"></div>
+      <div class="modal__footer">
+        <button class="btn btn--secondary" id="gossip-modal-copy">📋 Copy Audit Report</button>
+        <button class="btn btn--primary" id="close-gossip-modal-btn">Done</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════════════════════════════
+       MODAL 2: FUNNY SPICY TEA OVERFLOW POPUP
+  ══════════════════════════════════════════════════════ -->
+  <div id="funny-tea-backdrop" class="modal-backdrop" role="dialog" aria-modal="true" aria-label="Spicy Tea Alert">
+    <div class="modal modal--funny" id="funny-tea-modal">
+      <div class="funny-modal__header">
+        <div class="funny-modal__title">🫖 SPICY TEA OVERFLOW DETECTED! 🚨</div>
+      </div>
+      <div class="funny-modal__body">
+        <div class="funny-modal__icon">☕💥</div>
+        <p class="funny-modal__headline" id="funny-headline">"Warning! Carpet is permanently stained!"</p>
+        <blockquote class="funny-modal__quote" id="funny-quote">
+          "The FBI agent monitoring this conversation just choked on their coffee!"
+        </blockquote>
+        <div class="funny-modal__badge" id="funny-badge">🏅 Awarded: Chief Radio Station</div>
+      </div>
+      <div class="funny-modal__footer">
+        <button class="btn btn--primary" id="funny-tea-close-btn">I Admit Nothing! 🤫</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════════════════════════════
+       MODAL 3: GOSSIP LEADERBOARD ("HALL OF SHAME")
+  ══════════════════════════════════════════════════════ -->
+  <div id="leaderboard-backdrop" class="modal-backdrop" role="dialog" aria-modal="true" aria-label="Gossip Leaderboard">
+    <div class="modal" id="leaderboard-modal">
+      <div class="modal__header">
+        <div class="modal__title">🏆 Gossip Leaderboard — Hall of Shame</div>
+        <button class="icon-btn" id="close-leaderboard-modal">✕</button>
+      </div>
+      <div class="modal__body" id="leaderboard-modal-body">
+        <!-- Injected by JS -->
+      </div>
+      <div class="modal__footer">
+        <button class="btn btn--primary" id="close-leaderboard-modal-btn">Close</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════════════════════════════
+       MODAL 4: RANK-UP CONGRATULATIONS
+  ══════════════════════════════════════════════════════ -->
+  <div id="rankup-backdrop" class="modal-backdrop" role="dialog" aria-modal="true" aria-label="Rank Up!">
+    <div class="modal modal--rankup" id="rankup-modal">
+      <div class="rankup-modal__confetti-row">
+        <span>🎊</span><span>🎆</span><span>🏆</span><span>🎆</span><span>🎊</span>
+      </div>
+      <div class="rankup-modal__body">
+        <div class="rankup-modal__icon">🏆</div>
+        <div class="rankup-modal__label">RANK UP!</div>
+        <div class="rankup-modal__client" id="rankup-client">—</div>
+        <div class="rankup-modal__title" id="rankup-title">👑 Grapevine Royalty</div>
+        <p class="rankup-modal__message" id="rankup-message">You've been PROMOTED to a higher gossip tier!</p>
+      </div>
+      <div class="rankup-modal__footer">
+        <button class="btn btn--primary rankup-modal__btn" id="rankup-close-btn">🎉 Claim My Crown!</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- 🎆 Fireworks Canvas (Full Screen Overlay) -->
+  <canvas id="fireworks-canvas" style="display:none;position:fixed;inset:0;z-index:9998;pointer-events:none;"></canvas>
+
+  <!-- 👑 NEW LEADER TAKEOVER ANNOUNCEMENT -->
+  <div id="new-leader-banner" class="new-leader-banner" style="display:none;" aria-live="assertive">
+    <div class="new-leader-banner__crown">👑</div>
+    <div class="new-leader-banner__text">
+      <div class="new-leader-banner__headline">NEW GOSSIP KING</div>
+      <div class="new-leader-banner__name" id="new-leader-name">—</div>
+    </div>
+    <div class="new-leader-banner__title" id="new-leader-title">—</div>
+    <div class="new-leader-banner__sparks">
+      <span></span><span></span><span></span><span></span><span></span>
+    </div>
+  </div>
+
+  <div id="toast-container" aria-live="polite"></div>
+
+  <script type="module" src="/src/main.js"></script>
+</body>
+</html>

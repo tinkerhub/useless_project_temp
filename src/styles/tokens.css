@@ -1,0 +1,94 @@
+/* ============================================================
+   TOKENS — Design System Variables
+   WhatsApp Dark Mode inspired messenger
+   ============================================================ */
+
+:root {
+  /* ── Brand / Accent ─────────────────────────────────────── */
+  --clr-accent:           #d62976;
+  --clr-accent-hover:     #fa7e1e;
+  --clr-accent-dim:       rgba(214, 41, 118, 0.15);
+
+  /* ── App Shell ──────────────────────────────────────────── */
+  --clr-bg-app:           #000000;
+  --clr-bg-sidebar:       #000000;
+  --clr-bg-panel:         #121212;
+  --clr-bg-chat:          #000000;
+  --clr-bg-input:         #262626;
+  --clr-bg-hover:         rgba(255,255,255,0.08);
+  --clr-bg-active:        rgba(214, 41, 118, 0.12);
+  --clr-bg-overlay:       rgba(0,0,0,0.85);
+
+  /* ── Message Bubbles ────────────────────────────────────── */
+  --clr-bubble-sent:      linear-gradient(135deg, #d62976, #962fbf);
+  --clr-bubble-received:  #262626;
+  --clr-bubble-sent-text: #ffffff;
+  --clr-bubble-recv-text: #e9edef;
+
+  /* ── Text ───────────────────────────────────────────────── */
+  --clr-text-primary:     #fafafa;
+  --clr-text-secondary:   #a8a8a8;
+  --clr-text-tertiary:    #737373;
+  --clr-text-link:        #0095f6;
+
+  /* ── Borders / Dividers ─────────────────────────────────── */
+  --clr-border:           #262626;
+  --clr-border-strong:    #363636;
+
+  /* ── Status / Risk Colors ───────────────────────────────── */
+  --clr-online:           #4cd964;
+  --clr-risk-low:         #fccc63;
+  --clr-risk-med:         #fa7e1e;
+  --clr-risk-high:        #d62976;
+  --clr-risk-none:        #4cd964;
+
+  /* ── Gossip Risk Gradient ───────────────────────────────── */
+  --gradient-risk:        linear-gradient(45deg, #f09433 0%, #e6683c 25%, #dc2743 50%, #cc2366 75%, #bc1888 100%);
+  --gradient-safe:        linear-gradient(135deg, #0095f6, #0095f6);
+  --gradient-app:         #000000;
+
+  /* ── Sizing ─────────────────────────────────────────────── */
+  --sidebar-width:        360px;
+  --header-height:        60px;
+  --input-area-height:    66px;
+  --avatar-sm:            40px;
+  --avatar-md:            48px;
+  --avatar-lg:            56px;
+
+  /* ── Typography ─────────────────────────────────────────── */
+  --font-sans:            'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  --font-mono:            'Fira Code', monospace;
+  --text-xs:              0.72rem;
+  --text-sm:              0.82rem;
+  --text-base:            0.9rem;
+  --text-md:              1rem;
+  --text-lg:              1.1rem;
+  --text-xl:              1.3rem;
+
+  /* ── Spacing ────────────────────────────────────────────── */
+  --sp-1:  4px;
+  --sp-2:  8px;
+  --sp-3:  12px;
+  --sp-4:  16px;
+  --sp-5:  20px;
+  --sp-6:  24px;
+
+  /* ── Radius ─────────────────────────────────────────────── */
+  --r-sm:   6px;
+  --r-md:   12px;
+  --r-lg:   18px;
+  --r-xl:   24px;
+  --r-pill: 999px;
+
+  /* ── Shadows ────────────────────────────────────────────── */
+  --shadow-sm:   0 1px 4px rgba(0,0,0,0.4);
+  --shadow-md:   0 4px 16px rgba(0,0,0,0.5);
+  --shadow-lg:   0 8px 32px rgba(0,0,0,0.6);
+  --shadow-glow: 0 0 0 3px rgba(0,168,132,0.35);
+
+  /* ── Transitions ────────────────────────────────────────── */
+  --ease-fast:  0.15s cubic-bezier(0.4, 0, 0.2, 1);
+  --ease-base:  0.25s cubic-bezier(0.4, 0, 0.2, 1);
+  --ease-slow:  0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  --ease-spring: 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
