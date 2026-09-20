@@ -2,20 +2,17 @@
 
 
 
-# [Project Name] 🎯
-
+# Spill Up 🎯
 
 ## Basic Details
-### Team Name: [Name]
-
+### Team Name: team
 
 ### Team Members
-- Team Lead: [Name] - [College]
-- Member 2: [Name] - [College]
-- Member 3: [Name] - [College]
+- Team Lead: [Biveena Prasad](https://github.com/BiveenaPrasad) - [College]
+- Member 2: [Abin K J](https://github.com/abin2907) - [College]
 
 ### Project Description
-[2-3 lines about what your project does]
+An interactive gossip chatbot with a built-in rumor radar visualization to map out the juiciest gossip network!
 
 ### The Problem (that doesn't exist)
 [What ridiculous problem are you solving?]
