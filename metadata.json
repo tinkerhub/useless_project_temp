@@ -1,0 +1,10 @@
+{
+  "name": "Useless Food Inc. v3.1",
+  "description": "Banana ripeness and chai-biscuit structural integrity tester with unhinged roasts.",
+  "requestFramePermissions": [
+    "camera"
+  ],
+  "majorCapabilities": [
+    "MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"
+  ]
+}

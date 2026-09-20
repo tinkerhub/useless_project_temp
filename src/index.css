@@ -1,0 +1,71 @@
+@import "tailwindcss";
+
+:root {
+  /* Original Warm/Colorful Palette */
+  --bg-color: #f7f5ed;
+  --card-bg: #ffffff;
+  --border-color: #e2decb;
+  --text-main: #1c1a17;
+  --text-muted: #706c61;
+  --accent-yellow: #facc15;
+  --accent-green: #22c55e;
+  --accent-black: #1e293b;
+  --accent-red: #dc2626;
+  --accent-tea: #b45309;
+}
+
+.theme-dark {
+  /* Catppuccin Mocha Option */
+  --bg-color: #1e1e2e;
+  --card-bg: #181825;
+  --border-color: #313244;
+  --text-main: #cdd6f4;
+  --text-muted: #a6adc8;
+  --accent-yellow: #f9e2af;
+  --accent-green: #a6e3a1;
+  --accent-black: #11111b;
+  --accent-red: #f38ba8;
+  --accent-tea: #fab387;
+}
+
+body {
+  background-color: var(--bg-color);
+  color: var(--text-main);
+  min-height: 100vh;
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  overflow-x: hidden;
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+@keyframes textSlide {
+  from { opacity: 0; transform: translateY(6px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(8px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes fadeInDown {
+  from { opacity: 0; transform: translateY(-15px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes popIn {
+  from { opacity: 0; transform: scale(0.9); }
+  to { opacity: 1; transform: scale(1); }
+}
+
+.animated-text {
+  animation: textSlide 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.animate-pop-in {
+  animation: popIn 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.animate-fade-in-down {
+  animation: fadeInDown 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+}
