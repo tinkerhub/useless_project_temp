@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Bucket
+   uuid = "F205C6BF-2AD1-4B42-A2BE-F6448579184C"
+   type = "1"
+   version = "2.0">
+   <Breakpoints>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "DAA4A8C1-BF86-4077-8D08-50FDBD0D5458"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Sezpad/ViewModels/InstrumentViewModel.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "8"
+            endingLineNumber = "8"
+            landmarkName = "InstrumentViewModel"
+            landmarkType = "3">
+            <Locations>
+               <Location
+                  uuid = "DAA4A8C1-BF86-4077-8D08-50FDBD0D5458 - fa931a1405b828c5"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "Sezpad.InstrumentViewModel.deinit"
+                  moduleName = "Sezpad.debug.dylib"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/nikhil/Doc/Projects/Sezpad/Sezpad/Sezpad/ViewModels/InstrumentViewModel.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "8"
+                  endingLineNumber = "8">
+               </Location>
+               <Location
+                  uuid = "DAA4A8C1-BF86-4077-8D08-50FDBD0D5458 - b039552096bd3041"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "Sezpad.InstrumentViewModel.__isolated_deallocating_deinit"
+                  moduleName = "Sezpad.debug.dylib"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/nikhil/Doc/Projects/Sezpad/Sezpad/Sezpad/ViewModels/InstrumentViewModel.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "8"
+                  endingLineNumber = "8">
+               </Location>
+               <Location
+                  uuid = "DAA4A8C1-BF86-4077-8D08-50FDBD0D5458 - 50058c5c7264698e"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "Sezpad.InstrumentViewModel.__deallocating_deinit"
+                  moduleName = "Sezpad.debug.dylib"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/nikhil/Doc/Projects/Sezpad/Sezpad/Sezpad/ViewModels/InstrumentViewModel.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "8"
+                  endingLineNumber = "8">
+               </Location>
+            </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
+   </Breakpoints>
+</Bucket>
