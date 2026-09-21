@@ -1,0 +1,2375 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <!-- SEO -->
+  <title>Project Journal — ENNE KOLLAND IRIKKAN PATTO?</title>
+  <meta name="description" content="The digital evidence of what happened during my first 18-hour makeathon. How I ended up giving a computer mouse a passport." />
+  <meta name="author" content="Justin" />
+  <meta property="og:title" content="Project Journal — ENNE KOLLAND IRIKKAN PATTO?" />
+  <meta property="og:description" content="18 hours. One stupid idea. Too many objects. A makeathon diary." />
+  <meta property="og:type" content="article" />
+
+  <!-- Styles -->
+  <link rel="stylesheet" href="/src/journal/journal.css" />
+</head>
+
+<body class="journal-page">
+
+  <!-- ═══════════════════════════════════════════════════════════════
+       PROGRESS BAR (thin line at top)
+       ═══════════════════════════════════════════════════════════════ -->
+  <div style="position:fixed;top:0;left:0;width:100%;height:3px;z-index:9999;background:transparent;">
+    <div id="j-progress"
+         role="progressbar"
+         aria-valuenow="0"
+         aria-valuemin="0"
+         aria-valuemax="100"
+         style="height:100%;width:0%;background:var(--j-highlight);transition:width 0.4s var(--j-ease-out);"></div>
+  </div>
+
+
+  <!-- ═══════════════════════════════════════════════════════════════
+       THE KERALA SKY HERO BANNER
+       (Inspired by TinkerHub Useless Projects makeathon sky atmosphere)
+       ═══════════════════════════════════════════════════════════════ -->
+  <header class="j-sky-hero">
+    <!-- Cloud puffs -->
+    <div class="j-cloud-band" style="top: 20px; left: 12%; width: 420px; height: 180px;"></div>
+    <div class="j-cloud-band" style="top: 70px; right: 8%; width: 380px; height: 160px;"></div>
+
+    <div class="j-container j-text-center" style="position: relative; z-index: 2;">
+      <!-- Metadata Row -->
+      <div class="j-sky-meta">
+        <span class="j-badge-index" style="background: #000; color: #fff; transform: rotate(-2deg);">INDEX</span>
+        <span style="font-family: var(--j-font-mono); font-size: 0.85rem; letter-spacing: 0.15em; text-transform: uppercase;">
+          SCMS SCHOOL OF ENGINEERING &amp; TECHNOLOGY // USELESS PROJECTS 3.0
+        </span>
+        <span style="font-family: var(--j-font-hand); font-size: 1.15rem;" class="j-hide-mobile">
+          18-hour useless makeathon by TinkerHub
+        </span>
+      </div>
+
+      <!-- Grand White Malayalam Brush Display -->
+      <h1 class="j-sky-title j-reveal">
+        എന്നെ കൊല്ലാണ്ട് ഇരിക്കാൻ പറ്റോ?
+      </h1>
+
+      <p class="j-sky-sub j-reveal" style="transition-delay: 0.15s; margin-bottom: 0;">
+        (Can you please just not kill me?) — An 18-Hour TinkerHub Useless Projects Journal
+      </p>
+
+      <!-- Bottom Scroll Cue -->
+      <div class="j-sky-scroll-hint j-reveal" style="transition-delay: 0.25s; margin-top: 2.2rem;">
+        <span style="font-family: var(--j-font-mono); font-size: 0.72rem; letter-spacing: 0.15em; text-transform: uppercase; font-weight: 700; color: rgba(26,26,26,0.72); display: block;">
+          SCROLL TO EXPLORE JOURNAL
+        </span>
+        <span class="j-bounce-indicator" style="display: inline-block; margin-top: 6px; font-size: 1.3rem; font-weight: 900; color: var(--j-ink);">
+          ↓
+        </span>
+      </div>
+    </div>
+  </header>
+
+  <!-- ═══════════════════════════════════════════════════════════════
+       SECTION 01 — THE ARRIVAL
+       "2:00 PM. 18 hours remaining. My first makeathon. Ideas: 0."
+       ═══════════════════════════════════════════════════════════════ -->
+  <section class="j-opening" data-section="01-arrival" id="arrival">
+
+    <!-- Tea stain decorative artifacts in background -->
+    <div class="j-tea-stain j-tea-stain--ring" style="top: -30px; right: 4%; width: 220px; height: 220px; transform: rotate(18deg);"></div>
+    <div class="j-tea-stain j-tea-stain--splash" style="top: 90px; right: 16%; width: 90px; height: 90px;"></div>
+
+    <!-- Top bar: TinkerHub Index badge + event postmark -->
+    <header class="j-opening__topbar j-reveal">
+      <div style="display: flex; align-items: center; gap: 12px; flex-wrap: wrap;">
+        <span class="j-badge-index">INDEX</span>
+        <span class="j-pill-tag">USELESS PROJECTS 3.0</span>
+        <span class="j-mono--status" style="color: var(--j-ink-muted);">// SCMS SSET KARUKUTTY</span>
+      </div>
+      
+      <!-- Vintage rubber cancellation mark -->
+      <div style="position: relative; display: flex; align-items: center;" class="j-hide-mobile">
+        <div class="j-postmark" style="position: relative; width: 78px; height: 78px; transform: rotate(-8deg);">
+          <span>TINKERHUB</span>
+          <span style="font-weight: 700; font-size: 0.65rem; color: var(--j-stamp-red);">SSET SCMS</span>
+          <span>CAMPUS</span>
+        </div>
+        <div class="j-cancellation-waves" style="position: relative; right: auto; margin-left: -6px;"></div>
+      </div>
+    </header>
+
+    <!-- Main Asymmetric Desk Layout -->
+    <div class="j-desk-layout">
+
+      <!-- Left Column: The Clock & Zero Ideas -->
+      <div class="j-opening__left">
+        <div class="j-reveal" style="transition-delay: 0.1s;">
+          <div class="j-opening__time-wrap">
+            <span class="j-opening__time">2:00 PM</span>
+            <span class="j-status-bar__dot" title="Timer live"></span>
+          </div>
+        </div>
+
+        <div class="j-reveal" style="transition-delay: 0.25s;">
+          <div class="j-opening__remaining-badge">
+            <span>⏱️ 18:00:00 REMAINING</span>
+          </div>
+        </div>
+
+        <div class="j-reveal" style="transition-delay: 0.4s; margin-top: var(--j-space-sm);">
+          <h2 class="j-opening__line">MY FIRST MAKEATHON.</h2>
+        </div>
+
+        <div class="j-reveal" style="transition-delay: 0.55s; margin-top: var(--j-space-md);">
+          <p class="j-mono--status" style="color: var(--j-ink-muted); letter-spacing: 0.2em;">IDEAS IN MY HEAD:</p>
+          
+          <div class="j-opening__zero-block">
+            <div class="j-doodle-circle">
+              <span class="j-opening__zero">0</span>
+              <!-- Hand-drawn scribbled ring -->
+              <svg viewBox="0 0 160 160" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M78 12C35 15 15 48 18 88C21 128 55 148 95 145C135 142 152 110 148 68C144 26 102 18 68 25C42 30 25 58 32 95C38 125 70 142 110 138" stroke="var(--j-stamp-red)" stroke-width="4.5" stroke-linecap="round" style="opacity: 0.85;"/>
+              </svg>
+            </div>
+
+            <div class="j-annotation j-hand--ml" style="--note-rotation: -3deg; color: var(--j-stamp-red); font-size: 1.35rem; line-height: 1.3;">
+              ആദ്യം ഒരു ഐഡിയയും ഇല്ലായിരുന്നു!<br>
+              <span style="font-family: var(--j-font-hand); font-size: 1.05rem; color: var(--j-ink-dim); font-weight: 500;">
+                (Genuinely arrived with zero thoughts.)
+              </span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Sticky note on desk -->
+        <div class="j-reveal" style="transition-delay: 0.75s; margin-top: var(--j-space-lg);">
+          <div class="j-sticky j-sticky--taped" style="--sticky-rotation: 1.5deg; max-width: 340px;">
+            <p style="font-family: var(--j-font-hand); font-size: 1.15rem; color: var(--j-ink);">
+              Everyone around me brought microcontrollers, 3D printing filaments, and whole startup decks.
+              <br><strong style="font-weight: 700; color: var(--j-stamp-red);">I brought a notebook and confusion.</strong>
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Right Column: Physical Postcard + Clipped Footage -->
+      <div class="j-opening__right j-reveal" style="transition-delay: 0.4s;">
+        <div class="j-postcard-stack">
+          
+          <!-- Kraft paper backing envelope -->
+          <div class="j-kraft-backing"></div>
+
+          <!-- Vintage Postcard -->
+          <article class="j-postcard">
+            <!-- Silver paperclip clipping the postcard to the kraft backing -->
+            <div class="j-paperclip" style="top: -24px; left: 32px; --clip-rot: -6deg;">
+              <svg viewBox="0 0 24 56" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M12 4C7.5 4 4 7.5 4 12V44C4 49.5 8.5 54 14 54C19.5 54 24 49.5 24 44V16C24 12 21 9 17 9C13 9 10 12 10 16V40C10 42 11.5 43.5 13.5 43.5C15.5 43.5 17 42 17 40V18" stroke="#757d84" stroke-width="2.8" stroke-linecap="round"/>
+                <path d="M12 4C7.5 4 4 7.5 4 12V44C4 49.5 8.5 54 14 54C19.5 54 24 49.5 24 44V16C24 12 21 9 17 9C13 9 10 12 10 16V40C10 42 11.5 43.5 13.5 43.5C15.5 43.5 17 42 17 40V18" stroke="#e1e5e8" stroke-width="1.6" stroke-linecap="round"/>
+              </svg>
+            </div>
+
+            <!-- Postcard Top Header -->
+            <div class="j-postcard__top">
+              <div>
+                <p class="j-mono" style="font-size: 0.65rem; color: var(--j-ink-muted); text-transform: uppercase;">
+                  TinkerHub SCMS Chapter // Ref: #UP3-SSET-2026
+                </p>
+                <p style="font-family: var(--j-font-display); font-style: italic; font-size: 1.4rem; color: var(--j-passport); margin-top: 2px;">
+                  Post Card
+                </p>
+              </div>
+
+              <!-- Vintage Stamp & Postmark -->
+              <div style="position: relative;">
+                <div class="j-postcard__stamp">
+                  <span>INDIA</span>
+                  <span style="font-size: 0.9rem;">₹5</span>
+                  <span style="font-size: 0.5rem;">POSTAGE</span>
+                </div>
+                <div class="j-postmark" style="top: -10px; right: -15px;">
+                  <span>TINKERHUB</span>
+                  <span style="font-weight: 700; font-size: 0.65rem;">SSET</span>
+                  <span>SEP 2026</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- Postcard Note & Video -->
+            <div style="margin-bottom: var(--j-space-md);">
+              <p class="j-mono" style="font-size: 0.78rem; color: var(--j-ink-dim); line-height: 1.5;">
+                <strong style="color: var(--j-ink);">VENUE:</strong> SCMS School of Engineering &amp; Technology (SSET),<br>
+                Palissery, Karukutty, Angamaly, Ernakulam, Kerala 683576
+              </p>
+            </div>
+
+            <!-- Event Photo Frame in Polaroid Style -->
+            <div style="position: relative; margin-top: var(--j-space-md);">
+              <div class="j-photo j-photo--taped j-photo--r2" style="width: 100%; box-shadow: 4px 6px 14px rgba(0,0,0,0.15);">
+                <img src="./images/scms_build_starts.jpg" alt="The build starts at SCMS School of Engineering" loading="lazy" style="border-radius: 2px;">
+                <span class="j-photo__caption">"2:00 PM • Checking in at SCMS SSET labs • The build begins!"</span>
+              </div>
+            </div>
+
+          </article>
+        </div>
+      </div>
+
+    </div>
+
+  </section>
+
+
+  <!-- ═══════════════════════════════════════════════════════════════
+       SECTION 02 — HUMANS HAVE LIVES (TABBED FILE DOSSIER)
+       TinkerHub editorial tabbed folder inspired
+       ═══════════════════════════════════════════════════════════════ -->
+  <section class="j-philosophy" data-section="02-humans" id="humans">
+
+    <!-- Organic tea ring in background -->
+    <div class="j-tea-stain j-tea-stain--ring" style="bottom: 10px; left: -40px; width: 280px; height: 280px; opacity: 0.65;"></div>
+
+    <div class="j-dossier j-reveal">
+
+      <!-- Brass eyelet grommet in corner -->
+      <div class="j-grommet" title="Binder eyelet"></div>
+
+      <!-- Binder Tabs along top -->
+      <nav class="j-dossier__tabs" aria-label="Dossier Tabs">
+        <span class="j-dossier__tab j-dossier__tab--orange">SPECIES: HUMAN</span>
+        <span class="j-dossier__tab j-dossier__tab--yellow">SPECIES: OBJECT</span>
+        <span class="j-dossier__tab j-dossier__tab--green">CASE FILE #001</span>
+        <span class="j-dossier__tab j-dossier__tab--active">PHILOSOPHY</span>
+      </nav>
+
+      <!-- Stamped Classification -->
+      <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: var(--j-space-lg); border-bottom: 1px solid rgba(26,26,26,0.1); padding-bottom: var(--j-space-sm);">
+        <span class="j-mono--status" style="color: var(--j-ink-muted);">FILE NO: TKH-UP3-OBS-884</span>
+        <span class="j-stamp j-stamp--denied" style="--stamp-rotation: -4deg; font-size: 0.75rem; padding: 4px 10px;">
+          CONFIDENTIAL // PHILOSOPHY
+        </span>
+      </div>
+
+      <!-- Dossier Two-Column Content -->
+      <div class="j-dossier-content">
+
+        <!-- Left Column: Human Privilege -->
+        <div class="j-reveal-stagger">
+          <p class="j-mono--status" style="color: var(--j-ink-muted); margin-bottom: var(--j-space-sm);">
+            PREMISE A — THE HUMAN CONDITION:
+          </p>
+
+          <p class="j-philosophy__line j-reveal">We all have dreams.</p>
+          <p class="j-philosophy__line j-reveal">Goals.</p>
+          <p class="j-philosophy__line j-reveal">Feelings.</p>
+          <p class="j-philosophy__line j-reveal">Love.</p>
+          <p class="j-philosophy__line j-reveal" style="color: var(--j-passport); font-weight: 600;">Passports.</p>
+
+          <div class="j-reveal" style="margin-top: var(--j-space-md);">
+            <p class="j-annotation" style="--note-rotation: -2deg; font-size: 1.15rem;">
+              ← Humans get legal identities, visas, emotional breakdown privileges.
+            </p>
+          </div>
+        </div>
+
+        <!-- Right Column: But What About Objects? -->
+        <div>
+          <p class="j-mono--status" style="color: var(--j-stamp-red); margin-bottom: var(--j-space-sm);">
+            PREMISE B — THE UNASKED QUESTION:
+          </p>
+
+          <h3 class="j-philosophy__question j-outline--thick">
+            BUT WHAT ABOUT OBJECTS?
+          </h3>
+
+          <!-- Malayalam handwritten note with washi tape -->
+          <div style="position: relative; margin: var(--j-space-md) 0;">
+            <div class="j-tape j-tape--kraft" style="top: -10px; left: 16px; width: 70px; --tape-rot: -2deg;"></div>
+            <div class="j-sticky j-sticky--pink" style="--sticky-rotation: 1.2deg; max-width: 100%;">
+              <p class="j-hand--ml" style="font-size: 1.3rem; color: var(--j-ink);">
+                ഒരു കട്ടൻ ചായ കുടിച്ച് ആലോചിച്ചപ്പോൾ തോന്നിയതാ...
+              </p>
+              <p class="j-hand" style="font-size: 1.05rem; color: var(--j-ink-dim); margin-top: 4px;">
+                "A thought that struck while sipping black tea at an SCMS lab bench."
+              </p>
+            </div>
+          </div>
+
+          <!-- 4 Specimen Questions on Sticky Note Cards -->
+          <div class="j-specimen-grid">
+            <div class="j-sticky" style="--sticky-rotation: -2deg; padding: 12px 14px;">
+              <p class="j-hand" style="font-size: 1.15rem; color: var(--j-ink);">
+                <strong>Do they dream?</strong><br>
+                <span style="font-size: 0.95rem; color: var(--j-ink-dim);">Of retiring to a quiet drawer?</span>
+              </p>
+            </div>
+
+            <div class="j-sticky j-sticky--blue" style="--sticky-rotation: 2deg; padding: 12px 14px;">
+              <p class="j-hand" style="font-size: 1.15rem; color: var(--j-ink);">
+                <strong>Do they feel?</strong><br>
+                <span style="font-size: 0.95rem; color: var(--j-ink-dim);">When dropped on cold tile?</span>
+              </p>
+            </div>
+
+            <div class="j-sticky" style="--sticky-rotation: 1deg; padding: 12px 14px;">
+              <p class="j-hand" style="font-size: 1.15rem; color: var(--j-ink);">
+                <strong>Do they want to travel?</strong><br>
+                <span style="font-size: 0.95rem; color: var(--j-ink-dim);">Anywhere outside India?</span>
+              </p>
+            </div>
+
+            <div class="j-sticky j-sticky--pink" style="--sticky-rotation: -1.5deg; padding: 12px 14px;">
+              <p class="j-hand" style="font-size: 1.15rem; color: var(--j-ink);">
+                <strong>Do they want to speak?</strong><br>
+                <span style="font-size: 0.95rem; color: var(--j-stamp-red);">Or just scream at us?</span>
+              </p>
+            </div>
+          </div>
+
+        </div>
+
+      </div>
+
+    </div>
+
+  </section>
+
+
+  <!-- ═══════════════════════════════════════════════════════════════
+       SECTION 03 — THE COLGATE MOMENT (CRIME SCENE DOCKET)
+       Real Colgate video + comedic thought experiment
+       ═══════════════════════════════════════════════════════════════ -->
+  <section class="j-colgate" data-section="03-colgate" id="colgate">
+
+    <!-- Caution Hazard Tape -->
+    <div style="position: relative; max-width: var(--j-wide-width); margin: 0 auto -14px; z-index: 5;">
+      <div class="j-tape j-tape--caution" style="position: relative; width: 100%; --tape-rot: -0.5deg; border-radius: 2px;"></div>
+    </div>
+
+    <div class="j-evidence-docket j-reveal">
+
+      <!-- Paperclip clipping an evidence label -->
+      <div class="j-paperclip" style="top: -24px; left: 42px; --clip-rot: 3deg;">
+        <svg viewBox="0 0 24 56" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M12 4C7.5 4 4 7.5 4 12V44C4 49.5 8.5 54 14 54C19.5 54 24 49.5 24 44V16C24 12 21 9 17 9C13 9 10 12 10 16V40C10 42 11.5 43.5 13.5 43.5C15.5 43.5 17 42 17 40V18" stroke="#757d84" stroke-width="2.8" stroke-linecap="round"/>
+          <path d="M12 4C7.5 4 4 7.5 4 12V44C4 49.5 8.5 54 14 54C19.5 54 24 49.5 24 44V16C24 12 21 9 17 9C13 9 10 12 10 16V40C10 42 11.5 43.5 13.5 43.5C15.5 43.5 17 42 17 40V18" stroke="#e1e5e8" stroke-width="1.6" stroke-linecap="round"/>
+        </svg>
+      </div>
+
+      <!-- Docket Header -->
+      <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px; margin-bottom: var(--j-space-lg); border-bottom: 2px dashed rgba(26,26,26,0.15); padding-bottom: var(--j-space-sm);">
+        <div style="display: flex; align-items: center; gap: 10px;">
+          <span class="j-badge-index" style="background: var(--j-stamp-red);">EXHIBIT A</span>
+          <span class="j-bureau" style="font-size: 0.85rem;">CRIME SCENE REPORT // DENTAL HYGIENE</span>
+        </div>
+        <span class="j-mono" style="font-size: 0.75rem; color: var(--j-ink-muted);">TIME: 03:45 PM // SCMS LAB</span>
+      </div>
+
+      <div class="j-container j-text-center">
+
+        <div class="j-reveal">
+          <p class="j-colgate__dialogue">"Humans can complain."</p>
+        </div>
+
+        <div class="j-reveal" style="transition-delay: 0.15s;">
+          <p class="j-colgate__dialogue" style="font-weight: 600; color: var(--j-passport);">
+            "But can Colgate?"
+          </p>
+        </div>
+
+        <!-- Colgate Evidence Video Frame -->
+        <div class="j-reveal" style="transition-delay: 0.3s; margin: var(--j-space-lg) auto; max-width: 600px; position: relative;">
+          <!-- Translucent tape corner -->
+          <div class="j-tape j-tape--translucent" style="top: -8px; left: -14px; width: 80px; --tape-rot: -12deg;"></div>
+          <div class="j-tape j-tape--translucent" style="bottom: -8px; right: -14px; width: 80px; --tape-rot: 8deg;"></div>
+
+          <div class="j-video" style="border: 2px solid var(--j-ink); box-shadow: 4px 6px 16px rgba(0,0,0,0.15); background: #000; overflow: hidden; position: relative;">
+            <img
+              src="./images/t.jpg"
+              alt="Crime scene evidence: Squeezed and rolled toothpaste tube"
+              loading="lazy"
+              style="width: 100%; max-height: 420px; object-fit: contain; display: block; margin: 0 auto;"
+            />
+            <span class="j-video__label">📹 EVIDENCE CAM // COLGATE ROLL</span>
+          </div>
+
+          <p class="j-hand--ml" style="color: var(--j-stamp-red); font-size: 1.25rem; margin-top: 10px;">
+            ട്യൂബിൽ നിന്ന് ജീവൻ പിഴിഞ്ഞെടുക്കുന്ന ക്രൂരത!
+          </p>
+        </div>
+
+        <div class="j-reveal" style="transition-delay: 0.1s;">
+          <p class="j-colgate__scream">"PLEASE STOP."</p>
+        </div>
+
+        <div class="j-spacer--lg"></div>
+
+        <div class="j-reveal">
+          <p class="j-colgate__dialogue">"Now imagine it had a passport."</p>
+        </div>
+
+        <div class="j-spacer--sm"></div>
+
+        <div class="j-reveal" style="display: flex; justify-content: center; gap: var(--j-space-md); flex-wrap: wrap;">
+          <div class="j-sticky" style="--sticky-rotation: -1.5deg; max-width: 260px;">
+            <p class="j-hand" style="font-size: 1.15rem;">
+              "Would it leave India?"
+            </p>
+          </div>
+          <div class="j-sticky j-sticky--blue" style="--sticky-rotation: 1.5deg; max-width: 260px;">
+            <p class="j-hand" style="font-size: 1.15rem;">
+              "Would it need immigration clearance?"
+            </p>
+          </div>
+        </div>
+
+        <div class="j-spacer--lg"></div>
+
+        <div class="j-reveal">
+          <p class="j-thought--whisper" style="margin: 0 auto; font-style: italic;">
+            "Honestly... after how we treat it, I'd leave too."
+          </p>
+        </div>
+
+        <div class="j-spacer--xl"></div>
+
+        <!-- The core epiphany -->
+        <div class="j-reveal" style="background: var(--j-paper-warm); border: 2px dashed var(--j-ink-muted); padding: var(--j-space-lg); border-radius: 6px; max-width: 580px; margin: 0 auto;">
+          <p class="j-bureau" style="font-size: 0.75rem; color: var(--j-stamp-red); margin-bottom: 6px;">
+            ✦ THE PIVOTAL HYPOTHESIS ✦
+          </p>
+          <p class="j-thought j-text-center" style="margin: 0 auto; font-size: clamp(1.4rem, 2.8vw, 2.2rem);">
+            What if I actually gave objects identities?
+          </p>
+          <p class="j-annotation" style="--note-rotation: 2deg; margin-top: 10px; color: var(--j-passport);">
+            ← this is the exact second the project was born
+          </p>
+        </div>
+
+      </div>
+
+    </div>
+
+  </section>
+
+
+  <!-- ═══════════════════════════════════════════════════════════════
+       SECTION 04 — THE TITLE REVEAL
+       The project name appears for the first time.
+       ═══════════════════════════════════════════════════════════════ -->
+  <div class="j-tear j-tear--dark j-tear--flip"></div>
+
+  <section class="j-title-reveal" data-section="04-title" id="title">
+
+    <!-- Malayalam Title in handwritten Chilanka/Gayathri -->
+    <div class="j-reveal j-reveal--scale">
+      <p class="j-title-reveal__ml">എന്നെ കൊല്ലാണ്ട് ഇരിക്കാൻ പറ്റോ?</p>
+    </div>
+
+    <!-- English Title with layered outline effect -->
+    <div class="j-reveal j-reveal--scale" style="transition-delay: 0.3s;">
+      <h1 class="j-title-reveal__en">
+        <span class="j-outline--light">ENNE KOLLAND</span><br>
+        IRIKKAN PATTO?
+      </h1>
+    </div>
+
+    <div class="j-reveal" style="transition-delay: 0.5s;">
+      <p class="j-title-reveal__tagline">
+        Show us any object. We'll give it a life.
+      </p>
+    </div>
+
+    <div class="j-spacer--xl"></div>
+
+    <!-- Official Rubber Immigration Stamp -->
+    <div class="j-reveal j-reveal--scale" style="transition-delay: 0.75s;">
+      <div class="j-stamp j-stamp--circle j-stamp--approved" style="--stamp-rotation: -7deg; border-color: var(--j-stamp-green); color: var(--j-stamp-green); width: 130px; height: 130px; border-width: 4px; box-shadow: 0 0 20px rgba(39, 174, 96, 0.2);">
+        <div style="font-family: var(--j-font-bureau); font-size: 0.65rem; line-height: 1.3;">
+          <span style="font-size: 0.55rem; letter-spacing: 0.15em;">IMMIGRATION</span><br>
+          <strong style="font-size: 0.95rem; font-family: var(--j-font-heading); font-weight: 900;">ENTRY</strong><br>
+          APPROVED<br>
+          <span style="font-size: 0.55rem;">KOCHI PORT</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="j-tear"></div>
+
+
+  <!-- ═══════════════════════════════════════════════════════════════
+       SECTION 05 — THE FIRST IDEA → THE SPARK
+       Simple boring origin → sudden lightning bolt shift!
+       ═══════════════════════════════════════════════════════════════ -->
+  <section class="j-spark-section" data-section="05-first-idea" id="first-idea">
+
+    <div class="j-container">
+
+      <div class="j-reveal">
+        <p class="j-mono--status" style="color: var(--j-ink-muted); margin-bottom: var(--j-space-md);">
+          PHASE 01: THE EMBARRASSINGLY MODEST ORIGIN
+        </p>
+
+        <div style="display: flex; justify-content: center; align-items: center; gap: 16px; flex-wrap: wrap;">
+          <span class="j-flow-step">OBJECT</span>
+          <span class="j-flow-arrow">→</span>
+          <span class="j-flow-step">PHOTO</span>
+          <span class="j-flow-arrow">→</span>
+          <span class="j-flow-step">PASSPORT</span>
+        </div>
+
+        <p class="j-mono" style="font-size: 1rem; color: var(--j-ink-dim); margin-top: var(--j-space-md);">
+          That was literally it. A glorified ID card printer for inanimate matter.
+        </p>
+      </div>
+
+      <!-- The Lightning Spark Box -->
+      <div class="j-spark-box j-reveal" style="transition-delay: 0.3s;">
+        <!-- Washi tape at top -->
+        <div class="j-tape j-tape--red" style="top: -12px; left: 50%; transform: translateX(-50%) rotate(-1deg); width: 140px;"></div>
+
+        <span class="j-spark-bolt">⚡</span>
+
+        <p class="j-mono--status" style="color: var(--j-stamp-red); letter-spacing: 0.25em;">
+          4:00 PM — THE EPIPHANY
+        </p>
+
+        <h2 class="j-spark-title">
+          "WAIT. WHAT IF I GAVE THE OBJECT A <span style="color: var(--j-highlight); text-decoration: underline;">LIFE</span>?"
+        </h2>
+
+        <p class="j-thought" style="margin: var(--j-space-md) auto; font-size: clamp(1.2rem, 2.2vw, 1.8rem);">
+          Not just a passport. A whole backstory. Traumas. Desires. Regrets. An immigration interview where it pleads for its existence.
+        </p>
+
+        <!-- Malayalam handwritten reaction -->
+        <div style="margin-top: var(--j-space-lg);">
+          <p class="j-hand--ml" style="font-size: 1.45rem; color: var(--j-stamp-red); line-height: 1.35;">
+            "ഒരു പാവം ടൂത്ത്‌പേസ്റ്റിന് പാസ്‌പോർട്ട് കൊടുത്ത് വിടാമെന്നാ ആദ്യം വിചാരിച്ചത്... പിന്നീടാണ് തോന്നിയത്, ആ ടൂത്ത്‌പേസ്റ്റായിട്ട് അങ്ങ് ജീവിച്ചാൽ എന്താ?!" 🪥✨
+          </p>
+          <p class="j-hand" style="font-size: 1.05rem; color: var(--j-ink-dim); margin-top: 4px;">
+            (Just wanted to stamp a visa for a humble toothpaste... then thought: why not let the user actually LIVE the existential crisis of that toothpaste?!)
+          </p>
+        </div>
+      </div>
+
+    </div>
+
+  </section>
+
+
+  <!-- ═══════════════════════════════════════════════════════════════
+       SECTION 06 — THE VERSION THAT LIVED IN MY HEAD
+       The impossible AAA game fantasy designed at hour 2
+       ═══════════════════════════════════════════════════════════════ -->
+  <!-- ═══════════════════════════════════════════════════════════════
+       SECTION 06 — THE VERSION IN MY HEAD (HOUR 02)
+       Blueprint of the impossible fantasy game
+       ═══════════════════════════════════════════════════════════════ -->
+  <section class="j-dream-game" data-section="06-head-version" id="head-version">
+
+    <div class="j-container--wide">
+
+      <div class="j-text-center j-reveal">
+        <span class="j-badge-index" style="background: var(--j-riso-orange); color: #000; border: 2px solid #000; margin-bottom: var(--j-space-md); box-shadow: 3px 3px 0 #000; font-weight: 800;">
+          ✦ DELUSION BLUEPRINT // HOUR 02 // 04:00 PM ✦
+        </span>
+        <h2 class="j-heading j-heading--xl" style="color: var(--j-ink); margin-bottom: 8px;">
+          THE VERSION THAT LIVED IN MY HEAD
+        </h2>
+        <p class="j-hand--ml" style="font-size: clamp(1.35rem, 2.8vw, 2.1rem); color: var(--j-stamp-red); margin-bottom: 12px; font-weight: 800; line-height: 1.35;">
+          "തലയിൽ ഒരു ₹300 കോടിയുടെ AAA ഗെയിം... കയ്യിലോ ഒരു പാവം വെബ്ക്യാമും, Antigravity-യും, പിന്നെ ഞാനും! hehe..."
+        </p>
+        <span class="j-mono--status" style="background: #000; color: var(--j-riso-yellow); padding: 5px 16px; border-radius: 2px; font-weight: 800; font-size: 0.82rem; box-shadow: 2px 2px 0 var(--j-riso-orange); display: inline-block;">
+          ESTIMATED BUDGET: $40,000,000 // TEAM: 1 TIRED STUDENT // SUCCESS PROBABILITY: 0.00% // CONFIDENCE: 110% 🔥
+        </span>
+      </div>
+
+      <div class="j-blueprint-card j-reveal" style="margin-top: var(--j-space-xl); transition-delay: 0.15s;">
+
+        <!-- 4 Corner Drafting Tapes -->
+        <div class="j-drafting-tape j-drafting-tape--tl"></div>
+        <div class="j-drafting-tape j-drafting-tape--tr"></div>
+        <div class="j-drafting-tape j-drafting-tape--bl"></div>
+        <div class="j-drafting-tape j-drafting-tape--br"></div>
+
+        <!-- Architectural Title Block -->
+        <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 2px dashed #000000; padding-bottom: 14px; flex-wrap: wrap; gap: 10px;">
+          <span style="font-family: var(--j-font-mono); font-size: 0.8rem; color: #000000; font-weight: 800; letter-spacing: 0.08em;">
+            CAD_DRAFT: 01/99 // CODENAME: OBJECT_SIMULATOR_2026
+          </span>
+          <span style="font-family: var(--j-font-mono); font-size: 0.76rem; background: var(--j-stamp-red); color: #fff; font-weight: 800; padding: 2px 8px; border-radius: 2px; letter-spacing: 0.08em;">
+            SCOPE: CATASTROPHICALLY OVER-AMBITIOUS
+          </span>
+        </div>
+
+        <!-- The Grand Delusion Pipeline -->
+        <div class="j-pipeline-track">
+          <!-- Module 01 -->
+          <div class="j-pipeline-node">
+            <div class="j-pipeline-node__top">
+              <span class="j-pipeline-node__num">MODULE 01</span>
+              <span class="j-pipeline-node__tag">CV PIPELINE</span>
+            </div>
+            <h3 class="j-pipeline-node__title">3D Rigged Avatars</h3>
+            <p class="j-pipeline-node__desc">Computer vision auto-rigs any photographed object into a skeletal 3D raytraced model in real-time.</p>
+            <div class="j-pipeline-node__ml j-pipeline-node__ml--01">
+              "വെറുമൊരു ഫോട്ടോ എടുത്താൽ ചലിക്കുന്ന 3D മോഡൽ! ആഹാ അന്തസ്സ്!"
+            </div>
+          </div>
+
+          <!-- Module 02 -->
+          <div class="j-pipeline-node">
+            <div class="j-pipeline-node__top">
+              <span class="j-pipeline-node__num">MODULE 02</span>
+              <span class="j-pipeline-node__tag">PROCEDURAL WORLD</span>
+            </div>
+            <h3 class="j-pipeline-node__title">WASD Open World</h3>
+            <p class="j-pipeline-node__desc">Explore an infinite procedural Kerala city with physics, traffic, and chai stalls for a wandering pazham (പഴം 🍌).</p>
+            <div class="j-pipeline-node__ml j-pipeline-node__ml--02">
+              "കരുകുറ്റി മുതൽ കുട്ടപ്പൻ ചേട്ടന്റെ ചായക്കട വരെ റോന്ത് ചുറ്റി നടക്കുന്ന ഒരു പാവം പഴം!"
+            </div>
+          </div>
+
+          <!-- Module 03 -->
+          <div class="j-pipeline-node">
+            <div class="j-pipeline-node__top">
+              <span class="j-pipeline-node__num">MODULE 03</span>
+              <span class="j-pipeline-node__tag">WALL STREET</span>
+            </div>
+            <h3 class="j-pipeline-node__title">Object Economy</h3>
+            <p class="j-pipeline-node__desc">Complex barter market where ballpoint pens short pencil stocks and trade paperclips for rent.</p>
+            <div class="j-pipeline-node__ml j-pipeline-node__ml--03">
+              "പേനയും പെൻസിലും ചേർന്ന് ഷെയർ മാർക്കറ്റ് ഉണ്ടാക്കൽ!"
+            </div>
+          </div>
+
+          <!-- Module 04 -->
+          <div class="j-pipeline-node">
+            <div class="j-pipeline-node__top">
+              <span class="j-pipeline-node__num">MODULE 04</span>
+              <span class="j-pipeline-node__tag">BOLLYWOOD DRAMA</span>
+            </div>
+            <h3 class="j-pipeline-node__title">Romance &amp; Crime</h3>
+            <p class="j-pipeline-node__desc">Commit petty misdemeanors, fall in love with an electric toaster, and flee customs police.</p>
+            <div class="j-pipeline-node__ml j-pipeline-node__ml--04">
+              "കെറ്റിലും ടോസ്റ്ററും തമ്മിലുള്ള പ്രണയവും പോലീസ് ചേസും!"
+            </div>
+          </div>
+
+          <!-- Module 05 -->
+          <div class="j-pipeline-node">
+            <div class="j-pipeline-node__top">
+              <span class="j-pipeline-node__num">MODULE 05</span>
+              <span class="j-pipeline-node__tag">SUSHIN SHYAM BGM</span>
+            </div>
+            <h3 class="j-pipeline-node__title">AI Cinematic Film</h3>
+            <p class="j-pipeline-node__desc">Generative video rendering of the object's life story scored with high-octane cinematic background music.</p>
+            <div class="j-pipeline-node__ml j-pipeline-node__ml--05">
+              "സുഷിൻ ശ്യാമിന്റെ ബിജിഎമ്മോടെ ഒരു പാവം സ്റ്റേപ്ലറുടെ മാസ്സ് എൻട്രി സിനിമ!"
+            </div>
+          </div>
+        </div>
+
+        <!-- Sticky note attached to blueprint -->
+        <div class="j-sticky j-sticky--pink" id="j-premam-sticky" style="--sticky-rotation: 1.5deg; max-width: 540px; margin: 18px 0 0 auto; color: #000; box-shadow: 4px 4px 0 #000;">
+          <p class="j-hand--ml" style="font-size: 1.22rem; color: #000; margin-bottom: 6px; font-weight: 800; line-height: 1.35;">
+            വൈകുന്നേരം 5 മണി വരെ USB കേബിളുകളുടെ പ്രണയം പ്ലാൻ ചെയ്തു... പിന്നെ മനസ്സിലായി, USB കേബിളുകൾക്ക് എനിക്കില്ലാത്ത പ്രേമം വേണ്ടെന്ന്! "എനിക്ക് കിട്ടാത്തത് നിനക്കും കിട്ടണ്ടെടാ!" 💔
+          </p>
+          <p class="j-hand" style="font-size: 1.02rem; color: #333; margin-bottom: 8px;">
+            "At 5:00 PM, planned an epic USB cable romance... then realized: why should USB cables get the love that even I don't have?! 'Enikku kittathathu ninakkum kittendada!'"
+          </p>
+          <button type="button" id="j-dialogue-audio-btn" class="j-audio-dialogue-btn" title="Click to play dialogue sound">
+            <span class="j-audio-dialogue-icon">🔊</span>
+            <span id="j-dialogue-audio-label">"എനിക്ക് കിട്ടാത്തത് നിനക്കും കിട്ടണ്ടെടാ!" (PLAY DIALOGUE)</span>
+          </button>
+        </div>
+
+      </div>
+
+    </div>
+
+  </section>
+
+
+  <!-- ═══════════════════════════════════════════════════════════════
+       SECTION 07 — THE VERSION 18 HOURS ALLOWED (COLD SHOWER AUDIT)
+       Editorial Neo-Brutalist Triage Dossier
+       ═══════════════════════════════════════════════════════════════ -->
+  <section class="j-reality-check" data-section="07-reality" id="reality">
+
+    <!-- Subtle Giant Faint Watermark -->
+    <div class="j-reality-watermark">
+      REALITY AUDIT
+    </div>
+
+    <div class="j-container--wide" style="position: relative; z-index: 2;">
+
+      <!-- Audit Header -->
+      <div class="j-text-center j-reveal">
+        <div class="j-hazard-ribbon">
+          <span>⚠️ EMERGENCY TRIAGE DOCKET</span>
+          <span>•</span>
+          <span>07:00 AM // SCMS SSET LABS</span>
+          <span>•</span>
+          <span>01:00:00 TO DEADLINE</span>
+        </div>
+        
+        <div>
+          <span class="j-stamp j-stamp--denied" style="--stamp-rotation: -4deg; margin-bottom: 12px; display: inline-block;">
+            ✗ TRIAGE VERDICT: 85% MASSACRED
+          </span>
+        </div>
+
+        <h2 class="j-heading j-heading--xl" style="margin-bottom: 8px;">
+          THE VERSION 18 HOURS ALLOWED
+        </h2>
+        
+        <p class="j-hand--ml" style="font-size: clamp(1.35rem, 2.8vw, 2.2rem); color: var(--j-stamp-red); font-weight: bold; margin-bottom: 14px; line-height: 1.35;">
+          "തലയിൽ ഒരു GTA 6... കയ്യിലോ ലിമിറ്റ് തീർന്ന Antigravity-യും, അടിച്ചുപോവാറായ ലാപ്ടോപ്പും, പണിയെടുത്ത് ക്ഷീണിച്ച എന്റെ തലച്ചോറും!"
+        </p>
+
+        <span class="j-mono--status" style="background: #000; color: var(--j-riso-yellow); padding: 6px 18px; border-radius: 2px; font-weight: 800; font-size: 0.85rem; box-shadow: 3px 3px 0 var(--j-riso-orange);">
+          AUDIT RESULT: 04 LEAN SURVIVORS SHIPPED // 04 CASUALTIES BURIED BEHIND SCMS LABS
+        </span>
+      </div>
+
+      <!-- Side by Side Comparison Grid -->
+      <div class="j-comparison-grid">
+
+        <!-- Left Column: The Survivors (Shipped) -->
+        <div class="j-reveal">
+          <div class="j-reality-col-header j-reality-col-header--survivor">
+            <span>✓ WHAT ACTUALLY SHIPPED</span>
+            <span class="j-mono" style="font-size: 0.74rem; color: #000;">കട്ടക്ക് കൂടെ നിന്നവ (04)</span>
+          </div>
+
+          <!-- Card 1: Webcam Scanner -->
+          <div class="j-survivor-card">
+            <div class="j-survivor-top">
+              <span class="j-survivor-tag">MODULE 01 // CV SCANNER</span>
+              <span class="j-survivor-status">✓ 0s LATENCY</span>
+            </div>
+            <h3 class="j-survivor-title">Webcam Sniper Scan</h3>
+            <p class="j-survivor-desc">
+              Pointed whatever junk was on the desk at the webcam. HTML5 Canvas + OpenCV frame capture with neon targeting reticles. Zero budget machine vision that worked with 100% reliability on jury laptops.
+            </p>
+            <div class="j-survivor-ml-box">
+              "മുന്നിൽ കാണുന്ന സാധനം നേരെ ക്യാമറയിൽ കാണിച്ച് ജീവൻ കൊടുക്കൽ! ബാക്കിയെല്ലാം കാറ്റിൽ പറത്തി."
+            </div>
+          </div>
+
+          <!-- Card 2: Dual-Engine AI -->
+          <div class="j-survivor-card">
+            <div class="j-survivor-top">
+              <span class="j-survivor-tag">MODULE 02 // DUAL AI PARSER</span>
+              <span class="j-survivor-status">✓ 1.2s FAILOVER</span>
+            </div>
+            <h3 class="j-survivor-title">Dual-Engine Failover Proxy</h3>
+            <p class="j-survivor-desc">
+              Custom Node.js load-balancer in <code>server.js</code>. If NVIDIA Nemotron timed out at 5 AM, Google Gemini 1.5 Flash instantly caught the drop in 1.2s flat with hilarious biographical trauma.
+            </p>
+            <div class="j-survivor-ml-box">
+              "ഒരുത്തൻ പണിമുടക്കിയാൽ അടുത്തവൻ റെഡി! ലൈവ് ഡെമോയിൽ എയറിലാവാതിരിക്കാൻ ഒരു സേഫ്റ്റി നെറ്റ്."
+            </div>
+          </div>
+
+          <!-- Card 3: Immigration Interrogation -->
+          <div class="j-survivor-card">
+            <div class="j-survivor-top">
+              <span class="j-survivor-tag">MODULE 03 // BORDER TRIBUNAL</span>
+              <span class="j-survivor-status">✓ ₹50 BRIBE</span>
+            </div>
+            <h3 class="j-survivor-title">Corrupt Immigration Officer</h3>
+            <p class="j-survivor-desc">
+              Officer with 4 expressive visual moods (<code>stare</code>, <code>doubt</code>, <code>happy</code>, <code>pass</code>). Interrogates objects aggressively, but exhibits complete moral collapse when offered a ₹50 bribe.
+            </p>
+            <div class="j-survivor-ml-box">
+              "കൈക്കൂലി ₹50 കൊടുക്കാതെ ഒരു സാധനവും ബോർഡർ കടക്കില്ല! ചോദ്യം ചോദിച്ച് വട്ടം കറക്കും."
+            </div>
+          </div>
+
+          <!-- Card 4: Tragic Demise -->
+          <div class="j-survivor-card" style="border-left: 5px solid var(--j-stamp-red);">
+            <div class="j-survivor-top">
+              <span class="j-survivor-tag">MODULE 04 // MORTALITY ENGINE</span>
+              <span class="j-survivor-status" style="background: var(--j-stamp-red); color: #fff;">💀 100% FATAL</span>
+            </div>
+            <h3 class="j-survivor-title">Inevitable Tragic Obituary</h3>
+            <p class="j-survivor-desc">
+              Every single object meets its comedic demise within 60 seconds (battery drain, crushed by coder). Full black obituary plaque with dramatic <code>v.mp3</code> death audio that made the jury laugh.
+            </p>
+            <div class="j-survivor-ml-box">
+              "ജനിച്ചാൽ മരിക്കണം, അത് ഒബ്ജക്റ്റ് ആയാലും അങ്ങനെ തന്നെ! ബാങ്കിൽ എത്ര ബാലൻസ് ഉണ്ടെന്നൊന്നും കാലൻ നോക്കില്ല... എപ്പോഴെങ്കിലും ഒക്കെ അങ്ങ് വരും, കൊണ്ട് പോവും! അപ്പോ ജീവിക്കുന്ന സമയം ഹാപ്പിയായിട്ട് ജീവിക്കുക, അത്ര തന്നെ!"
+            </div>
+          </div>
+        </div>
+
+        <!-- Right Column: The Casualties (Terminated) -->
+        <div class="j-reveal" style="transition-delay: 0.15s;">
+          <div class="j-reality-col-header j-reality-col-header--casualty">
+            <span>💀 THE CASUALTIES</span>
+            <span class="j-mono" style="font-size: 0.74rem; color: #fff;">ബലി കൊടുത്തവ (04)</span>
+          </div>
+
+          <!-- Casualty 1 -->
+          <div class="j-casualty-card">
+            <span class="j-casualty-stamp">✗ KILLED 11 PM</span>
+            <div class="j-casualty-top">
+              <span class="j-casualty-tag">FEATURE 01 // 3D WORLD</span>
+            </div>
+            <h3 class="j-casualty-title">Open World WASD Exploration</h3>
+            <p class="j-casualty-desc">
+              Three.js tried to render 4,000 raytraced staplers and set the laptop cooling fan on fire like a helicopter taking off from Karukutty. Immediate termination to prevent motherboard explosion.
+            </p>
+            <div class="j-casualty-ml-box">
+              "ലാപ്‌ടോപ്പ് ചൂടായി പുകഞ്ഞു... അപ്പോഴേക്കും ആ പ്ലാൻ തട്ടിൻപുറത്തേക്ക് മാറ്റി!"
+            </div>
+          </div>
+
+          <!-- Casualty 2 -->
+          <div class="j-casualty-card">
+            <span class="j-casualty-stamp">✗ RIP 01 AM</span>
+            <div class="j-casualty-top">
+              <span class="j-casualty-tag">FEATURE 02 // BARTER SYSTEM</span>
+            </div>
+            <h3 class="j-casualty-title">Multiplayer Object Economy</h3>
+            <p class="j-casualty-desc">
+              WebSocket server choked on campus Wi-Fi. Latency hit 9,000ms. Ballpoint pens staged an immediate general strike and refused to trade digital pins.
+            </p>
+            <div class="j-casualty-ml-box">
+              "വൈഫൈ പോയി... അതോടെ സാമ്പത്തിക വിപ്ലവം ഫ്ലാറ്റ്! ഒബ്ജക്റ്റുകൾ പണിമുടക്കി."
+            </div>
+          </div>
+
+          <!-- Casualty 3 -->
+          <div class="j-casualty-card">
+            <span class="j-casualty-stamp">✗ EXECUTED 03 AM</span>
+            <div class="j-casualty-top">
+              <span class="j-casualty-tag">FEATURE 03 // DATING SIM</span>
+            </div>
+            <h3 class="j-casualty-title">Toaster Romance Arc System</h3>
+            <p class="j-casualty-desc">
+              Realized at 3:30 AM that scripting romantic dialogue tension between an electric kettle and a bread toaster is a psychiatric red flag. Deleted 4 pages of script.
+            </p>
+            <div class="j-casualty-ml-box">
+              "മൂന്നര മണിക്ക് ഇരുന്ന് തേങ്ങാ കൊല പോലുള്ള പ്രണയകഥ എഴുതാൻ തലച്ചോറ് സമ്മതിച്ചില്ല!"
+            </div>
+          </div>
+
+          <!-- Casualty 4 -->
+          <div class="j-casualty-card">
+            <span class="j-casualty-stamp">✗ BURIED 05 AM</span>
+            <div class="j-casualty-top">
+              <span class="j-casualty-tag">FEATURE 04 // GENERATIVE CINEMA</span>
+            </div>
+            <h3 class="j-casualty-title">IMAX 4K Generative Cinema</h3>
+            <p class="j-casualty-desc">
+              Video generation API demanded a credit card with $800 balance. Student bank account balance: ₹34.50. Instant funeral. Replaced with 8-bit text obituaries. Total cost: ₹0.
+            </p>
+            <div class="j-casualty-ml-box">
+              "അക്കൗണ്ടിൽ ഉള്ളത് 34 രൂപ, API ചോദിക്കുന്നത് ഡോളർ! ഷാജി പാപ്പന്റെ കയ്യിൽ പോലും ഇത്രേം കാശില്ല... പോട്ടെ പുല്ല് എന്ന് വെച്ചു!" 🐐🔥
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- Bottom Audit Evidence Dock (Terminal + SCMS Lab Photo) -->
+      <div class="j-audit-dock j-reveal">
+
+        <!-- Live Server Logs Terminal Card -->
+        <div class="j-audit-terminal-card">
+          <div class="j-audit-terminal-header">
+            <div class="j-audit-terminal-dots">
+              <span class="j-audit-dot--red"></span>
+              <span class="j-audit-dot--yellow"></span>
+              <span class="j-audit-dot--green"></span>
+            </div>
+            <span class="j-mono" style="font-size: 0.72rem; color: #8b949e;">bash — node server.js — SCMS SSET LAB 2</span>
+            <span style="font-size: 0.65rem; color: #238636; font-family: var(--j-font-mono); font-weight: 700;">● LIVE</span>
+          </div>
+
+          <div class="j-terminal" style="margin: 0; border: none; box-shadow: none; border-radius: 0;">
+            <div class="j-terminal__comment">// 05:14 AM — REAL SERVER LOGS (SCMS CAMPUS LAB)</div>
+            <div class="j-terminal__prompt">node server.js</div>
+            <div style="color: #38bdf8;">[AI PROXY] Dual Engine initialized (Nemotron + Gemini 1.5)</div>
+            <div class="j-terminal__error">[AI ERROR] NVIDIA endpoint timed out (45000ms)</div>
+            <div class="j-terminal__comment">// 05:15 AM: Frantic automatic failover to Gemini 1.5 Flash...</div>
+            <div class="j-terminal__success">[AI SUCCESS] Object identified in 1.2s: "HALF-EMPTY RED BULL CAN"</div>
+            <div class="j-terminal__success">[IMMIGRATION] Visa Denied: Cause of Death: Crushed by coder.</div>
+            <div class="j-terminal__comment" style="color: var(--j-riso-yellow);">// "PLEASE DON'T CRASH IN FRONT OF THE JURY"</div>
+          </div>
+        </div>
+
+        <!-- Evidence Photo: Hard at work in SCMS Lab + Summary Note -->
+        <div>
+          <div style="text-align: center;">
+            <div class="j-photo j-photo--taped j-photo--r1" style="max-width: 100%; box-shadow: 6px 8px 24px rgba(0,0,0,0.25);">
+              <img src="./images/scms_build_phase.jpg" alt="SCMS Build Phase Hard at Work" loading="lazy" style="border-radius: 2px;">
+              <span class="j-photo__caption">"6:00 PM • Build Phase at SCMS SSET • Jumper wires, code sprints &amp; desk naps"</span>
+            </div>
+          </div>
+
+          <div class="j-audit-summary-note">
+            <p class="j-hand--ml" style="font-size: 1.18rem; color: #111; margin-bottom: 8px; font-weight: 800; line-height: 1.45;">
+              "ഇനി അല്പം ഫിലോസഫി ആവാം, ലേ? ജീവിതം ഒരു യാത്രയാണ് കുഞ്ഞേ... കൂടെ വരുന്നവരൊക്കെ അവസാനം വരെ ഉണ്ടാവണം എന്ന് നിർബന്ധമില്ല! അതുപോലെ കൂടെ ഉണ്ടായിരുന്നതൊക്കെ ഓരോന്നായി പോയി... അവസാനം ബാക്കി വന്നത്: ഒരു വെബ്ക്യാം, കുറച്ചു കോഡ്, പിന്നെ ആ ഇമ്മിഗ്രേഷൻ ഓഫീസറും പുള്ളിയുടെ ഒരു ₹50 കൈക്കൂലിയും! ഇതൊക്കെ വെച്ച് നമ്മളങ്ങ് മാസ്റ്റർപീസ് ഉണ്ടാക്കി... ഉള്ളതുകൊണ്ട് ഓണം പോലെ എന്നാണല്ലോ!" ☕✨
+            </p>
+            <p class="j-hand" style="font-size: 0.98rem; color: #333; line-height: 1.4;">
+              "Time for a little philosophy, eh? Life is a journey, kid... not everyone who boards with you travels till the end! Same with our features. Fell off one by one, until what was left was: a webcam, some code, and that immigration officer with his ₹50 bribe. And with that, we made a masterpiece... 'Ullathu kondu Onam pole', as they say!"
+            </p>
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+
+  </section>
+
+  <!-- ═══════════════════════════════════════════════════════════════
+       SECTION 08 — THE 18-HOUR TIMELINE CLOCK (CHRONOLOGY OF MADNESS)
+       Inspired by TinkerHub / Stitch zine editorial dossier
+       ═══════════════════════════════════════════════════════════════ -->
+  <section class="j-section" data-section="08-timeline" id="timeline" style="position: relative; overflow: hidden; background: var(--j-paper);">
+
+    <!-- Coffee Ring Stains (Stitch reference DNA) -->
+    <div class="j-coffee-stain" style="top: -60px; left: -60px; width: 260px; height: 260px;"></div>
+    <div class="j-coffee-stain" style="bottom: 40px; right: -80px; width: 340px; height: 340px;"></div>
+
+    <div class="j-container--wide" style="position: relative; z-index: 10;">
+
+      <!-- Giant Hollow Outline Typography Header (Stitch Reference) -->
+      <div class="j-text-center j-reveal" style="margin-bottom: -15px;">
+        <h2 class="j-outline-giant">CHRONOLOGY</h2>
+      </div>
+
+      <div class="j-text-center j-reveal" style="margin-bottom: var(--j-space-xl);">
+        <div style="display: inline-flex; align-items: center; gap: 10px; background: #000; color: #fff; padding: 6px 16px; border-radius: 2px; box-shadow: 3px 3px 0 var(--j-riso-orange);">
+          <span class="j-mono" style="font-size: 0.8rem; letter-spacing: 0.1em; color: var(--j-riso-lime); font-weight: 700;">18-HOUR USELESS MAKEATHON</span>
+          <span style="color: #666;">•</span>
+          <span class="j-mono" style="font-size: 0.8rem; color: #fff;">SCMS SSET KARUKUTTY</span>
+        </div>
+        <p class="j-hand" style="font-size: 1.4rem; color: var(--j-ink-dim); margin-top: 8px;">
+          "Every minute accounted for. Even the ones spent questioning my life choices."
+        </p>
+      </div>
+
+      <!-- Tabbed Timeline Dossier System -->
+      <div class="j-timeline-dossier j-reveal">
+
+        <!-- Interactive Guide Banner pointing to tabs -->
+        <div class="j-timeline-guide">
+          <div class="j-timeline-guide__left">
+            <span class="j-timeline-guide__dot"></span>
+            <span class="j-mono" style="font-weight: 800; font-size: 0.82rem; letter-spacing: 0.05em;">
+              INTERACTIVE CHRONOLOGY // 6 PIVOTAL HOURS
+            </span>
+          </div>
+          <div class="j-timeline-guide__right">
+            <span class="j-hand--ml" style="font-size: 1.2rem; color: var(--j-stamp-red); font-weight: bold;">
+              ഇവിടെ ക്ലിക്ക് ചെയ്യ്! ➔
+            </span>
+            <span class="j-hand" style="font-size: 1.1rem; color: var(--j-ink-dim); font-weight: 600;">
+              Click any hour below to open that dossier!
+            </span>
+            <span class="j-timeline-guide__arrow">👇</span>
+          </div>
+        </div>
+
+        <!-- Physical Folder Tabs (Stitch color accents) -->
+        <div class="j-timeline-tabs" id="timeline-tabs" role="tablist">
+          <button class="j-timeline-tab is-active" data-color="orange" data-tab="tab-1400" role="tab" aria-selected="true" title="Click to view 2:00 PM">
+            <span>⏱️ 2:00 PM</span>
+            <span class="j-tab-badge">[NO IDEA]</span>
+            <span class="j-tab-click-cta">● VIEWING NOW</span>
+          </button>
+          <button class="j-timeline-tab" data-color="lime" data-tab="tab-1700" role="tab" aria-selected="false" title="Click to view 5:00 PM">
+            <span>⏱️ 5:00 PM</span>
+            <span class="j-tab-badge">[COLGATE]</span>
+            <span class="j-tab-click-cta">👉 CLICK TO VIEW</span>
+          </button>
+          <button class="j-timeline-tab" data-color="yellow" data-tab="tab-2200" role="tab" aria-selected="false" title="Click to view 10:00 PM">
+            <span>⏱️ 10:00 PM</span>
+            <span class="j-tab-badge">[GTA 6 BRAIN]</span>
+            <span class="j-tab-click-cta">👉 CLICK TO VIEW</span>
+          </button>
+          <button class="j-timeline-tab" data-color="cyan" data-tab="tab-0200" role="tab" aria-selected="false" title="Click to view 2:00 AM">
+            <span>⏱️ 2:00 AM</span>
+            <span class="j-tab-badge">[MURSHUU]</span>
+            <span class="j-tab-click-cta">👉 CLICK TO VIEW</span>
+          </button>
+          <button class="j-timeline-tab" data-color="red" data-tab="tab-0500" role="tab" aria-selected="false" title="Click to view 5:00 AM">
+            <span>⏱️ 5:00 AM</span>
+            <span class="j-tab-badge">[BUG RESCUE]</span>
+            <span class="j-tab-click-cta">👉 CLICK TO VIEW</span>
+          </button>
+          <button class="j-timeline-tab" data-color="green" data-tab="tab-0800" role="tab" aria-selected="false" title="Click to view 8:00 AM">
+            <span>⏱️ 8:00 AM</span>
+            <span class="j-tab-badge">[SUBMITTED]</span>
+            <span class="j-tab-click-cta">👉 CLICK TO VIEW</span>
+          </button>
+        </div>
+
+        <!-- Dossier Body Container -->
+        <div class="j-timeline-body">
+
+          <!-- Paperclip on Top Edge -->
+          <div class="j-paperclip" style="top: -24px; right: 40px; --clip-rot: 6deg;">
+            <svg viewBox="0 0 24 56" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M12 4C7.5 4 4 7.5 4 12V44C4 49.5 8.5 54 14 54C19.5 54 24 49.5 24 44V16C24 12 21 9 17 9C13 9 10 12 10 16V40C10 42 11.5 43.5 13.5 43.5C15.5 43.5 17 42 17 40V18" stroke="#757d84" stroke-width="2.8" stroke-linecap="round"/>
+              <path d="M12 4C7.5 4 4 7.5 4 12V44C4 49.5 8.5 54 14 54C19.5 54 24 49.5 24 44V16C24 12 21 9 17 9C13 9 10 12 10 16V40C10 42 11.5 43.5 13.5 43.5C15.5 43.5 17 42 17 40V18" stroke="#e1e5e8" stroke-width="1.6" stroke-linecap="round"/>
+            </svg>
+          </div>
+
+          <!-- PANEL 1: 2:00 PM (18:00 REMAINING) -->
+          <div class="j-timeline-panel is-active" id="tab-1400">
+            <div>
+              <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 8px;">
+                <span class="j-badge-index" style="background: var(--j-riso-orange); color: #000;">14:00 IST</span>
+                <span class="j-mono" style="font-size: 0.75rem; color: var(--j-stamp-red); font-weight: 700;">18:00:00 REMAINING</span>
+              </div>
+              <h3 class="j-heading j-heading--md" style="margin-bottom: 12px;">
+                ARRIVAL AT SCMS CAMPUS // ZERO IDEAS
+              </h3>
+              <p style="font-size: 0.95rem; color: var(--j-ink-dim); line-height: 1.6; margin-bottom: 16px;">
+                Walked into the engineering labs at SCMS College with cold hands and an empty notepad. Other teams were already unboxing soldering irons, Arduino kits, and 3D printing filaments for the TinkerHub Useless Projects makeathon. I had literally nothing except a desire to build something brilliantly useless.
+              </p>
+              <div class="j-sticky j-sticky--taped" style="--sticky-rotation: -2deg; max-width: 320px;">
+                <p class="j-hand--ml" style="font-size: 1.25rem; color: var(--j-ink); margin-bottom: 4px;">
+                  എല്ലാവരും എന്തൊക്കെയോ ഉണ്ടാക്കുന്നു... ഞാൻ വെറുതെ ഇരിക്കുന്നു!
+                </p>
+                <p class="j-hand" style="font-size: 0.95rem; color: var(--j-ink-dim);">
+                  "Everyone had blueprints and robots. I was sipping tea wondering what I got into."
+                </p>
+              </div>
+            </div>
+
+            <div class="j-os-window">
+              <div class="j-os-window__bar">
+                <span>TERMINAL_01 // ENTRANCE.LOG</span>
+                <span class="j-os-window__controls">- □ ×</span>
+              </div>
+              <div class="j-os-window__content">
+                <div class="j-terminal" style="background: #111827; border: 1px solid #000; padding: 14px; margin: 0; box-shadow: none;">
+                  <div class="j-terminal__prompt" style="color: var(--j-riso-lime);">whoami</div>
+                  <div style="color: #9ca3af;">jaisi@scms-engg:~$ first-time-hacker</div>
+                  <div class="j-terminal__comment">// Querying mental memory bank for ideas...</div>
+                  <div class="j-terminal__error">Error 404: Inspiration not found (0 ideas)</div>
+                  <div class="j-terminal__prompt" style="color: var(--j-riso-lime); margin-top: 8px;">cat status.txt</div>
+                  <div style="color: var(--j-riso-yellow);">STATUS: Staring at laptop, drinking canteen chai.</div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Bottom Navigation -->
+            <div class="j-timeline-nav">
+              <button class="j-timeline-nav-btn" disabled>← START OF EVENT</button>
+              <span class="j-mono" style="font-size: 0.76rem; background: #000; color: #fff; padding: 4px 10px; border-radius: 2px;">
+                MILESTONE 1 OF 6 // ARRIVAL
+              </span>
+              <button class="j-timeline-nav-btn" data-target="tab-1700">NEXT: 5:00 PM (COLGATE) →</button>
+            </div>
+          </div>
+
+          <!-- PANEL 2: 5:00 PM (15:00 REMAINING) -->
+          <div class="j-timeline-panel" id="tab-1700">
+            <div>
+              <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 8px;">
+                <span class="j-badge-index" style="background: var(--j-riso-lime); color: #000;">17:00 IST</span>
+                <span class="j-mono" style="font-size: 0.75rem; color: var(--j-stamp-red); font-weight: 700;">15:00:00 REMAINING</span>
+              </div>
+              <h3 class="j-heading j-heading--md" style="margin-bottom: 12px;">
+                THE COLGATE SQUEEZE BREAKTHROUGH
+              </h3>
+              <p style="font-size: 0.95rem; color: var(--j-ink-dim); line-height: 1.6; margin-bottom: 16px;">
+                Watching everyday items around the makerspace. A half-crushed tube of toothpaste in someone's backpack triggered the existential breakthrough: <em>Humans file for immigration and passports to escape stressful lives... what about our objects?</em>
+              </p>
+              <div class="j-sticky j-sticky--blue" style="--sticky-rotation: 1.5deg; max-width: 320px;">
+                <p class="j-hand--ml" style="font-size: 1.25rem; color: var(--j-ink); margin-bottom: 4px;">
+                  ട്യൂബിനും വിസ വേണം!
+                </p>
+                <p class="j-hand" style="font-size: 0.95rem; color: var(--j-ink-dim);">
+                  "Toothpaste tube demands diplomatic immunity under Article 3."
+                </p>
+              </div>
+            </div>
+
+            <div class="j-os-window">
+              <div class="j-os-window__bar">
+                <span>CORE_HYPOTHESIS.TXT</span>
+                <span class="j-os-window__controls">- □ ×</span>
+              </div>
+              <div class="j-os-window__content">
+                <div style="background: #ffffff; border: 1px dashed #000; padding: 16px; font-family: var(--j-font-bureau); font-size: 0.85rem; line-height: 1.5;">
+                  <span style="background: var(--j-riso-yellow); padding: 2px 6px; font-weight: bold;">EVIDENCE NOTE #42</span><br><br>
+                  Object: Colgate Max Fresh (Flatlined)<br>
+                  Pressure: 42 PSI (Thumb squeeze)<br>
+                  Complaint: "PLEASE STOP. I HAVE GIVEN YOU EVERYTHING."<br><br>
+                  <strong style="color: var(--j-passport);">ACTION: ISSUE EMERGENCY CITIZENSHIP PASSPORT</strong>
+                </div>
+              </div>
+            </div>
+
+            <!-- Bottom Navigation -->
+            <div class="j-timeline-nav">
+              <button class="j-timeline-nav-btn" data-target="tab-1400">← PREV: 2:00 PM</button>
+              <span class="j-mono" style="font-size: 0.76rem; background: #000; color: #fff; padding: 4px 10px; border-radius: 2px;">
+                MILESTONE 2 OF 6 // THE SPARK
+              </span>
+              <button class="j-timeline-nav-btn" data-target="tab-2200">NEXT: 10:00 PM (GTA 6) →</button>
+            </div>
+          </div>
+
+          <!-- PANEL 3: 10:00 PM (10:00 REMAINING) -->
+          <div class="j-timeline-panel" id="tab-2200">
+            <div>
+              <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 8px;">
+                <span class="j-badge-index" style="background: var(--j-riso-yellow); color: #000;">22:00 IST</span>
+                <span class="j-mono" style="font-size: 0.75rem; color: var(--j-stamp-red); font-weight: 700;">10:00:00 REMAINING</span>
+              </div>
+              <h3 class="j-heading j-heading--md" style="margin-bottom: 12px;">
+                FEVER DREAM & SCOPE EXPLOSION
+              </h3>
+              <p style="font-size: 0.95rem; color: var(--j-ink-dim); line-height: 1.6; margin-bottom: 16px;">
+                Peak delusion hour. Instead of building the webcam scanner, I was designing a 3D open-world city where staplers rob supermarkets and water bottles start startup incubators. 4 pages of handwritten game architecture notes. 0 lines of camera code.
+              </p>
+              <div class="j-sticky j-sticky--pink" style="--sticky-rotation: -1.5deg; max-width: 320px;">
+                <p class="j-hand" style="font-size: 1.15rem; color: var(--j-ink);">
+                  "I was genuinely planning a 40-minute Pixar movie generator inside browser memory."
+                </p>
+              </div>
+            </div>
+
+            <div class="j-os-window">
+              <div class="j-os-window__bar">
+                <span>FANTASY_BUDGET.XLS</span>
+                <span class="j-os-window__controls">- □ ×</span>
+              </div>
+              <div class="j-os-window__content">
+                <div style="background: #ffffff; border: 1px solid #000; padding: 12px; font-family: var(--j-font-mono); font-size: 0.75rem;">
+                  <div style="display: flex; justify-content: space-between; border-bottom: 1px solid #ddd; padding: 4px 0;">
+                    <span>3D Rigging Engine</span><span style="color: var(--j-stamp-red);">$12,000,000</span>
+                  </div>
+                  <div style="display: flex; justify-content: space-between; border-bottom: 1px solid #ddd; padding: 4px 0;">
+                    <span>Open World Physics</span><span style="color: var(--j-stamp-red);">$18,000,000</span>
+                  </div>
+                  <div style="display: flex; justify-content: space-between; border-bottom: 1px solid #ddd; padding: 4px 0;">
+                    <span>Toaster Romance AI</span><span style="color: var(--j-stamp-red);">$10,000,000</span>
+                  </div>
+                  <div style="display: flex; justify-content: space-between; padding: 6px 0; font-weight: bold; background: #fff0f0; margin-top: 4px;">
+                    <span>TOTAL BUDGET:</span><span>$40,000,000</span>
+                  </div>
+                  <div style="color: var(--j-stamp-red); text-align: center; margin-top: 8px; font-weight: bold;">
+                    ACTUAL BUDGET: 2 SAMOSAS & CHAI
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Bottom Navigation -->
+            <div class="j-timeline-nav">
+              <button class="j-timeline-nav-btn" data-target="tab-1700">← PREV: 5:00 PM</button>
+              <span class="j-mono" style="font-size: 0.76rem; background: #000; color: #fff; padding: 4px 10px; border-radius: 2px;">
+                MILESTONE 3 OF 6 // SCOPE CREEP
+              </span>
+              <button class="j-timeline-nav-btn" data-target="tab-0200">NEXT: 2:00 AM (MURSHUU) →</button>
+            </div>
+          </div>
+
+          <!-- PANEL 4: 2:00 AM (06:00 REMAINING) -->
+          <div class="j-timeline-panel" id="tab-0200">
+            <div>
+              <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 8px;">
+                <span class="j-badge-index" style="background: var(--j-riso-cyan); color: #000;">02:00 IST</span>
+                <span class="j-mono" style="font-size: 0.75rem; color: var(--j-stamp-red); font-weight: 700;">06:00:00 REMAINING</span>
+              </div>
+              <h3 class="j-heading j-heading--md" style="margin-bottom: 12px;">
+                MURSHUU EVENT & CAFFEINE RESCUE
+              </h3>
+              <p style="font-size: 0.95rem; color: var(--j-ink-dim); line-height: 1.6; margin-bottom: 16px;">
+                Everyone was hitting the 2:00 AM wall. Eyes drooping, bugs accumulating. Then Murshuu caused complete comedy chaos across the maker tables. Laughing recharged the room. Two cans of Red Bull were acquired under mysterious circumstances.
+              </p>
+              <div class="j-sticky j-sticky--taped" style="--sticky-rotation: 2deg; max-width: 320px;">
+                <p class="j-hand--ml" style="font-size: 1.25rem; color: var(--j-ink); margin-bottom: 4px;">
+                  2 മണിക്ക് ഉറക്കം വന്നപ്പോൾ ചിരിയും റെഡ് ബുള്ളും രക്ഷിച്ചു!
+                </p>
+                <p class="j-hand" style="font-size: 0.95rem; color: var(--j-ink-dim);">
+                  "Saved from the brink of sleep by pure chaotic community energy."
+                </p>
+              </div>
+            </div>
+
+            <div class="j-os-window">
+              <div class="j-os-window__bar">
+                <span>RADAR_02 // RED_BULL_INVENTORY</span>
+                <span class="j-os-window__controls">- □ ×</span>
+              </div>
+              <div class="j-os-window__content">
+                <div style="background: #1e293b; color: #f8fafc; padding: 14px; font-family: var(--j-font-mono); font-size: 0.75rem;">
+                  <div style="color: var(--j-riso-cyan);">[INVENTORY REPORT // 02:14 AM]</div>
+                  <div style="margin-top: 6px;">• Red Bull Cans: 2 (HEIST SUCCESSFUL)</div>
+                  <div style="margin-top: 4px;">• Shared with friends: 0 (SURVIVAL PROTOCOL)</div>
+                  <div style="margin-top: 4px;">• Sleepiness Level: 98% ➔ 12% (SUPERCHARGED)</div>
+                  <div style="margin-top: 4px; color: var(--j-riso-lime);">• Keystrokes per minute: 140 WPM</div>
+                  <div style="margin-top: 8px; border-top: 1px solid #475569; padding-top: 6px; color: var(--j-riso-yellow);">
+                    "And somehow... I went straight back to coding the passport generator."
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Bottom Navigation -->
+            <div class="j-timeline-nav">
+              <button class="j-timeline-nav-btn" data-target="tab-2200">← PREV: 10:00 PM</button>
+              <span class="j-mono" style="font-size: 0.76rem; background: #000; color: #fff; padding: 4px 10px; border-radius: 2px;">
+                MILESTONE 4 OF 6 // RED BULL
+              </span>
+              <button class="j-timeline-nav-btn" data-target="tab-0500">NEXT: 5:00 AM (BUG RESCUE) →</button>
+            </div>
+          </div>
+
+          <!-- PANEL 5: 5:00 AM (03:00 REMAINING) -->
+          <div class="j-timeline-panel" id="tab-0500">
+            <div>
+              <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 8px;">
+                <span class="j-badge-index" style="background: var(--j-stamp-red); color: #fff;">05:00 IST</span>
+                <span class="j-mono" style="font-size: 0.75rem; color: var(--j-stamp-red); font-weight: 700;">03:00:00 REMAINING</span>
+              </div>
+              <h3 class="j-heading j-heading--md" style="margin-bottom: 12px;">
+                AI API RESCUE & PYTHON PANIC
+              </h3>
+              <p style="font-size: 0.95rem; color: var(--j-ink-dim); line-height: 1.6; margin-bottom: 16px;">
+                Nightmare alert: The primary AI endpoint began returning 45-second gateway timeouts. Frantic triage in <code>server.js</code>—built a dual-engine failover proxy switching between NVIDIA Nemotron and Google Gemini 1.5 Flash. If one failed, the other caught the object frame.
+              </p>
+              <div class="j-sticky j-sticky--blue" style="--sticky-rotation: -2deg; max-width: 320px;">
+                <p class="j-hand" style="font-size: 1.15rem; color: var(--j-ink);">
+                  "If the API timed out during the morning jury pitch, the object would die before receiving its passport!"
+                </p>
+              </div>
+            </div>
+
+            <div class="j-os-window">
+              <div class="j-os-window__bar">
+                <span>SERVER_FAILOVER.JS</span>
+                <span class="j-os-window__controls">- □ ×</span>
+              </div>
+              <div class="j-os-window__content">
+                <div class="j-terminal" style="background: #0f172a; padding: 12px; font-size: 0.72rem; margin: 0; box-shadow: none;">
+                  <div class="j-terminal__error">[ERR] Primary LLM timeout (45000ms)</div>
+                  <div class="j-terminal__comment">// Executing instant failover to Gemini Flash...</div>
+                  <div class="j-terminal__success">[200 OK] Image multipart blob accepted</div>
+                  <div class="j-terminal__success">[OBJECT DETECTED]: Computer Mouse</div>
+                  <div style="color: #60a5fa;">[TRAITS]: Born in Japan, feared of being thrown away</div>
+                  <div style="color: var(--j-riso-lime); font-weight: bold; margin-top: 6px;">SERVER STABILIZED AT 05:42 AM. PRAYERS ANSWERED.</div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Bottom Navigation -->
+            <div class="j-timeline-nav">
+              <button class="j-timeline-nav-btn" data-target="tab-0200">← PREV: 2:00 AM</button>
+              <span class="j-mono" style="font-size: 0.76rem; background: #000; color: #fff; padding: 4px 10px; border-radius: 2px;">
+                MILESTONE 5 OF 6 // FAILOVER
+              </span>
+              <button class="j-timeline-nav-btn" data-target="tab-0800">NEXT: 8:00 AM (SUBMISSION) →</button>
+            </div>
+          </div>
+
+          <!-- PANEL 6: 8:00 AM (00:00 REMAINING) -->
+          <div class="j-timeline-panel" id="tab-0800">
+            <div>
+              <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 8px;">
+                <span class="j-badge-index" style="background: var(--j-stamp-green); color: #fff;">08:00 IST</span>
+                <span class="j-mono" style="font-size: 0.75rem; color: var(--j-stamp-green); font-weight: 700;">00:00:00 — FINISHED</span>
+              </div>
+              <h3 class="j-heading j-heading--md" style="margin-bottom: 12px;">
+                ZERO-HOUR SUBMISSION & SURVIVAL
+              </h3>
+              <p style="font-size: 0.95rem; color: var(--j-ink-dim); line-height: 1.6; margin-bottom: 16px;">
+                18 hours over. Exhausted, red-eyed, caffeine buzzing through veins. The complete pipeline worked: camera detected the mouse, passport generated with official insignia, immigration officer accepted a ₹50 bribe, and the mouse died peacefully of battery drain.
+              </p>
+              <div class="j-stamp j-stamp--approved" style="--stamp-rotation: -4deg; display: inline-block;">
+                SUBMITTED // PROJECT COMPLETE // SCMS SSET
+              </div>
+            </div>
+
+            <div class="j-os-window">
+              <div class="j-os-window__bar">
+                <span>SUBMISSION_VERDICT.CONF</span>
+                <span class="j-os-window__controls">- □ ×</span>
+              </div>
+              <div class="j-os-window__content">
+                <div style="background: #ffffff; border: 2px solid #000; padding: 16px; text-align: center;">
+                  <span class="j-bureau" style="font-size: 0.75rem; color: var(--j-stamp-green); display: block; margin-bottom: 6px;">
+                    USELESS PROJECTS 3.0 // MAKEATHON VERDICT
+                  </span>
+                  <p class="j-display" style="font-size: 1.75rem; color: #000; margin-bottom: 8px;">
+                    "Completely useless. Highly emotional. Absolutely brilliant."
+                  </p>
+                  <p class="j-mono" style="font-size: 0.75rem; color: #666;">
+                    Total Lines of Code: 2,400+ • Total Sleep: 0 hrs • Final Bug Count: 4 (features, not bugs)
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            <!-- Bottom Navigation -->
+            <div class="j-timeline-nav">
+              <button class="j-timeline-nav-btn" data-target="tab-0500">← PREV: 5:00 AM</button>
+              <span class="j-mono" style="font-size: 0.76rem; background: var(--j-stamp-green); color: #fff; padding: 4px 10px; border-radius: 2px;">
+                MILESTONE 6 OF 6 // FINISHED
+              </span>
+              <button class="j-timeline-nav-btn" disabled>PROJECT SUBMITTED ✓</button>
+            </div>
+          </div>
+
+        </div>
+
+      </div>
+
+    </div>
+
+  </section>
+
+
+  <!-- ═══════════════════════════════════════════════════════════════
+       SECTION 09 — BUILDING THE PROJECT (ACTUAL UI WALKTHROUGH)
+       Real project screenshots, officer mood switcher, and audio player
+       ═══════════════════════════════════════════════════════════════ -->
+  <section class="j-section" data-section="09-building" id="building" style="background: var(--j-paper-warm); border-top: 2px solid var(--j-ink); border-bottom: 2px solid var(--j-ink);">
+
+    <div class="j-container--wide">
+
+      <!-- Section Title Header -->
+      <div class="j-text-center j-reveal" style="margin-bottom: var(--j-space-2xl);">
+        <span class="j-badge-index" style="background: var(--j-passport); color: #fff; margin-bottom: 10px;">
+          DECONSTRUCTION // 4 CORE SCREENS
+        </span>
+        <h2 class="j-heading j-heading--xl" style="margin-bottom: var(--j-space-sm);">
+          BUILDING THE PROJECT
+        </h2>
+        <p class="j-mono--status" style="color: var(--j-ink-dim); max-width: 600px; margin: 0 auto;">
+          The authentic 4-step pipeline that shipped at 08:00 AM. Every screenshot below is captured directly from the live makeathon demo.
+        </p>
+      </div>
+
+      <!-- CARD 1: THE SCANNER -->
+      <div class="j-walkthrough-card j-reveal">
+        <div class="j-walkthrough-card__header">
+          <div style="display: flex; align-items: center; gap: 10px;">
+            <span class="j-badge-index" style="background: #000; color: var(--j-riso-lime);">STEP 01</span>
+            <span class="j-bureau">WEBCAM VISION ACQUISITION</span>
+          </div>
+          <span class="j-mono" style="font-size: 0.75rem; background: var(--j-stamp-green); color: #fff; padding: 2px 8px; border-radius: 2px;">
+            STATUS: SHIPPED // ZERO HARDWARE REQUIRED
+          </span>
+        </div>
+
+        <div class="j-walkthrough-card__body">
+          <div class="j-walkthrough-preview">
+            <img src="./screenshots/scanner.png" alt="Scanner screen with targeting reticle and SCAN OBJECT button" loading="lazy">
+            <div style="position: absolute; bottom: 8px; left: 8px; background: rgba(0,0,0,0.8); color: var(--j-riso-lime); font-family: var(--j-font-mono); font-size: 0.7rem; padding: 2px 6px; border: 1px solid var(--j-riso-lime);">
+              ● CAM_01 // LIVE TARGET ACQUIRED
+            </div>
+          </div>
+
+          <div>
+            <h3 class="j-heading j-heading--md" style="margin-bottom: 12px; color: var(--j-passport);">
+              Point Laptop Camera At Any Object
+            </h3>
+            <p style="font-size: 0.95rem; color: var(--j-ink-dim); line-height: 1.6; margin-bottom: 14px;">
+              Instead of needing expensive sensors or barcode tags, the player simply holds any physical item in front of their webcam. OpenCV and browser HTML5 Canvas extract a 640x480 snapshot and beam it to the AI vision backend.
+            </p>
+            <div style="background: var(--j-paper); border-left: 3px solid var(--j-riso-lime); padding: 10px 14px; font-family: var(--j-font-mono); font-size: 0.78rem; margin-bottom: 14px;">
+              <span style="font-weight: bold; color: var(--j-ink);">Makeathon Hack:</span> Added bounding reticle lines in CSS to make a 5-dollar laptop webcam feel like an FBI biometric border scanner.
+            </div>
+            <p class="j-hand--ml" style="font-size: 1.25rem; color: var(--j-ink);">
+              മൗസോ, ബോട്ടിലോ, പേനയോ... എന്തും ക്യാമറയ്ക്ക് മുൻപിൽ കാണിക്കാം!
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <!-- CARD 2: THE REPUBLIC OF OBJECTS PASSPORT -->
+      <div class="j-walkthrough-card j-reveal">
+        <div class="j-walkthrough-card__header">
+          <div style="display: flex; align-items: center; gap: 10px;">
+            <span class="j-badge-index" style="background: #000; color: var(--j-riso-yellow);">STEP 02</span>
+            <span class="j-bureau">REPUBLIC OF OBJECTS // OFFICIAL PASSPORT</span>
+          </div>
+          <span class="j-mono" style="font-size: 0.75rem; background: var(--j-passport); color: #fff; padding: 2px 8px; border-radius: 2px;">
+            PASSPORT NO: OBJ-47529
+          </span>
+        </div>
+
+        <div class="j-walkthrough-card__body">
+          <div class="j-walkthrough-preview">
+            <img src="./screenshots/passport.png" alt="Official Republic of Objects Passport booklet for The Mousey-Mouse" loading="lazy">
+            <div style="position: absolute; top: 8px; right: 8px; background: rgba(0,0,0,0.85); color: var(--j-riso-yellow); font-family: var(--j-font-mono); font-size: 0.7rem; padding: 2px 8px; border: 1px solid var(--j-riso-yellow);">
+              ★ OFFICIAL CITIZENSHIP DOSSIER
+            </div>
+          </div>
+
+          <div>
+            <h3 class="j-heading j-heading--md" style="margin-bottom: 12px; color: var(--j-passport);">
+              The Mousey-Mouse Gets Its Identity
+            </h3>
+            <p style="font-size: 0.95rem; color: var(--j-ink-dim); line-height: 1.6; margin-bottom: 14px;">
+              The AI parses the photo and constructs a full psychological and bureaucratic profile inside an authentic dual-page passport booklet:
+            </p>
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 8px; font-family: var(--j-font-mono); font-size: 0.75rem; margin-bottom: 14px;">
+              <div style="background: var(--j-paper); padding: 8px; border: 1px solid #ddd;">
+                <strong>ORIGIN:</strong> Computer lab in Japan (1999)
+              </div>
+              <div style="background: var(--j-paper); padding: 8px; border: 1px solid #ddd;">
+                <strong>PERSONALITY:</strong> A bit lazy, very efficient
+              </div>
+              <div style="background: var(--j-paper); padding: 8px; border: 1px solid #ddd;">
+                <strong>FEAR:</strong> Being thrown away
+              </div>
+              <div style="background: var(--j-paper); padding: 8px; border: 1px solid #ddd;">
+                <strong>WEAKNESS:</strong> Gets stuck in corners
+              </div>
+            </div>
+            <div class="j-stamp j-stamp--approved" style="--stamp-rotation: -2deg; display: inline-block;">
+              OBJECT LIFE REGISTERED // SCMS SSET
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- CARD 3: THE CORRUPT IMMIGRATION OFFICER -->
+      <div class="j-walkthrough-card j-reveal">
+        <div class="j-walkthrough-card__header">
+          <div style="display: flex; align-items: center; gap: 10px;">
+            <span class="j-badge-index" style="background: #000; color: var(--j-riso-cyan);">STEP 03</span>
+            <span class="j-bureau">IMMIGRATION OFFICER INTERROGATION</span>
+          </div>
+          <span class="j-mono" style="font-size: 0.75rem; background: var(--j-stamp-red); color: #fff; padding: 2px 8px; border-radius: 2px;">
+            THE ₹50 BRIBE MECHANIC
+          </span>
+        </div>
+
+        <div class="j-walkthrough-card__body">
+          <div class="j-walkthrough-preview">
+            <img src="./screenshots/immigration.png" alt="Immigration officer dialogue screen accepting ₹50 bribe" loading="lazy">
+            <!-- Dynamic Officer Avatar Badge -->
+            <div style="position: absolute; top: 12px; left: 12px; display: flex; align-items: center; gap: 8px; background: rgba(0,0,0,0.85); border: 1px solid #fff; padding: 4px 8px; border-radius: 4px;">
+              <img id="j-officer-avatar" src="../pass.png" alt="Current officer mood" style="width: 32px; height: 32px; border-radius: 50%; border: 1px solid var(--j-riso-yellow);">
+              <span id="j-officer-mood-label" class="j-mono" style="font-size: 0.7rem; color: #fff; font-weight: bold;">OFFICER: PASS</span>
+            </div>
+          </div>
+
+          <div>
+            <h3 class="j-heading j-heading--md" style="margin-bottom: 12px; color: var(--j-passport);">
+              The Bureaucratic Crucible
+            </h3>
+            <p style="font-size: 0.95rem; color: var(--j-ink-dim); line-height: 1.6; margin-bottom: 10px;">
+              Before an object enters the world, it must pass a notoriously unpredictable Kerala immigration officer. The player can talk, plead, or offer an honest ₹50 tea charge bribe:
+            </p>
+
+            <!-- Interactive Officer Face Switcher -->
+            <div style="margin-bottom: 14px;">
+              <span class="j-mono" style="font-size: 0.72rem; color: var(--j-ink-dim); display: block; margin-bottom: 4px;">
+                CLICK TO TEST OFFICER EMOTIONS:
+              </span>
+              <div class="j-officer-matrix">
+                <button class="j-officer-btn" data-mood="stare" data-src="../stare.png">😐 STARE</button>
+                <button class="j-officer-btn" data-mood="doubt" data-src="../doubt.png">🤨 DOUBT</button>
+                <button class="j-officer-btn" data-mood="happy" data-src="../happy.png">😄 HAPPY</button>
+                <button class="j-officer-btn is-active" data-mood="pass" data-src="../pass.png">👮 APPROVED (PASS)</button>
+              </div>
+            </div>
+
+            <!-- Dialogue Bubble -->
+            <div id="j-officer-dialogue" style="background: #1e293b; color: #f8fafc; border: 2px solid #000; padding: 12px 14px; font-family: var(--j-font-mono); font-size: 0.8rem; margin-bottom: 14px; border-radius: 4px;">
+              *looks left and right* "Aha! ₹50 bribe?! ...I am an honest officer! *quietly pockets ₹50* ...Okay, tea charge accepted! APPROVED!"
+            </div>
+
+            <!-- Interactive Dialogue Chips -->
+            <div style="display: flex; gap: 6px; flex-wrap: wrap;">
+              <span class="j-dialogue-chip" data-reply="harmless">"Njan harmless aanu bro!"</span>
+              <span class="j-dialogue-chip" data-reply="bribe">"Ithil ₹50 edukko? (Bribe)"</span>
+              <span class="j-dialogue-chip" data-reply="witness">"Ask the banana witness!"</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- CARD 4: THE INEVITABLE DEATH SEQUENCE -->
+      <div class="j-walkthrough-card j-reveal">
+        <div class="j-walkthrough-card__header" style="background: #111; color: #fff;">
+          <div style="display: flex; align-items: center; gap: 10px;">
+            <span class="j-badge-index" style="background: var(--j-stamp-red); color: #fff;">STEP 04</span>
+            <span class="j-bureau" style="color: #fff;">💀 REST IN PEACE // THE OBITUARY</span>
+          </div>
+          <span class="j-mono" style="font-size: 0.75rem; background: var(--j-stamp-red); color: #fff; padding: 2px 8px; border-radius: 2px;">
+            CAUSE OF DEATH: BATTERY DRAIN
+          </span>
+        </div>
+
+        <div class="j-walkthrough-card__body">
+          <div class="j-walkthrough-preview" style="border-color: var(--j-stamp-red);">
+            <img src="./screenshots/death.png" alt="Rest in peace death screen for The Mousey-Mouse" loading="lazy">
+            <div style="position: absolute; top: 12px; left: 12px; background: rgba(192,57,43,0.9); color: #fff; font-family: var(--j-font-mono); font-size: 0.7rem; padding: 3px 8px; border-radius: 2px;">
+              FATALITY: 100% UNFORGIVING
+            </div>
+          </div>
+
+          <div>
+            <h3 class="j-heading j-heading--md" style="margin-bottom: 12px; color: var(--j-stamp-red);">
+              Every Object Eventually Dies
+            </h3>
+            <p style="font-size: 0.95rem; color: var(--j-ink-dim); line-height: 1.6; margin-bottom: 14px;">
+              The core comedic rule of the project: No matter how glorious the passport, no matter how many bribes were paid, every single object meets an absurd, inevitable death.
+            </p>
+
+            <div style="background: #1a1a1a; color: #f8fafc; border: 2px solid #000; padding: 14px; margin-bottom: 16px; border-radius: 4px;">
+              <div class="j-bureau" style="color: var(--j-stamp-red); font-size: 0.72rem; margin-bottom: 4px;">
+                OFFICIAL POST-MORTEM REPORT
+              </div>
+              <p style="font-style: italic; font-size: 0.9rem; line-height: 1.5; color: #e2e8f0; margin-bottom: 8px;">
+                "Ella karyavum kazhinju... The Mousey-Mouse aa pazhaya shelf-il thirichu vechu. Aarum orma illa."
+              </p>
+              <p class="j-mono" style="font-size: 0.75rem; color: #94a3b8;">
+                Cause of Death: Mouse battery drain pannu.
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+  </section>
+
+  <!-- ═══════════════════════════════════════════════════════════════
+       SECTION 10 — THE NIGHT (MURSHUU / RED BULL / MIDNIGHT MADNESS)
+       ═══════════════════════════════════════════════════════════════ -->
+  <section class="j-section j-night-backdrop" data-section="10-night" id="night">
+
+    <div class="j-container--full" style="max-width: 1360px; padding: 0 20px;">
+
+      <!-- Header -->
+      <div class="j-text-center j-reveal">
+        <span class="j-badge-index" style="background: var(--j-riso-cyan); color: #000; margin-bottom: 12px;">
+          DOCUMENTARY INTERLUDE // 02:00 AM
+        </span>
+        <h2 class="j-heading j-heading--xl" style="color: #ffffff; margin-bottom: 8px;">
+          THE NIGHT
+        </h2>
+        <p class="j-display" style="font-size: clamp(1.4rem, 3vw, 2.2rem); color: var(--j-riso-yellow); max-width: 820px; margin: 0 auto 16px;">
+          "At 2:00 AM, everyone was dying. Then Murshuu brought both chaos and philosophy."
+        </p>
+      </div>
+
+      <div class="j-night-grid">
+
+        <!-- Column 1: Murshu Spreading Smiles & Comedy Chaos -->
+        <div class="j-reveal">
+          <div class="j-cam-frame">
+            <div class="j-cam-hud-top">
+              <div class="j-cam-rec">
+                <span class="j-cam-dot"></span>
+                <span>REC 02:00:14</span>
+              </div>
+              <span class="j-cam-tag">TAPE 01: SPREADING SMILES</span>
+            </div>
+
+            <div class="j-cam-viewport">
+              <span class="j-cam-bracket j-cam-bracket--tl"></span>
+              <span class="j-cam-bracket j-cam-bracket--tr"></span>
+              <span class="j-cam-bracket j-cam-bracket--bl"></span>
+              <span class="j-cam-bracket j-cam-bracket--br"></span>
+
+              <video
+                src="./videos/murshuu.mp4"
+                loop
+                playsinline
+                controls
+                data-label="Murshu making everyone smile at midnight"
+                preload="metadata"
+                class="j-cam-video"
+              ></video>
+
+              <!-- Play With Sound Overlay Button -->
+              <button class="j-cam-play-overlay" type="button" aria-label="Play Tape 01 with sound">
+                <div class="j-cam-play-icon">▶</div>
+                <span class="j-cam-play-text">PLAY WITH SOUND 🔊</span>
+              </button>
+            </div>
+
+            <div class="j-cam-hud-bottom">
+              <span>📹 CAM_01: MURSHU_SMILE.MP4</span>
+              <span>SCMS LAB 2 • 60FPS</span>
+            </div>
+          </div>
+
+          <div class="j-sticky j-sticky--taped" style="--sticky-rotation: -1.5deg; margin-top: 16px; max-width: 100%;">
+            <div class="j-mono" style="font-size: 0.72rem; color: #b91c1c; font-weight: 700; margin-bottom: 4px; text-transform: uppercase;">
+              [THE COMEDIC RESCUE]
+            </div>
+            <p class="j-hand--ml" style="font-size: 1.25rem; color: #000; margin-bottom: 6px; font-weight: 800; line-height: 1.35;">
+              "2 മണിക്ക് ഉറക്കം തൂങ്ങി വീണവരെ മുർഷു ചിരിപ്പിച്ച് എഴുന്നേൽപ്പിച്ചു!" ☕🔥
+            </p>
+            <p class="j-hand" style="font-size: 0.98rem; color: #333; line-height: 1.4;">
+              "The entire maker floor was nodding off onto their keyboards... then Murshu walked through and recharged the room with pure chaotic laughter!"
+            </p>
+          </div>
+        </div>
+
+        <!-- Column 2: Murshu The 21-Year-Old Motivational Guru -->
+        <div class="j-reveal" style="transition-delay: 0.1s;">
+          <div class="j-cam-frame">
+            <div class="j-cam-hud-top">
+              <div class="j-cam-rec">
+                <span class="j-cam-dot"></span>
+                <span>REC 02:22:45</span>
+              </div>
+              <span class="j-cam-tag" style="color: var(--j-riso-lime);">TAPE 02: 21-YR-OLD FUTURE SPEECH</span>
+            </div>
+
+            <div class="j-cam-viewport">
+              <span class="j-cam-bracket j-cam-bracket--tl"></span>
+              <span class="j-cam-bracket j-cam-bracket--tr"></span>
+              <span class="j-cam-bracket j-cam-bracket--bl"></span>
+              <span class="j-cam-bracket j-cam-bracket--br"></span>
+
+              <video
+                src="./videos/ins.mp4"
+                loop
+                playsinline
+                controls
+                data-label="Murshu motivational speech about 21 year old caring for future"
+                preload="metadata"
+                class="j-cam-video"
+              ></video>
+
+              <!-- Play With Sound Overlay Button -->
+              <button class="j-cam-play-overlay" type="button" aria-label="Play Tape 02 with sound">
+                <div class="j-cam-play-icon">▶</div>
+                <span class="j-cam-play-text">PLAY WITH SOUND 🔊</span>
+              </button>
+            </div>
+
+            <div class="j-cam-hud-bottom">
+              <span>📹 CAM_02: MURSHU_MOTIVATION.MP4</span>
+              <span>SCMS LAB 2 • 60FPS</span>
+            </div>
+          </div>
+
+          <div class="j-sticky j-sticky--taped j-sticky--pink" style="--sticky-rotation: 1.5deg; margin-top: 16px; max-width: 100%;">
+            <div class="j-mono" style="font-size: 0.72rem; color: #831843; font-weight: 700; margin-bottom: 4px; text-transform: uppercase;">
+              [THE 2 AM PHILOSOPHER &amp; MOTIVATOR]
+            </div>
+            <p class="j-hand--ml" style="font-size: 1.18rem; color: #000; margin-bottom: 6px; font-weight: 800; line-height: 1.35;">
+              "മുർഷു: ഒരു എന്റർടെയ്നർ മാത്രമല്ല, ഞങ്ങളുടെ 2 AM മോട്ടിവേഷൻ ഗുരു കൂടിയാണ്! 🎤✨"
+            </p>
+            <p class="j-hand--ml" style="font-size: 1.02rem; color: #1e1b4b; margin-bottom: 8px; line-height: 1.4;">
+              '21 വയസ്സുള്ള ചെറുപ്പക്കാർ നാടിന്റെയും പരിസ്ഥിതിയുടെയും ഭാവിയെക്കുറിച്ച് ചിന്തിക്കണം, അങ്ങനെയുള്ളവരെയാണ് നാടിന് ആവശ്യം!' എന്ന് രാത്രി 2 മണിക്ക് മുർഷു ഭായ് സീരിയസായി ലൈഫ് ക്ലാസ് എടുക്കുമ്പോൾ... കയ്യിലിരിക്കുന്ന ചത്ത കമ്പ്യൂട്ടർ മൗസിന് ₹50 കൈക്കൂലി കൊടുത്ത് വ്യാജ പാസ്പോർട്ട് അടിക്കുന്ന ഞാൻ: <em>'അപ്പൊ ഭാവിയുടെ ആ വലിയ പ്രതീക്ഷ ഞാനാണോ bro?!'</em> 😭💀
+            </p>
+            <p class="j-hand" style="font-size: 0.93rem; color: #374151; line-height: 1.35;">
+              "Murshuu dropping heavy 2:00 AM life wisdom: 'We need 21-year-olds who truly care about our future and environment.' Meanwhile, me desperately writing Node.js code to bribe an immigration officer ₹50 for a dead computer mouse: '...Do you really think I'm that person for the future?!'"
+            </p>
+          </div>
+        </div>
+
+        <!-- Column 3 (Right): The Caffeine Heist & Bio-Status Telemetry Card -->
+        <div class="j-reveal j-night-col--caffeine" style="transition-delay: 0.2s;">
+          <div class="j-caffeine-meter" style="max-width: 100%;">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 14px; border-bottom: 1px solid #334155; padding-bottom: 8px; flex-wrap: wrap; gap: 8px;">
+              <span class="j-mono" style="font-size: 0.82rem; font-weight: bold; color: var(--j-riso-lime);">
+                ✦ BIO-STATUS // 02:30 IST
+              </span>
+              <span class="j-mono" style="font-size: 0.72rem; color: #94a3b8;">SCMS SSET LAB 2</span>
+            </div>
+
+            <div style="font-size: 0.85rem; margin-bottom: 6px; display: flex; justify-content: space-between;">
+              <span>Caffeine Saturation:</span>
+              <span style="color: var(--j-riso-yellow); font-weight: bold;">100% (2x RED BULL)</span>
+            </div>
+            <div class="j-caffeine-bar">
+              <div class="j-caffeine-fill" style="width: 100%;"></div>
+            </div>
+
+            <div style="font-size: 0.85rem; margin-bottom: 6px; display: flex; justify-content: space-between;">
+              <span>Surviving Brain Cells:</span>
+              <span style="color: var(--j-stamp-red); font-weight: bold;">14%</span>
+            </div>
+            <div class="j-caffeine-bar">
+              <div class="j-caffeine-fill" style="width: 14%; background: var(--j-stamp-red);"></div>
+            </div>
+
+            <div style="font-size: 0.85rem; margin-bottom: 6px; display: flex; justify-content: space-between;">
+              <span>Keyboard Typing Velocity:</span>
+              <span style="color: var(--j-riso-cyan); font-weight: bold;">140 WPM</span>
+            </div>
+            <div class="j-caffeine-bar">
+              <div class="j-caffeine-fill" style="width: 88%; background: var(--j-riso-cyan);"></div>
+            </div>
+
+            <div style="background: #0f172a; border-left: 3px solid var(--j-riso-yellow); padding: 12px 14px; font-family: var(--j-font-mono); font-size: 0.75rem; color: #cbd5e1; margin-top: 14px; line-height: 1.5;">
+              "Two Red Bulls were acquired under mysterious circumstances. Neither was shared with the supporters. And somehow... with Murshuu's laughter echoes still bouncing off the lab walls, I went straight back to debugging the passport layout."
+            </div>
+
+            <div style="margin-top: 14px; padding: 8px 12px; background: rgba(56, 189, 248, 0.08); border: 1px dashed var(--j-riso-cyan); border-radius: 4px; display: flex; align-items: center; justify-content: space-between;">
+              <span class="j-mono" style="font-size: 0.7rem; color: var(--j-riso-cyan);">TELEMETRY STATUS</span>
+              <span class="j-mono" style="font-size: 0.7rem; color: var(--j-riso-lime); font-weight: 700;">● CRITICAL OVERDRIVE</span>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- Midnight Polaroid Dossier (BTS & Hall Laughter) -->
+      <div class="j-reveal" style="margin-top: var(--j-space-2xl); border-top: 1px dashed rgba(255,255,255,0.2); padding-top: var(--j-space-xl);">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; flex-wrap: wrap; gap: 8px;">
+          <span class="j-mono" style="font-size: 0.78rem; color: var(--j-riso-yellow); letter-spacing: 0.1em; font-weight: bold;">
+            ✦ MIDNIGHT EVIDENCE // SURVIVAL ARCHIVES
+          </span>
+          <span class="j-mono" style="font-size: 0.72rem; color: #94a3b8;">SCMS LABS • 02:45 AM</span>
+        </div>
+
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(min(280px, 100%), 1fr)); gap: var(--j-space-xl); align-items: start;">
+          <!-- Midnight Fun Photo -->
+          <div style="text-align: center;">
+            <div class="j-photo j-photo--taped j-photo--r3" style="box-shadow: 6px 10px 24px rgba(0,0,0,0.5); max-width: 100%;">
+              <img src="./images/scms_midnight_fun.jpg" alt="Midnight Laughter and Jenga Game at SCMS" loading="lazy" style="border-radius: 2px;">
+              <span class="j-photo__caption" style="color: #1e293b;">"02:30 AM • Laughter &amp; late-night Jenga tournaments between git commits."</span>
+            </div>
+          </div>
+
+          <!-- Floor Coding BTS Photo -->
+          <div style="text-align: center;">
+            <div class="j-photo j-photo--taped j-photo--r2" style="box-shadow: 6px 10px 24px rgba(0,0,0,0.5); max-width: 100%;">
+              <img src="./images/scms_bts_floor.jpg" alt="Floor Coding and Behind the Scenes at SCMS" loading="lazy" style="border-radius: 2px;">
+              <span class="j-photo__caption" style="color: #1e293b;">"Behind The Scenes • Hallway floor workstations, paper crafts &amp; debugging."</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+  </section>
+
+
+  <!-- ═══════════════════════════════════════════════════════════════
+       SECTION 11 — OH NO. (THE REAL FAILURES & BUG GRAVEYARD)
+       ═══════════════════════════════════════════════════════════════ -->
+  <section class="j-section" data-section="11-ohno" id="ohno" style="background: var(--j-paper);">
+
+    <!-- Yellow Hazard Caution Ribbon -->
+    <div style="max-width: var(--j-wide-width); margin: 0 auto 20px;">
+      <div class="j-tape j-tape--caution" style="width: 100%; height: 28px;"></div>
+    </div>
+
+    <div class="j-container--wide">
+
+      <div class="j-text-center j-reveal">
+        <span class="j-stamp j-stamp--denied" style="--stamp-rotation: -3deg; margin-bottom: 12px; display: inline-block;">
+          INCIDENT REPORT // 04:00 AM
+        </span>
+        <h2 class="j-heading j-heading--xl" style="margin-bottom: 8px;">
+          OH NO.
+        </h2>
+        <p class="j-mono--status" style="color: var(--j-stamp-red);">
+          NOT A CORPORATE "CHALLENGES" SECTION. REAL BUGS THAT ALMOST KILLED THE MAKE.
+        </p>
+      </div>
+
+      <div class="j-bug-grid">
+
+        <!-- Bug 1 -->
+        <div class="j-bug-card j-reveal">
+          <span class="j-bug-tag">BUG #01 // HALLUCINATION FATALITY</span>
+          <h3 class="j-heading j-heading--sm" style="margin-bottom: 8px;">
+            The Sentient Cherthala Warhead
+          </h3>
+          <p style="font-size: 0.88rem; color: var(--j-ink-dim); line-height: 1.5; margin-bottom: 10px;">
+            Held a plastic Bisleri water bottle in front of the camera during early vision tests. The AI returned: <em>"Object: Soviet Nuclear Intercontinental Warhead manufactured in Cherthala, 1984. Threat Level: Catastrophic."</em>
+          </p>
+          <div class="j-mono" style="font-size: 0.75rem; background: #fff0f0; border-left: 3px solid var(--j-stamp-red); padding: 6px 10px; color: var(--j-stamp-red);">
+            Verdict: Water bottle denied entry under anti-terrorism regulations.
+          </div>
+        </div>
+
+        <!-- Bug 2 -->
+        <div class="j-bug-card j-reveal" style="transition-delay: 0.1s;">
+          <span class="j-bug-tag">BUG #02 // THE NEGATIVE BRIBE</span>
+          <h3 class="j-heading j-heading--sm" style="margin-bottom: 8px;">
+            The Officer Paid Me ₹50
+          </h3>
+          <p style="font-size: 0.88rem; color: var(--j-ink-dim); line-height: 1.5; margin-bottom: 10px;">
+            In an early build of the immigration interrogation, typing <code>-50</code> in the bribe input resulted in the officer saying: <em>"Aha! You have taxed me! Take this ₹50 and please cross the border immediately!"</em>
+          </p>
+          <div class="j-mono" style="font-size: 0.75rem; background: #fff0f0; border-left: 3px solid var(--j-stamp-red); padding: 6px 10px; color: var(--j-stamp-red);">
+            Fix: Added Math.max(0, bribe) so the government doesn't go bankrupt.
+          </div>
+        </div>
+
+        <!-- Bug 3 -->
+        <div class="j-bug-card j-reveal" style="transition-delay: 0.2s;">
+          <span class="j-bug-tag">BUG #03 // PREMATURE MORTALITY</span>
+          <h3 class="j-heading j-heading--sm" style="margin-bottom: 8px;">
+            Dead Before Born
+          </h3>
+          <p style="font-size: 0.88rem; color: var(--j-ink-dim); line-height: 1.5; margin-bottom: 10px;">
+            A race condition between <code>eval-action.js</code> and the UI renderer caused objects to trigger their death sequence while the passport animation was still sliding onto the screen.
+          </p>
+          <div class="j-mono" style="font-size: 0.75rem; background: #fff0f0; border-left: 3px solid var(--j-stamp-red); padding: 6px 10px; color: var(--j-stamp-red);">
+            Tragic Result: Instant obituary for a pen that never had a chance to live.
+          </div>
+        </div>
+
+        <!-- Bug 4 -->
+        <div class="j-bug-card j-reveal" style="transition-delay: 0.3s;">
+          <span class="j-bug-tag">BUG #04 // SVG TEXT OVERFLOW</span>
+          <h3 class="j-heading j-heading--sm" style="margin-bottom: 8px;">
+            The 800-Word Name Disaster
+          </h3>
+          <p style="font-size: 0.88rem; color: var(--j-ink-dim); line-height: 1.5; margin-bottom: 10px;">
+            Gemini decided to output a 4-paragraph psychological treatise inside the single-line <code>Object Name</code> field, completely obliterating the passport layout and pushing the footer into outer space.
+          </p>
+          <div class="j-mono" style="font-size: 0.75rem; background: #fff0f0; border-left: 3px solid var(--j-stamp-red); padding: 6px 10px; color: var(--j-stamp-red);">
+            Fix: Brutal 32-character string truncation with ellipses.
+          </div>
+        </div>
+
+      </div>
+
+      <!-- Malayalam Meme Note -->
+      <div class="j-reveal" style="text-align: center; margin-top: var(--j-space-xl);">
+        <div class="j-sticky j-sticky--pink" style="--sticky-rotation: 1deg; display: inline-block; max-width: 480px; text-align: left;">
+          <p class="j-hand--ml" style="font-size: 1.35rem; color: #000; margin-bottom: 4px;">
+            ബഗ്ഗുകൾ ഫീച്ചറുകളാക്കി മാറ്റിയ മാന്ത്രിക രാത്രി!
+          </p>
+          <p class="j-hand" style="font-size: 1.05rem; color: #444;">
+            "Every bug was so funny that we kept half of them as official game mechanics."
+          </p>
+        </div>
+      </div>
+
+    </div>
+
+  </section>
+
+
+  <!-- ═══════════════════════════════════════════════════════════════
+       SECTION 12 — ITERATION (BEFORE → AFTER MATRIX)
+       ═══════════════════════════════════════════════════════════════ -->
+  <section class="j-section" data-section="12-iteration" id="iteration" style="background: var(--j-paper-warm); border-top: 2px solid var(--j-ink);">
+
+    <div class="j-container--wide">
+
+      <div class="j-text-center j-reveal">
+        <span class="j-badge-index" style="background: var(--j-passport); color: #fff; margin-bottom: 10px;">
+          EVOLUTIONARY TRIAGE // 18-HOUR LOG
+        </span>
+        <h2 class="j-heading j-heading--xl" style="margin-bottom: 8px;">
+          WHAT SURVIVED VS WHAT DIED
+        </h2>
+        <p class="j-mono--status" style="color: var(--j-ink-dim);">
+          How frantic pivots during the night saved the project from collapsing.
+        </p>
+      </div>
+
+      <div class="j-iteration-matrix j-reveal">
+
+        <!-- Row 1: Hardware -->
+        <div class="j-iteration-row">
+          <div class="j-iter-before">
+            <span class="j-mono" style="font-size: 0.72rem; color: var(--j-stamp-red); font-weight: bold; text-decoration: line-through;">
+              ORIGINAL PLAN (04:00 PM)
+            </span>
+            <h4 class="j-heading j-heading--sm" style="margin: 4px 0;">Physical Thermal Receipt Printer</h4>
+            <p style="font-size: 0.85rem; color: var(--j-ink-dim);">
+              Connecting a hardware POS thermal printer via serial USB to spit out mini pocket paper passports.
+            </p>
+          </div>
+          <div class="j-iter-after">
+            <span class="j-mono" style="font-size: 0.72rem; color: var(--j-stamp-green); font-weight: bold;">
+              SHIPPED REALITY (03:00 AM)
+            </span>
+            <h4 class="j-heading j-heading--sm" style="margin: 4px 0; color: var(--j-passport);">Digital Dual-Page Passport Booklet</h4>
+            <p style="font-size: 0.85rem; color: var(--j-ink-dim);">
+              Printer ran out of paper at 1 AM. Built the dual-page leather-bound SVG passport in browser instead. 10x better!
+            </p>
+          </div>
+        </div>
+
+        <!-- Row 2: Architecture -->
+        <div class="j-iteration-row">
+          <div class="j-iter-before">
+            <span class="j-mono" style="font-size: 0.72rem; color: var(--j-stamp-red); font-weight: bold; text-decoration: line-through;">
+              ORIGINAL PLAN (07:00 PM)
+            </span>
+            <h4 class="j-heading j-heading--sm" style="margin: 4px 0;">Fragile Python OpenCV Script</h4>
+            <p style="font-size: 0.85rem; color: var(--j-ink-dim);">
+              Running local Flask backend that choked on webcam binary buffers and locked up the operating system.
+            </p>
+          </div>
+          <div class="j-iter-after">
+            <span class="j-mono" style="font-size: 0.72rem; color: var(--j-stamp-green); font-weight: bold;">
+              SHIPPED REALITY (05:00 AM)
+            </span>
+            <h4 class="j-heading j-heading--sm" style="margin: 4px 0; color: var(--j-passport);">Dual-Engine Failover Proxy (server.js)</h4>
+            <p style="font-size: 0.85rem; color: var(--j-ink-dim);">
+              Express server load-balancing between NVIDIA Nemotron and Google Gemini 1.5 Flash. Fast, zero-crash reliability.
+            </p>
+          </div>
+        </div>
+
+        <!-- Row 3: Gameplay -->
+        <div class="j-iteration-row">
+          <div class="j-iter-before">
+            <span class="j-mono" style="font-size: 0.72rem; color: var(--j-stamp-red); font-weight: bold; text-decoration: line-through;">
+              ORIGINAL PLAN (11:00 PM)
+            </span>
+            <h4 class="j-heading j-heading--sm" style="margin: 4px 0;">Boring Static Form Submit</h4>
+            <p style="font-size: 0.85rem; color: var(--j-ink-dim);">
+              Input box: "Type answer to enter." Felt like filing taxes or answering a sterile Google Form.
+            </p>
+          </div>
+          <div class="j-iter-after">
+            <span class="j-mono" style="font-size: 0.72rem; color: var(--j-stamp-green); font-weight: bold;">
+              SHIPPED REALITY (04:00 AM)
+            </span>
+            <h4 class="j-heading j-heading--sm" style="margin: 4px 0; color: var(--j-passport);">Corrupt Officer with ₹50 Bribe Mechanic</h4>
+            <p style="font-size: 0.85rem; color: var(--j-ink-dim);">
+              Added 4 expressive facial mood states (`stare`, `doubt`, `happy`, `pass`) and realistic Manglish bribes!
+            </p>
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+
+  </section>
+
+
+  <!-- ═══════════════════════════════════════════════════════════════
+       SECTION 13 — THE FINAL OBJECT JOURNEY (LIFECYCLE ARC)
+       ═══════════════════════════════════════════════════════════════ -->
+  <section class="j-section" data-section="13-journey" id="journey" style="background: var(--j-paper); border-top: 2px solid var(--j-ink);">
+
+    <div class="j-container--wide">
+
+      <div class="j-text-center j-reveal">
+        <span class="j-badge-index" style="background: #000; color: var(--j-riso-lime); margin-bottom: 10px;">
+          COMPLETE NARRATIVE LOOP
+        </span>
+        <h2 class="j-heading j-heading--xl" style="margin-bottom: 8px;">
+          THE FINAL OBJECT JOURNEY
+        </h2>
+        <p class="j-display" style="font-size: clamp(1.3rem, 2.5vw, 2rem); color: var(--j-passport); max-width: 650px; margin: 0 auto 16px;">
+          "Every object gets a beginning, an identity, and an absurd comedic ending."
+        </p>
+      </div>
+
+      <!-- 5-Step Lifecycle Progression Chain -->
+      <div class="j-journey-chain j-reveal">
+        <div class="j-journey-step">
+          <span class="j-journey-step__num">PHASE 01</span>
+          <div style="font-size: 2rem; margin-bottom: 4px;">📷</div>
+          <h4 class="j-journey-step__title">CAMERA SCAN</h4>
+          <p style="font-size: 0.78rem; color: var(--j-ink-dim); margin-top: 4px;">Point webcam at object. Canvas frame capture.</p>
+        </div>
+
+        <div class="j-journey-step">
+          <span class="j-journey-step__num">PHASE 02</span>
+          <div style="font-size: 2rem; margin-bottom: 4px;">🛂</div>
+          <h4 class="j-journey-step__title">PASSPORT ISSUED</h4>
+          <p style="font-size: 0.78rem; color: var(--j-ink-dim); margin-top: 4px;">AI constructs origin, personality, fears, traits.</p>
+        </div>
+
+        <div class="j-journey-step">
+          <span class="j-journey-step__num">PHASE 03</span>
+          <div style="font-size: 2rem; margin-bottom: 4px;">👮</div>
+          <h4 class="j-journey-step__title">INTERROGATION</h4>
+          <p style="font-size: 0.78rem; color: var(--j-ink-dim); margin-top: 4px;">Cross-examined by immigration officer. Bribe accepted.</p>
+        </div>
+
+        <div class="j-journey-step">
+          <span class="j-journey-step__num">PHASE 04</span>
+          <div style="font-size: 2rem; margin-bottom: 4px;">🌟</div>
+          <h4 class="j-journey-step__title">MOMENT OF GLORY</h4>
+          <p style="font-size: 0.78rem; color: var(--j-ink-dim); margin-top: 4px;">Enters the Republic. Lives its wildest dreams.</p>
+        </div>
+
+        <div class="j-journey-step" style="border-color: var(--j-stamp-red); background: #fff5f5;">
+          <span class="j-journey-step__num" style="color: var(--j-stamp-red);">PHASE 05</span>
+          <div style="font-size: 2rem; margin-bottom: 4px;">💀</div>
+          <h4 class="j-journey-step__title" style="color: var(--j-stamp-red);">INEVITABLE DEATH</h4>
+          <p style="font-size: 0.78rem; color: var(--j-ink-dim); margin-top: 4px;">Battery drains, crushed by coder. Full eulogy.</p>
+        </div>
+      </div>
+
+      <!-- Stage Showcase Evidence Photo -->
+      <div class="j-reveal" style="margin: var(--j-space-2xl) auto var(--j-space-xl); max-width: 650px; text-align: center;">
+        <div class="j-photo j-photo--taped j-photo--r4" style="box-shadow: 6px 10px 28px rgba(0,0,0,0.18); width: 100%;">
+          <img src="./images/scms_showcase_stage.jpg" alt="Showcase and live demo on stage at SCMS" loading="lazy" style="border-radius: 2px;">
+          <span class="j-photo__caption">"08:30 AM Showcase • Live projector demos on the SCMS stage — computer vision, jury banter &amp; room laughter!"</span>
+        </div>
+      </div>
+
+      <!-- Official Demo Video Player Docket -->
+      <div class="j-reveal" style="max-width: 780px; margin: 0 auto var(--j-space-xl);">
+        <div style="background: #ffffff; border: 2.5px solid var(--j-ink); box-shadow: 6px 8px 0px var(--j-ink); border-radius: 4px; padding: 20px; position: relative;">
+          
+          <!-- Top Docket Bar -->
+          <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1.5px dashed rgba(0,0,0,0.2); padding-bottom: 12px; margin-bottom: 16px; flex-wrap: wrap; gap: 8px;">
+            <div style="display: flex; align-items: center; gap: 8px;">
+              <span class="j-badge-index" style="background: var(--j-stamp-red); color: #fff; transform: rotate(-1deg);">EVIDENCE TAPE</span>
+              <span class="j-mono" style="font-size: 0.78rem; font-weight: 800; letter-spacing: 0.08em; text-transform: uppercase;">
+                OFFICIAL DEMO VIDEO // SCMS MAKEATHON
+              </span>
+            </div>
+            <a href="https://youtu.be/yjweS-yms6Q" target="_blank" rel="noopener noreferrer" class="j-mono" style="font-size: 0.72rem; color: var(--j-stamp-red); font-weight: 700; text-decoration: underline;">
+              OPEN IN YOUTUBE ↗
+            </a>
+          </div>
+
+          <!-- Responsive 16:9 Video Container -->
+          <div style="position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden; border-radius: 3px; border: 1.5px solid #000; background: #000;">
+            <iframe 
+              src="https://www.youtube-nocookie.com/embed/yjweS-yms6Q?rel=0" 
+              title="Enne Kolland Irikkan Patto? - Official Project Demo" 
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
+              allowfullscreen
+              loading="lazy"
+              style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: none;">
+            </iframe>
+          </div>
+
+          <!-- Video Caption & Meta -->
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 14px; flex-wrap: wrap; gap: 10px;">
+            <p style="font-size: 0.85rem; color: var(--j-ink-dim); margin: 0; line-height: 1.5; max-width: 540px;">
+              <strong style="color: var(--j-ink);">Real-time walkthrough:</strong> Object webcam acquisition, instant passport issuance, border interrogation with the suspicious officer, and live death countdown.
+            </p>
+            <span class="j-mono" style="font-size: 0.72rem; background: var(--j-riso-lime); color: #000; font-weight: 800; padding: 4px 10px; border: 1px solid #000; border-radius: 2px;">
+              ● 100% SHIPPED &amp; PLAYABLE
+            </span>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- Play Live Project Banner -->
+      <div class="j-reveal" style="background: #0f1216; color: #fff; border: 2px solid #000; box-shadow: 6px 6px 0px var(--j-riso-orange); padding: 24px; text-align: center; max-width: 720px; margin: var(--j-space-xl) auto 0; border-radius: 4px;">
+        <span class="j-mono" style="font-size: 0.75rem; color: var(--j-riso-lime); font-weight: bold; letter-spacing: 0.1em; display: block; margin-bottom: 8px;">
+          ✦ PLAYABLE EXPERIMENT AVAILABLE ✦
+        </span>
+        <h3 class="j-heading j-heading--md" style="color: #fff; margin-bottom: 10px;">
+          Give An Object In Your Pocket A Life Right Now
+        </h3>
+        <p style="font-size: 0.9rem; color: #94a3b8; max-width: 500px; margin: 0 auto 16px;">
+          Got a coin, a pen, or a bottle nearby? Open your webcam and see if your object can survive immigration!
+        </p>
+        <a href="https://enne-kolland-irikkan-patto.vercel.app/" target="_blank" class="j-action-btn" style="box-shadow: 4px 4px 0 #000;">
+          <span>⚡ LAUNCH LIVE APPLICATION</span>
+          <span>➔</span>
+        </a>
+      </div>
+
+    </div>
+
+  </section>
+
+
+
+  <!-- ═══════════════════════════════════════════════════════════════
+       SECTION 14 — UNDER THE HOOD: THE DUAL-AI VISION ARCHITECTURE
+       Technical depth, models, canvas consensus, prompt engineering
+       ═══════════════════════════════════════════════════════════════ -->
+  <section class="j-section" data-section="14-tech" id="tech" style="background: #0f1216; color: #ffffff; border-top: 2px solid var(--j-ink);">
+
+    <div class="j-container--wide">
+
+      <div class="j-text-center j-reveal">
+        <span class="j-stamp j-stamp--approved" style="--stamp-rotation: -2deg; margin-bottom: 12px; display: inline-block; border-color: var(--j-riso-lime); color: var(--j-riso-lime);">
+          DEEP DIVE // SYSTEM TELEMETRY
+        </span>
+        <h2 class="j-heading j-heading--xl" style="color: #ffffff; margin-bottom: 8px;">
+          UNDER THE HOOD: THE DUAL-AI VISION ARCHITECTURE
+        </h2>
+        <p class="j-mono--status" style="color: var(--j-riso-cyan); max-width: 700px; margin: 0 auto;">
+          HOW A SILLY PREMISE WAS BUILT ON SERIOUS ENGINEERING: DUAL-MODEL RACING, MULTI-FRAME CONSENSUS, AND ZERO-WIFI RESILIENCE.
+        </p>
+      </div>
+
+      <div class="j-tech-grid">
+
+        <!-- Tech Pillar 1 -->
+        <div class="j-tech-card j-reveal" style="background: #181d24; border-color: #334155; color: #f1f5f9;">
+          <span class="j-tech-card__tag" style="background: var(--j-riso-cyan); color: #000;">PILLAR 01 // REDUNDANCY &amp; LATENCY</span>
+          <h3 class="j-tech-card__title" style="color: #ffffff;">Dual-AI Async Race Engine</h3>
+          <p class="j-tech-card__desc" style="color: #94a3b8;">
+            With 100+ makers straining SCMS college WiFi, external API calls frequently spiked to 8+ seconds or threw 429 rate limits. We built an asynchronous race architecture firing <strong>Google Gemini 2.0 Flash</strong> (strong visual object detection) and <strong>NVIDIA Nemotron</strong> simultaneously. Whichever provider responds first with valid JSON wins the passport grant. Roundtrip latency plummeted to &lt;1.2 seconds.
+          </p>
+          <div class="j-tech-card__code">
+            <span style="color: #f79cff;">const</span> winner = <span style="color: #f79cff;">await</span> Promise.race([<br>
+            &nbsp;&nbsp;callGeminiVision(frames),<br>
+            &nbsp;&nbsp;callNemotronVision(frames)<br>
+            ]);
+          </div>
+        </div>
+
+        <!-- Tech Pillar 2 -->
+        <div class="j-tech-card j-reveal" style="background: #181d24; border-color: #334155; color: #f1f5f9; transition-delay: 0.1s;">
+          <span class="j-tech-card__tag" style="background: var(--j-riso-yellow); color: #000;">PILLAR 02 // COMPUTER VISION</span>
+          <h3 class="j-tech-card__title" style="color: #ffffff;">Multi-Frame Canvas Consensus</h3>
+          <p class="j-tech-card__desc" style="color: #94a3b8;">
+            Holding a physical object in front of a laptop camera in dim midnight lighting produces severe motion blur. Single-shot image detection frequently hallucinated bananas as lightbulbs. Our client pipeline streams from <code>navigator.mediaDevices</code> into an offscreen HTML5 <code>&lt;canvas&gt;</code>, captures 3 staggered frames across 600ms, standardizes aspect ratios, and dispatches multi-frame consensus to filter jitter.
+          </p>
+          <div class="j-tech-card__code">
+            <span style="color: #55efc4;">// 3-frame buffer consensus</span><br>
+            ctx.drawImage(video, 0, 0, 320, 240);<br>
+            <span style="color: #f79cff;">const</span> frames = await captureBuffer(3, 200);
+          </div>
+        </div>
+
+        <!-- Tech Pillar 3 -->
+        <div class="j-tech-card j-reveal" style="background: #181d24; border-color: #334155; color: #f1f5f9; transition-delay: 0.2s;">
+          <span class="j-tech-card__tag" style="background: var(--j-stamp-red); color: #fff;">PILLAR 03 // PROMPT ENGINEERING</span>
+          <h3 class="j-tech-card__title" style="color: #ffffff;">Satirical Manglish Persona &amp; Bribe State Machine</h3>
+          <p class="j-tech-card__desc" style="color: #94a3b8;">
+            Generic LLM system prompts produce sterile, polite corporate assistants. We engineered strict negative constraints and few-shot Manglish examples to enforce a cynical Kerala border official persona (<em>"mwone", "scene mone", "adichu shape maattum"</em>). It features an interactive bribe state machine: typing a ₹50 tea charge triggers facial state transitions (<code>stare</code> &rarr; <code>doubt</code> &rarr; <code>pass</code>) and unlocks passage!
+          </p>
+          <div class="j-tech-card__code">
+            <span style="color: #f79cff;">if</span> (bribeAmount &gt;= 50) {<br>
+            &nbsp;&nbsp;officer.mood = <span style="color: #c3ff16;">'pass'</span>;<br>
+            &nbsp;&nbsp;return <span style="color: #55efc4;">"₹50 tea charge accepted! APPROVED!"</span>;<br>
+            }
+          </div>
+        </div>
+
+        <!-- Tech Pillar 4 -->
+        <div class="j-tech-card j-reveal" style="background: #181d24; border-color: #334155; color: #f1f5f9; transition-delay: 0.3s;">
+          <span class="j-tech-card__tag" style="background: var(--j-riso-lime); color: #000;">PILLAR 04 // FAULT TOLERANCE</span>
+          <h3 class="j-tech-card__title" style="color: #ffffff;">Zero-WiFi Deterministic Heuristic Fallback</h3>
+          <p class="j-tech-card__desc" style="color: #94a3b8;">
+            At 03:30 AM, campus connectivity abruptly died. If the app crashed during judge testing, game over. We implemented <code>generateSmartPassport()</code>: a zero-dependency deterministic heuristic generator that hashes the object's string name into mathematical seeds to calculate unique passport IDs, existential missions, and death clocks entirely in &lt;10ms offline.
+          </p>
+          <div class="j-tech-card__code">
+            <span style="color: #f79cff;">catch</span> (networkError) {<br>
+            &nbsp;&nbsp;<span style="color: #55efc4;">// Instant 10ms offline generation</span><br>
+            &nbsp;&nbsp;<span style="color: #f79cff;">return</span> generateSmartPassport(objectName);<br>
+            }
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+
+  </section>
+
+
+
+  <!-- ═══════════════════════════════════════════════════════════════
+       SECTION 15 — THE SQUAD THAT WASN'T A TEAM: COMMUNITY & COLLABORATION
+       TinkerHub friends: Nikhil, Murshu, Fifaa, Niranjana, Alok, Albin, Ajay
+       ═══════════════════════════════════════════════════════════════ -->
+  <section class="j-section" data-section="15-community" id="community" style="background: var(--j-paper); border-top: 2.5px solid var(--j-ink);">
+
+    <div class="j-container--wide">
+
+      <div class="j-text-center j-reveal">
+        <span class="j-badge-index" style="background: var(--j-passport); color: #fff; margin-bottom: 10px;">
+          COMMUNITY &amp; SQUAD DYNAMICS
+        </span>
+        <h2 class="j-heading j-heading--xl" style="margin-bottom: 8px;">
+          THE SQUAD THAT WASN'T A TEAM
+        </h2>
+        <p class="j-mono--status" style="color: var(--j-stamp-red); max-width: 750px; margin: 0 auto;">
+          ON PAPER, I WAS REGISTERED AS "01 MAKER // 1 TIRED STUDENT". IN REALITY, THIS PROJECT WAS POWERED BY THE TINKERHUB SCMS COMMUNITY.
+        </p>
+      </div>
+
+      <!-- Narrative Lead -->
+      <div class="j-reveal" style="max-width: 820px; margin: var(--j-space-lg) auto 0; font-size: 1.05rem; line-height: 1.8; color: var(--j-ink);">
+        <p style="margin-bottom: 16px;">
+          Hackathons often look like isolated teams huddled over keyboards with headphones on. But Useless Projects 3.0 at SCMS School of Engineering was completely different. Even though many of us came in solo or in small squads, the late-night pressure erased all classroom divisions. We weren't competing against each other — we were all fighting the same 03:00 AM sleep monster.
+        </p>
+      </div>
+
+      <!-- Community Grid Cards -->
+      <div class="j-community-grid">
+
+        <!-- Card 1: Nikhil's Mosquito Project & Hardware Discovery -->
+        <div class="j-community-card j-reveal" style="border-top: 3.5px solid var(--j-riso-cyan);">
+          <div class="j-community-card__header">
+            <div class="j-community-card__icon" style="background: #2b303a; color: var(--j-riso-cyan);">
+              01
+            </div>
+            <div>
+              <h4 class="j-community-card__name">Nikhil's Mosquito Trap &amp; Hardware Crash Course</h4>
+              <span class="j-community-card__role">ARDUINO • SENSORS • CIRCUITRY</span>
+            </div>
+          </div>
+          <p class="j-community-card__quote" style="margin-bottom: 12px;">
+            "Nikhil was hacking on a truly legendary useless idea: <strong>a device designed to trap mosquitoes and psychologically irritate them</strong>. Before this night, I had zero embedded hardware experience. Collaborating with Nikhil at 03:00 AM became an incredible hands-on crash course: I learned how <strong>Arduino microcontrollers</strong> read analog inputs, how <strong>ultrasonic &amp; motion sensors</strong> trigger detection gates, and how buzzer actuators pulse frequencies to harass insects."
+          </p>
+          <div class="j-mono" style="font-size: 0.72rem; background: rgba(52, 243, 255, 0.1); border-left: 3px solid var(--j-riso-cyan); padding: 7px 10px; color: var(--j-ink); border-radius: 2px;">
+            ✦ Hardware-Software Symbiosis: While I learned sensor wiring and Arduino logic from his mosquito rig, Nikhil helped calibrate my webcam angles and stress-test computer vision with items from his pockets!
+          </div>
+        </div>
+
+        <!-- Card 2: The Core Sanity Keepers -->
+        <div class="j-community-card j-reveal" style="transition-delay: 0.1s; border-top: 3.5px solid var(--j-riso-yellow);">
+          <div class="j-community-card__header">
+            <div class="j-community-card__icon" style="background: #2b303a; color: var(--j-riso-yellow);">
+              02
+            </div>
+            <div>
+              <h4 class="j-community-card__name">Murshu, Fifaa &amp; Niranjana</h4>
+              <span class="j-community-card__role">THE MIDNIGHT TEST SQUAD &amp; DEBATE CLUB</span>
+            </div>
+          </div>
+          <p class="j-community-card__quote">
+            "They were sitting right nearby throughout the night. Whenever my computer vision pipeline needed testing, they didn't just give feedback — they emptied their backpacks. Water bottles, biscuit wrappers, broken pens, ID cards. They helped debate whether a crushed tube of Colgate had constitutional rights under object law, and kept spirits high through every API crash."
+          </p>
+        </div>
+
+        <!-- Card 3: Inter-Class Connections -->
+        <div class="j-community-card j-reveal" style="transition-delay: 0.15s; border-top: 3.5px solid var(--j-passport);">
+          <div class="j-community-card__header">
+            <div class="j-community-card__icon" style="background: var(--j-passport); color: #fff;">
+              03
+            </div>
+            <div>
+              <h4 class="j-community-card__name">Alok, Albin &amp; Ajay</h4>
+              <span class="j-community-card__role">CROSS-BATCH COMRADES</span>
+            </div>
+          </div>
+          <p class="j-community-card__quote">
+            "Different branches, different classes. In normal college life, you walk past each other in the corridors without a word. But at 02:00 AM on the lab floor, they were sharing phone hotspots when the college network choked, debugging build errors together, exchanging charging cables, and cheering on every absurd stage demo."
+          </p>
+        </div>
+
+        <!-- Card 4: The Murshu Catalyst -->
+        <div class="j-community-card j-reveal" style="transition-delay: 0.2s; border-top: 3.5px solid var(--j-stamp-red);">
+          <div class="j-community-card__header">
+            <div class="j-community-card__icon" style="background: var(--j-stamp-red); color: #fff;">
+              04
+            </div>
+            <div>
+              <h4 class="j-community-card__name">Murshuu's Chaos Engine</h4>
+              <span class="j-community-card__role">CHIEF MORALE OFFICER</span>
+            </div>
+          </div>
+          <p class="j-community-card__quote">
+            "When the room went silent at 02:30 AM and everyone was staring blankly at syntax errors, Murshu walked across the lab tables doing unscripted comedy and motivation. That laughter was more effective than three cans of Red Bull. It transformed exhaustion into pure creative momentum."
+          </p>
+        </div>
+
+      </div>
+
+      <!-- Handwritten Sticky Note Reflection -->
+      <div class="j-reveal" style="max-width: 680px; margin: var(--j-space-xl) auto 0; text-align: center;">
+        <div class="j-sticky j-sticky--yellow" style="--sticky-rotation: -1.5deg; display: inline-block; text-align: left; padding: 22px 26px;">
+          <p class="j-hand" style="font-size: 1.25rem; font-weight: 700; color: #1a1a1a; line-height: 1.5; margin-bottom: 8px;">
+            "If Useless Projects 3.0 hadn't happened, I probably would never have met or connected with Alok, Albin, Ajay, Nikhil, Murshu, Fifaa, and Niranjana. Even though we weren't registered as a single team, we worked as one big team — helping everyone, laughing together, and surviving 18 hours of ridiculous making."
+          </p>
+          <span class="j-mono" style="font-size: 0.75rem; color: #6b6b6b; font-weight: bold; text-transform: uppercase;">
+            — Justin // SCMS SSET Makerspace, 08:00 AM
+          </span>
+        </div>
+      </div>
+
+    </div>
+
+  </section>
+
+
+
+  <!-- ═══════════════════════════════════════════════════════════════
+       SECTION 16 — THE END (MANIFESTO & EPILOGUE)
+       ═══════════════════════════════════════════════════════════════ -->
+  <footer class="j-manifesto-poster" data-section="16-end" id="end">
+
+    <div class="j-container" style="position: relative; z-index: 10;">
+
+      <!-- Big Typography Manifesto -->
+      <div class="j-reveal">
+        <p class="j-mono" style="font-size: 0.82rem; letter-spacing: 0.15em; color: var(--j-riso-yellow); margin-bottom: 24px;">
+          ✦ EPILOGUE // THE 18-HOUR HARVEST ✦
+        </p>
+        <p class="j-manifesto-line" style="color: #ffffff;">MY FIRST MAKEATHON.</p>
+        <p class="j-manifesto-line" style="color: var(--j-riso-orange); -webkit-text-stroke: 1.5px #fff;">18 HOURS.</p>
+        <p class="j-manifesto-line" style="color: #ffffff;">ONE RIDICULOUS IDEA.</p>
+        <p class="j-manifesto-line" style="color: var(--j-riso-yellow);">A LOT OF BUGS.</p>
+        <p class="j-manifesto-line" style="color: var(--j-riso-lime);">A LOT OF LAUGHTER.</p>
+        <p class="j-manifesto-line" style="color: var(--j-stamp-red); font-size: clamp(1.8rem, 8.5vw, 8rem);">AND SOMEHOW...</p>
+        <p class="j-manifesto-line" style="color: #ffffff; text-decoration: underline; text-decoration-color: var(--j-riso-yellow); text-underline-offset: 12px;">A PROJECT.</p>
+      </div>
+
+      <!-- The Grand Group Photo -->
+      <div class="j-reveal" style="max-width: 820px; margin: var(--j-space-2xl) auto 0; text-align: center;">
+        <div class="j-photo j-photo--taped j-photo--r5" style="box-shadow: 0 16px 40px rgba(0,0,0,0.5); width: 100%;">
+          <img src="./images/scms_group_photo.jpg" alt="TinkerHub Useless Projects 3.0 Batch at SCMS School of Engineering" loading="lazy" style="border-radius: 4px;">
+          <span class="j-photo__caption" style="font-size: 1.05rem; color: #1e293b;">"The Survivors of Useless Projects 3.0 • SCMS School of Engineering &amp; Technology, Karukutty"</span>
+        </div>
+      </div>
+
+      <!-- Malayalam Closing Sentiment -->
+      <div class="j-reveal" style="margin: var(--j-space-2xl) auto 0; max-width: 600px;">
+        <p class="j-hand--ml" style="font-size: clamp(1.4rem, 3.2vw, 2.4rem); color: var(--j-riso-yellow); line-height: 1.4;">
+          വസ്തുക്കൾക്കും ജീവനുണ്ട്... കുറഞ്ഞത് 18 മണിക്കൂറെങ്കിലും!
+        </p>
+        <p class="j-hand" style="font-size: 1.25rem; color: #cbd5e1; margin-top: 6px;">
+          "Objects have lives too... at least for 18 glorious, chaotic hours."
+        </p>
+      </div>
+
+      <!-- Action Buttons -->
+      <div class="j-action-links j-reveal">
+        <a href="https://enne-kolland-irikkan-patto.vercel.app/" target="_blank" rel="noopener" class="j-action-btn">
+          <span>⚡ PLAY LIVE ON VERCEL</span>
+          <span>➔</span>
+        </a>
+        <a href="https://github.com/mrmalayali555/Enne-Kolland-Irikkan-patto" target="_blank" rel="noopener" class="j-action-btn j-action-btn--ghost">
+          <span>🐙 GITHUB REPOSITORY</span>
+        </a>
+        <a href="#" class="j-action-btn j-action-btn--ghost" style="border-color: var(--j-riso-orange);">
+          <span>▲ BACK TO TOP</span>
+        </a>
+      </div>
+
+      <!-- Community Credit Badge -->
+      <div class="j-reveal" style="margin-top: var(--j-space-3xl); border-top: 1px solid #333; padding-top: 28px; text-align: center; font-family: var(--j-font-mono); font-size: 0.8rem; color: #94a3b8; line-height: 1.8;">
+        <div style="display: flex; align-items: center; justify-content: center; gap: 8px; margin-bottom: 6px;">
+          <span style="width: 8px; height: 8px; border-radius: 50%; background: var(--j-riso-lime); display: inline-block;"></span>
+          <span style="color: #fff; font-weight: 700; font-size: 0.9rem; letter-spacing: 0.08em;">TINKERHUB USELESS PROJECTS 3.0</span>
+        </div>
+        <div style="color: #cbd5e1; font-weight: 600; letter-spacing: 0.05em;">
+          SCMS SCHOOL OF ENGINEERING &amp; TECHNOLOGY • KARUKUTTY, KERALA
+        </div>
+        <div style="color: var(--j-riso-yellow); margin-top: 6px; font-weight: 700; letter-spacing: 0.05em;">
+          18 HOURS • 01 MAKER • 01 RIDICULOUS IDEA
+        </div>
+        <div style="color: #64748b; font-size: 0.75rem; margin-top: 4px;">
+          DOCUMENTED WITH ☕ &amp; RED BULL // 2026
+        </div>
+      </div>
+
+    </div>
+
+  </footer>
+
+
+  <!-- ═══════════════════════════════════════════════════════════════
+       SCRIPTS
+       ═══════════════════════════════════════════════════════════════ -->
+  <script type="module" src="/src/journal/journal.js"></script>
+
+</body>
+</html>

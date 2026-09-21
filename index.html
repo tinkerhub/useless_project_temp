@@ -1,1 +1,165 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>ENNE KOLLAND IRIKKAN PATTO? | എന്നെ കൊല്ലാണ്ട് ഇരിക്കാൻ പറ്റോ?</title>
+  <meta name="description" content="Show us any object. We'll give it a life. Every object must eventually die." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700;800;900&family=JetBrains+Mono:wght@400;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="/src/styles/main.css" />
+</head>
+<body>
 
+  <a href="./journal/" id="journal-link-btn" style="position: fixed; top: 12px; right: 12px; z-index: 9999; background: #ffe600; color: #000; font-family: 'JetBrains Mono', monospace; font-size: 11px; font-weight: 800; padding: 6px 12px; border: 2px solid #000; text-decoration: none; box-shadow: 3px 3px 0 #000; border-radius: 4px; display: inline-flex; align-items: center; gap: 6px; cursor: pointer; transition: transform 0.1s ease;">
+    📖 READ JOURNAL ➔
+  </a>
+
+  <div id="app">
+
+    <!-- ═══ SCREEN: SCAN ═══ -->
+    <div id="screen-scan" class="screen active">
+      <div class="scan-header">
+        <h1 class="title-ml">എന്നെ കൊല്ലാണ്ട് ഇരിക്കാൻ പറ്റോ?</h1>
+        <h2 class="title-en">ENNE KOLLAND IRIKKAN PATTO?</h2>
+        <p class="subtitle">Show us any object. We'll give it a life.</p>
+      </div>
+
+      <div class="camera-wrapper">
+        <div class="camera-container" id="camera-container">
+          <video id="camera-feed" autoplay playsinline muted></video>
+          <div class="camera-vignette"></div>
+          <!-- Corner brackets for the targeting reticle -->
+          <span class="reticle-corner tl"></span>
+          <span class="reticle-corner tr"></span>
+          <span class="reticle-corner bl"></span>
+          <span class="reticle-corner br"></span>
+        </div>
+      </div>
+
+      <button id="scan-btn" class="btn-scan" disabled>
+        <span class="btn-scan-ring"></span>
+        <span class="btn-scan-text">SCAN OBJECT</span>
+      </button>
+
+      <p class="camera-hint" id="camera-hint">Initializing camera...</p>
+
+      <!-- Hidden canvas for frame capture -->
+      <canvas id="capture-canvas" style="display:none;"></canvas>
+    </div>
+
+    <!-- ═══ SCREEN: SCANNING ANIMATION ═══ -->
+    <div id="screen-scanning" class="screen">
+      <div class="scanning-container">
+        <div class="scanning-frame">
+          <img id="captured-image" class="captured-preview" alt="Captured object" />
+          <div class="scan-line-anim"></div>
+          <span class="reticle-corner tl"></span>
+          <span class="reticle-corner tr"></span>
+          <span class="reticle-corner bl"></span>
+          <span class="reticle-corner br"></span>
+        </div>
+        <div class="scanning-readout">
+          <p class="scanning-text" id="scanning-text">ANALYZING ENTITY<span class="dots"></span></p>
+          <div class="scanning-bar">
+            <div class="scanning-bar-fill" id="scanning-bar-fill"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ═══ SCREEN: BIRTH / PASSPORT ═══ -->
+    <div id="screen-birth" class="screen">
+      <div id="birth-content" class="birth-content">
+        <!-- Populated dynamically by ui-renderer.js -->
+      </div>
+    </div>
+
+    <!-- ═══ SCREEN: MANUAL ENTRY (fallback if camera fails) ═══ -->
+    <div id="screen-manual" class="screen">
+      <div class="manual-container">
+        <h2 class="title-en">CAMERA UNAVAILABLE</h2>
+        <p class="subtitle">Type the name of your object instead:</p>
+        <input type="text" id="manual-input" class="manual-input" placeholder="e.g. Banana, Shoe, Pen..." maxlength="50" />
+        <button id="manual-submit" class="btn-scan">
+          <span class="btn-scan-text">CREATE LIFE</span>
+        </button>
+      </div>
+    </div>
+
+    <!-- ═══ SCREEN: ENCOUNTER (Life encounters) ═══ -->
+    <div id="screen-encounter" class="screen">
+      <div id="encounter-content" class="encounter-content">
+        <!-- Populated dynamically by ui-renderer.js -->
+      </div>
+    </div>
+
+    <!-- ═══ SCREEN: IMMIGRATION (mini-game) ═══ -->
+    <div id="screen-immigration" class="screen">
+      <div class="immigration-container">
+        <div class="imm-officer-card">
+          <div class="imm-officer-name">🛂 IMMIGRATION OFFICER</div>
+          <div class="imm-officer-prompt" id="imm-officer-prompt">Why are you entering the country?</div>
+          <div class="imm-officer-visual">
+            <img id="imm-officer-face" src="/stare.png" alt="Officer face" />
+            <div id="imm-officer-speech" class="imm-officer-speech">(Officer is waiting...)</div>
+          </div>
+          <div class="imm-lang-row">
+            <label for="imm-lang-select" class="sr-only">Language</label>
+            <select id="imm-lang-select" class="imm-lang-select" aria-label="Answer language">
+              <option value="manglish">Manglish (Malayalam in Latin)</option>
+              <option value="mal">മലയാളം</option>
+              <option value="en">English</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="imm-passport-preview" id="imm-passport-preview">
+          <!-- small passport thumbnail inserted by script -->
+        </div>
+
+        <div class="imm-quick-choices" id="imm-quick-choices">
+          <!-- quick choice buttons populated dynamically -->
+        </div>
+
+        <div class="imm-input-row">
+          <input id="imm-input" class="imm-input" placeholder="Type your answer... (Malayalam, Manglish or English)" />
+          <button id="imm-submit" class="btn-imm">ANSWER</button>
+        </div>
+
+        <div class="imm-reply" id="imm-reply" aria-live="polite"></div>
+
+      </div>
+    </div>
+
+    <!-- ═══ SCREEN: DEATH ═══ -->
+    <div id="screen-death" class="screen">
+      <div id="death-content" class="death-content">
+        <!-- Populated dynamically by ui-renderer.js -->
+      </div>
+    </div>
+
+    <!-- ═══ SCREEN: WORLD (Top-down small world) ═══ -->
+    <div id="screen-world" class="screen">
+      <div class="world-container">
+        <canvas id="world-canvas" width="640" height="480"></canvas>
+        <div class="world-hud">
+          <div id="world-stats">💰 <span id="hud-money">0</span> • ❤️ <span id="hud-condition">Unknown</span> • 📍 <span id="hud-location">Street</span></div>
+          <div class="world-instructions">WASD to move • Approach shop to interact</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ═══ SCREEN: LIFE SUMMARY / EULOGY ═══ -->
+    <div id="screen-summary" class="screen">
+      <div id="summary-content" class="summary-content">
+        <!-- Populated dynamically by ui-renderer.js -->
+      </div>
+    </div>
+
+  </div>
+
+  <script type="module" src="/src/main.js"></script>
+</body>
+</html>

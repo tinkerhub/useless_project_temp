@@ -1,0 +1,22 @@
+{
+  "name": "enne-kolland-irikkan-patto",
+  "version": "1.0.0",
+  "description": "Show us any object. We'll give it a life. (TinkerHub Useless Projects 3.0)",
+  "type": "module",
+  "scripts": {
+    "dev": "concurrently \"node server.js\" \"vite\"",
+    "dev:frontend": "vite",
+    "dev:server": "node server.js",
+    "build": "vite build",
+    "preview": "vite preview"
+  },
+  "dependencies": {
+    "cors": "^2.8.5",
+    "dotenv": "^16.4.7",
+    "express": "^4.21.2"
+  },
+  "devDependencies": {
+    "concurrently": "^9.1.2",
+    "vite": "^6.3.5"
+  }
+}

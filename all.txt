@@ -1,0 +1,92 @@
+=============================================================================
+PROJECT HAND-OFF DOCUMENT: "ENNE KOLLAND IRIKKAN PATTO?"
+=============================================================================
+
+Welcome, fellow AI Agent! You have been tasked with continuing the development of this project. Here is EVERYTHING you need to know about the codebase, architecture, logic, and recent updates.
+
+1. PROJECT VISION & THEME
+-----------------------------------------------------------------------------
+- Name: "Enne Kolland Irikkan Patto?" (Malayalam for "Can you please not kill me?")
+- Core Concept: "Show us any object. We'll give it a life. Every object must eventually die."
+- Gameplay: The player scans a random physical object via webcam. The AI identifies it, gives it a name, personality, and a passport. Then, it embarks on a 4-chapter life journey where the player makes choices. Eventually (Chapter 5), the object dies a tragic/funny death.
+- Tone: Absurdist, dark comedy, bureaucratic. Uses "Manglish" (Malayalam written in English) phrasing for humor (e.g., "Mwonuse", "Scene aanu"). 
+- Visual Aesthetic: Cyberpunk / Neon Glassmorphism. Dark backgrounds (#0f0f1a, #07070d) with vibrant neon accents (neon green #00ff88 for scanning, orange #ff6b35, gold #ffd700, crimson #ff2d4e). 
+
+2. TECH STACK
+-----------------------------------------------------------------------------
+- Frontend: Vanilla JavaScript, HTML5, CSS3, built with Vite (`npm run dev:frontend`). No React/Vue. Pure DOM manipulation.
+- Backend: Node.js + Express (`node server.js` or `npm run dev:server`).
+- Run command: `npm run dev` (uses concurrently to run both Vite and the Node backend).
+
+3. RECENT MAJOR UPDATE (ZERO-LATENCY ARCHITECTURE)
+-----------------------------------------------------------------------------
+IMPORTANT: The game used to suffer from latency because it made an AI API call after *every* choice. We fixed this! 
+Now, the moment the Passport (Birth) is generated, the frontend silently calls `/api/life-script` in the background. This endpoint generates the ENTIRE 4-chapter life journey + death scene in ONE single JSON object. 
+When the user clicks "BEGIN YOUR LIFE", the game just loops locally through the pre-generated script. It feels instantaneous. Do NOT revert to the old per-turn API call structure.
+
+4. BACKEND ARCHITECTURE (`server.js`)
+-----------------------------------------------------------------------------
+- Dual-Provider "Racing" System: We use both Google Gemini API (primary) and NVIDIA Nemotron API (secondary/fallback). 
+- To ensure the demo NEVER breaks (e.g., if APIs timeout or return invalid JSON), `Promise.any` races them against a timeout. If both fail, we return a hardcoded deterministic fallback.
+- Endpoints:
+  1. `POST /api/birth`: Takes a base64 image (or a manual text name). Returns an "object DNA" / Passport JSON (name, objectType, origin, fear, mood, etc.).
+  2. `POST /api/life-script`: Takes the DNA. Returns a `script` object containing `chapters` (array of 4 encounters) and `death` (death scene data).
+
+5. FRONTEND ARCHITECTURE (`src/`)
+-----------------------------------------------------------------------------
+The frontend logic is split into ES6 classes for maintainability.
+
+- `main.js`: The central controller. 
+  - Initializes all other classes. 
+  - Hooks up the "Scan" and "Begin Life" buttons. 
+  - Runs the `_runLifeLoop()` which consumes the pre-generated `lifeScript` from `gameState`.
+
+- `game-state.js`: Holds all mutable data during a run.
+  - `objectDNA` and `objectImage`: Passport data.
+  - `state`: Dynamic variables that change based on choices (money, mood, condition, location).
+  - `memories` & `relationships`: Arrays tracking history.
+  - `lifeScript`: Stores the background-generated JSON script.
+
+- `ui-renderer.js`: Handles ALL DOM manipulation and CSS class toggling (`.active`, `.visible`).
+  - `showBirthReveal()`: Animates the passport.
+  - `showEncounter()`: Shows the scene and Choice A/B.
+  - `showConsequence()`: Shows the resulting stat changes and memory overlay.
+  - `showDeath()` and `showLifeSummary()`: Ends the game and displays a eulogy.
+
+- `ai-service.js`: A simple fetch wrapper that calls the Node.js backend.
+- `camera.js`: Manages webcam permissions, drawing to a `<canvas>`, and capturing base64 frames.
+- `audio.js`: Preloads and plays UI sounds (scan bleeps, stamps, clicks).
+
+6. GAMEPLAY FLOW (Step-by-Step)
+-----------------------------------------------------------------------------
+1. User clicks "SCAN OBJECT". `camera.js` takes a photo.
+2. `main.js` calls `ai.generateBirth(image)`.
+3. Backend returns `dna`. 
+4. `main.js` calls `gameState.initFromBirth(dna)` and starts `ai.generateLifeScript(dna)` in the background.
+5. `ui.showBirthReveal(dna)` animates the passport on screen.
+6. User clicks "BEGIN YOUR LIFE".
+7. `main.js` awaits `gameState.lifeScript`. 
+8. `main.js` loops 4 times:
+   - Reads `chapterData` from `lifeScript`.
+   - Shows encounter.
+   - User picks A or B.
+   - Applies the pre-calculated `consequence`, `stateChanges`, and `memory`.
+   - Shows consequence overlay.
+9. On Chapter 5, the loop breaks, and it reads `lifeScript.death`.
+10. `ui.showDeath()` is triggered.
+11. User views eulogy/summary and can restart cleanly.
+
+7. CSS & STYLING (`src/styles/main.css`)
+-----------------------------------------------------------------------------
+- Uses CSS variables at `:root` for theming (`--clr-text`, `--bg-deep`, `--clr-scan`, etc.).
+- The consequence cards and encounter choices use `backdrop-filter: blur(10px)` (glassmorphism) and glowing drop-shadows.
+- Text colors have been recently brightened for better contrast against dark backgrounds.
+
+8. NEXT STEPS & RULES FOR THE NEW AGENT
+-----------------------------------------------------------------------------
+- DO NOT break the camera or object detection. It is working perfectly.
+- DO NOT break the dual-provider racing logic in the backend. 
+- You can add more complex stat tracking, visual effects, or UI animations.
+- You can expand the life chapters or add branching, but remember: the game currently relies on PRE-GENERATED paths for speed. If you add branching, you must prompt the AI to generate the branches upfront, OR accept latency.
+
+Good luck! You have a solid, working, zero-latency absurdist game engine. Have fun building on it!
