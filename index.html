@@ -1,1 +1,202 @@
+<!DOCTYPE html>
+<html lang="en">
 
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Blink-QR File Transfer</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="https://cdn.jsdelivr.net/npm/qrcode@1.5.3/build/qrcode.min.js"></script>
+</head>
+
+<body>
+    <!-- ================= HOME ================= -->
+    <main id="homePage" class="page active">
+        <div class="hero">
+            <div class="logo">
+                <span class="logo-icon">◈</span>
+                <span>BLINK-QR</span>
+            </div>
+            <h1>File Transfer<span>Through QR Codes</span></h1>
+            <p class="subtitle">
+                Send files by converting them into a sequence of QR codes.
+                Simple idea. Completely unnecessary.
+            </p>
+        </div>
+        <section class="mode-selection">
+            <button class="mode-card" id="sendButton">
+                <div class="card-icon">↑</div>
+                <div>
+                    <h2>Send</h2>
+                    <p>Select a file and turn it into multiple QR codes.</p>
+                </div>
+                <span class="arrow">→</span>
+            </button>
+            <button class="mode-card" id="receiveButton">
+                <div class="card-icon">↓</div>
+                <div>
+                    <h2>Receive</h2>
+                    <p>Scan the QR sequence and reconstruct the file.</p>
+                </div>
+                <span class="arrow">→</span>
+            </button>
+        </section>
+        <footer>
+            <span>Useless Project 3.0</span>
+            <span>•</span>
+            <span>QR File Transfer</span>
+        </footer>
+    </main>
+
+    <!-- ================= SEND PAGE ================= -->
+    <main id="sendPage" class="page">
+        <button class="back-button" id="sendBack">← Back</button>
+        <section class="transfer-page">
+            <div class="page-heading">
+                <span class="section-label">TRANSMITTER</span>
+                <h1>Send a File</h1>
+                <p>Choose a file to prepare it for QR transmission.</p>
+            </div>
+
+            <div class="upload-box" id="uploadBox">
+                <div class="upload-icon">↑</div>
+                <h2>Drop your file here</h2>
+                <p>or choose a file from your device</p>
+                <label class="file-button">
+                    Choose File
+                    <input type="file" id="fileInput" hidden>
+                </label>
+            </div>
+
+            <div class="file-info hidden" id="fileInfo">
+                <div class="file-icon">📄</div>
+                <div class="file-details">
+                    <strong id="fileName">File</strong>
+                    <span id="fileSize">0 KB</span>
+                </div>
+                <button id="removeFile" class="remove-button">×</button>
+            </div>
+
+            <div class="transmission-settings hidden" id="transmissionSettings">
+                <h3>Transmission Mode</h3>
+                <div class="radio-group">
+                    <label class="radio-card">
+                        <input type="radio" name="transferMode" value="broadcast" checked>
+                        <div class="radio-content">
+                            <strong>Broadcast</strong>
+                            <span>Open transfer. Any receiver can reconstruct the file.</span>
+                        </div>
+                    </label>
+                    <label class="radio-card">
+                        <input type="radio" name="transferMode" value="private">
+                        <div class="radio-content">
+                            <strong>Private (Blink-Secured)</strong>
+                            <span>Encrypted. Requires blink-pattern derivation key.</span>
+                        </div>
+                    </label>
+                </div>
+
+                <h3 style="margin-top: 24px;">Error Correction</h3>
+                <div class="radio-group">
+                    <label class="radio-card">
+                        <input type="radio" name="codingMode" value="rs" checked>
+                        <div class="radio-content">
+                            <strong>Reed-Solomon GF(2^8)</strong>
+                            <span>Mathematically aligned with Python reedsolo.</span>
+                        </div>
+                    </label>
+                </div>
+            </div>
+
+            <button class="primary-button disabled" id="prepareButton" disabled>
+                Prepare Transmission →
+            </button>
+
+            <p class="coming-soon" id="statusText">
+                Phase 1-6 ready: Select a file to begin.
+            </p>
+
+            <div class="stats-window hidden" id="statsWindow">
+                <h3>Pipeline Analytics</h3>
+                <div class="stats-grid">
+                    <div class="stat-box">
+                        <span>Original Size</span>
+                        <strong id="statOriginalSize">-</strong>
+                    </div>
+                    <div class="stat-box">
+                        <span>Prepared Size</span>
+                        <strong id="statPreparedSize">-</strong>
+                    </div>
+                    <div class="stat-box">
+                        <span>RS Chunking</span>
+                        <strong id="statChunks">-</strong>
+                    </div>
+                    <div class="stat-box highlight-box">
+                        <span>Total QR Frames</span>
+                        <strong id="statFrames">-</strong>
+                    </div>
+                </div>
+            </div>
+
+            <!-- NEW: Phase 7 Playback Zone -->
+            <div class="playback-zone hidden" id="playbackZone">
+                <div class="qr-display-container">
+                    <img id="qrDisplay" src="" alt="QR Transmission Frame" />
+                </div>
+
+                <div class="playback-metrics">
+                    <div class="metric">
+                        <span>FPS Target: <strong id="uiFpsTarget">15</strong></span>
+                        <span>Actual: <strong id="uiFpsActual" class="success-text">0</strong></span>
+                    </div>
+                    <div class="metric">
+                        <span>Frame</span>
+                        <strong id="uiFrameProgress">0 / 0</strong>
+                    </div>
+                </div>
+
+                <div class="playback-controls">
+                    <button class="control-btn" id="btnPlay">▶ Play</button>
+                    <button class="control-btn" id="btnPause">⏸ Pause</button>
+                    <button class="control-btn danger" id="btnStop">⏹ Stop</button>
+                </div>
+            </div>
+
+        </section>
+    </main>
+
+    <!-- ================= RECEIVE PAGE ================= -->
+    <main id="receivePage" class="page">
+        <button class="back-button" id="receiveBack">← Back</button>
+        <section class="transfer-page">
+            <div class="page-heading">
+                <span class="section-label">RECEIVER</span>
+                <h1>Receive a File</h1>
+                <p>Scan the QR sequence from the sender.</p>
+            </div>
+            <div class="scanner-box">
+                <div class="scanner-frame">
+                    <div class="corner top-left"></div>
+                    <div class="corner top-right"></div>
+                    <div class="corner bottom-left"></div>
+                    <div class="corner bottom-right"></div>
+                    <div class="scanner-placeholder"><span>QR</span></div>
+                </div>
+                <div class="scanner-status">
+                    <span class="status-dot"></span>
+                    <span>Camera scanner will appear here</span>
+                </div>
+            </div>
+            <div class="receive-info">
+                <div><span>Frames received</span><strong>0</strong></div>
+                <div><span>Transfer status</span><strong>Waiting</strong></div>
+            </div>
+            <p class="coming-soon">
+                Camera and QR decoding will be added in the Receiver phase.
+            </p>
+        </section>
+    </main>
+    <script type="module" src="src/app.js"></script>
+</body>
+
+</html>

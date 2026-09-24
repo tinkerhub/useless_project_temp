@@ -1,0 +1,580 @@
+/* =========================================================
+   Useless Project 3.0 — Receiver
+   Clean, responsive receiver interface
+   ========================================================= */
+
+* {
+    box-sizing: border-box;
+}
+
+html,
+body {
+    margin: 0;
+    padding: 0;
+    min-height: 100%;
+}
+
+body {
+    font-family:
+        Inter,
+        system-ui,
+        -apple-system,
+        BlinkMacSystemFont,
+        "Segoe UI",
+        sans-serif;
+
+    background: #0b0d10;
+    color: #f5f7fa;
+}
+
+
+/* =========================================================
+   Main Layout
+   ========================================================= */
+
+.receiver-app {
+    width: min(900px, 94%);
+    margin: 0 auto;
+    padding: 32px 0 48px;
+}
+
+
+/* =========================================================
+   Header
+   ========================================================= */
+
+.header {
+    text-align: center;
+    margin-bottom: 28px;
+}
+
+.header h1 {
+    margin: 0;
+    font-size: clamp(1.7rem, 4vw, 2.4rem);
+    font-weight: 700;
+    letter-spacing: -0.03em;
+}
+
+.header p {
+    margin: 8px 0 0;
+    color: #9da5b1;
+    font-size: 0.95rem;
+}
+
+
+/* =========================================================
+   Cards
+   ========================================================= */
+
+.card {
+    background: #12161b;
+    border: 1px solid #252b33;
+    border-radius: 16px;
+    padding: 22px;
+    margin-bottom: 18px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.18);
+}
+
+.section-heading {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    margin-bottom: 18px;
+}
+
+.section-heading h2 {
+    margin: 0;
+    font-size: 1.15rem;
+}
+
+.section-heading p {
+    margin: 5px 0 0;
+    color: #8f98a5;
+    font-size: 0.88rem;
+}
+
+
+/* =========================================================
+   Status
+   ========================================================= */
+
+.connection-indicator,
+.status {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    white-space: nowrap;
+
+    padding: 6px 10px;
+    border-radius: 999px;
+
+    font-size: 0.78rem;
+    font-weight: 600;
+}
+
+.connection-indicator.connected {
+    background: rgba(61, 220, 151, 0.12);
+    color: #5ee6a8;
+}
+
+.status.waiting {
+    background: rgba(255, 255, 255, 0.07);
+    color: #aab2bd;
+}
+
+
+/* =========================================================
+   Camera
+   ========================================================= */
+
+.camera-container {
+    position: relative;
+
+    width: 100%;
+    aspect-ratio: 16 / 10;
+
+    overflow: hidden;
+
+    background: #000;
+    border: 1px solid #292f37;
+    border-radius: 14px;
+}
+
+#camera {
+    display: block;
+
+    width: 100%;
+    height: 100%;
+
+    object-fit: cover;
+}
+
+
+/* =========================================================
+   Scanner Overlay
+   ========================================================= */
+
+.scan-overlay {
+    position: absolute;
+    inset: 0;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    pointer-events: none;
+}
+
+.scan-box {
+    position: relative;
+
+    width: min(68vw, 310px);
+    height: min(68vw, 310px);
+
+    border-radius: 18px;
+}
+
+
+/* Scanner corners */
+
+.corner {
+    position: absolute;
+
+    width: 38px;
+    height: 38px;
+
+    border-style: solid;
+    border-width: 0;
+    border-color: #ffffff;
+}
+
+.corner.top-left {
+    top: 0;
+    left: 0;
+
+    border-top-width: 4px;
+    border-left-width: 4px;
+
+    border-top-left-radius: 12px;
+}
+
+.corner.top-right {
+    top: 0;
+    right: 0;
+
+    border-top-width: 4px;
+    border-right-width: 4px;
+
+    border-top-right-radius: 12px;
+}
+
+.corner.bottom-left {
+    bottom: 0;
+    left: 0;
+
+    border-bottom-width: 4px;
+    border-left-width: 4px;
+
+    border-bottom-left-radius: 12px;
+}
+
+.corner.bottom-right {
+    right: 0;
+    bottom: 0;
+
+    border-bottom-width: 4px;
+    border-right-width: 4px;
+
+    border-bottom-right-radius: 12px;
+}
+
+
+/* =========================================================
+   Camera Message
+   ========================================================= */
+
+.camera-message {
+    position: absolute;
+
+    left: 50%;
+    bottom: 18px;
+
+    transform: translateX(-50%);
+
+    width: calc(100% - 36px);
+
+    padding: 9px 12px;
+
+    text-align: center;
+
+    background: rgba(0, 0, 0, 0.65);
+    border-radius: 8px;
+
+    color: #e5e9ef;
+
+    font-size: 0.82rem;
+}
+
+
+/* =========================================================
+   Buttons
+   ========================================================= */
+
+.button-row {
+    display: flex;
+    gap: 10px;
+
+    margin-top: 16px;
+}
+
+button,
+.download-button {
+    min-height: 44px;
+
+    border: 1px solid #303740;
+    border-radius: 10px;
+
+    padding: 0 18px;
+
+    background: #1a2027;
+    color: #f5f7fa;
+
+    font: inherit;
+    font-size: 0.9rem;
+    font-weight: 600;
+
+    cursor: pointer;
+
+    text-decoration: none;
+
+    transition:
+        background 0.15s ease,
+        border-color 0.15s ease,
+        transform 0.15s ease;
+}
+
+button:hover,
+.download-button:hover {
+    background: #232a32;
+    border-color: #424b56;
+}
+
+button:active,
+.download-button:active {
+    transform: translateY(1px);
+}
+
+button.primary {
+    flex: 1;
+
+    background: #f5f7fa;
+    border-color: #f5f7fa;
+    color: #0b0d10;
+}
+
+button.primary:hover {
+    background: #dfe4ea;
+    border-color: #dfe4ea;
+}
+
+button:disabled {
+    opacity: 0.4;
+    cursor: not-allowed;
+}
+
+
+/* =========================================================
+   File Information
+   ========================================================= */
+
+.file-info {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+
+    gap: 12px;
+
+    margin-bottom: 18px;
+}
+
+.file-info-item {
+    min-width: 0;
+
+    padding: 14px;
+
+    background: #0d1014;
+    border: 1px solid #222831;
+    border-radius: 10px;
+}
+
+.file-info-item span {
+    display: block;
+
+    margin-bottom: 5px;
+
+    color: #7f8996;
+    font-size: 0.75rem;
+}
+
+.file-info-item strong {
+    display: block;
+
+    overflow: hidden;
+
+    color: #e9edf2;
+
+    font-size: 0.9rem;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+
+/* =========================================================
+   Progress
+   ========================================================= */
+
+.progress-container {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.progress-bar {
+    flex: 1;
+
+    height: 8px;
+
+    overflow: hidden;
+
+    background: #242a31;
+    border-radius: 999px;
+}
+
+.progress {
+    height: 100%;
+
+    background: #f5f7fa;
+
+    border-radius: inherit;
+
+    transition: width 0.2s ease;
+}
+
+#progressText {
+    width: 42px;
+
+    color: #aeb6c1;
+
+    font-size: 0.8rem;
+    text-align: right;
+}
+
+
+/* =========================================================
+   Completion
+   ========================================================= */
+
+.result-card {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+}
+
+.completion-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    flex: 0 0 46px;
+
+    width: 46px;
+    height: 46px;
+
+    border-radius: 50%;
+
+    background: rgba(61, 220, 151, 0.12);
+    color: #5ee6a8;
+
+    font-size: 1.4rem;
+    font-weight: 700;
+}
+
+.result-card h2 {
+    margin: 0;
+
+    font-size: 1.05rem;
+}
+
+.result-file {
+    margin: 5px 0 0;
+
+    color: #aab2bd;
+    font-size: 0.85rem;
+}
+
+.verification {
+    margin: 4px 0 0;
+
+    color: #5ee6a8;
+    font-size: 0.78rem;
+}
+
+.download-button {
+    margin-left: auto;
+
+    background: #f5f7fa;
+    color: #0b0d10;
+    border-color: #f5f7fa;
+}
+
+.download-button:hover {
+    background: #dfe4ea;
+}
+
+
+/* =========================================================
+   Controls
+   ========================================================= */
+
+.controls {
+    display: flex;
+    justify-content: center;
+
+    margin-top: 4px;
+}
+
+button.danger {
+    color: #ff9a9a;
+    border-color: #442b2b;
+    background: #171214;
+}
+
+button.danger:hover {
+    background: #241719;
+    border-color: #633535;
+}
+
+
+/* =========================================================
+   Error
+   ========================================================= */
+
+.error {
+    margin-top: 16px;
+
+    padding: 12px 14px;
+
+    border: 1px solid #593333;
+    border-radius: 10px;
+
+    background: #1d1212;
+    color: #ffaaaa;
+
+    font-size: 0.85rem;
+    line-height: 1.45;
+}
+
+
+/* =========================================================
+   Utility
+   ========================================================= */
+
+.hidden {
+    display: none !important;
+}
+
+
+/* =========================================================
+   Mobile
+   ========================================================= */
+
+@media (max-width: 600px) {
+
+    .receiver-app {
+        width: 94%;
+        padding-top: 22px;
+    }
+
+    .card {
+        padding: 16px;
+        border-radius: 13px;
+    }
+
+    .section-heading {
+        align-items: flex-start;
+    }
+
+    .camera-container {
+        aspect-ratio: 3 / 4;
+    }
+
+    .scan-box {
+        width: 70vw;
+        height: 70vw;
+        max-width: 280px;
+        max-height: 280px;
+    }
+
+    .file-info {
+        grid-template-columns: 1fr;
+    }
+
+    .result-card {
+        align-items: flex-start;
+        flex-wrap: wrap;
+    }
+
+    .download-button {
+        width: 100%;
+        margin-left: 0;
+        text-align: center;
+    }
+
+    .button-row {
+        flex-direction: column;
+    }
+
+    button {
+        width: 100%;
+    }
+}

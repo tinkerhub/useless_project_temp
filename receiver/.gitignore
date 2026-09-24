@@ -1,0 +1,40 @@
+# Python virtual environment
+.venv/
+venv/
+env/
+
+# Python cache
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Testing / coverage
+.pytest_cache/
+.coverage
+htmlcov/
+
+# IDE / editor
+.vscode/
+.idea/
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Receiver generated output
+output/*
+!output/.gitkeep
+
+# Temporary files
+*.tmp
+*.temp
+*.log
+
+# Python build artifacts
+build/
+dist/
+*.egg-info/
+
+# Environment / secrets
+.env
+.env.*

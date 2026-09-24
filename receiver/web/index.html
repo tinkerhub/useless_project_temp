@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <meta name="theme-color" content="#0b0d10">
+
+    <title>Useless Project 3.0 — Receiver</title>
+
+    <link rel="stylesheet" href="receiver.css">
+</head>
+
+<body>
+
+    <main class="receiver-app">
+
+        <!-- =================================================
+             Header
+             ================================================= -->
+
+        <header class="header">
+
+            <h1>
+                Useless Project 3.0
+            </h1>
+
+            <p>
+                QR File Receiver
+            </p>
+
+        </header>
+
+
+        <!-- =================================================
+             Scanner
+             ================================================= -->
+
+        <section class="card scanner-card">
+
+            <div class="section-heading">
+
+                <div>
+                    <h2>
+                        Scan QR Stream
+                    </h2>
+
+                    <p>
+                        Point your camera at the Sender screen.
+                    </p>
+                </div>
+
+                <span id="connectionStatus" class="connection-indicator connected">
+                    Ready
+                </span>
+
+            </div>
+
+
+            <div id="cameraContainer" class="camera-container">
+
+                <video id="camera" autoplay playsinline muted></video>
+
+
+                <div class="scan-overlay" aria-hidden="true">
+
+                    <div class="scan-box">
+
+                        <span class="corner top-left"></span>
+                        <span class="corner top-right"></span>
+                        <span class="corner bottom-left"></span>
+                        <span class="corner bottom-right"></span>
+
+                    </div>
+
+                </div>
+
+
+                <div id="cameraMessage" class="camera-message">
+                    Camera not started
+                </div>
+
+            </div>
+
+
+            <div class="button-row">
+
+                <button id="startCameraButton" class="primary">
+                    Start Camera
+                </button>
+
+                <button id="stopCameraButton" disabled>
+                    Stop
+                </button>
+
+            </div>
+
+        </section>
+
+
+        <!-- =================================================
+             Transfer
+             ================================================= -->
+
+        <section class="card">
+
+            <div class="section-heading">
+
+                <div>
+
+                    <h2>
+                        Transfer
+                    </h2>
+
+                    <p>
+                        Live reception status
+                    </p>
+
+                </div>
+
+                <span id="transferStatus" class="status waiting">
+                    Waiting
+                </span>
+
+            </div>
+
+
+            <div class="file-info">
+
+                <div class="file-info-item">
+
+                    <span>
+                        File
+                    </span>
+
+                    <strong id="fileName">
+                        —
+                    </strong>
+
+                </div>
+
+
+                <div class="file-info-item">
+
+                    <span>
+                        Frames
+                    </span>
+
+                    <strong id="frameCount">
+                        0 / 0
+                    </strong>
+
+                </div>
+
+            </div>
+
+
+            <div class="progress-container">
+
+                <div class="progress-bar">
+
+                    <div id="progress" class="progress" style="width: 0%"></div>
+
+                </div>
+
+                <span id="progressText">
+                    0%
+                </span>
+
+            </div>
+
+        </section>
+
+
+        <!-- =================================================
+             Completed transfer
+             ================================================= -->
+
+        <section id="resultCard" class="card result-card hidden">
+
+            <div class="completion-icon">
+                ✓
+            </div>
+
+            <div>
+
+                <h2>
+                    Transfer Complete
+                </h2>
+
+                <p id="resultFileName" class="result-file">
+                    —
+                </p>
+
+                <p id="verificationStatus" class="verification">
+                    Verification pending
+                </p>
+
+            </div>
+
+            <a id="downloadButton" class="download-button hidden" href="#" download>
+                Download File
+            </a>
+
+        </section>
+
+
+        <!-- =================================================
+             Reset
+             ================================================= -->
+
+        <div class="controls">
+
+            <button id="resetButton" class="danger">
+                Reset
+            </button>
+
+        </div>
+
+
+        <!-- =================================================
+             Error
+             ================================================= -->
+
+        <div id="errorMessage" class="error hidden" role="alert"></div>
+
+
+        <!-- =================================================
+             Hidden compatibility fields
+             
+             These are intentionally not displayed.
+             receiver.js still updates them internally.
+             ================================================= -->
+
+        <span id="sessionId" class="hidden">
+            —
+        </span>
+
+        <span id="duplicateCount" class="hidden">
+            0
+        </span>
+
+    </main>
+
+
+    <script src="receiver.js"></script>
+
+</body>
+
+</html>

@@ -1,0 +1,4 @@
+opencv-python
+reedsolo
+numpy
+zxing-cpp
